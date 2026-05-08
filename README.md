@@ -1,6 +1,6 @@
 SteamLite
 
-A lightweight, modern Steam companion that brings your friends, games, and activity into one fast desktop hub.
+A lightweight, modern Steam companion that brings your friends, games, and activity into one fast desktop hub. Best reccomended to use with steam closed (but not from the system tray)
 
 Overview
 
