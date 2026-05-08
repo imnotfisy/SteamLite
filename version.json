@@ -1,7 +1,7 @@
 {
   "name": "SteamLite",
-  "version": "1.5",
+  "version": "1.6",
   "release_date": "2026-05-08",
-  "url": "https://raw.githubusercontent.com/YOURNAME/SteamLite/main/launcher.py",
-  "notes": "• Clean runtime launcher rebuild\n• Removed auto file generation system\n• Stable Steam AppID launcher\n• Favorites system ⭐\n• Settings + accent color support 🎨\n• Safer update checking system\n• Improved UI stability"
+  "url": "https://raw.githubusercontent.com/imnotfisy/SteamLite/main/launcher.py",
+  "notes": "• Async UI startup (instant launch)\n• Background Steam game scanning 🧵\n• Non-blocking update checker 🌐\n• Improved crash safety 🛡️\n• Favorites system ⭐\n• Accent color customization 🎨\n• Faster and smoother UI performance ⚡"
 }
