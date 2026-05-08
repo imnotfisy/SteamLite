@@ -1,0 +1,7 @@
+{
+  "name": "SteamLite",
+  "version": "1.5",
+  "release_date": "2026-05-08",
+  "url": "https://raw.githubusercontent.com/YOURNAME/SteamLite/main/launcher.py",
+  "notes": "• Clean runtime launcher rebuild\n• Removed auto file generation system\n• Stable Steam AppID launcher\n• Favorites system ⭐\n• Settings + accent color support 🎨\n• Safer update checking system\n• Improved UI stability"
+}
