@@ -1,4 +1,5 @@
 {
   "version": "1.4.5",
-  "url": "https://github.com/imnotfisy/SteamLite/app.py"
+  "changelog": "Added update checker and bug fixes.",
+  "download_url": "https://github.com/imnotfisy/steamlite/releases/latest"
 }
