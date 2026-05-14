@@ -1,4 +1,5 @@
 {
   "version": "1.4.6",
-  "changelog": "Icon fix, Taskbar persistence, and High-DPI support."
+  "download_url": "https://github.com/imnotfisy/steamlite/releases/latest",
+  "changelog": "Build 1.4.6: High-DPI support, Chat Bridge, and Icon Fixes."
 }
