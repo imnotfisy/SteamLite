@@ -1,5 +1,4 @@
 {
   "version": "1.4.5",
-  "changelog": "Added update checker and bug fixes.",
-  "download_url": "https://github.com/imnotfisy/steamlite/releases/latest"
+  "changelog": "Icon fix, Taskbar persistence, and High-DPI support."
 }
