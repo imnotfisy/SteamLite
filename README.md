@@ -1,119 +1,42 @@
 SteamLite
+A lightweight, high-performance desktop client alternative for managing and launching your Steam library. Built with Javascript and NodeJS, Steam Lite focuses on speed, minimal resource consumption, and a sleek, modern user interface.
 
-A lightweight, modern Steam companion that brings your friends, games, and activity into one fast desktop hub. Best reccomended to use with steam closed (but not from the system tray)
+ Features
+Ultra-Lightweight: Dramatically lower RAM and CPU footprint compared to the official Electron-based Steam client.
 
-Overview
+Modern UI: A clean, scannable dashboard featuring a premium, semi-transparent glassmorphism aesthetic.
 
-SteamLite is a desktop application designed to enhance your Steam experience by providing a clean, fast, and modern interface for:
+Fast Launching: Quick access to your installed library with instant game execution.
 
-Friends tracking & live status
-Game library browsing
-Instant game launching
-Steam messaging integration
-Lightweight performance-first design
+Library Management: Seamlessly scan, filter, and organize your local Steam games.
 
-It connects directly to your local Steam installation and Steam Web API to provide real-time data in a simplified UI.
+ Tech Stack
+Language: Javascript
 
-Features
+UI Framework: NodeJS
 
-Friends System
 
-Live Steam friend list integration
-Real-time status display (Online / In-game / Away / Offline)
-Friend avatars with caching system
-One-click Steam messaging
-“Currently playing” detection
+ Preview
+<img width="1286" height="794" alt="Untitled" src="https://github.com/user-attachments/assets/62ad98f1-d166-42f7-a3e5-d7a3bdcf8ef7" />
 
-Game Library
+ Configuration
+Steam Lite automatically attempts to detect your default Steam installation directory. If your library is installed in a custom location, you can configure the path in the application settings or update the config.json file generated upon the first launch:
 
-Automatic detection of installed Steam games
-Instant game launching via Steam protocol
-Game artwork loading from Steam CDN
-Favorites system for quick access
-Cached library for fast startup
+JSON
+{
+  "steam_path": "C:\\Program Files (x86)\\Steam",
+  "theme": "glassmorphism",
+  "close_to_tray": true
+}
+ Contributing
+Contributions are welcome! If you'd like to improve Steam Lite, please follow these steps:
 
-Performance
+Fork the repository.
 
-Lightweight startup and execution
-Local caching system for images and data
-Optimized Steam API handling
-Reduced load times with smart refresh logic
+Create a new feature branch (git checkout -b feature/AmazingFeature).
 
-UI / UX
+Commit your changes (git commit -m 'Add some AmazingFeature').
 
-Modern dark-themed interface
-Accent color customization
-Clean sidebar navigation
-Steam-inspired layout design
-Responsive friend & library cards
+Push to the branch (git push origin feature/AmazingFeature).
 
-Installation
-
-Option 1 — Installer (Recommended)
-Download and run SteamLiteInstaller.exe
-Follow the setup wizard and launch from desktop or start menu.
-
-Option 2 — Run from Source
-
-Requirements:
-
-Python 3.10+
-pip
-
-Install dependencies:
-pip install customtkinter pillow
-
-Run:
-python launcher.py
-
-Steam API Setup (Friends Feature)
-
-Go to https://steamcommunity.com/dev/apikey
-Log in with Steam
-Generate API key
-Paste it into SteamLite settings
-
-How It Works
-
-SteamLite uses:
-
-Local Steam installation files
-Steam VDF config parsing
-Steam Web API for friends and profiles
-Steam CDN for game artwork
-
-All data is cached locally for performance.
-
-Notes
-
-Requires Steam installed on Windows
-Some features depend on Steam Web API
-Friend visibility depends on Steam privacy settings
-SteamLite does not modify Steam itself
-
-Version
-
-1.3-pre-release
-
-Roadmap
-
-Real-time friend status streaming
-In-app chat improvements
-Game search & categories
-Animated UI transitions
-Notification system
-Offline mode support
-
-Philosophy
-
-Speed over complexity
-Gaming-first experience
-Clean, distraction-free UI
-
-License
-
-Educational / personal use project.
-
-Disclaimer
-
-SteamLite is not affiliated with Valve or Steam. Steam is a trademark of Valve Corporation.
+Open a Pull Request.
