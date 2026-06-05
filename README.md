@@ -1,42 +1,51 @@
 SteamLite
-A lightweight, high-performance desktop client alternative for managing and launching your Steam library. Built with Javascript and NodeJS, Steam Lite focuses on speed, minimal resource consumption, and a sleek, modern user interface.
+
+A lightweight, modern Steam library client built with Electron. SteamLite is a simple and fast alternative to the official Steam client. It focuses on a clean interface, local playtime tracking, achievements, and useful quality-of-life features.
 
  Features
-Ultra-Lightweight: Dramatically lower RAM and CPU footprint compared to the official Electron-based Steam client.
+Split Library View (Installed / Not Installed)
+Local playtime tracking
+Achievement viewer for recently played games
+Favorites system
+Friends list with online status
+Ghost launching (automatically hides Steam windows)
+Custom theme colors with presets
+Library search
+Smooth scrolling and modern UI
+Cross-platform support (Windows, macOS, Linux)
+ Installation
+Download Release (Recommended)
 
-Modern UI: A clean, scannable dashboard featuring a premium, semi-transparent glassmorphism aesthetic.
+Download the latest version from the Releases page.
 
-Fast Launching: Quick access to your installed library with instant game execution.
+Run from Source
 
-Library Management: Seamlessly scan, filter, and organize your local Steam games.
+Bash
+
+git clone https://github.com/imnotfisy/SteamLite.git
+cd SteamLite
+npm install
+npm start
+
+
+ Requirements
+Node.js 18+
+npm or yarn
+ First Launch
+
+On first launch, you’ll be prompted to enter your Steam Web API Key and SteamID64 to unlock full features (profile, friends, achievements, etc.).
+
+ You can generate an API key here: Steam Community Developer API
 
  Tech Stack
-Language: Javascript
+Electron
+JavaScript
+electron-store
+Steam Web API
+ License
 
-UI Framework: NodeJS
+This project is licensed under the MIT License.
 
+ Discontinuation Notice
 
- Preview
-<img width="1286" height="794" alt="Untitled" src="https://github.com/user-attachments/assets/62ad98f1-d166-42f7-a3e5-d7a3bdcf8ef7" />
-
- Configuration
-Steam Lite automatically attempts to detect your default Steam installation directory. If your library is installed in a custom location, you can configure the path in the application settings or update the config.json file generated upon the first launch:
-
-JSON
-{
-  "steam_path": "C:\\Program Files (x86)\\Steam",
-  "theme": "glassmorphism",
-  "close_to_tray": true
-}
- Contributing
-Contributions are welcome! If you'd like to improve Steam Lite, please follow these steps:
-
-Fork the repository.
-
-Create a new feature branch (git checkout -b feature/AmazingFeature).
-
-Commit your changes (git commit -m 'Add some AmazingFeature').
-
-Push to the branch (git push origin feature/AmazingFeature).
-
-Open a Pull Request.
+This project is being discontinued. No further updates, bug fixes, or maintenance will be provided.
