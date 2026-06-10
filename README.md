@@ -21,19 +21,6 @@ A lightweight, modern Steam library client built with Electron. SteamLite is a s
 
 Download the latest version from the [Releases](https://github.com/imnotfisy/SteamLite/releases) page.
 
-### Run from Source
-
-```bash
-git clone https://github.com/imnotfisy/SteamLite.git
-cd SteamLite
-npm install
-npm start
-```
-
-## Requirements
-
-- Node.js 18+
-- npm or yarn
 
 ## First Launch
 
