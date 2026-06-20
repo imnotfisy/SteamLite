@@ -10,7 +10,7 @@ SteamLite is a custom, ultra-lightweight, high-performance alternative to the of
 
 Ready to ditch the heavy Steam client? Download the latest compiled release of SteamLite below.
 
-### [⬇️ Download Latest Release (v3.2.1)](https://github.com/imnotfisy/SteamLite/releases/latest)
+### [⬇️ Download Latest Release (v3.2.5)](https://github.com/imnotfisy/SteamLite/releases/latest)
 
 *(Requires Windows 10/11. Steam must be installed and logged in at least once for local file scanning and protocol hooks to function properly.)*
 
