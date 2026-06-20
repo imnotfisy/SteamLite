@@ -1,5 +1,3 @@
-Here is the formatted `README.md` tailored for a closed-source project, directing users straight to the downloads:
-
 ---
 
 # SteamLite
