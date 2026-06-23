@@ -53,11 +53,8 @@ Once you launch SteamLite for the first time, click on the **Settings** tab in t
 
 Click **Save Configuration**, and SteamLite will immediately sync your library and go online.
 
-## Credits
-
-*   **Imnotfisy** - *Lead Developer*
-*   **Alex** - *UI/UX Designer*
-*   **HayXwireX** - *Backend Engineer*
+## Notice
+Steamlite will be discontinued after 10th July 2026 and will not receive any bug fixes or updates.
 
 ## Support & Bug Reports
 
