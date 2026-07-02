@@ -1,0 +1,25 @@
+{
+  "changelog": {
+    "version": "6.0.0",
+    "title": "Welcome to SteamLite 6.0.0!",
+    "items": [
+      "SUE Editor Enabled: Create custom layouts, add widgets, and morph the UI however you want.",
+      "Custom Themes: Import and export your UI themes as JSON files.",
+      "Floating Add Non-Steam Game button in the library.",
+      "GitHub-powered News & Announcements section on the Home page.",
+      "Various bug fixes and performance improvements."
+    ]
+  },
+  "news": [
+    {
+      "title": "Theme Marketplace Coming Soon",
+      "date": "2026-07-02",
+      "content": "We are working on a built-in theme downloader so you can browse and install custom UI themes directly from the app without leaving SteamLite!"
+    },
+    {
+      "title": "UI Editor (SUE) Now Available",
+      "date": "2026-07-02",
+      "content": "The SteamLite UI Editor is now available in the Advanced Settings. Turn on Edit Mode to drag, drop, and morph buttons and panels. Build your dream Steam client layout!"
+    }
+  ]
+}
