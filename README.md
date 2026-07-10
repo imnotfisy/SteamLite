@@ -1,61 +1,66 @@
----
-
 # SteamLite
 
-SteamLite is a custom, ultra-lightweight, high-performance alternative to the official Steam client launcher. Built with Electron, it focuses on speed, a clean glassmorphic UI, and power-user features like ghost launching, local playtime tracking, and custom launch parameters—all while remaining incredibly light on system resources.
-
-> **Note:** SteamLite is a closed-source application. The source code is not publicly available, but the application is free to download and use.
-
-## Download
-
-Ready to ditch the heavy Steam client? Download the latest compiled release of SteamLite below.
-
-### [⬇️ Download Latest Release (v6.0.0)](https://github.com/imnotfisy/SteamLite/releases/latest)
-
-*(Requires Windows 10/11. Steam must be installed and logged in at least once for local file scanning and protocol hooks to function properly.)*
-
----
-
-## Features
-
-### Library & Game Management
-*   **Split Library View:** Cleanly separates installed and uninstalled games for instant access.
-*   **Multi-Drive Scanning:** Automatically detects and scans game installs across all connected Steam library folders (e.g., `D:\SteamLibrary`).
-*   **Smart App Filtering:** Non-game tools and utilities (like Steamworks Common Redistributables, SteamVR, and Source SDKs) are strictly filtered out and hidden.
-*   **Advanced Sorting:** Sort your library by A-Z, Z-A, Last Played, or Playtime. Includes a toggle to hide family-shared games.
-*   **Custom Launch Parameters:** Set custom launch arguments (e.g., `-novid -windowed`) and optionally select a direct `.exe` path to bypass the Steam protocol entirely.
-*   **Game News & Patch Notes:** Fetch and read the latest news for any game directly inside the game details modal.
-
-### Performance & Tracking
-*   **Advanced Ghost Launching:** Steam popups are instantly force-closed in the background when a game launches, fully preserving immersion without breaking Steam's background tasks.
-*   **Accurate Play/Stop Engine:** The game modal dynamically tracks real-time process states. A red "Stop" button allows you to instantly kill the game process right from the UI.
-*   **Local Telemetry Tracking:** Tracks your local launch counts, session lengths, and last played timestamps independently of Steam's API.
-*   **System Tray Minimization:** Closing the window minimizes SteamLite to the system tray, keeping playtime tracking and status polling active in the background.
-
-### UI & Visuals
-*   **Statistics Dashboard:** The Home page features a dynamic dashboard displaying total games owned, total hours played, local tracked sessions, a bar chart of your top 5 most played games, and a recently played carousel.
-*   **Ambient Background Lighting:** The UI dynamically extracts the dominant color from a game's banner image when hovered over or opened, smoothly fading the background glow to match.
-*   **Real-time Status Polling:** Profile and friends statuses automatically refresh every 5 seconds.
-*   **Discord-Style Playing Status:** See exactly what your friends are playing right under their names with dynamic, real-time status updates.
-*   **Local Screenshot Viewer:** Dynamically locates and displays your locally saved Steam screenshots for each game directly on their respective game pages.
-*   **Resilient Offline Mode:** Automatic network detection with a persistent watermark, keeping your local library accessible even without an internet connection.
+> CRITICAL NOTICE: PROJECT DISCONTINUATION
+>
+> Please be advised that SteamLite will be officially discontinued on November 7, 2026 (11/07/2026).
+>
+> What this means:
+> - No further updates, features, or bug fixes will be released after this date.
+> - The repository will be archived and made read-only.
+> - All associated remote services (such as the GitHub-hosted news feeds and changelog system) will be shut down.
+> - Official support channels will be closed.
+>
+> We encourage all users to export their custom themes and backup their configurations before this date. Thank you to everyone in the community for your support, feedback, and contributions over the lifespan of this project.
 
 ---
 
-## First-Time Setup
+SteamLite is a custom, fully themable, and modular Steam library client built with Electron. It allows you to completely reskin your Steam experience, build custom UI layouts from scratch, and manage your local, cloud, and non-Steam games all in one cohesive, glassmorphic interface.
 
-Once you launch SteamLite for the first time, click on the **Settings** tab in the sidebar to configure your profile:
+## Key Features
 
-1.  **Steam Web API Key:** Required for fetching friends lists, profiles, and owned games. You can get one for free from [Steam API Key Registration](https://steamcommunity.com/dev/apikey).
-2.  **SteamID64:** Your 17-digit Steam ID. (You can find this using sites like [SteamID.io](https://steamid.io/)).
-3.  **Family Sharing IDs:** A comma-separated or newline-separated list of 17-digit Steam IDs belonging to friends or family members whose libraries you want to merge into your own.
-4.  **Accent Color:** Choose a custom highlight color for the entire application UI.
+### SteamLite UI Editor (SUE)
+- Visual Canvas Builder: Enter Edit Mode to spawn containers, buttons, text, game grids, friends lists, and news feeds onto a blank canvas.
+- Total Control: Drag, drop, and morph any element. Right-click to edit inline CSS, change text, or assign built-in actions (like "Go to Library" or "Quit App").
+- Import/Export Layouts: Save your custom desktop layouts as `.json` files and share them with the community.
 
-Click **Save Configuration**, and SteamLite will immediately sync your library and go online.
+### Advanced Theming
+- Custom CSS Variables: A built-in color picker allows you to instantly change every aspect of the UI's glassmorphism, borders, text, and accents.
+- Custom Backgrounds: Set custom images or videos as your background, complete with blur and opacity sliders.
 
-## Notice
-Steamlite will be discontinued after 10th July 2026 and will not receive any bug fixes or updates.
+### GitHub-Powered News and Changelogs
+- Dynamic Home Page: The News and Announcements section fetches data directly from a `news.json` file hosted on our GitHub repository, allowing us to push updates without requiring you to download a new app version.
+- One-Time Changelogs: A sleek modal appears the first time you launch a new version, detailing exactly what's new.
 
-## Support & Bug Reports
+### Enhanced Library Management
+- Floating Action Button: A sleek, square `+` button floats in the bottom right corner of your Library, allowing you to quickly add non-Steam games without reaching for the top menu.
+- Complete Non-Steam Support: Fully add and remove non-Steam games (with custom names and covers) directly from the right-click context menu.
+- Smart Sorting and Filters: Filter by playtime, achievements, or family sharing.
 
-Encountering a bug or have a feature idea? Please open an issue on the [Issues Page](https://github.com/imnotfisy/SteamLite/issues).
+### Quality of Life
+- Discord Rich Presence Toggle: Easily disable or enable Discord RPC in the Advanced Settings.
+- Custom Smooth Scrolling: Native, refined scrolling behavior across all menus.
+- Compact List Mode: A dense view for users with massive libraries.
+
+## Installation
+
+1. Navigate to the [Releases page](https://github.com/imnotfisy/SteamLite/releases).
+2. Download the most recent release, `SteamLite-Setup-6.0.0.exe`, from the 6.0.0 version assets.
+3. Run the installer and follow the on-screen instructions.
+4. Launch SteamLite and enter your Steam Web API Key and SteamID64 in the settings.
+
+## Configuration
+
+To use SteamLite, you will need:
+1. Steam Web API Key: You can get one from the [Steam API Key Registration page](https://steamcommunity.com/dev/apikey).
+2. SteamID64: Your 17-digit Steam ID (e.g., `76561198000000000`). You can find this using sites like [SteamID.io](https://steamid.io/).
+
+(Optional) You can also add Family Sharing IDs to aggregate shared libraries into your SteamLite view.
+
+## License
+
+This project is licensed under the ISC License - see the `package.json` file for details.
+
+---
+
+*Reminder: SteamLite will cease development and remote services on November 7, 2026.*
+```
