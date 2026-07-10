@@ -1,0 +1,42 @@
+{
+  "name": "steamlite",
+  "version": "6.0.5",
+  "description": "A custom Steam library client",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "start:dev": "electron main.dev.js",
+    "build": "electron-builder --win",
+    "build:dev": "electron-builder --win --config.extraMetadata.main=main.dev.js --config.extraMetadata.name=SteamLite-DEV"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord-rpc": "^4.0.1",
+    "electron-store": "^8.1.0"
+  },
+  "devDependencies": {
+    "electron": "^29.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.steamlite.app",
+    "productName": "SteamLite",
+    "files": [
+      "main.js",
+      "main.dev.js",
+      "index.html",
+      "index.dev.html",
+      "icon.ico",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
