@@ -11,26 +11,12 @@
       "CRITICAL NOTICE: SteamLite will be officially discontinued on 07/11/2026. Remote services will shut down on this date."
     ]
   },
+  {
   "news": [
     {
-      "title": "Official Discontinuation Notice",
-      "date": "2026-07-10",
-      "content": "Thank you for using SteamLite over the years. Please be advised that the project will be officially discontinued on July 11, 2026 (11/07/2026). After this date, there will be no further updates, the repository will be archived, and remote services such as this news feed will be shut down. We encourage all users to export their custom themes and backup their configurations before this date."
-    },
-   {
-      "title": "Theme Marketplace Cancelled & Manual Creation Guide",
-      "date": "2026-07-10",
-      "content": "Due to the upcoming discontinuation of SteamLite, the planned built-in Theme Marketplace will never be released. However, you can still create and share themes manually! To make a theme: 1. Open Settings > Advanced Settings and click 'Show SteamLite UI Editor'. 2. Go to the 'Colors & CSS' tab and adjust the visual variables or write custom CSS. 3. Click 'Export Theme (.json)' to save your file. 4. Share your .json file with friends or on forums. Others can load your theme by clicking 'Import Theme (.json)' in the Advanced Settings menu."
-    },
-    {
-      "title": "Theme Marketplace Coming Soon",
-      "date": "2026-07-10",
-      "content": "We are working on a built-in theme downloader so you can browse and install custom UI themes directly from the app without leaving SteamLite!"
-    },
-    {
-      "title": "UI Editor (SUE) Now Available",
-      "date": "2026-07-10",
-      "content": "The SteamLite UI Editor is now available in the Advanced Settings. Turn on Edit Mode to drag, drop, and morph buttons and panels. Build your dream Steam client layout!"
+      "title": "SteamLite Has Been Discontinued",
+      "date": "Saturday, July 11 at 00:00",
+      "content": "As of Saturday, July 11 at 00:00, SteamLite has been officially discontinued. There will be no further updates or support. Thank you for using the application."
     }
   ]
 }
