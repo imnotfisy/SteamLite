@@ -2,7 +2,7 @@
 
 > CRITICAL NOTICE: PROJECT DISCONTINUATION
 >
-> Please be advised that SteamLite will be officially discontinued on November 7, 2026 (11/07/2026).
+> Please be advised that SteamLite will be officially discontinued on  Friday 11 July, 2026 (07/11/2026).
 >
 > What this means:
 > - No further updates, features, or bug fixes will be released after this date.
