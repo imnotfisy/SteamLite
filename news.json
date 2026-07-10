@@ -1,17 +1,4 @@
 {
-  "changelog": {
-    "version": "6.0.0",
-    "title": "Welcome to SteamLite 6.0.0",
-    "items": [
-      "SUE Editor Enabled: Create custom layouts, add widgets, and morph the UI however you want.",
-      "Custom Themes: Import and export your UI themes as JSON files.",
-      "Floating Add Non-Steam Game button in the library.",
-      "GitHub-powered News & Announcements section on the Home page.",
-      "Various bug fixes and performance improvements.",
-      "CRITICAL NOTICE: SteamLite will be officially discontinued on 07/11/2026. Remote services will shut down on this date."
-    ]
-  },
-  {
   "news": [
     {
       "title": "SteamLite Has Been Discontinued",
