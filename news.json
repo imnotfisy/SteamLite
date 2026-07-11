@@ -13,8 +13,8 @@
   "news": [
     {
       "title": "Community Update 6.0.1 Available",
-      "date": "2024-07-15",
-      "content": "A new community update (6.0.1) is available! This update focuses heavily on bug fixes and UI consistency. Please update to the latest version to experience the most polished version of SteamLite. <a href='https://github.com/imnotfisy/SteamLite/releases' style='color: var(--accent-color); cursor: pointer; text-decoration: underline;' onclick='window.electronAPI.openExternal(\"https://github.com/imnotfisy/SteamLite/releases\"); return false;'>Click here to download it.</a>"
+      "date": "Saturday, July 11",
+      "content": "A new community update (6.0.1) is available! This update focuses heavily on bug fixes and UI consistency. Please update to the latest version to experience the most polished version of SteamLite. <a href='https://github.com/imnotfisy/SteamLite/releases' style='color: var(--accent-color); cursor: pointer; text-decoration: underline;'>Click here to download it.</a>"
     },
     {
       "title": "SteamLite Has Been Discontinued",
