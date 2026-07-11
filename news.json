@@ -1,17 +1,21 @@
 {
   "changelog": {
-    "version": "6.0.0",
-    "title": "SteamLite 6.0.0 - Final Release",
+    "version": "6.0.1",
+    "title": "SteamLite 6.0.1 - Community Update",
     "items": [
-      "SUE Editor Enabled: Create custom layouts, add widgets, and morph the UI however you want.",
-      "Custom Themes: Import and export your UI themes as JSON files.",
-      "Floating Add Non-Steam Game button in the library.",
-      "GitHub-powered News & Announcements section on the Home page.",
-      "Various bug fixes and performance improvements.",
-      "CRITICAL NOTICE: SteamLite has been officially discontinued as of Saturday, July 11 at 00:00. Remote services are shutting down."
+      "Replaced all standard Windows UI popups with native SteamLite modals.",
+      "Fixed an issue where adding a Non-Steam Game cover wouldn't save properly.",
+      "Fixed stacked event listeners that could cause memory leaks when opening game modals.",
+      "Improved HTTP error handling for fetching news and updates.",
+      "General stability and performance improvements."
     ]
   },
   "news": [
+    {
+      "title": "Community Update 6.0.1 Available",
+      "date": "2024-07-15",
+      "content": "A new community update (6.0.1) is available! This update focuses heavily on bug fixes and UI consistency, replacing all remaining Windows UI popups with custom SteamLite modals. Please update to the latest version to experience the most polished version of SteamLite."
+    },
     {
       "title": "SteamLite Has Been Discontinued",
       "date": "Saturday, July 11 at 00:00",
