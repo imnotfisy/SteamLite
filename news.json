@@ -1,27 +1,27 @@
 {
   "changelog": {
-    "version": "7.0.0",
-    "title": "What's New in 7.0.0",
+    "version": "7.1.0",
+    "title": "What's New in 7.1.0",
     "items": [
-      "Theme Shop: browse and apply themes in-app, with 6 themes bundled and more every update",
-      "Profile switcher: right-click your profile to switch Steam accounts - login once per account",
-      "Playtime and achievements are saved separately per profile",
-      "Library now shows games only - soundtracks, tools and runtimes are filtered out",
-      "New installer: choose your install location and desktop icon",
-      "Fixed custom CSS never applying (UI Editor + theme CSS)",
-      "Fixed theme shop cards rendering with squished text"
+      "Auto-update: new versions download and install themselves from a banner - no more manual downloads",
+      "Refresh button in the top bar to re-sync your library anytime",
+      "New dashboard chart: your playtime for the last 30 days",
+      "Friend activity toasts when someone starts playing",
+      "Games launch silently - no Steam window flash anymore",
+      "Unified playtime: one accurate number everywhere, no double counting",
+      "2 new themes: Gruvbox Dark and Synthwave (8 total)"
     ]
   },
   "news": [
     {
-      "title": "SteamLite 7.0.0 Available",
+      "title": "SteamLite 7.1.0 Available",
       "date": "Saturday, August 16",
-      "content": "Version 7.0.0 adds the in-app Theme Shop with bundled themes, a multi-account profile switcher (right-click your profile), a games-only library filter, and a new installer with install-location and desktop-icon options. All settings and playtime data carry over automatically."
+      "content": "Version 7.1.0 adds in-app auto-updating, a library refresh button, a 30-day playtime chart, friend activity toasts, silent game launching, and unified playtime tracking. This is the last version you need to download manually."
     },
     {
-      "title": "SteamLite 6.0.6 Available",
+      "title": "SteamLite 7.0.0 Available",
       "date": "Saturday, August 16",
-      "content": "Version 6.0.6 was a stability and polish release: 11 bug fixes, streaming screenshots, a faster dashboard, reduced Steam API usage, and Discord Rich Presence cover art."
+      "content": "Version 7.0.0 added the in-app Theme Shop, a multi-account profile switcher, a games-only library filter, and a new installer with install-location and desktop-icon options."
     }
   ]
 }
