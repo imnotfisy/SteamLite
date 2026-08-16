@@ -1,30 +1,27 @@
 {
   "changelog": {
-    "version": "6.0.6",
-    "title": "What's New in 6.0.6",
+    "version": "7.0.0",
+    "title": "What's New in 7.0.0",
     "items": [
-      "Fixed updater comparing against a hardcoded version",
-      "Fixed changelog popup appearing on every launch",
-      "Fixed non-Steam games failing to launch from the modal, context menu and quick launcher",
-      "Fixed achievement cache expiring instantly (far fewer Steam API calls)",
-      "Update notifications now actually appear, with a clickable download toast",
-      "Playtime is now saved when quitting mid-session",
-      "Ghost process cleanup when a game never starts",
-      "Beta update channel selectable in Settings",
-      "Library scan uses the registry Steam path + all library folders",
-      "Game tracking falls back from wmic to PowerShell on Windows 11 24H2+",
-      "Screenshots stream from disk instead of base64 (much lighter)",
-      "Dashboard renders instantly, news loads async",
-      "Friends polling halved to every 30s",
-      "Discord Rich Presence shows the game's cover art while playing",
-      "Clear button for custom executable paths in Properties"
+      "Theme Shop: browse and apply themes in-app, with 6 themes bundled and more every update",
+      "Profile switcher: right-click your profile to switch Steam accounts - login once per account",
+      "Playtime and achievements are saved separately per profile",
+      "Library now shows games only - soundtracks, tools and runtimes are filtered out",
+      "New installer: choose your install location and desktop icon",
+      "Fixed custom CSS never applying (UI Editor + theme CSS)",
+      "Fixed theme shop cards rendering with squished text"
     ]
   },
   "news": [
     {
+      "title": "SteamLite 7.0.0 Available",
+      "date": "Saturday, August 16",
+      "content": "Version 7.0.0 adds the in-app Theme Shop with bundled themes, a multi-account profile switcher (right-click your profile), a games-only library filter, and a new installer with install-location and desktop-icon options. All settings and playtime data carry over automatically."
+    },
+    {
       "title": "SteamLite 6.0.6 Available",
       "date": "Saturday, August 16",
-      "content": "Version 6.0.6 is a stability and polish release: 11 bug fixes, streaming screenshots, a faster dashboard, reduced Steam API usage, and Discord Rich Presence cover art. All your settings and playtime data carry over. Download it from the releases page."
+      "content": "Version 6.0.6 was a stability and polish release: 11 bug fixes, streaming screenshots, a faster dashboard, reduced Steam API usage, and Discord Rich Presence cover art."
     }
   ]
 }
