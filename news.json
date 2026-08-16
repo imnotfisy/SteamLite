@@ -1,21 +1,30 @@
-"changelog": {
-  "version": "6.0.6",
-  "title": "What's New in 6.0.6",
-  "items": [
-    "Fixed updater comparing against a hardcoded version",
-    "Fixed changelog popup appearing on every launch",
-    "Fixed non-Steam games failing to launch from the modal, context menu and quick launcher",
-    "Fixed achievement cache expiring instantly (far fewer Steam API calls)",
-    "Update notifications now actually appear, with a clickable download toast",
-    "Playtime is now saved when quitting mid-session",
-    "Ghost process cleanup when a game never starts",
-    "Beta update channel selectable in Settings",
-    "Library scan uses the registry Steam path + all library folders",
-    "Game tracking falls back from wmic to PowerShell on Windows 11 24H2+",
-    "Screenshots stream from disk instead of base64 (much lighter)",
-    "Dashboard renders instantly, news loads async",
-    "Friends polling halved to every 30s",
-    "Discord Rich Presence shows the game's cover art while playing",
-    "Clear button for custom executable paths in Properties"
+{
+  "changelog": {
+    "version": "6.0.6",
+    "title": "What's New in 6.0.6",
+    "items": [
+      "Fixed updater comparing against a hardcoded version",
+      "Fixed changelog popup appearing on every launch",
+      "Fixed non-Steam games failing to launch from the modal, context menu and quick launcher",
+      "Fixed achievement cache expiring instantly (far fewer Steam API calls)",
+      "Update notifications now actually appear, with a clickable download toast",
+      "Playtime is now saved when quitting mid-session",
+      "Ghost process cleanup when a game never starts",
+      "Beta update channel selectable in Settings",
+      "Library scan uses the registry Steam path + all library folders",
+      "Game tracking falls back from wmic to PowerShell on Windows 11 24H2+",
+      "Screenshots stream from disk instead of base64 (much lighter)",
+      "Dashboard renders instantly, news loads async",
+      "Friends polling halved to every 30s",
+      "Discord Rich Presence shows the game's cover art while playing",
+      "Clear button for custom executable paths in Properties"
+    ]
+  },
+  "news": [
+    {
+      "title": "SteamLite 6.0.6 Available",
+      "date": "Saturday, August 16",
+      "content": "Version 6.0.6 is a stability and polish release: 11 bug fixes, streaming screenshots, a faster dashboard, reduced Steam API usage, and Discord Rich Presence cover art. All your settings and playtime data carry over. Download it from the releases page."
+    }
   ]
 }
