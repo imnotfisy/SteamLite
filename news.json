@@ -1,27 +1,27 @@
 {
   "changelog": {
-    "version": "7.1.0",
-    "title": "What's New in 7.1.0",
+    "version": "7.2.0",
+    "title": "What's New in 7.2.0",
     "items": [
-      "Auto-update: new versions download and install themselves from a banner - no more manual downloads",
-      "Refresh button in the top bar to re-sync your library anytime",
-      "New dashboard chart: your playtime for the last 30 days",
-      "Friend activity toasts when someone starts playing",
-      "Games launch silently - no Steam window flash anymore",
-      "Unified playtime: one accurate number everywhere, no double counting",
-      "2 new themes: Gruvbox Dark and Synthwave (8 total)"
+      "SteamLite-exclusive achievements — 14 trackable goals with animated popups",
+      "6 locked reward themes gated behind achievements (Centurion Gold, 500 Club Platinum, Marathon Redline, Streak Inferno, Unstoppable Solar, Completionist Prism)",
+      "Streak system — track consecutive daily play, 🔥 from day 3, Duolingo-style upgrade animation",
+      "Streak recovery — complete any achievement within 5 days to renew a lost streak",
+      "2 new free themes: Midnight Rose, Cyber Lime",
+      "Modern UI refresh — design tokens, glassmorphism, staggered animations, shimmer skeletons, glow effects",
+      "Fixed accent color picker not syncing when applying themes from the Theme Shop"
     ]
   },
   "news": [
     {
-      "title": "SteamLite 7.1.0 Available",
-      "date": "Saturday, August 16",
-      "content": "Version 7.1.0 adds in-app auto-updating, a library refresh button, a 30-day playtime chart, friend activity toasts, silent game launching, and unified playtime tracking. This is the last version you need to download manually."
+      "title": "SteamLite 7.2.0 — Achievements, Streaks & Modern UI",
+      "date": "Monday, August 18",
+      "content": "Version 7.2.0 adds SteamLite-exclusive achievements with 14 trackable goals, a daily play streak system with 🔥 indicators and celebration animations, 6 locked reward themes, 2 new free themes (Midnight Rose, Cyber Lime), a full modern UI refresh with glassmorphism and smooth animations, and a fix for the accent color picker not syncing with themes."
     },
     {
-      "title": "SteamLite 7.0.0 Available",
-      "date": "Saturday, August 16",
-      "content": "Version 7.0.0 added the in-app Theme Shop, a multi-account profile switcher, a games-only library filter, and a new installer with install-location and desktop-icon options."
+      "title": "SteamLite 7.1.0 Available",
+      "date": "Sunday, August 17",
+      "content": "Version 7.1.0 added the Theme Shop with 8 bundled themes, UI Editor for live CSS tweaks, quick-launch bar, command palette, game profiles, session history, and 14 bug fixes."
     }
   ]
 }
