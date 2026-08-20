@@ -1,0 +1,102 @@
+name: 🐛 Bug report
+description: Something in SteamLite isn't working the way it should
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug!
+
+        > 🔴 **Before you post:** never paste the contents of `config.json` — it contains your
+        > **Steam API key**. Redact your API key and SteamID from any screenshots or logs too.
+
+  - type: input
+    id: version
+    attributes:
+      label: SteamLite version
+      description: Shown in Settings or the tray tooltip.
+      placeholder: "e.g. 8.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install-method
+    attributes:
+      label: How did you install SteamLite?
+      description: Note — running from source shares the same settings as an installed copy.
+      options:
+        - Setup exe from Releases
+        - Built from source (dev mode)
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Windows version
+      options:
+        - Windows 11
+        - Windows 10
+        - Other (mention in the description below)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: What part of SteamLite is affected?
+      options:
+        - Library (games, covers, collections, notes)
+        - Launching & playtime tracking
+        - Themes & Theme Shop
+        - Achievements & streaks
+        - Friends, profiles, Discord RPC
+        - Updates, news, offline mode
+        - Settings
+        - Other / not sure
+    validations:
+      required: true
+
+  - type: input
+    id: theme
+    attributes:
+      label: Theme applied (if any)
+      description: Some bugs only show up with a custom theme applied — this helps a lot.
+      placeholder: "e.g. Dracula, Synthwave — leave blank for the default theme"
+    validations:
+      required: false
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what actually happened? The more precise the steps, the faster this gets fixed.
+      placeholder: |
+        1. Open the Theme Shop
+        2. Click Apply on …
+        3. Expected: …
+           Actually: …
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output (optional)
+      description: |
+        Run SteamLite from a terminal (`npx electron src`) to capture main-process logs.
+        🔴 Redact your Steam API key and SteamID before pasting.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched the [existing issues](https://github.com/imnotfisy/SteamLite/issues?q=is%3Aissue) for this bug (including closed ones).
+          required: true
+        - label: I removed my Steam API key and SteamID from everything pasted or screenshotted above.
+          required: true
