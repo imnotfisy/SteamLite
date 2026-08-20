@@ -1,0 +1,62 @@
+name: ✨ Feature request
+description: Suggest an idea for SteamLite
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        SteamLite deliberately stays small and fast, so features are chosen carefully — but good
+        ideas are always welcome.
+
+        The most convincing requests describe a **problem**, not just a solution. If the same
+        friction is real for others, the solution that ships might end up better than the first
+        idea — so tell us what's in the way before prescribing the fix.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area would this improve?
+      options:
+        - Library (games, covers, collections, notes)
+        - Launching & playtime tracking
+        - Themes & Theme Shop
+        - Achievements & streaks
+        - Friends, profiles, Discord RPC
+        - Updates, news, offline mode
+        - Settings
+        - Something entirely new
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: What are you trying to do that SteamLite makes hard or impossible today?
+      placeholder: "I want to …, but right now I have to …"
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Describe your ideal solution
+      description: What would it look like if SteamLite handled this perfectly?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered (optional)
+      description: Other apps you use for this, workarounds you rely on today, or existing features this could replace.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: This refines something SteamLite already does (polish, speed, a missing setting).
+        - label: This is a meaningful new capability — and I've explained above why it's worth the added weight.
