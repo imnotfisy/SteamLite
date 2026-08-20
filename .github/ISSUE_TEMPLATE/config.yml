@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🎨 Submit a theme
+    url: https://github.com/imnotfisy/SteamLite/blob/main/CONTRIBUTING.md#contributing-a-theme
+    about: The easiest way to contribute to SteamLite — no code required
+  - name: ❓ Questions & discussions
+    url: https://github.com/imnotfisy/SteamLite/discussions
+    about: For questions and general chat — bugs and feature ideas go through the forms above
