@@ -1,37 +1,25 @@
 {
   "changelog": {
-    "version": "7.2.5",
-    "title": "What's New in 7.2.5",
+    "version": "7.2.6",
+    "title": "What's New in 7.2.6",
     "items": [
-      "Advanced Settings moved to its own modal with a dedicated Save Configuration button",
-      "Modern left-to-right switch toggles for every setting",
-      "New advanced settings: notification duration, max simultaneous notifications, launch to library, hide offline friends, reduce animations, UI notification sounds",
-      "Streak now shows next to your username (from day 3) — one clean 🔥N with no extra chip",
-      "Spinning loading overlay for library sync and profile switching",
-      "Remade, calmer UI sounds (soft filtered clicks, airy whooshes, muted two-tone chime)",
-      "Accent color picker now lives at the top of the Theme Shop with live preview; Settings has a Themes button in its place",
-      "2 new free themes: Aurora Borealis, Volcanic Ash",
-      "New achievements: Theme Collector (rewards the Chrome Aurora theme), Bibliophile",
-      "Fixed saving Advanced Settings wiping stored credentials",
-      "Fixed the username getting stuck on \"User not configured\"",
-      "Fixed achievements only processing when applying a theme — they now process on launch, sync and every 5 minutes",
-      "Fixed some games (non-Steam) not appearing correctly inside collections",
-      "Fixed profile right-click menu rendering underneath other UI elements",
-      "Fixed the shimmer skeleton effect cutting off mid-sweep — one clean left-to-right motion now",
-      "Fixed rapid game-modal closing spamming the whoosh sound",
-      "Fixed the favorites star icon failing to render (malformed SVG path)"
+      "Library controls redesigned: Sort By is now a row of small segmented buttons (A-Z, Z-A, Recent, Playtime, Ach)",
+      "Filters moved into a small filter-icon button on the right that opens a dropdown of switch toggles, aligned to the button",
+      "Your profile status now says \"In Non-Steam Game\" (and shows the title) when Steam is running a non-Steam game",
+      "2 new free themes: Sunset Drive, Deep Forest",
+      "New achievements: Variety Player (play 25 different games), Century Sessions (complete 100 tracked sessions)"
     ]
   },
   "news": [
     {
-      "title": "SteamLite 7.2.5 — Settings Overhaul & Bug Fixes",
-      "date": "Thursday, August 21",
-      "content": "Version 7.2.5 gives Settings a dedicated Advanced Settings modal with modern switch toggles and new options (notification duration and stacking, launch to library, hide offline friends, reduce animations, notification sounds). The accent color picker moved to the top of the Theme Shop, the streak now shows next to your username, library syncs show a spinning loading overlay, and UI sounds have been remade softer and calmer. Also includes 2 new free themes (Aurora Borealis, Volcanic Ash), 2 new achievements (Theme Collector, Bibliophile), and fixes for a credential-wiping settings bug, the username getting stuck on 'User not configured', achievement processing, collections, the profile menu, the shimmer effect and more."
+      "title": "SteamLite 7.2.6 — Redesigned Library Controls",
+      "date": "Friday, August 22",
+      "content": "Version 7.2.6 redesigns the library controls bar: sorting is now a row of small segmented buttons (A-Z, Z-A, Recent, Playtime, Ach), and all filters live behind a compact filter-icon button on the right that opens a dropdown menu of modern switch toggles. Your profile status now correctly shows 'In Non-Steam Game' with the title when Steam is running a non-Steam game. Also ships 2 new free themes (Sunset Drive, Deep Forest) and 2 new achievements (Variety Player, Century Sessions)."
     },
     {
-      "title": "SteamLite 7.2.0 — Achievements, Streaks & Modern UI",
-      "date": "Monday, August 18",
-      "content": "Version 7.2.0 added SteamLite-exclusive achievements with 14 trackable goals, a daily play streak system with celebration animations, 6 locked reward themes, 2 new free themes, and a full modern UI refresh."
+      "title": "SteamLite 7.2.5 — Settings Overhaul & Bug Fixes",
+      "date": "Thursday, August 21",
+      "content": "Version 7.2.5 gave Settings a dedicated Advanced Settings modal with modern switch toggles and new options, moved the accent picker to the Theme Shop, added a spinning loading overlay, calmer UI sounds, 2 new free themes and 2 new achievements, plus 8 bug fixes."
     }
   ]
 }
