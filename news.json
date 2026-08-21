@@ -1,27 +1,37 @@
 {
   "changelog": {
-    "version": "7.2.0",
-    "title": "What's New in 7.2.0",
+    "version": "7.2.5",
+    "title": "What's New in 7.2.5",
     "items": [
-      "SteamLite-exclusive achievements — 14 trackable goals with animated popups",
-      "6 locked reward themes gated behind achievements (Centurion Gold, 500 Club Platinum, Marathon Redline, Streak Inferno, Unstoppable Solar, Completionist Prism)",
-      "Streak system — track consecutive daily play, 🔥 from day 3, Duolingo-style upgrade animation",
-      "Streak recovery — complete any achievement within 5 days to renew a lost streak",
-      "2 new free themes: Midnight Rose, Cyber Lime",
-      "Modern UI refresh — design tokens, glassmorphism, staggered animations, shimmer skeletons, glow effects",
-      "Fixed accent color picker not syncing when applying themes from the Theme Shop"
+      "Advanced Settings moved to its own modal with a dedicated Save Configuration button",
+      "Modern left-to-right switch toggles for every setting",
+      "New advanced settings: notification duration, max simultaneous notifications, launch to library, hide offline friends, reduce animations, UI notification sounds",
+      "Streak now shows next to your username (from day 3) — one clean 🔥N with no extra chip",
+      "Spinning loading overlay for library sync and profile switching",
+      "Remade, calmer UI sounds (soft filtered clicks, airy whooshes, muted two-tone chime)",
+      "Accent color picker now lives at the top of the Theme Shop with live preview; Settings has a Themes button in its place",
+      "2 new free themes: Aurora Borealis, Volcanic Ash",
+      "New achievements: Theme Collector (rewards the Chrome Aurora theme), Bibliophile",
+      "Fixed saving Advanced Settings wiping stored credentials",
+      "Fixed the username getting stuck on \"User not configured\"",
+      "Fixed achievements only processing when applying a theme — they now process on launch, sync and every 5 minutes",
+      "Fixed some games (non-Steam) not appearing correctly inside collections",
+      "Fixed profile right-click menu rendering underneath other UI elements",
+      "Fixed the shimmer skeleton effect cutting off mid-sweep — one clean left-to-right motion now",
+      "Fixed rapid game-modal closing spamming the whoosh sound",
+      "Fixed the favorites star icon failing to render (malformed SVG path)"
     ]
   },
   "news": [
     {
-      "title": "SteamLite 7.2.0 — Achievements, Streaks & Modern UI",
-      "date": "Monday, August 18",
-      "content": "Version 7.2.0 adds SteamLite-exclusive achievements with 14 trackable goals, a daily play streak system with 🔥 indicators and celebration animations, 6 locked reward themes, 2 new free themes (Midnight Rose, Cyber Lime), a full modern UI refresh with glassmorphism and smooth animations, and a fix for the accent color picker not syncing with themes."
+      "title": "SteamLite 7.2.5 — Settings Overhaul & Bug Fixes",
+      "date": "Thursday, August 21",
+      "content": "Version 7.2.5 gives Settings a dedicated Advanced Settings modal with modern switch toggles and new options (notification duration and stacking, launch to library, hide offline friends, reduce animations, notification sounds). The accent color picker moved to the top of the Theme Shop, the streak now shows next to your username, library syncs show a spinning loading overlay, and UI sounds have been remade softer and calmer. Also includes 2 new free themes (Aurora Borealis, Volcanic Ash), 2 new achievements (Theme Collector, Bibliophile), and fixes for a credential-wiping settings bug, the username getting stuck on 'User not configured', achievement processing, collections, the profile menu, the shimmer effect and more."
     },
     {
-      "title": "SteamLite 7.1.0 Available",
-      "date": "Sunday, August 17",
-      "content": "Version 7.1.0 added the Theme Shop with 8 bundled themes, UI Editor for live CSS tweaks, quick-launch bar, command palette, game profiles, session history, and 14 bug fixes."
+      "title": "SteamLite 7.2.0 — Achievements, Streaks & Modern UI",
+      "date": "Monday, August 18",
+      "content": "Version 7.2.0 added SteamLite-exclusive achievements with 14 trackable goals, a daily play streak system with celebration animations, 6 locked reward themes, 2 new free themes, and a full modern UI refresh."
     }
   ]
 }
