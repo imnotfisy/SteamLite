@@ -1,25 +1,27 @@
 {
   "changelog": {
-    "version": "7.2.6",
-    "title": "What's New in 7.2.6",
+    "version": "7.3.0",
+    "title": "What's New in 7.3.0",
     "items": [
-      "Library controls redesigned: Sort By is now a row of small segmented buttons (A-Z, Z-A, Recent, Playtime, Ach)",
-      "Filters moved into a small filter-icon button on the right that opens a dropdown of switch toggles, aligned to the button",
-      "Your profile status now says \"In Non-Steam Game\" (and shows the title) when Steam is running a non-Steam game",
-      "2 new free themes: Sunset Drive, Deep Forest",
-      "New achievements: Variety Player (play 25 different games), Century Sessions (complete 100 tracked sessions)"
+      "Theme Maker — create your own themes with live preview, your name as author, and a description; save them to the Community section or export the .json to publish",
+      "Theme Shop now separates Official SteamLite Themes from Community Themes (published to GitHub + themes you create)",
+      "Theme Shop refresh button to reload the catalog",
+      "Community themes from the SteamLite GitHub repository are supported again",
+      "UI Editor (SUE) removed — replaced by the Theme Maker",
+      "New achievement: Theme Author (create your first theme)",
+      "2 new free themes: Neon Noir, Glacier Mint"
     ]
   },
   "news": [
     {
-      "title": "SteamLite 7.2.6 — Redesigned Library Controls",
+      "title": "SteamLite 7.3.0 — Theme Maker & Community Themes",
       "date": "Friday, August 22",
-      "content": "Version 7.2.6 redesigns the library controls bar: sorting is now a row of small segmented buttons (A-Z, Z-A, Recent, Playtime, Ach), and all filters live behind a compact filter-icon button on the right that opens a dropdown menu of modern switch toggles. Your profile status now correctly shows 'In Non-Steam Game' with the title when Steam is running a non-Steam game. Also ships 2 new free themes (Sunset Drive, Deep Forest) and 2 new achievements (Variety Player, Century Sessions)."
+      "content": "Version 7.3.0 turns everyone into a theme designer: the new Theme Maker lets you pick every color, write custom CSS, preview live, and save themes under your own author name with a description. The Theme Shop now splits Official SteamLite Themes from Community Themes — anything published to the SteamLite GitHub repo appears there automatically, plus everything you create, with export to share. Also includes a shop refresh button, the new Theme Author achievement, and 2 new free themes (Neon Noir, Glacier Mint)."
     },
     {
-      "title": "SteamLite 7.2.5 — Settings Overhaul & Bug Fixes",
-      "date": "Thursday, August 21",
-      "content": "Version 7.2.5 gave Settings a dedicated Advanced Settings modal with modern switch toggles and new options, moved the accent picker to the Theme Shop, added a spinning loading overlay, calmer UI sounds, 2 new free themes and 2 new achievements, plus 8 bug fixes."
+      "title": "SteamLite 7.2.6 — Redesigned Library Controls",
+      "date": "Friday, August 22",
+      "content": "Version 7.2.6 redesigned the library controls bar: segmented sort buttons, a filter-icon button with a switch-toggle dropdown, and 'In Non-Steam Game' status reporting."
     }
   ]
 }
