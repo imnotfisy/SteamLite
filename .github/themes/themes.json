@@ -1,0 +1,12 @@
+{
+  "themes": [
+    {
+      "id": "dark+",
+      "name": "Dark+",
+      "author": "Castiel",
+      "description": "a dark modern theme.",
+      "file": "DarkPlus.json",
+      "colors": ["#8b5cf6", "#0d0d12", "#6ee7a0"]
+    }
+  ]
+}
