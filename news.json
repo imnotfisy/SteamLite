@@ -19,9 +19,9 @@
       "content": "Version 7.3.0 turns everyone into a theme designer: the new Theme Maker lets you pick every color, write custom CSS, preview live, and save themes under your own author name with a description. The Theme Shop now splits Official SteamLite Themes from Community Themes — anything published to the SteamLite GitHub repo appears there automatically, plus everything you create, with export to share. Also includes a shop refresh button, the new Theme Author achievement, and 2 new free themes (Neon Noir, Glacier Mint)."
     },
     {
-      "title": "SteamLite 7.2.6 — Redesigned Library Controls",
-      "date": "Friday, August 22",
-      "content": "Version 7.2.6 redesigned the library controls bar: segmented sort buttons, a filter-icon button with a switch-toggle dropdown, and 'In Non-Steam Game' status reporting."
+      "title": "Scheduled Engine Change",
+      "date": "Sunday, August 23",
+      "content": "Version 8.0.0 will be redesigned with a whole new engine and will be unavailable between 25/08/2026 - 27/08/2026"
     }
   ]
 }
