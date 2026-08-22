@@ -1,0 +1,44 @@
+{
+  "themes": [
+    {
+      "id": "crimson-tide",
+      "name": "Crimson Tide",
+      "author": "Castiel",
+      "description": "Deep crimson red with a smoldering glow.",
+      "file": "crimson-tide.json",
+      "colors": ["#e63946", "#160a0c", "#5cff9e"]
+    },
+    {
+      "id": "royal-amethyst",
+      "name": "Royal Amethyst",
+      "author": "Castiel",
+      "description": "Regal violet with a soft royal shimmer.",
+      "file": "royal-amethyst.json",
+      "colors": ["#a770ef", "#120b1c", "#6ee8a0"]
+    },
+    {
+      "id": "arctic-frost",
+      "name": "Arctic Frost",
+      "author": "Castiel",
+      "description": "Pale glacial blue over frozen navy.",
+      "file": "arctic-frost.json",
+      "colors": ["#a8dbff", "#0c1218", "#7ce8b0"]
+    },
+    {
+      "id": "midnight-ember",
+      "name": "Midnight Ember",
+      "author": "Castiel",
+      "description": "Warm orange embers glowing in the dark.",
+      "file": "midnight-ember.json",
+      "colors": ["#ff8a4c", "#101014", "#63d98e"]
+    },
+    {
+      "id": "vaporwave-pastel",
+      "name": "Vaporwave Pastel",
+      "author": "Castiel",
+      "description": "Dreamy pastel pink and teal nostalgia.",
+      "file": "vaporwave-pastel.json",
+      "colors": ["#ff9ed9", "#171226", "#8affc6"]
+    }
+  ]
+}
