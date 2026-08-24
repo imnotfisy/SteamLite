@@ -10,7 +10,7 @@
 
 Instant local scanning · real playtime stats · themes · achievements · daily streaks
 
-[![version](https://img.shields.io/badge/version-7.2.6-8b5cf6?style=flat-square)](https://github.com/imnotfisy/SteamLite/releases)
+[![version](https://img.shields.io/badge/version-7.3.0-8b5cf6?style=flat-square)](https://github.com/imnotfisy/SteamLite/releases)
 [![platform](https://img.shields.io/badge/platform-Windows%2010%2F11-0078d4?style=flat-square)](#)
 [![license](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 
