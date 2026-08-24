@@ -6,7 +6,11 @@
       "author": "Castiel",
       "description": "Deep crimson red with a smoldering glow.",
       "file": "crimson-tide.json",
-      "colors": ["#e63946", "#160a0c", "#5cff9e"]
+      "colors": [
+        "#e63946",
+        "#160a0c",
+        "#5cff9e"
+      ]
     },
     {
       "id": "royal-amethyst",
@@ -14,7 +18,11 @@
       "author": "Castiel",
       "description": "Regal violet with a soft royal shimmer.",
       "file": "royal-amethyst.json",
-      "colors": ["#a770ef", "#120b1c", "#6ee8a0"]
+      "colors": [
+        "#a770ef",
+        "#120b1c",
+        "#6ee8a0"
+      ]
     },
     {
       "id": "arctic-frost",
@@ -22,7 +30,11 @@
       "author": "Castiel",
       "description": "Pale glacial blue over frozen navy.",
       "file": "arctic-frost.json",
-      "colors": ["#a8dbff", "#0c1218", "#7ce8b0"]
+      "colors": [
+        "#a8dbff",
+        "#0c1218",
+        "#7ce8b0"
+      ]
     },
     {
       "id": "midnight-ember",
@@ -30,7 +42,11 @@
       "author": "Castiel",
       "description": "Warm orange embers glowing in the dark.",
       "file": "midnight-ember.json",
-      "colors": ["#ff8a4c", "#101014", "#63d98e"]
+      "colors": [
+        "#ff8a4c",
+        "#101014",
+        "#63d98e"
+      ]
     },
     {
       "id": "vaporwave-pastel",
@@ -38,7 +54,131 @@
       "author": "Castiel",
       "description": "Dreamy pastel pink and teal nostalgia.",
       "file": "vaporwave-pastel.json",
-      "colors": ["#ff9ed9", "#171226", "#8affc6"]
+      "colors": [
+        "#ff9ed9",
+        "#171226",
+        "#8affc6"
+      ]
+    },
+    {
+      "id": "emerald-canopy",
+      "name": "Emerald Canopy",
+      "author": "Castiel",
+      "description": "A deep forest green with vibrant natural highlights.",
+      "file": "emerald-canopy.json",
+      "colors": [
+        "#10b981",
+        "#022c22",
+        "#fbbf24"
+      ]
+    },
+    {
+      "id": "cyber-neon",
+      "name": "Cyber Neon",
+      "author": "Castiel",
+      "description": "High-contrast dystopian yellow set against pitch black.",
+      "file": "cyber-neon.json",
+      "colors": [
+        "#facc15",
+        "#09090b",
+        "#f97316"
+      ]
+    },
+    {
+      "id": "oceanic-abyss",
+      "name": "Oceanic Abyss",
+      "author": "Castiel",
+      "description": "Cool marine blues plunging into a dark sea aesthetic.",
+      "file": "oceanic-abyss.json",
+      "colors": [
+        "#0284c7",
+        "#082f49",
+        "#facc15"
+      ]
+    },
+    {
+      "id": "solar-flare",
+      "name": "Solar Flare",
+      "author": "Castiel",
+      "description": "Scorching orange and amber illuminating dark mahogany.",
+      "file": "solar-flare.json",
+      "colors": [
+        "#f59e0b",
+        "#451a03",
+        "#fbbf24"
+      ]
+    },
+    {
+      "id": "obsidian-void",
+      "name": "Obsidian Void",
+      "author": "Castiel",
+      "description": "A sleek, monochromatic setup dominated by true black.",
+      "file": "obsidian-void.json",
+      "colors": [
+        "#e4e4e7",
+        "#000000",
+        "#a3e635"
+      ]
+    },
+    {
+      "id": "electric-cobalt",
+      "name": "Electric Cobalt",
+      "author": "Alex",
+      "description": "Vibrant cobalt blue cutting through a deep navy backdrop.",
+      "file": "electric-cobalt.json",
+      "colors": [
+        "#3b82f6",
+        "#1e3a8a",
+        "#fcd34d"
+      ]
+    },
+    {
+      "id": "toxic-waste",
+      "name": "Toxic Waste",
+      "author": "Alex",
+      "description": "Hazardous neon green splashed over dark military green.",
+      "file": "toxic-waste.json",
+      "colors": [
+        "#84cc16",
+        "#14532d",
+        "#fef08a"
+      ]
+    },
+    {
+      "id": "velvet-rose",
+      "name": "Velvet Rose",
+      "author": "Alex",
+      "description": "A rich, blood-red hue over a muted burgundy shadow.",
+      "file": "velvet-rose.json",
+      "colors": [
+        "#e11d48",
+        "#4c0519",
+        "#fb923c"
+      ]
+    },
+    {
+      "id": "autumn-harvest",
+      "name": "Autumn Harvest",
+      "author": "Alex",
+      "description": "Warm bronze and burnt orange perfect for a fall vibe.",
+      "file": "autumn-harvest.json",
+      "colors": [
+        "#d97706",
+        "#78350f",
+        "#f59e0b"
+      ]
+    },
+    {
+      "id": "cosmic-dust",
+      "name": "Cosmic Dust",
+      "author": "Alex",
+      "description": "A striking fuchsia shining over a dark plum nebula.",
+      "file": "cosmic-dust.json",
+      "colors": [
+        "#c026d3",
+        "#4a044e",
+        "#facc15"
+      ]
     }
   ]
 }
