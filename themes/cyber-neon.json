@@ -1,0 +1,17 @@
+{
+  "canvas": [],
+  "vars": {
+    "--bg-dark": "#09090b",
+    "--bg-glass": "rgba(9, 9, 11, 0.88)",
+    "--bg-glass-light": "rgba(24, 24, 27, 0.92)",
+    "--border-glass": "rgba(250, 204, 21, 0.15)",
+    "--border-glass-hover": "rgba(250, 204, 21, 0.38)",
+    "--text-primary": "#fef08a",
+    "--text-secondary": "#a1a1aa",
+    "--accent-color": "#facc15",
+    "--success": "#4ade80",
+    "--warning": "#f97316",
+    "--danger": "#f43f5e"
+  },
+  "css": "h1, .home-title, .game-title, .modal-title { text-shadow: 0 0 10px rgba(250, 204, 21, 0.4); } .nav-btn.active { box-shadow: 0 4px 12px rgba(250, 204, 21, 0.35); }"
+}
