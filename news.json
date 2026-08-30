@@ -15,24 +15,9 @@
   },
   "news": [
     {
-      "title": "v8.0.0 Downtime Delayed",
-      "date": "Tuesday, August 25",
-      "content": "The scheduled downtime for the v8.0.0 update has been delayed until further notice. Please note that no new updates will be available until this issue has been resolved. Additionally, there will be no new themes or achievements released until further notice."
-    },
-    {
-      "title": "10 New Community Themes Available Now!",
-      "date": "Monday, August 24",
-      "content": "The Theme Shop has just been updated with 10 brand new community themes! You can now download 5 fresh designs created by Castiel (Emerald Canopy, Cyber Neon, Oceanic Abyss, Solar Flare, Obsidian Void) and 5 new additions from Alex (Electric Cobalt, Toxic Waste, Velvet Rose, Autumn Harvest, Cosmic Dust) straight from the Community Themes section."
-    },
-    {
-      "title": "Scheduled Downtime 27th - 30th",
-      "date": "Sunday, August 23",
-      "content": "Steamlite has a scheduled downtime and will be unavailable between 27/08/2026 - 30/08/2026. during this time github services will be unavailable and any new themes, news and comunity updates wont be there. we are looking forward to releasing 8.0.0 and if you are intrested, please contact either an admin or Castiel in the Github Discussions about Beta testing. thanks, Castiel"
-    },
-    {
-      "title": "SteamLite 7.3.0 — Theme Maker & Community Themes",
-      "date": "Friday, August 22",
-      "content": "Version 7.3.0 turns everyone into a theme designer: the new Theme Maker lets you pick every color, write custom CSS, preview live, and save themes under your own author name with a description. The Theme Shop now splits Official SteamLite Themes from Community Themes — anything published to the SteamLite GitHub repo appears there automatically, plus everything you create, with export to share. Also includes a shop refresh button, the new Theme Author achievement, and 2 new free themes (Neon Noir, Glacier Mint)."
+      "title": "Update Schedule, Themes, achevements and more",
+      "date": "Sunday, August 30",
+      "content": "With 8.0.0 in the works, you can expect more themes and achevements to keep our community engaged, additionally we will be giving away free [REDACTED] subscriptions in preperation for 8.0.0. Many thanks, [REDACTED]"
     }
   ]
 }
