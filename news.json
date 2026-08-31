@@ -15,6 +15,16 @@
   },
   "news": [
     {
+      "title": "24H Sneak Peek: 8.0.0 Alpha Build Live!",
+      "date": "Monday, August 31",
+      "content": "There is a special sneak peek of the 8.0.0 alpha release build available on GitHub right now! You have a maximum of 24 hours to test this build out. Once the test ends, your client will automatically revert back to 7.3.0, so get in there and check it out while you can."
+    },
+    {
+      "title": "We Are Hiring!",
+      "date": "Monday, August 31",
+      "content": "Want to help build the future of SteamLite? We are looking to expand the team! Come down to the GitHub Discussions page to get started and find out how you can join the project."
+    },
+    {
       "title": "SteamLite 8.0.0 Is Coming — Join the Daily Beta!",
       "date": "Monday, August 31",
       "content": "SteamLite 8.0.0 is officially going to be our biggest update ever, and it should be expected in a couple of months. While we take the time to get it right, you can test out the 8.0.0 beta right now! We release new beta builds every day, so jump in and report back on any bugs you find, or let us know if you like any of the new features, themes, and achievements being tested."
