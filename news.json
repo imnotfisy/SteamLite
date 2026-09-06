@@ -1,8 +1,12 @@
 {
   "changelog": {
-    "version": "7.3.0",
-    "title": "What's New in 7.3.0",
+    "version": "8.0.0",
+    "title": "What's New in 8.0.0",
     "items": [
+      "SteamLite 8.0.0 Early Release — this is an early build of SteamLite 8.0.0, released for participants who chose to take part in early access",
+      "Early Access Notice — you have chosen to participate in early access for this build, so expect that some features may still be unfinished or unstable",
+      "Bug Fix Waves Coming Next Month — major bug-fix waves are planned for next month as issues are identified and reported",
+      "Bug Reports — please take any bugs or unexpected behaviour with a grain of salt while this early build is being tested",
       "Theme Maker — create your own themes with live preview, your name as author, and a description; save them to the Community section or export the .json to publish",
       "Theme Shop now separates Official SteamLite Themes from Community Themes (published to GitHub + themes you create)",
       "Theme Shop refresh button to reload the catalog",
@@ -15,9 +19,9 @@
   },
   "news": [
     {
-      "title": "24H Sneak Peek: 8.0.0 Alpha Build Live!",
+      "title": "SteamLite 8.0.0 Early Build Is Live!",
       "date": "Monday, August 31",
-      "content": "There is a special sneak peek of the 8.0.0 alpha release build available on GitHub right now! You have a maximum of 24 hours to test this build out. Once the test ends, your client will automatically revert back to 7.3.0, so get in there and check it out while you can."
+      "content": "This is an early build of SteamLite 8.0.0. You have chosen to participate in early access for this build, so please expect bugs, unfinished areas, or unexpected behaviour while testing. Take any bugs with a grain of salt for now. Bug-fix waves are coming next month as we work through issues reported during early access."
     },
     {
       "title": "We Are Hiring!",
@@ -25,9 +29,9 @@
       "content": "Want to help build the future of SteamLite? We are looking to expand the team! Come down to the GitHub Discussions page to get started and find out how you can join the project."
     },
     {
-      "title": "SteamLite 8.0.0 Is Coming — Join the Daily Beta!",
+      "title": "SteamLite 8.0.0 Early Access Is Here!",
       "date": "Monday, August 31",
-      "content": "SteamLite 8.0.0 is officially going to be our biggest update ever, and it should be expected in a couple of months. While we take the time to get it right, you can test out the 8.0.0 beta right now! We release new beta builds every day, so jump in and report back on any bugs you find, or let us know if you like any of the new features, themes, and achievements being tested."
+      "content": "SteamLite 8.0.0 is now available as an early-access build. You have chosen to participate in early access for this build, which means bugs and rough edges are to be expected. Please take any bugs with a grain of salt while the build is being tested. Bug-fix waves are coming next month, with fixes and improvements based on issues found during early access."
     }
   ]
 }
