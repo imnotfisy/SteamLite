@@ -1,30 +1,34 @@
 {
   "changelog": {
-    "version": "8.0.1",
-    "title": "What's New in 8.0.1",
+    "version": "8.1.0",
+    "title": "What's New in 8.1.0",
     "items": [
-      "SteamLite 8.0.1 is now available with hotfixes for the settings page UI",
-      "Fixed Change Profile button accessibility - moved outside account card for better access",
-      "Fixed username truncation in settings page - usernames now display fully without cutting off",
-      "Improved layout and spacing for profile management controls",
-      "All 8.0.0 features remain intact including the complete UI rework and new feature set"
+      "Remade game modal with sleek side menu and tabbed interface",
+      "Added selectable tabs: Details, Achievements, News, SteamLite",
+      "SteamLite achievements now show per-game progress (e.g., Game Master for 100 hours)",
+      "Profile UI modernized with stats in banner and online indicator on avatar",
+      "Added Play Together button for friend profiles",
+      "Added Friends in Common display on profiles",
+      "Dashboard improvements: removed stats, pinned news, added drag-to-reorder sections",
+      "Library filter bar replaced with modern dropdown",
+      "Refresh button now only shows on Library and Favorites tabs",
+      "Advanced settings reorganized into collapsible Extra section",
+      "Fixed login/logout loading screen issues",
+      "Fixed Change Profile popup z-index",
+      "Modernized + buttons with SVG icons",
+      "Centered all popups and modals"
     ]
   },
   "news": [
     {
-      "title": "SteamLite 8.0.1 Hotfix Available",
-      "date": "Wednesday, September 9",
-      "content": "SteamLite 8.0.1 is now available with hotfixes for the settings page. The Change Profile button has been moved outside the account card for better accessibility, and username truncation has been fixed to display full usernames. All 8.0.0 features including the major UI rework, new theme system, and enhanced profile page remain intact."
+      "title": "SteamLite 8.1.0 Major UI Update",
+      "date": "September 9, 2026",
+      "content": "SteamLite 8.1.0 is now available with major UI improvements including a redesigned game modal with tabs, modernized profile pages, dashboard repositioning, and many bug fixes and polish. All 8.0.0 features remain intact."
     },
     {
       "title": "We Are Hiring!",
-      "date": "Monday, August 31",
-      "content": "Want to help build the future of SteamLite? We are looking to expand the team! Come down to the GitHub Discussions page to get started and find out how you can join the project."
-    },
-    {
-      "title": "SteamLite 8.0.0 Major Update",
-      "date": "Saturday, September 6",
-      "content": "SteamLite 8.0.0 brought a complete UI rework with modern profile pages, enhanced collections system, SteamID-based theme authorship, 25 themes, 24 achievements, developer mode, and many more improvements. Check out the full changelog for details."
+      "date": "August 31, 2026",
+      "content": "Join the SteamLite development team! We're looking for passionate developers to help us build the future of Steam client alternatives."
     }
   ]
 }
