@@ -1,183 +1,416 @@
 {
   "themes": [
     {
-      "id": "crimson-tide",
-      "name": "Crimson Tide",
-      "author": "Castiel",
-      "description": "Deep crimson red with a smoldering glow.",
-      "file": "crimson-tide.json",
+      "id": "dracula",
+      "name": "Dracula",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "The classic dark purple Dracula palette.",
+      "file": "dracula.json",
       "colors": [
-        "#e63946",
-        "#160a0c",
-        "#5cff9e"
+        "#bd93f9",
+        "#282a36",
+        "#50fa7b"
       ]
     },
     {
-      "id": "royal-amethyst",
-      "name": "Royal Amethyst",
-      "author": "Castiel",
-      "description": "Regal violet with a soft royal shimmer.",
-      "file": "royal-amethyst.json",
+      "id": "catppuccin-mocha",
+      "name": "Catppuccin Mocha",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Soft pastel colors on a warm dark base. Easy on the eyes.",
+      "file": "catppuccin-mocha.json",
       "colors": [
-        "#a770ef",
-        "#120b1c",
+        "#cba6f7",
+        "#1e1e2e",
+        "#f38ba8"
+      ]
+    },
+    {
+      "id": "nordic-frost",
+      "name": "Nordic Frost",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Cool blues and frosted grays inspired by the Nord palette.",
+      "file": "nordic-frost.json",
+      "colors": [
+        "#88c0d0",
+        "#2e3440",
+        "#a3be8c"
+      ]
+    },
+    {
+      "id": "solarized-dark",
+      "name": "Solarized Dark",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "The timeless Solarized Dark scheme with ocean-blue accents.",
+      "file": "solarized-dark.json",
+      "colors": [
+        "#268bd2",
+        "#002b36",
+        "#b58900"
+      ]
+    },
+    {
+      "id": "crt-terminal",
+      "name": "CRT Terminal",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Green phosphor monitor vibes with a monospace font and glowing titles.",
+      "file": "crt-terminal.json",
+      "colors": [
+        "#33ff66",
+        "#050a05",
+        "#ffb000"
+      ]
+    },
+    {
+      "id": "ocean-deep",
+      "name": "Ocean Deep",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Deep sea blues with a bright cyan accent and coral highlights.",
+      "file": "ocean-deep.json",
+      "colors": [
+        "#00b4d8",
+        "#0d1b2a",
+        "#ef476f"
+      ]
+    },
+    {
+      "id": "gruvbox-dark",
+      "name": "Gruvbox Dark",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Warm retro groove colors with an orange accent.",
+      "file": "gruvbox-dark.json",
+      "colors": [
+        "#fe8019",
+        "#282828",
+        "#b8bb26"
+      ]
+    },
+    {
+      "id": "synthwave",
+      "name": "Synthwave",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Neon pink on deep purple with glowing titles.",
+      "file": "synthwave.json",
+      "colors": [
+        "#ff2ec4",
+        "#0d0221",
+        "#00ffa3"
+      ]
+    },
+    {
+      "id": "midnight-rose",
+      "name": "Midnight Rose",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Romantic rose-pink accents on a deep plum base.",
+      "file": "midnight-rose.json",
+      "colors": [
+        "#e06080",
+        "#1a0e14",
         "#6ee8a0"
       ]
     },
     {
-      "id": "arctic-frost",
-      "name": "Arctic Frost",
-      "author": "Castiel",
-      "description": "Pale glacial blue over frozen navy.",
-      "file": "arctic-frost.json",
+      "id": "cyber-lime",
+      "name": "Cyber Lime",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Electric neon green for a hacker-terminal aesthetic.",
+      "file": "cyber-lime.json",
       "colors": [
-        "#a8dbff",
-        "#0c1218",
-        "#7ce8b0"
+        "#8cff32",
+        "#0a1208",
+        "#ffe04a"
       ]
     },
     {
-      "id": "midnight-ember",
-      "name": "Midnight Ember",
-      "author": "Castiel",
-      "description": "Warm orange embers glowing in the dark.",
-      "file": "midnight-ember.json",
+      "id": "centurion-gold",
+      "name": "Centurion Gold",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Opulent gold and warm amber — reward for 100 game launches.",
+      "file": "centurion-gold.json",
       "colors": [
-        "#ff8a4c",
-        "#101014",
-        "#63d98e"
+        "#d4af37",
+        "#1a1608",
+        "#7ec850"
+      ],
+      "requires": "veteran-launches"
+    },
+    {
+      "id": "500-club-platinum",
+      "name": "500 Club Platinum",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Cool platinum-silver prestige — reward for 500 hours in a single game.",
+      "file": "500-club-platinum.json",
+      "colors": [
+        "#c0c0d0",
+        "#0f0f13",
+        "#6ee7a0"
+      ],
+      "requires": "five-hundred"
+    },
+    {
+      "id": "marathon-redline",
+      "name": "Marathon Redline",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Blazing red — reward for a single 5+ hour session.",
+      "file": "marathon-redline.json",
+      "colors": [
+        "#ff2d2d",
+        "#1a0a0a",
+        "#5cff7e"
+      ],
+      "requires": "marathon"
+    },
+    {
+      "id": "streak-inferno",
+      "name": "Streak Inferno",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Molten orange fire theme — reward for a 7-day play streak.",
+      "file": "streak-inferno.json",
+      "colors": [
+        "#ff7800",
+        "#140800",
+        "#66ff66"
+      ],
+      "requires": "streak-7"
+    },
+    {
+      "id": "unstoppable-solar",
+      "name": "Unstoppable Solar",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Radiant golden glow — reward for a 30-day play streak.",
+      "file": "unstoppable-solar.json",
+      "colors": [
+        "#ffc832",
+        "#0c0c18",
+        "#6eff8a"
+      ],
+      "requires": "streak-30"
+    },
+    {
+      "id": "completionist-prism",
+      "name": "Completionist Prism",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Ethereal violet prism — reward for 100% completing any game.",
+      "file": "completionist-prism.json",
+      "colors": [
+        "#b478ff",
+        "#0e0e14",
+        "#6eff96"
+      ],
+      "requires": "completionist"
+    },
+    {
+      "id": "aurora-borealis",
+      "name": "Aurora Borealis",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Northern lights green on a deep arctic night.",
+      "file": "aurora-borealis.json",
+      "colors": [
+        "#00ff88",
+        "#0a0f14",
+        "#ffd644"
       ]
     },
     {
-      "id": "vaporwave-pastel",
-      "name": "Vaporwave Pastel",
-      "author": "Castiel",
-      "description": "Dreamy pastel pink and teal nostalgia.",
-      "file": "vaporwave-pastel.json",
+      "id": "volcanic-ash",
+      "name": "Volcanic Ash",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Smoldering ember orange on charred stone.",
+      "file": "volcanic-ash.json",
       "colors": [
-        "#ff9ed9",
-        "#171226",
-        "#8affc6"
+        "#c8783c",
+        "#141210",
+        "#7ec850"
       ]
     },
     {
-      "id": "emerald-canopy",
-      "name": "Emerald Canopy",
-      "author": "Castiel",
-      "description": "A deep forest green with vibrant natural highlights.",
-      "file": "emerald-canopy.json",
+      "id": "chrome-aurora",
+      "name": "Chrome Aurora",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Liquid chrome-blue glow — reward for applying 5 themes.",
+      "file": "chrome-aurora.json",
       "colors": [
-        "#10b981",
-        "#022c22",
-        "#fbbf24"
+        "#64c8ff",
+        "#080c10",
+        "#5cff8a"
+      ],
+      "requires": "theme-collector"
+    },
+    {
+      "id": "sunset-drive",
+      "name": "Sunset Drive",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Warm coastal sunset — coral and dusk pink.",
+      "file": "sunset-drive.json",
+      "colors": [
+        "#ff7864",
+        "#1a0f14",
+        "#6ee8a0"
       ]
     },
     {
-      "id": "cyber-neon",
-      "name": "Cyber Neon",
-      "author": "Castiel",
-      "description": "High-contrast dystopian yellow set against pitch black.",
-      "file": "cyber-neon.json",
+      "id": "deep-forest",
+      "name": "Deep Forest",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Mossy greens on cool forest-floor dark.",
+      "file": "deep-forest.json",
       "colors": [
-        "#facc15",
-        "#09090b",
-        "#f97316"
+        "#6ec88c",
+        "#0c120e",
+        "#e8d066"
       ]
     },
     {
-      "id": "oceanic-abyss",
-      "name": "Oceanic Abyss",
-      "author": "Castiel",
-      "description": "Cool marine blues plunging into a dark sea aesthetic.",
-      "file": "oceanic-abyss.json",
+      "id": "neon-noir",
+      "name": "Neon Noir",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Hot neon pink on midnight blue.",
+      "file": "neon-noir.json",
       "colors": [
-        "#0284c7",
-        "#082f49",
-        "#facc15"
+        "#ff2ec4",
+        "#0b0e14",
+        "#00e5a0"
       ]
     },
     {
-      "id": "solar-flare",
-      "name": "Solar Flare",
-      "author": "Castiel",
-      "description": "Scorching orange and amber illuminating dark mahogany.",
-      "file": "solar-flare.json",
+      "id": "glacier-mint",
+      "name": "Glacier Mint",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Cool mint frost over deep arctic teal.",
+      "file": "glacier-mint.json",
       "colors": [
-        "#f59e0b",
-        "#451a03",
-        "#fbbf24"
+        "#6effe2",
+        "#0a1214",
+        "#e8d066"
       ]
     },
     {
-      "id": "obsidian-void",
-      "name": "Obsidian Void",
+      "id": "castiel-aurora",
+      "name": "Castiel's Aurora",
       "author": "Castiel",
-      "description": "A sleek, monochromatic setup dominated by true black.",
-      "file": "obsidian-void.json",
+      "authorSteamId": "76561199473454186",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Castiel - ethereal purple and gold.",
+      "file": "aurora-borealis.json",
       "colors": [
-        "#e4e4e7",
-        "#000000",
-        "#a3e635"
+        "#9b59b6",
+        "#2c3e50",
+        "#f1c40f"
       ]
     },
     {
-      "id": "electric-cobalt",
-      "name": "Electric Cobalt",
+      "id": "castiel-midnight",
+      "name": "Castiel's Midnight",
+      "author": "Castiel",
+      "authorSteamId": "76561199473454186",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Castiel - deep midnight blue with silver accents.",
+      "file": "glacier-mint.json",
+      "colors": [
+        "#3498db",
+        "#1a252f",
+        "#bdc3c7"
+      ]
+    },
+    {
+      "id": "castiel-sunset",
+      "name": "Castiel's Sunset",
+      "author": "Castiel",
+      "authorSteamId": "76561199473454186",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Castiel - warm sunset oranges and purples.",
+      "file": "sunset-drive.json",
+      "colors": [
+        "#e67e22",
+        "#2c1810",
+        "#9b59b6"
+      ]
+    },
+    {
+      "id": "alex-cyber",
+      "name": "Alex's Cyber",
       "author": "Alex",
-      "description": "Vibrant cobalt blue cutting through a deep navy backdrop.",
-      "file": "electric-cobalt.json",
+      "authorSteamId": "76561199152494033",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Alex - cyber green and neon blue.",
+      "file": "cyber-lime.json",
       "colors": [
-        "#3b82f6",
-        "#1e3a8a",
-        "#fcd34d"
+        "#2ecc71",
+        "#0d1117",
+        "#00d4ff"
       ]
     },
     {
-      "id": "toxic-waste",
-      "name": "Toxic Waste",
+      "id": "alex-forest",
+      "name": "Alex's Forest",
       "author": "Alex",
-      "description": "Hazardous neon green splashed over dark military green.",
-      "file": "toxic-waste.json",
+      "authorSteamId": "76561199152494033",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Alex - deep forest greens and earth tones.",
+      "file": "deep-forest.json",
       "colors": [
-        "#84cc16",
-        "#14532d",
-        "#fef08a"
+        "#27ae60",
+        "#1e272e",
+        "#d4ac0d"
       ]
     },
     {
-      "id": "velvet-rose",
-      "name": "Velvet Rose",
+      "id": "alex-noir",
+      "name": "Alex's Noir",
       "author": "Alex",
-      "description": "A rich, blood-red hue over a muted burgundy shadow.",
-      "file": "velvet-rose.json",
+      "authorSteamId": "76561199152494033",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Alex - film noir black and white with red accents.",
+      "file": "neon-noir.json",
       "colors": [
-        "#e11d48",
-        "#4c0519",
-        "#fb923c"
-      ]
-    },
-    {
-      "id": "autumn-harvest",
-      "name": "Autumn Harvest",
-      "author": "Alex",
-      "description": "Warm bronze and burnt orange perfect for a fall vibe.",
-      "file": "autumn-harvest.json",
-      "colors": [
-        "#d97706",
-        "#78350f",
-        "#f59e0b"
-      ]
-    },
-    {
-      "id": "cosmic-dust",
-      "name": "Cosmic Dust",
-      "author": "Alex",
-      "description": "A striking fuchsia shining over a dark plum nebula.",
-      "file": "cosmic-dust.json",
-      "colors": [
-        "#c026d3",
-        "#4a044e",
-        "#facc15"
+        "#e74c3c",
+        "#0a0a0a",
+        "#ecf0f1"
       ]
     }
   ]
