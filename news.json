@@ -1,27 +1,20 @@
 {
   "changelog": {
     "version": "8.0.1",
-    "title": "What's New in 8.0.0",
+    "title": "What's New in 8.0.1",
     "items": [
-      "SteamLite 8.0.0 Early Release — this is an early build of SteamLite 8.0.0, released for participants who chose to take part in early access",
-      "Early Access Notice — you have chosen to participate in early access for this build, so expect that some features may still be unfinished or unstable",
-      "Bug Fix Waves Coming Next Month — major bug-fix waves are planned for next month as issues are identified and reported",
-      "Bug Reports — please take any bugs or unexpected behaviour with a grain of salt while this early build is being tested",
-      "Theme Maker — create your own themes with live preview, your name as author, and a description; save them to the Community section or export the .json to publish",
-      "Theme Shop now separates Official SteamLite Themes from Community Themes (published to GitHub + themes you create)",
-      "Theme Shop refresh button to reload the catalog",
-      "Community themes from the SteamLite GitHub repository are supported again",
-      "UI Editor (SUE) removed — replaced by the Theme Maker",
-      "New achievement: Theme Author (create your first theme)",
-      "2 new free themes: Neon Noir, Glacier Mint",
-      "10 new community themes are now available in the Theme Shop (by Castiel and Alex)"
+      "SteamLite 8.0.1 is now available with hotfixes for the settings page UI",
+      "Fixed Change Profile button accessibility - moved outside account card for better access",
+      "Fixed username truncation in settings page - usernames now display fully without cutting off",
+      "Improved layout and spacing for profile management controls",
+      "All 8.0.0 features remain intact including the complete UI rework and new feature set"
     ]
   },
   "news": [
     {
-      "title": "SteamLite 8.0.0 Early Build Is Live!",
-      "date": "Monday, August 31",
-      "content": "This is an early build of SteamLite 8.0.0. You have chosen to participate in early access for this build, so please expect bugs, unfinished areas, or unexpected behaviour while testing. Take any bugs with a grain of salt for now. Bug-fix waves are coming next month as we work through issues reported during early access."
+      "title": "SteamLite 8.0.1 Hotfix Available",
+      "date": "Wednesday, September 9",
+      "content": "SteamLite 8.0.1 is now available with hotfixes for the settings page. The Change Profile button has been moved outside the account card for better accessibility, and username truncation has been fixed to display full usernames. All 8.0.0 features including the major UI rework, new theme system, and enhanced profile page remain intact."
     },
     {
       "title": "We Are Hiring!",
@@ -29,9 +22,9 @@
       "content": "Want to help build the future of SteamLite? We are looking to expand the team! Come down to the GitHub Discussions page to get started and find out how you can join the project."
     },
     {
-      "title": "SteamLite 8.0.0 Early Access Is Here!",
-      "date": "Monday, August 31",
-      "content": "SteamLite 8.0.0 is now available as an early-access build. You have chosen to participate in early access for this build, which means bugs and rough edges are to be expected. Please take any bugs with a grain of salt while the build is being tested. Bug-fix waves are coming next month, with fixes and improvements based on issues found during early access."
+      "title": "SteamLite 8.0.0 Major Update",
+      "date": "Saturday, September 6",
+      "content": "SteamLite 8.0.0 brought a complete UI rework with modern profile pages, enhanced collections system, SteamID-based theme authorship, 25 themes, 24 achievements, developer mode, and many more improvements. Check out the full changelog for details."
     }
   ]
 }
