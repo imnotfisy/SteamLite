@@ -1,30 +1,26 @@
 {
   "changelog": {
-    "version": "8.1.1",
-    "title": "Bug Fixes and Improvements",
+    "version": "8.1.2",
+    "title": "More Themes and Achievements",
     "items": [
-      "Fixed achievement images not displaying in game modal",
-      "Fixed play button infinite loading loop by improving exe tracking fallback",
-      "Fixed UI clipping between friends-in-common and account stats on profile banner",
-      "Fixed status indicator visibility on profile pictures",
-      "Fixed Change Profile button position and name cutoff",
-      "Fixed Add Non-Steam Game button hover color to use user's accent color",
-      "Added dashboard widget size customization",
-      "Added SteamLite exclusive achievements with unlock notifications",
-      "Reworked What's New screen with modern hero section and styling",
-      "Made Add Non-Steam Game button smaller and sleeker"
+      "Fixed dashboard widget size persistence",
+      "Fixed profile banner statistics positioning (moved to top)",
+      "Added 5 new themes: Cotton Candy, Desert Dusk, Emerald Dream, Lavender Haze, Obsidian Fire",
+      "Added 5 new achievements: Dedicated Gamer, Game Master, Session Pro, Streak Legend, Theme Enthusiast",
+      "Improved profile banner layout",
+      "Enhanced dashboard customization"
     ]
   },
   "news": [
     {
+      "title": "SteamLite 8.1.2 Bug Fix Release (Wave 2)",
+      "date": "September 15, 2026",
+      "content": "SteamLite 8.1.2 brings 5 new themes, 5 new achievements, and fixes for dashboard widget persistence and profile banner layout. Enjoy the new visual options and continue your achievement journey!"
+    },
+    {
       "title": "SteamLite 8.1.1 Bug Fix Release",
       "date": "September 10, 2026",
       "content": "SteamLite 8.1.1 focuses on fixing reported issues and adding quality-of-life improvements including achievement image display, UI fixes, dashboard customization, and modernized What's New screen."
-    },
-    {
-      "title": "We Are Hiring!",
-      "date": "August 31, 2026",
-      "content": "Join the SteamLite development team! We're looking for passionate developers to help us build the future of Steam client alternatives."
     }
   ]
 }
