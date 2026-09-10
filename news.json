@@ -1,6 +1,6 @@
 {
   "changelog": {
-    "version": "26.1.1",
+    "version": "8.1.1",
     "title": "Bug Fixes and Improvements",
     "items": [
       "Fixed achievement images not displaying in game modal",
