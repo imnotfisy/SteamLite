@@ -4,7 +4,7 @@ A modern, feature-rich Steam library client alternative built with Electron.
 
 ![SteamLite Version](https://img.shields.io/badge/version-8.1.2-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
-![License](https://img.shields.io/badge/license-ISC-green)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Features
 
