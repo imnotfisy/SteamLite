@@ -13,6 +13,11 @@
   },
   "news": [
     {
+      "title": "New UI Redesign: Meet SteamLite 9.0.0 Mango",
+      "date": "September 25, 2026",
+      "content": "Get ready for a completely new look. SteamLite 9.0.0 Mango brings a massive UI redesign."
+    },
+    {
       "title": "SteamLite 8.1.2 Bug Fix Release (Wave 2)",
       "date": "September 15, 2026",
       "content": "SteamLite 8.1.2 brings 5 new themes, 5 new achievements, and fixes for dashboard widget persistence and profile banner layout. Enjoy the new visual options and continue your achievement journey!"
