@@ -1,24 +1,33 @@
 {
   "changelog": {
-    "version": "8.1.2",
-    "title": "More Themes and Achievements",
+    "version": "8.1.3",
+    "title": "Bug Fix & Security Release",
     "items": [
-      "Fixed dashboard widget size persistence",
-      "Fixed profile banner statistics positioning (moved to top)",
-      "Added 5 new themes: Cotton Candy, Desert Dusk, Emerald Dream, Lavender Haze, Obsidian Fire",
-      "Added 5 new achievements: Dedicated Gamer, Game Master, Session Pro, Streak Legend, Theme Enthusiast",
-      "Improved profile banner layout",
-      "Enhanced dashboard customization"
+      "Fixed streak-recovery expiring on the wrong day around month/day boundaries (e.g. Sept→Oct)",
+      "Fixed \"Max common friends shown\" setting not actually saving",
+      "Fixed duplicate click/event handlers piling up each time a game modal is opened",
+      "Fixed a UI Editor drag-and-drop memory leak",
+      "Fixed the SteamLite achievement unlock toast re-firing every time you reopened a game's tab",
+      "Hardened game news rendering against malformed Steam announcement content",
+      "Fixed Dashboard layout edits (widget sizes, section order) not persisting across restarts or page changes",
+      "Fixed the background color resetting after applying a theme and restarting the app",
+      "Fixed the Play button getting stuck on Loading and never showing the red Stop button on PCs without wmic.exe (newer Windows 11 builds) - this also fixes Stop not actually closing the game on those PCs",
+      "Fixed a sideways scrollbar flashing when opening the game modal's ⋯ menu",
+      "Fixed the game modal and Settings menu not fading in/out when opened or closed",
+      "Removed the redundant News entry from the game modal's ⋯ menu",
+      "Optimised animations",
+      "Dropped the \"Mango\" codename from the app",
+      "Installer now lets you choose an install location and which shortcuts to create"
     ]
   },
   "news": [
     {
-      "title": "New UI Redesign: Meet SteamLite 9.0.0 Mango",
-      "date": "September 25, 2026",
-      "content": "Get ready for a completely new look. SteamLite 9.0.0 Mango brings a massive UI redesign."
+      "title": "SteamLite 8.1.3 Bug Fix & Security Release",
+      "date": "October 1, 2026",
+      "content": "SteamLite 8.1.3 is a focused bug-fix release: it corrects a streak-recovery date bug, fixes the Max Common Friends setting not saving, cleans up two event-listener memory leaks (game modal and UI Editor dragging), stops a duplicate achievement-unlock toast, hardens news rendering against malformed content, fixes Dashboard layout edits and theme background colors not persisting, fixes the Play/Stop button never detecting a running game on PCs without wmic.exe, cleans up the game modal's ⋯ menu (scrollbar flash, redundant News entry), restores proper fade in/out for the game modal and Settings menu, and optimises animations. The app also drops its old codename, and the installer now offers real options (install location, shortcuts, launch-after-install)."
     },
     {
-      "title": "SteamLite 8.1.2 Bug Fix Release (Wave 2)",
+      "title": "SteamLite 8.1.2 Released",
       "date": "September 15, 2026",
       "content": "SteamLite 8.1.2 brings 5 new themes, 5 new achievements, and fixes for dashboard widget persistence and profile banner layout. Enjoy the new visual options and continue your achievement journey!"
     },
