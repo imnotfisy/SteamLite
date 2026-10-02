@@ -2,7 +2,7 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-8.3.5-blue)
+![SteamLite Version](https://img.shields.io/badge/version-8.3.6-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -54,7 +54,7 @@ A modern, feature-rich Steam library client alternative built with Electron.
 
 ### Windows
 
-Download the latest installer from the [Releases](https://github.com/imnotfisy/SteamLite/releases) section and run `SteamLite.Setup.<version>.exe` (for example `SteamLite.Setup.8.3.5.exe`).
+Download the latest installer from the [Releases](https://github.com/imnotfisy/SteamLite/releases) section and run `SteamLite.Setup.<version>.exe` (for example `SteamLite.Setup.8.3.6.exe`).
 
 The installer lets you choose an install location and shortcuts, offers to upgrade an existing install, and can launch SteamLite when it finishes. Silent installs are supported with the `/S` switch.
 
