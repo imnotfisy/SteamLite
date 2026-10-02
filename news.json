@@ -1,36 +1,32 @@
 {
   "changelog": {
-    "version": "8.2.0",
-    "title": "Custom Banners & a New What's New",
+    "version": "8.2.1",
+    "title": "Update Notification Fix",
     "items": [
-      "Added an editable profile banner: pick your own image or GIF, adjust blur and dimming, or reset to default",
-      "Added a reworked What's New screen with sections and a previous-releases list",
-      "Fixed the in-app updater not opening the installer after SteamLite closes",
-      "The banner image picker now accepts GIF and WebP files"
+      "Fixed the update notification showing twice (updater page and banner at the same time)",
+      "Removed the old small update banner - the updater page is now the only update UI"
     ],
     "sections": [
       {
-        "type": "new",
-        "items": [
-          "Editable profile banner: hover your banner and click Edit Banner to use your own image or GIF, drag it into position, zoom, adjust blur and dimming with a live preview, or reset to the default",
-          "Reworked What's New screen with a summary header, categorized sections, and a collapsible list of previous releases (reopen it any time from Ctrl+K)"
-        ]
-      },
-      {
         "type": "fixed",
         "items": [
-          "Fixed the in-app updater not opening the installer after SteamLite closes - it now closes fully, then opens the setup wizard (with the admin prompt if needed)"
+          "Fixed the update notification showing twice - the updater page and the old small banner appeared at the same time"
         ]
       },
       {
         "type": "improved",
         "items": [
-          "The banner image picker now accepts GIF and WebP files as well as JPG and PNG"
+          "Removed the old small update banner entirely - the updater page is now the single place updates are shown"
         ]
       }
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.2.1 Released",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.2.1 fixes the update notification appearing twice when an update is found, by removing the old small banner entirely. The new updater page is now the single place updates are shown."
+    },
     {
       "title": "SteamLite 8.2.0 Released",
       "date": "October 2, 2026",
