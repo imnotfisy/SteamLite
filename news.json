@@ -1,44 +1,35 @@
 {
   "changelog": {
-    "version": "8.3.5",
-    "title": "Setup, Compare & Appearance",
+    "version": "8.3.6",
+    "title": "Updates & Covers Fix",
     "items": [
-      "Added a first-time setup that guides new users through look, startup options and shortcuts - replay it any time from Ctrl+K",
-      "Added Compare on friend profiles: a head-to-head of games owned, playtime and every game you share",
-      "Added a Game News widget to the dashboard with the latest announcements from the games you play",
-      "Added Appearance settings: card styles (including a new Cover only style), card size and spacing, fonts and UI scale",
-      "Added search to achievements (game Achievements tab and the SteamLite Achievements window), and achievements now slide and fade into place",
-      "Added Potato Mode for older PCs and integrated graphics: no blur or background effects and fewer background checks",
-      "Fixed game tracking starting a new process scan before the last one finished, which piled up PowerShell processes on slow PCs"
+      "Fixed updates not being detected on some PCs: the app now holds a found update until the window is ready, retries if the first check fails, and re-checks every 4 hours",
+      "Fixed missing cover images on many newer games by finding their art through Steam's store - a long-standing issue that goes back to at least v1.3.0",
+      "A failed manual update check now says why, and the update check falls back to the GitHub API if the main source is blocked"
     ],
     "sections": [
       {
-        "type": "new",
+        "type": "fixed",
         "items": [
-          "First-time setup: pick an accent color and card style, choose startup and notification options and learn the key shortcuts. Every step is optional, and Ctrl+K -> \"Run Setup Again\" replays it",
-          "Compare with a friend: games owned, total and average playtime, most played game, every game you share with who has played it more, plus games they love that you don't own",
-          "Game News widget on the dashboard: the latest announcements from the games you play most, with refresh, resize and reorder support",
-          "Appearance settings: Standard, Wide, Compact and Cover only card styles, adjustable card size and spacing, custom fonts (including any font installed on your PC) and UI scale from 80% to 140%",
-          "Search achievements by name or description, with a live match count - and achievement lists now slide and fade into place one after another",
-          "Potato Mode (Advanced Settings): turns off blurs, looping animations, background glow and video backgrounds, skips drawing off-screen cards and checks for games and friends less often"
+          "Updates were sometimes never detected: the one-time \"update available\" message could be sent before the window finished loading on slower PCs and get lost. SteamLite now holds it until the window is ready, retries a few times if the first check fails, and re-checks every 4 hours",
+          "Newer games showed no cover image - a long-standing issue that goes back to at least v1.3.0. Steam stores their art at a different address, so SteamLite now finds the real image through Steam's store and remembers games that have none"
         ]
       },
       {
         "type": "improved",
         "items": [
-          "Cover art loads lazily, so big libraries open faster",
-          "Hovering a game card remembers its glow color instead of recalculating it"
-        ]
-      },
-      {
-        "type": "fixed",
-        "items": [
-          "Game tracking no longer starts a new process scan while the previous one is still running, which piled up PowerShell processes on slow PCs"
+          "A failed manual update check now says why, and falls back to the GitHub API if raw.githubusercontent.com is blocked on your network",
+          "The cover image loader now only accepts game IDs, never a file path"
         ]
       }
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.3.6 Released",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.3.6 fixes updates not being detected on some PCs (the app now waits until its window is ready, retries, and re-checks every 4 hours), and fixes missing cover images on many newer games by finding their art through Steam's store - a long-standing issue that goes back to at least v1.3.0. If updates have stopped being detected on your PC, install 8.3.6 manually once - updates from here on will work in-app."
+    },
     {
       "title": "SteamLite 8.3.5 Released",
       "date": "October 2, 2026",
