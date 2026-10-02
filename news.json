@@ -1,30 +1,53 @@
 {
   "changelog": {
-    "version": "8.3.6",
-    "title": "Updates & Covers Fix",
+    "version": "8.4.0",
+    "title": "Halloween, Space & Sound",
     "items": [
-      "Fixed updates not being detected on some PCs: the app now holds a found update until the window is ready, retries if the first check fails, and re-checks every 4 hours",
-      "Fixed missing cover images on many newer games by finding their art through Steam's store - a long-standing issue that goes back to at least v1.3.0",
-      "A failed manual update check now says why, and the update check falls back to the GitHub API if the main source is blocked"
+      "Added a Halloween event (October 1 - November 1): 8 Halloween achievements, the Haunted Harvest theme for unlocking all of them (yours forever once earned), a dashboard banner with a countdown and a theme preview, and a Halloween section in Achievements - all only available until November 1",
+      "New sound design: 13 distinct sounds in three packs - Glass (new), Classic and Arcade - with a Preview button in Advanced Settings",
+      "Added size on disk to game cards, sorting by size, a Disk Usage dashboard widget and a Free Up Space tool that finds big games you have not played in months",
+      "Added drag and drop for programs and shortcuts, plus Import from Start menu, to add non-Steam games",
+      "Added Undo for hiding games, removing games from collections, deleting collections and removing non-Steam games",
+      "Added arrow-key navigation in the library, and rebindable global hotkeys",
+      "Added Quiet Hours, a switch to quit instead of hiding to the tray, automatic update checks you can turn off, and Skip this version",
+      "Added quick links (Steam Store, SteamDB, PCGamingWiki, HowLongToBeat) to the game right-click menu",
+      "Fixed \"Quit SteamLite\" in the command palette only hiding the window"
     ],
     "sections": [
       {
-        "type": "fixed",
+        "type": "new",
         "items": [
-          "Updates were sometimes never detected: the one-time \"update available\" message could be sent before the window finished loading on slower PCs and get lost. SteamLite now holds it until the window is ready, retries a few times if the first check fails, and re-checks every 4 hours",
-          "Newer games showed no cover image - a long-standing issue that goes back to at least v1.3.0. Steam stores their art at a different address, so SteamLite now finds the real image through Steam's store and remembers games that have none"
+          "Halloween event (October 1 - November 1, every year): 8 spooky achievements that count play during the event (Trick or Treat, Witching Hour, Night Stalker, Vampire Hours, Tangled Web, Haunted Marathon, Graveyard Shift and Spooky Season Survivor), a dashboard banner with a countdown and a Preview theme button, and the Haunted Harvest theme for unlocking all of them (yours forever once earned) - all only available until November 1",
+          "New sound design: 13 distinct sounds (clicks, windows opening and closing, switches, notifications, success and error, achievements, streaks, game launch and stop, favorites) in three packs - Glass (new), Classic (the original) and Arcade",
+          "Disk tools: size on disk on every installed game, sort by size, a Disk Usage dashboard widget with free space per drive, and Free Up Space, which lists the biggest games and flags ones you have not touched in months",
+          "Drag a program (.exe) or shortcut (.lnk) onto the window to add it as a non-Steam game, or import several from your Start menu",
+          "Undo button after hiding games, removing a game from a collection, deleting a collection or removing a non-Steam game",
+          "Move around the library with the arrow keys (Enter opens, F favorites), and change the Quick Launch, Command Palette and Stop Game hotkeys",
+          "Quiet Hours for notification sounds and friend pop-ups, a switch to quit when you close the window, automatic update checks you can turn off, and Skip this version",
+          "Right-click a game to open its Steam Store page, SteamDB, PCGamingWiki or HowLongToBeat"
         ]
       },
       {
         "type": "improved",
         "items": [
-          "A failed manual update check now says why, and falls back to the GitHub API if raw.githubusercontent.com is blocked on your network",
-          "The cover image loader now only accepts game IDs, never a file path"
+          "Sounds that happen close together are no longer dropped, and toasts sound like what they say",
+          "Dropping a file onto the window no longer tries to open it inside SteamLite"
+        ]
+      },
+      {
+        "type": "fixed",
+        "items": [
+          "\"Quit SteamLite\" in the command palette now really quits instead of hiding the window to the tray"
         ]
       }
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.4.0 Released - Halloween Event",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.4.0 brings the Halloween event (October 1 - November 1): 8 spooky achievements, a new Haunted Harvest theme to unlock, and a countdown banner on your dashboard - all only available until November 1. It is also a big quality-of-life update: a brand new sound design with three sound packs, disk usage tools that show how much space each game takes and help you free some up, drag and drop and Start menu import for non-Steam games, Undo buttons, arrow-key navigation in the library, rebindable global hotkeys, Quiet Hours, a switch to quit instead of hiding to the tray, Skip this version for updates, and quick links to SteamDB, PCGamingWiki and more."
+    },
     {
       "title": "SteamLite 8.3.6 Released",
       "date": "October 2, 2026",
