@@ -1,31 +1,38 @@
 {
   "changelog": {
-    "version": "8.2.1",
-    "title": "Update Notification Fix",
+    "version": "8.2.2",
+    "title": "Updater Fix",
     "items": [
-      "Fixed the update notification showing twice (updater page and banner at the same time)",
-      "Removed the old small update banner - the updater page is now the only update UI"
+      "Fixed Restart & Install closing SteamLite and then never opening the installer",
+      "Removed the old small update banner - the updater page is now the only update UI",
+      "The installer now closes any leftover SteamLite process before upgrading"
     ],
     "sections": [
       {
         "type": "fixed",
         "items": [
-          "Fixed the update notification showing twice - the updater page and the old small banner appeared at the same time"
+          "Fixed Restart & Install closing SteamLite and then doing nothing - the installer now opens a few seconds after SteamLite closes (with the admin prompt if needed)"
         ]
       },
       {
         "type": "improved",
         "items": [
-          "Removed the old small update banner entirely - the updater page is now the single place updates are shown"
+          "Removed the old small update banner entirely - the updater page is now the single place updates are shown",
+          "The installer now closes any leftover SteamLite process before upgrading, so it can't fail with file in use"
         ]
       }
     ]
   },
   "news": [
     {
+      "title": "SteamLite 8.2.2 Released",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.2.2 fixes Restart & Install closing the app without ever opening the installer, removes the old small update banner so the new updater page is the only update UI, and makes the installer close any leftover SteamLite process before upgrading. If you're on 8.2.0 or 8.2.1, install 8.2.2 manually once - updates from 8.2.2 onward will work in-app."
+    },
+    {
       "title": "SteamLite 8.2.1 Released",
       "date": "October 2, 2026",
-      "content": "SteamLite 8.2.1 fixes the update notification appearing twice when an update is found, by removing the old small banner entirely. The new updater page is now the single place updates are shown."
+      "content": "SteamLite 8.2.1 fixes the update notification appearing twice when an update is found (the updater page and the small banner showed at the same time)."
     },
     {
       "title": "SteamLite 8.2.0 Released",
@@ -40,17 +47,4 @@
     {
       "title": "SteamLite 8.1.3 Bug Fix & Security Release",
       "date": "October 1, 2026",
-      "content": "SteamLite 8.1.3 is a focused bug-fix release: it corrects a streak-recovery date bug, fixes the Max Common Friends setting not saving, cleans up two event-listener memory leaks (game modal and UI Editor dragging), stops a duplicate achievement-unlock toast, hardens news rendering against malformed content, fixes Dashboard layout edits and theme background colors not persisting, fixes the Play/Stop button never detecting a running game on PCs without wmic.exe, cleans up the game modal's ⋯ menu (scrollbar flash, redundant News entry), restores proper fade in/out for the game modal and Settings menu, and optimises animations. The app also drops its old codename, and the installer now offers real options (install location, shortcuts, launch-after-install)."
-    },
-    {
-      "title": "SteamLite 8.1.2 Released",
-      "date": "September 15, 2026",
-      "content": "SteamLite 8.1.2 brings 5 new themes, 5 new achievements, and fixes for dashboard widget persistence and profile banner layout. Enjoy the new visual options and continue your achievement journey!"
-    },
-    {
-      "title": "SteamLite 8.1.1 Bug Fix Release",
-      "date": "September 10, 2026",
-      "content": "SteamLite 8.1.1 focuses on fixing reported issues and adding quality-of-life improvements including achievement image display, UI fixes, dashboard customization, and modernized What's New screen."
-    }
-  ]
-}
+      "content": "SteamLite 8.1.3 is a focused bug-fix release: it corrects a streak-recovery date bug, fixes the Max Common Friends setting not saving, cleans up two event-listener memory leaks (game modal and UI Editor dragging), stops a duplicate achievement-unlock toast, hardens news rendering against malformed content, fixes Dashboard layout edits and theme background colors not persisting, fixes the Play/Stop button never detecting a running game on PCs without wmic.exe, cleans up the game modal's ⋯ menu (scrollbar flash, redundant News entry), restores proper fade in/out for the game modal and Settings menu, and optimises animations. The app also drops its old codename, and the installer now offers real options (install location, shortcuts, lau
