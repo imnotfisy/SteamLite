@@ -2,7 +2,7 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-8.3.6-blue)
+![SteamLite Version](https://img.shields.io/badge/version-8.4.0-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -16,7 +16,10 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **Multi-Select** - Pick several games at once (`Ctrl+Shift+S`) to add them to a collection, favorite them, or hide them
 - **Smarter Play Next** - Pick a game from any installed game, unplayed games, your favorites, or the current collection (never the same game twice in a row)
 - **Card Styles** - Standard, Wide, Compact list or Cover only, with adjustable card size and spacing
-- **Non-Steam Games** - Add and manage non-Steam games
+- **Non-Steam Games** - Add and manage non-Steam games. Drag a program (.exe) or shortcut (.lnk) onto the window, or import programs from your Start menu
+- **Keyboard Navigation** - Move around the library with the arrow keys, Enter to open a game and `F` to favorite it
+- **Undo** - Hiding games, removing a game from a collection, deleting a collection and removing a non-Steam game can all be undone from the toast that appears
+- **Quick Links** - Right-click a game to open its Steam Store page, SteamDB, PCGamingWiki or HowLongToBeat
 - **Game Notes** - Add custom notes to any game
 
 ### Profile & Friends
@@ -31,12 +34,15 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **Dashboard** - Playtime for the last 30 days, top games, recent sessions, and rearrangeable, resizable widgets
 - **This Week** - A Monday-to-Sunday playtime chart with a weekly goal you can set, plus a nudge for games gathering dust
 - **Game News** - A feed of the latest announcements from the games you play most
+- **Disk Usage** - See how much space your installed games use, free space on every Steam library drive, and your biggest games. Sort the library by size on disk
+- **Free Up Space** - Lists every installed game by size and flags big games you have not played in months, so you know what is worth uninstalling
 - **Session History** - Per-game session count, average, longest and your latest sessions
 - **Achievement Tracking** - Steam achievements with icons and progress, with search and animated lists
 - **Play Streaks** - Track consecutive days of play with a recovery system
 - **Telemetry** - Track playtime, sessions and launch history
 
 ### Customization
+- **Seasonal Events** - A Halloween event (October 1 - November 1) with 8 spooky achievements, a countdown banner on the dashboard (with a Preview theme button) and the Haunted Harvest theme as a reward
 - **Theme Shop** - Apply bundled themes or create your own with the Theme Maker
 - **Appearance** - Card style, card size and spacing, fonts (including any font installed on your PC) and UI scale from 80% to 140%
 - **SteamLite Achievements** - Unlock exclusive achievements and rewards
@@ -47,6 +53,11 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **Settings Backup & Restore** - Export your preferences, collections, favorites, friend nicknames and playtime history to a file. Your API key and login are never included
 - **Start with Windows / Start Minimized** - Launch with Windows, optionally straight to the tray
 - **Command Palette** - Jump anywhere, launch games and run actions with `Ctrl+K`
+- **Sound Design** - 13 distinct UI sounds in three packs (Glass, Classic, Arcade), with a Preview button
+- **Quiet Hours** - Mute notification sounds and friend pop-ups on a schedule
+- **Rebindable Hotkeys** - Change the global shortcuts for Quick Launch, the Command Palette and Stop Game
+- **Close Behaviour** - Choose whether closing the window hides SteamLite to the tray or quits it
+- **Update Control** - Skip a version you do not want, or turn automatic update checks off
 - **Discord RPC** - Display your Steam activity in Discord
 - **Built-in Updater** - Update available, download and *Restart & Install* from inside the app
 
@@ -93,6 +104,11 @@ Access settings via the gear icon in the top-right corner. Available options:
 - **Potato Mode** - Lightweight mode for weak PCs
 - **Reduce Animations**
 - **Notification Sounds, Duration and Stack Size**
+- **Sound Pack** - Glass (default), Classic or Arcade, with a Preview button
+- **Quiet Hours** - Mute notification sounds and friend pop-ups between two times
+- **Keep Running in Tray When Closed** - Turn off to make the close button quit SteamLite
+- **Check for Updates Automatically**
+- **Global Hotkeys** - Rebind Quick Launch, the Command Palette and Stop Game
 - **Max Friends in Common Display**
 - **Backup & Restore** - Export and import your settings
 
@@ -123,6 +139,21 @@ Some themes are unlocked by completing SteamLite achievements:
 - **Unstoppable Solar** - Reach a 30-day play streak
 - **Completionist Prism** - 100% complete any game
 - **Chrome Aurora** - Apply 5 themes from the Theme Shop
+
+### Halloween Event
+
+Every year from October 1 to November 1, SteamLite runs a Halloween event. A banner on the dashboard shows the countdown and your progress, and the Achievements window has a Halloween section at the top. Event achievements, and the theme they unlock, are **limited-time**: they can only be earned until November 1, and only count play during the event. Once earned they stay unlocked.
+
+You can **preview** the Haunted Harvest theme from the dashboard banner before unlocking it. Nothing is saved, and exiting (or pressing `Esc`) puts your own theme back.
+
+- **Trick or Treat** - Play a game on Halloween (October 31)
+- **Witching Hour** - Start a session between 3:00 and 4:00 AM
+- **Night Stalker** - Start 5 sessions after 10 PM
+- **Vampire Hours** - Play on 7 different days
+- **Tangled Web** - Play 7 different games
+- **Haunted Marathon** - Play a single session of 3 hours or more
+- **Graveyard Shift** - Play 13 hours during the event
+- **Spooky Season Survivor** - Unlock every other Halloween achievement. Unlocks the **Haunted Harvest** theme (yours forever) and rewards 5 streak restores
 
 ### Custom Themes
 
@@ -195,15 +226,17 @@ Press `Ctrl + /` in the app to see this list.
 
 | Shortcut | Action |
 | --- | --- |
-| `Ctrl/Cmd + K` | Command palette |
-| `Ctrl/Cmd + Alt + G` | Quick launch |
-| `Ctrl/Cmd + Alt + X` | Stop the running game |
+| `Ctrl/Cmd + K` | Command palette (rebindable) |
+| `Ctrl/Cmd + Alt + G` | Quick launch (rebindable) |
+| `Ctrl/Cmd + Alt + X` | Stop the running game (rebindable) |
 | `Ctrl + 1` / `2` / `3` | Home / Library / Favorites |
 | `Ctrl + ,` | Settings |
 | `Ctrl + F` | Search your library |
 | `Ctrl + Shift + F` | Search friends |
 | `Ctrl + Shift + S` | Select multiple games |
 | `F5` | Refresh library |
+| Arrow keys | Move between games in the library |
+| `Enter` / `F` | Open / favorite the highlighted game |
 | `Esc` | Close the top window or panel |
 | `Ctrl + /` | Show all shortcuts |
 
@@ -220,11 +253,13 @@ SteamLite supports multiple profiles:
 
 Add non-Steam games to your library:
 
-1. Click the "Add Non-Steam Game" button in the library
+1. Click the "Add Non-Steam Game" button in the library, **or drag a program (.exe) or a shortcut (.lnk) onto the window**
 2. Enter the game name
 3. Select the game executable
 4. (Optional) Add a custom cover image
 5. Launch and track playtime like Steam games
+
+To add several at once, use **Import from Start menu** in the same window (or `Ctrl+K`, then *Import Games from Start Menu*). Steam games, installers and Windows tools are left out.
 
 ## Game Notes
 
