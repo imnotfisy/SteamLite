@@ -1,29 +1,60 @@
 {
   "changelog": {
-    "version": "8.2.2",
-    "title": "Updater Fix",
+    "version": "8.3.0",
+    "title": "Profiles, Friends & Library Upgrade",
     "items": [
-      "Fixed Restart & Install closing SteamLite and then never opening the installer",
-      "Removed the old small update banner - the updater page is now the only update UI",
-      "The installer now closes any leftover SteamLite process before upgrading"
+      "Added banner gradients and solid colors, plus a new Edit Profile window: tagline, 5-game showcase, avatar frames and a per-profile accent color",
+      "Added badges (your achievements and streak) to your profile",
+      "Added pinning, nicknames, private notes, hide and mute for friends, plus friends search and sorting",
+      "Friend notifications now show their profile picture, and pinned friends notify when they come online",
+      "Added smart collections: Recently Played, Unplayed Backlog and Most Played",
+      "Added multi-select to add many games to a collection, favorite them, or hide them at once",
+      "Play Next can now pick from unplayed games, favorites or the current collection",
+      "Your library sort order and filters are now remembered",
+      "Added a This Week widget with a weekly playtime goal, and per-game session history",
+      "Added settings backup and restore, Start with Windows, Start minimized to tray, and keyboard shortcuts",
+      "Fixed saving Settings discarding friend nicknames and profile customisation until the next restart"
     ],
     "sections": [
       {
-        "type": "fixed",
+        "type": "new",
         "items": [
-          "Fixed Restart & Install closing SteamLite and then doing nothing - the installer now opens a few seconds after SteamLite closes (with the admin prompt if needed)"
+          "Banner styles: use an image or GIF, a two-color gradient, or a solid color",
+          "Edit Profile: set a tagline, showcase up to 5 favourite games, pick an avatar frame (Glow, Ring, Pulse, Rainbow) and a custom accent color just for your profile",
+          "Profile badges: your unlocked SteamLite achievements and current play streak",
+          "Pin friends to the top of your list, give them nicknames, and keep private notes only you can see",
+          "Search and sort your friends by status, A-Z or last online; hide or mute friends you don't want notifications from",
+          "Friend notifications now show their profile picture, and friends you've pinned notify you when they come online",
+          "Tidier friend profiles: Friends in Common now sits on the banner and the action buttons have their own row, so the name always sits beside the profile picture",
+          "Smart collections - Recently Played, Unplayed Backlog and Most Played - that keep themselves up to date",
+          "Multi-select (Ctrl+Shift+S): pick several games and add them to a collection, favorite them, or hide them in one go",
+          "Smarter Play Next: choose between any installed game, unplayed games, your favorites or the current collection",
+          "This Week widget on the dashboard with a playtime chart and a weekly goal, plus a nudge for games gathering dust",
+          "Session history in each game's window: session count, average, longest and your latest five",
+          "Settings backup and restore, Start with Windows, Start minimized to tray, and a full set of keyboard shortcuts (Ctrl+/ shows them)"
         ]
       },
       {
         "type": "improved",
         "items": [
-          "Removed the old small update banner entirely - the updater page is now the single place updates are shown",
-          "The installer now closes any leftover SteamLite process before upgrading, so it can't fail with file in use"
+          "Your library sort order and filters are now remembered between launches"
+        ]
+      },
+      {
+        "type": "fixed",
+        "items": [
+          "Fixed saving Settings replacing the in-app copy of your configuration, which would have discarded friend nicknames and profile customisation until the next restart",
+          "The profile editor ignores showcase games that are no longer in your library"
         ]
       }
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.3.0 Released",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.3.0 is a big profile, friends and library update: banner gradients, an Edit Profile window with a tagline, game showcase, avatar frames and badges; pinned friends with nicknames, notes, search and sorting; friend notifications with profile pictures; smart collections, multi-select and a smarter Play Next; a weekly playtime goal and per-game session history; plus settings backup, start-with-Windows and keyboard shortcuts."
+    },
     {
       "title": "SteamLite 8.2.2 Released",
       "date": "October 2, 2026",
