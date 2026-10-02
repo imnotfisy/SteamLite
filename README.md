@@ -2,32 +2,61 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-8.1.2-blue)
+![SteamLite Version](https://img.shields.io/badge/version-8.3.5-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Features
 
+### Library
 - **Beautiful UI** - Modern glassmorphism design with customizable themes and accent colors
-- **Game Library Management** - View, filter, and organize your Steam games
+- **Game Library Management** - View, filter, sort and organize your Steam games. Your sort order and filters are remembered between launches
 - **Custom Collections** - Create and manage game collections
-- **Dashboard** - Track playtime statistics, recent sessions, and game history
-- **Achievement Tracking** - View Steam achievements with icons and progress
-- **News & Updates** - Built-in news feed and changelog viewer
-- **Theme Shop** - Apply bundled themes or create your own with the Theme Maker
-- **SteamLite Achievements** - Unlock exclusive achievements and rewards
-- **Play Streaks** - Track consecutive days of play with recovery system
-- **Profile System** - Multiple profile support with easy switching
-- **Discord RPC** - Display your Steam activity in Discord
+- **Smart Collections** - *Recently Played*, *Unplayed Backlog* and *Most Played* build and update themselves
+- **Multi-Select** - Pick several games at once (`Ctrl+Shift+S`) to add them to a collection, favorite them, or hide them
+- **Smarter Play Next** - Pick a game from any installed game, unplayed games, your favorites, or the current collection (never the same game twice in a row)
+- **Card Styles** - Standard, Wide, Compact list or Cover only, with adjustable card size and spacing
 - **Non-Steam Games** - Add and manage non-Steam games
 - **Game Notes** - Add custom notes to any game
-- **Telemetry** - Track playtime, sessions, and launch history
+
+### Profile & Friends
+- **Profile Editor** - Tagline, a 5-game showcase, avatar frames (Glow, Ring, Pulse, Rainbow) and a per-profile accent color
+- **Profile Banner** - Use any image or GIF (with drag-to-position, zoom, blur and dim), a two-color gradient, or a solid color
+- **Badges** - Your unlocked SteamLite achievements and play streak, shown on your profile
+- **Friends Tools** - Pin friends to the top, give them nicknames, keep private notes, hide or mute them, and search or sort your list by status, A-Z or last online
+- **Compare with a Friend** - A head-to-head of games owned, total and average playtime, most played game and every game you share, plus games they love that you don't own
+- **Friend Notifications** - Notifications show the friend's profile picture, and pinned friends notify you when they come online
+
+### Dashboard & Stats
+- **Dashboard** - Playtime for the last 30 days, top games, recent sessions, and rearrangeable, resizable widgets
+- **This Week** - A Monday-to-Sunday playtime chart with a weekly goal you can set, plus a nudge for games gathering dust
+- **Game News** - A feed of the latest announcements from the games you play most
+- **Session History** - Per-game session count, average, longest and your latest sessions
+- **Achievement Tracking** - Steam achievements with icons and progress, with search and animated lists
+- **Play Streaks** - Track consecutive days of play with a recovery system
+- **Telemetry** - Track playtime, sessions and launch history
+
+### Customization
+- **Theme Shop** - Apply bundled themes or create your own with the Theme Maker
+- **Appearance** - Card style, card size and spacing, fonts (including any font installed on your PC) and UI scale from 80% to 140%
+- **SteamLite Achievements** - Unlock exclusive achievements and rewards
+
+### Quality of Life
+- **First-Time Setup** - A short guided setup on first run (accent color, card style, startup options, shortcuts). Replay it any time with `Ctrl+K` then *Run Setup Again*
+- **Potato Mode** - For older PCs and integrated graphics: removes blurs, looping animations and background effects, skips drawing off-screen cards, and checks for games and friends less often
+- **Settings Backup & Restore** - Export your preferences, collections, favorites, friend nicknames and playtime history to a file. Your API key and login are never included
+- **Start with Windows / Start Minimized** - Launch with Windows, optionally straight to the tray
+- **Command Palette** - Jump anywhere, launch games and run actions with `Ctrl+K`
+- **Discord RPC** - Display your Steam activity in Discord
+- **Built-in Updater** - Update available, download and *Restart & Install* from inside the app
 
 ## Installation
 
 ### Windows
 
-Download the latest installer from the [Releases](https://github.com/imnotfisy/SteamLite/releases) section and run `SteamLite.Setup.8.1.2.exe`.
+Download the latest installer from the [Releases](https://github.com/imnotfisy/SteamLite/releases) section and run `SteamLite.Setup.<version>.exe` (for example `SteamLite.Setup.8.3.5.exe`).
+
+The installer lets you choose an install location and shortcuts, offers to upgrade an existing install, and can launch SteamLite when it finishes. Silent installs are supported with the `/S` switch.
 
 ## Configuration
 
@@ -37,7 +66,9 @@ Download the latest installer from the [Releases](https://github.com/imnotfisy/S
 2. Enter your Steam Web API Key (get one from [Steam Community](https://steamcommunity.com/dev/apikey))
 3. Enter your SteamID64
 4. (Optional) Add Family Sharing IDs for shared games
-5. Choose your accent color and theme
+5. Follow the short setup: choose an accent color and card style, pick your startup options and see the shortcuts
+
+You can run the setup again at any time from the command palette (`Ctrl+K`, then *Run Setup Again*).
 
 ### Settings
 
@@ -47,18 +78,27 @@ Access settings via the gear icon in the top-right corner. Available options:
 - **Steam ID** - Your SteamID64
 - **Family IDs** - Comma-separated list of family sharing accounts
 - **Accent Color** - Custom accent color in hex format
-- **Wide Grid** - Enable wider game grid layout
 - **Sound Volume** - Adjust UI sound effects volume
 - **Update Channel** - Choose stable or beta updates
-- **Custom Background** - Set a custom background image
-- **Background Blur** - Adjust background blur effect
-- **Background Opacity** - Adjust background opacity
-- **Background Speed** - Adjust background animation speed
-- **Discord RPC** - Enable/disable Discord Rich Presence
+- **Custom Background** - Set a custom background image or video, with blur, opacity and speed controls
+
+### Advanced Settings
+
+- **Appearance** - Card style, card size, card spacing, font and UI scale
+- **Cinematic Wide Grid** - Use a wider game grid layout
+- **Discord Rich Presence** - Enable or disable Discord activity
+- **Launch to Library** - Open on the Library instead of the Dashboard
+- **Start with Windows** and **Start Minimized to Tray**
+- **Hide Offline Friends**
+- **Potato Mode** - Lightweight mode for weak PCs
+- **Reduce Animations**
+- **Notification Sounds, Duration and Stack Size**
+- **Max Friends in Common Display**
+- **Backup & Restore** - Export and import your settings
 
 ## Theme Shop
 
-SteamLite includes a built-in Theme Shop with multiple bundled themes:
+SteamLite includes a built-in Theme Shop with more than twenty bundled themes, including:
 
 - Dracula
 - Catppuccin Mocha
@@ -95,7 +135,7 @@ Create your own themes using the Theme Maker:
 
 ## SteamLite Achievements
 
-Unlock exclusive achievements by using SteamLite:
+Unlock exclusive achievements by using SteamLite. Open the trophy button to see them, and use the search box to find one by name or description.
 
 - **First Steps** - Launch a game through SteamLite
 - **Centurion** - Launch games 100 times
@@ -137,11 +177,35 @@ Track your consecutive days of play with the streak system:
 - Use streak restores (earned from achievements) to recover lost streaks
 - View your current streak and best streak in the dashboard
 
+## Friends
+
+Open the friends panel from the top bar:
+
+- **Pin** a friend to keep them at the top (hover and click the pin, or right-click)
+- **Nickname and note** - give a friend a nickname and add a private note. Both are only visible to you
+- **Hide or mute** - hidden friends disappear from the list (tick *Show hidden* to see them), and hidden or muted friends never trigger notifications
+- **Search and sort** by status, A-Z or last online
+- **Compare** - open a friend's profile and click *Compare* to see how your libraries and playtime stack up (needs their game list to be public on Steam)
+
+Pins, nicknames, notes, showcases and badges are stored on your PC only. Other SteamLite users can't see them.
+
 ## Keyboard Shortcuts
 
-- `Ctrl/Cmd + Alt + G` - Quick Launch
-- `Ctrl/Cmd + K` - Command Palette
-- `Ctrl/Cmd + Alt + X` - Stop active game
+Press `Ctrl + /` in the app to see this list.
+
+| Shortcut | Action |
+| --- | --- |
+| `Ctrl/Cmd + K` | Command palette |
+| `Ctrl/Cmd + Alt + G` | Quick launch |
+| `Ctrl/Cmd + Alt + X` | Stop the running game |
+| `Ctrl + 1` / `2` / `3` | Home / Library / Favorites |
+| `Ctrl + ,` | Settings |
+| `Ctrl + F` | Search your library |
+| `Ctrl + Shift + F` | Search friends |
+| `Ctrl + Shift + S` | Select multiple games |
+| `F5` | Refresh library |
+| `Esc` | Close the top window or panel |
+| `Ctrl + /` | Show all shortcuts |
 
 ## Profile System
 
@@ -186,7 +250,11 @@ SteamLite checks for updates automatically:
 - Stable channel receives stable releases
 - Beta channel receives pre-release versions
 - Manual update check available in settings
-- Auto-download and install updates
+- A dedicated updater page shows the new version, its changelog and download progress, then *Restart & Install* closes SteamLite and opens the installer
+
+## Performance
+
+If SteamLite feels slow on an older PC or integrated graphics, turn on **Potato Mode** in Advanced Settings. It removes backdrop blurs, looping animations, the background glow and video backgrounds, skips drawing off-screen game cards, and checks for running games and friends less often. **Reduce Animations** is a lighter option that only shortens animations.
 
 ## Requirements
 
@@ -196,7 +264,7 @@ SteamLite checks for updates automatically:
 
 ## License
 
-ISC
+MIT - see [LICENSE](LICENSE).
 
 ## Credits
 
@@ -209,5 +277,3 @@ Community themes by:
 ## Support
 
 For issues, feature requests, or questions, please open an issue on [GitHub](https://github.com/imnotfisy/SteamLite/issues).
-
-
