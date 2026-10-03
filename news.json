@@ -1,14 +1,24 @@
 {
   "changelog": {
-    "version": "8.6.1",
-    "title": "Balance Update",
+    "version": "8.6.5",
+    "title": "The Big Tools Update",
     "items": [
-      "Streak restores are rare now: the big 5-restore rewards are 1, level rewards start at level 25, and you can hold at most 5 (what you already have is kept)",
-      "Events now double all XP while they are on, added to the 1.2x weekend boost, with a bonus that fades the more boosted XP you earn in a day so levels do not fly by",
-      "Events that are not running are hidden from the Achievements window and the Theme Shop (earned achievements and owned themes stay)"
+      "Added a Tools & extras hub with about 40 new features",
+      "Play smarter: What should I play?, an Up Next queue, Closest to 100% and estimated play times",
+      "Stats: a play calendar heatmap, library value and cost per hour, genres, duplicates, a game journal and CSV / JSON export",
+      "Money: wishlist target-price alerts with price history, free games and a Steam sale calendar",
+      "While you play: game mode, an always-on-top session widget, a shutdown timer, per-game launch profiles, save backups, a co-op finder and friend game alerts",
+      "Library: import Epic and GOG games, a library health check and smoother big libraries",
+      "Progress: seasons, weekly bingo, challenge bonuses, prestige, new cosmetics and the Spring Bloom event",
+      "Also: notification history, automatic backups, diagnostics, a profile card, theme share codes, day / night themes, controller navigation, a faster command palette, quick account switch and Bulgarian"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.6.5 Released - The Big Tools Update",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.6.5 adds about 40 features, most of them in the new Tools & extras hub (the grid button at the top). Let SteamLite pick what to play, keep an Up Next queue, see a calendar of every day you played, check your library value and cost per hour, and set wishlist target prices with price history. While you play there is game mode, an always-on-top timer, a shutdown timer, launch profiles, save backups and a co-op finder. You also get seasons with a reward track, a weekly bingo card, prestige at level 100, a Spring Bloom event, automatic backups, a notification history, theme share codes, controller navigation and a Bulgarian translation of the main screens."
+    },
     {
       "title": "SteamLite 8.6.1 Released - Balance Update",
       "date": "October 3, 2026",
