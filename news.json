@@ -1,16 +1,18 @@
 {
   "changelog": {
-    "version": "8.7.0",
-    "title": "The Performance Update",
+    "version": "8.7.1",
+    "title": "Smooth Again",
     "items": [
-      "New: choose the Full or Lite edition at install, and switch any time in Settings > Advanced",
-      "New: Memory saver - about 30% less memory and no separate GPU process (on by default)",
-      "Fixed: SteamLite used about a full CPU core while idle (endless card shimmer and background glow)",
-      "The background glow and video pause while the window is not in front",
-      "Off-screen game cards are no longer drawn"
+      "Fixed: animations were choppy in 8.7.0 - Memory saver is now off by default",
+      "The background glow is smooth again, and idle CPU use stays low"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.7.1 Released - Smooth Again",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.7.1 fixes the choppy animations from 8.7.0. Memory saver is now off by default (you can still turn it on in Settings > Advanced), and the background glow is smooth again. The idle CPU fix stays."
+    },
     {
       "title": "SteamLite 8.7.0 Released - The Performance Update",
       "date": "October 3, 2026",
