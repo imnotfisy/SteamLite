@@ -1,19 +1,21 @@
 {
   "changelog": {
-    "version": "8.6.5",
-    "title": "The Big Tools Update",
+    "version": "8.7.0",
+    "title": "The Performance Update",
     "items": [
-      "Added a Tools & extras hub with about 40 new features",
-      "Play smarter: What should I play?, an Up Next queue, Closest to 100% and estimated play times",
-      "Stats: a play calendar heatmap, library value and cost per hour, genres, duplicates, a game journal and CSV / JSON export",
-      "Money: wishlist target-price alerts with price history, free games and a Steam sale calendar",
-      "While you play: game mode, an always-on-top session widget, a shutdown timer, per-game launch profiles, save backups, a co-op finder and friend game alerts",
-      "Library: import Epic and GOG games, a library health check and smoother big libraries",
-      "Progress: seasons, weekly bingo, challenge bonuses, prestige, new cosmetics and the Spring Bloom event",
-      "Also: notification history, automatic backups, diagnostics, a profile card, theme share codes, day / night themes, controller navigation, a faster command palette, quick account switch and Bulgarian"
+      "New: choose the Full or Lite edition at install, and switch any time in Settings > Advanced",
+      "New: Memory saver - about 30% less memory and no separate GPU process (on by default)",
+      "Fixed: SteamLite used about a full CPU core while idle (endless card shimmer and background glow)",
+      "The background glow and video pause while the window is not in front",
+      "Off-screen game cards are no longer drawn"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.7.0 Released - The Performance Update",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.7.0 is a performance update. It now uses roughly 30% less memory and almost no CPU while idle, after we fixed an endless card shimmer and a background glow that kept the GPU busy. There is a new Memory saver setting (on by default) and a choice of two editions in one installer: Full, with every tool, or Lite, with just the basics to browse and launch games. Switch between them any time in Settings > Advanced."
+    },
     {
       "title": "SteamLite 8.6.5 Released - The Big Tools Update",
       "date": "October 3, 2026",
