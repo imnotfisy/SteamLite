@@ -2,7 +2,7 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-8.6.0-blue)
+![SteamLite Version](https://img.shields.io/badge/version-8.6.1-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/2VP6x6Rvak)
@@ -40,10 +40,10 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **Free Up Space** - Lists every installed game by size and flags big games you have not played in months, so you know what is worth uninstalling
 - **Session History** - Per-game session count, average, longest and your latest sessions
 - **Achievement Tracking** - Steam achievements with icons and progress, with search and animated lists
-- **SteamLite Levels** - Every SteamLite achievement gives random XP (60-140), with a 1.2x weekend boost, up to level 100. Your level shows beside your Steam level on your profile
+- **SteamLite Levels** - Every SteamLite achievement gives random XP (60-140), with a weekend boost and double XP during events (the bonus fades through the day), up to level 100. Your level shows beside your Steam level on your profile
 - **Inventory** - See your SteamLite level, streak restores, play streak and the reward themes you have earned
 - **Challenges** - Three daily and three weekly challenges for bonus XP
-- **Level Rewards** - Profile titles, animated avatar frames and bonus streak restores as you level up; streak restores can be spent to save a broken streak
+- **Level Rewards** - Profile titles, animated avatar frames and a few rare streak restores as you level up; streak restores (hold up to 5) can be spent to save a broken streak
 - **Wishlist and Sales** - Your Steam wishlist with prices and discounts, plus sale alerts
 - **Game Status and Rating** - Mark games as Playing, Backlog, Completed or Dropped and rate them out of 5, then filter your library by it
 - **Year in Review** - A shareable picture of your year in games
@@ -181,7 +181,7 @@ You can **preview** the Haunted Harvest theme from the dashboard banner before u
 - **Tangled Web** - Play 7 different games
 - **Haunted Marathon** - Play a single session of 3 hours or more
 - **Graveyard Shift** - Play 13 hours during the event
-- **Spooky Season Survivor** - Unlock every other Halloween achievement. Unlocks the **Haunted Harvest** theme (yours forever) and rewards 5 streak restores
+- **Spooky Season Survivor** - Unlock every other Halloween achievement. Unlocks the **Haunted Harvest** theme (yours forever) and rewards a streak restore
 
 ### Custom Themes
 
