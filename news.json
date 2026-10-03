@@ -1,15 +1,21 @@
 {
   "changelog": {
-    "version": "8.5.1",
-    "title": "15 New Achievements & Themes",
+    "version": "8.5.2",
+    "title": "Bug Fixes",
     "items": [
-      "Added 15 new achievements: Weekend Warrior, Regular, Calendar Keeper, Long Haul, Launch Legend, Quarter K, Time Lord, Devoted, Favourite Things, Organiser, Achievement Hunter, Trophy Case, Rising Star, Restore Hoarder and Fortnight Strong",
-      "Added 15 new reward themes, one for each new achievement, yours to keep once unlocked",
-      "With 55 achievements, level 100 is now reachable",
-      "Fixed \"Update now\" not opening the SteamLite Updater on \"all users\" installs"
+      "Fixed the SteamLite Updater picking the wrong install when an old copy was still registered",
+      "Fixed the friends list, your name and your avatar flashing every 30 seconds",
+      "Fixed the ambient glow behind games not working",
+      "Fixed an empty window when a custom background file was missing, and the background video speed being ignored",
+      "Fixed black colour pickers in the Theme Maker"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.5.2 Released - Bug Fixes",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.5.2 is a bug-fix release. It fixes the sidebar and friends list flashing every 30 seconds, the soft glow behind games not working, a missing custom background leaving the window empty, the background video speed being ignored and black colour pickers in the Theme Maker. The SteamLite Updater is also more reliable when an old copy of SteamLite is still registered on the PC."
+    },
     {
       "title": "SteamLite 8.5.1 Released - 15 New Achievements & Themes",
       "date": "October 3, 2026",
