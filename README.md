@@ -2,9 +2,10 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-8.5.2-blue)
+![SteamLite Version](https://img.shields.io/badge/version-8.6.0-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
+[![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/2VP6x6Rvak)
 
 ## Features
 
@@ -41,11 +42,18 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **Achievement Tracking** - Steam achievements with icons and progress, with search and animated lists
 - **SteamLite Levels** - Every SteamLite achievement gives random XP (60-140), with a 1.2x weekend boost, up to level 100. Your level shows beside your Steam level on your profile
 - **Inventory** - See your SteamLite level, streak restores, play streak and the reward themes you have earned
+- **Challenges** - Three daily and three weekly challenges for bonus XP
+- **Level Rewards** - Profile titles, animated avatar frames and bonus streak restores as you level up; streak restores can be spent to save a broken streak
+- **Wishlist and Sales** - Your Steam wishlist with prices and discounts, plus sale alerts
+- **Game Status and Rating** - Mark games as Playing, Backlog, Completed or Dropped and rate them out of 5, then filter your library by it
+- **Year in Review** - A shareable picture of your year in games
+- **Play-time Reminders** - Optional break reminders and a daily play limit
+- **Friend Activity** - See who started playing what and who came online
 - **Play Streaks** - Track consecutive days of play with a recovery system
 - **Telemetry** - Track playtime, sessions and launch history
 
 ### Customization
-- **Seasonal Events** - A Halloween event (October 1 - November 1) with 8 spooky achievements, a countdown banner on the dashboard (with a Preview theme button) and the Haunted Harvest theme as a reward
+- **Seasonal Events** - Yearly events with their own achievements, a countdown banner on the dashboard (with a Preview theme button) and a theme as a reward: Halloween (October 1 - November 1), Winter Holidays (December 1 - 31) and Summer Splash (June 21 - July 5)
 - **Theme Shop** - Apply bundled themes or create your own with the Theme Maker
 - **Appearance** - Card style, card size and spacing, fonts (including any font installed on your PC) and UI scale from 80% to 140%
 - **SteamLite Achievements** - Unlock exclusive achievements and rewards
@@ -142,6 +150,8 @@ Some themes are unlocked by completing SteamLite achievements:
 - **Unstoppable Solar** - Reach a 30-day play streak
 - **Completionist Prism** - 100% complete any game
 - **Chrome Aurora** - Apply 5 themes from the Theme Shop
+- **Winter Wonderland** - Unlock every Winter Holidays achievement in December (event only)
+- **Summer Splash** - Unlock every Summer Splash achievement from June 21 to July 5 (event only)
 - **Weekend Warrior** - Play on 8 different weekend days
 - **Regular Teal** - Play on 14 different days
 - **Calendar Sapphire** - Play on 60 different days
