@@ -2,7 +2,7 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-8.4.0-blue)
+![SteamLite Version](https://img.shields.io/badge/version-8.4.1-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -35,6 +35,7 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **This Week** - A Monday-to-Sunday playtime chart with a weekly goal you can set, plus a nudge for games gathering dust
 - **Game News** - A feed of the latest announcements from the games you play most
 - **Disk Usage** - See how much space your installed games use, free space on every Steam library drive, and your biggest games. Sort the library by size on disk
+- **SteamLite Updater** - A small separate app with its own window that downloads and installs updates (progress bar, speed, resumable downloads) and restarts SteamLite. It works even when the in-app update check does not, from the Start menu or the command palette
 - **Free Up Space** - Lists every installed game by size and flags big games you have not played in months, so you know what is worth uninstalling
 - **Session History** - Per-game session count, average, longest and your latest sessions
 - **Achievement Tracking** - Steam achievements with icons and progress, with search and animated lists
