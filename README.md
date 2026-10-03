@@ -2,7 +2,7 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-8.4.1-blue)
+![SteamLite Version](https://img.shields.io/badge/version-8.5.0-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -39,6 +39,8 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **Free Up Space** - Lists every installed game by size and flags big games you have not played in months, so you know what is worth uninstalling
 - **Session History** - Per-game session count, average, longest and your latest sessions
 - **Achievement Tracking** - Steam achievements with icons and progress, with search and animated lists
+- **SteamLite Levels** - Every SteamLite achievement gives random XP (60-140), with a 1.2x weekend boost, up to level 100. Your level shows beside your Steam level on your profile
+- **Inventory** - See your SteamLite level, streak restores, play streak and the reward themes you have earned
 - **Play Streaks** - Track consecutive days of play with a recovery system
 - **Telemetry** - Track playtime, sessions and launch history
 
