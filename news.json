@@ -1,16 +1,19 @@
 {
   "changelog": {
-    "version": "8.6.0",
-    "title": "Challenges, Wishlist & More",
+    "version": "8.6.1",
+    "title": "Balance Update",
     "items": [
-      "Added spendable streak restores, level rewards (profile titles, 5 new avatar frames and bonus restores) and daily and weekly challenges for bonus XP",
-      "Added a Wishlist and Sales window with sale alerts, a game status and star rating for every game, and a Year in Review picture you can save",
-      "Added play-time reminders (break and daily limit), a run as administrator option per game and a friend activity feed",
-      "Added two new yearly events: Winter Holidays (December) and Summer Splash (June 21 - July 5), each with achievements and a theme",
-      "The SteamLite Updater can now install an older or any other version, and install an update when you close SteamLite"
+      "Streak restores are rare now: the big 5-restore rewards are 1, level rewards start at level 25, and you can hold at most 5 (what you already have is kept)",
+      "Events now double all XP while they are on, added to the 1.2x weekend boost, with a bonus that fades the more boosted XP you earn in a day so levels do not fly by",
+      "Events that are not running are hidden from the Achievements window and the Theme Shop (earned achievements and owned themes stay)"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.6.1 Released - Balance Update",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.6.1 rebalances levelling. Streak restores are now rare: the five achievements that gave 5 of them give 1, level rewards start at level 25 and you can hold at most 5 (nothing you already own is taken away). While an event is on, all XP is doubled, on top of the weekend boost, but the bonus fades the more of it you earn in a day, so nobody levels up in a rush. Events that are not running are also hidden from the Achievements window and the Theme Shop."
+    },
     {
       "title": "SteamLite 8.6.0 Released - Challenges, Wishlist & More",
       "date": "October 3, 2026",
