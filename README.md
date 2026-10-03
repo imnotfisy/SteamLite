@@ -2,7 +2,7 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-8.5.0-blue)
+![SteamLite Version](https://img.shields.io/badge/version-8.5.1-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -142,6 +142,21 @@ Some themes are unlocked by completing SteamLite achievements:
 - **Unstoppable Solar** - Reach a 30-day play streak
 - **Completionist Prism** - 100% complete any game
 - **Chrome Aurora** - Apply 5 themes from the Theme Shop
+- **Weekend Warrior** - Play on 8 different weekend days
+- **Regular Teal** - Play on 14 different days
+- **Calendar Sapphire** - Play on 60 different days
+- **Long Haul Copper** - Play 10 sessions of 2+ hours
+- **Launch Legend Onyx** - Launch games 500 times
+- **Quarter K Jade** - Play 250 hours in total
+- **Time Lord Amethyst** - Play 2500 hours in total
+- **Devoted Rose** - Play 100 hours of a single game
+- **Favourite Coral** - Add 10 games to your favorites
+- **Organiser Slate** - Create 3 collections
+- **Hunter Moss** - Unlock 10 SteamLite achievements
+- **Trophy Bronze** - Unlock 25 SteamLite achievements
+- **Level-Up Electric** - Reach SteamLite level 25
+- **Hoarder Ice** - Hold 5 streak restores
+- **Fortnight Ember** - Reach a 14-day play streak
 
 ### Halloween Event
 
