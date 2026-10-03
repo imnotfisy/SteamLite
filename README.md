@@ -2,7 +2,7 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-8.6.5-blue)
+![SteamLite Version](https://img.shields.io/badge/version-8.7.0-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/2VP6x6Rvak)
@@ -49,6 +49,8 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **Year in Review** - A shareable picture of your year in games
 - **Play-time Reminders** - Optional break reminders and a daily play limit
 - **Friend Activity** - See who started playing what and who came online
+- **Full and Lite editions** - Pick everything or just the basics for launching games when you install, and switch any time in Settings > Advanced
+- **Memory saver** - Software rendering and fewer processes: roughly 30% less memory, almost no idle CPU
 - **Tools & extras hub** - One grid button that opens every new tool (also in the command palette)
 - **What should I play? / Up Next** - A mood-based picker and a drag-to-reorder queue of the games you plan to play
 - **Closest to 100%** - Games with only a few Steam achievements left
