@@ -2,7 +2,7 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-8.6.1-blue)
+![SteamLite Version](https://img.shields.io/badge/version-8.6.5-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/2VP6x6Rvak)
@@ -49,11 +49,25 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **Year in Review** - A shareable picture of your year in games
 - **Play-time Reminders** - Optional break reminders and a daily play limit
 - **Friend Activity** - See who started playing what and who came online
+- **Tools & extras hub** - One grid button that opens every new tool (also in the command palette)
+- **What should I play? / Up Next** - A mood-based picker and a drag-to-reorder queue of the games you plan to play
+- **Closest to 100%** - Games with only a few Steam achievements left
+- **Play Calendar and Library Stats** - A year heatmap, library value, cost per hour, genres, duplicates and CSV / JSON export
+- **Game Journal** - Notes and sessions on one timeline
+- **Wishlist Price Alerts and Free Games** - Target prices with history, free-to-keep promotions and a sale calendar
+- **Game Mode, Session Widget and Shutdown Timer** - Mute pop-ups while playing, an always-on-top timer, and turn the PC off after a game
+- **Launch Profiles and Save Backups** - Priority, power plan and programs to close per game, plus game save backups
+- **Co-op Finder** - Games you and a friend both own, and alerts when a friend plays one you own
+- **Import Epic and GOG, Library Health Check** - Bring other launchers in and clean up broken installs and leftover cache
+- **Seasons, Weekly Bingo and Prestige** - A three-month reward track, a weekly card and a reset-with-a-star after level 100
+- **Automatic Backups, Notification History and Diagnostics** - Safety nets and a help page
+- **Theme Share Codes, Day / Night Themes, Profile Card** - Share and automate your look
+- **Controller Navigation and Bulgarian** - Use a gamepad, and read the main screens in Bulgarian
 - **Play Streaks** - Track consecutive days of play with a recovery system
 - **Telemetry** - Track playtime, sessions and launch history
 
 ### Customization
-- **Seasonal Events** - Yearly events with their own achievements, a countdown banner on the dashboard (with a Preview theme button) and a theme as a reward: Halloween (October 1 - November 1), Winter Holidays (December 1 - 31) and Summer Splash (June 21 - July 5)
+- **Seasonal Events** - Yearly events with their own achievements, a countdown banner on the dashboard (with a Preview theme button) and a theme as a reward: Spring Bloom (March 20 - April 5), Summer Splash (June 21 - July 5), Halloween (October 1 - November 1) and Winter Holidays (December 1 - 31)
 - **Theme Shop** - Apply bundled themes or create your own with the Theme Maker
 - **Appearance** - Card style, card size and spacing, fonts (including any font installed on your PC) and UI scale from 80% to 140%
 - **SteamLite Achievements** - Unlock exclusive achievements and rewards
@@ -150,6 +164,7 @@ Some themes are unlocked by completing SteamLite achievements:
 - **Unstoppable Solar** - Reach a 30-day play streak
 - **Completionist Prism** - 100% complete any game
 - **Chrome Aurora** - Apply 5 themes from the Theme Shop
+- **Spring Bloom** - Unlock every Spring Bloom achievement from March 20 to April 5 (event only)
 - **Winter Wonderland** - Unlock every Winter Holidays achievement in December (event only)
 - **Summer Splash** - Unlock every Summer Splash achievement from June 21 to July 5 (event only)
 - **Weekend Warrior** - Play on 8 different weekend days
