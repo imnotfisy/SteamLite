@@ -1,14 +1,21 @@
 {
   "changelog": {
-    "version": "8.4.1",
-    "title": "SteamLite Updater",
+    "version": "8.5.0",
+    "title": "Levels & Inventory",
     "items": [
-      "Added SteamLite Updater, a small app with its own window that downloads and installs updates for you, with release notes, a progress bar, speed and time left, and resumable downloads",
-      "Updating from SteamLite now hands over to the Updater, which closes SteamLite, installs the update and starts it again",
-      "The Updater also works when SteamLite itself cannot check for updates: open it from the Start menu or the command palette (Open SteamLite Updater)"
+      "Added SteamLite levels: every achievement (Halloween ones too) gives a random 60-140 XP, 50 XP per level, up to level 100, shown beside your Steam level on your profile",
+      "Added a weekend XP boost: all XP is 1.2x every Saturday and Sunday, shown in the new Inventory",
+      "Added an Inventory button showing your level, streak restores, play streak and the reward themes you have earned",
+      "Added an option in Edit Profile to hide the badges on your profile",
+      "The achievement pop-up now shows the XP you earned and level-ups"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.5.0 Released - Levels & Inventory",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.5.0 adds SteamLite levels. Every achievement, the Halloween ones included, gives a random 60-140 XP when you unlock it, each level takes 50 XP and the top level is 100. Every Saturday and Sunday all XP is boosted by 1.2x. Your level appears beside your Steam level on your profile. There is also a new Inventory button that shows your level, the weekend boost, your streak restores, your play streak and the reward themes you have earned, and you can now hide the badges on your profile from Edit Profile."
+    },
     {
       "title": "SteamLite 8.4.1 Released - SteamLite Updater",
       "date": "October 3, 2026",
