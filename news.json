@@ -1,16 +1,20 @@
 {
   "changelog": {
-    "version": "8.5.0",
-    "title": "Levels & Inventory",
+    "version": "8.5.1",
+    "title": "15 New Achievements & Themes",
     "items": [
-      "Added SteamLite levels: every achievement (Halloween ones too) gives a random 60-140 XP, 50 XP per level, up to level 100, shown beside your Steam level on your profile",
-      "Added a weekend XP boost: all XP is 1.2x every Saturday and Sunday, shown in the new Inventory",
-      "Added an Inventory button showing your level, streak restores, play streak and the reward themes you have earned",
-      "Added an option in Edit Profile to hide the badges on your profile",
-      "The achievement pop-up now shows the XP you earned and level-ups"
+      "Added 15 new achievements: Weekend Warrior, Regular, Calendar Keeper, Long Haul, Launch Legend, Quarter K, Time Lord, Devoted, Favourite Things, Organiser, Achievement Hunter, Trophy Case, Rising Star, Restore Hoarder and Fortnight Strong",
+      "Added 15 new reward themes, one for each new achievement, yours to keep once unlocked",
+      "With 55 achievements, level 100 is now reachable",
+      "Fixed \"Update now\" not opening the SteamLite Updater on \"all users\" installs"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.5.1 Released - 15 New Achievements & Themes",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.5.1 adds 15 new achievements, from playing on weekends and on lots of different days to long sessions, big playtime totals, favorites, collections and your SteamLite level. Every one of them unlocks its own new theme in the Theme Shop, and gives random XP towards your SteamLite level. With 55 achievements in total, level 100 is now within reach."
+    },
     {
       "title": "SteamLite 8.5.0 Released - Levels & Inventory",
       "date": "October 3, 2026",
