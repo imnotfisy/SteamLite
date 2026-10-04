@@ -1,13 +1,22 @@
 {
   "changelog": {
-    "version": "9.0.0-beta.8",
-    "title": "Beta 8 - Couch mode polish",
+    "version": "9.0.0",
+    "title": "SteamLite 9.0 - Glass, Couch mode and more",
     "items": [
-      "Smooth transitions into and out of couch mode (the app steps back, the couch screen zooms in, rows rise in)",
-      "The couch Play button now behaves like the one in the game window: Loading..., Stopping..., and Stop once the game is really running"
+      "A new glass interface and layout (Classic is still one switch away)",
+      "Settings is a full page with search and a save bar",
+      "Couch mode: a fullscreen, controller-first launcher with a game page for every game",
+      "Spotify now playing in the top bar, and a much better Discord Rich Presence",
+      "Tools & extras redesigned, modern notifications, smoother animations",
+      "Full or Lite edition, Memory saver, no idle CPU use and the Updater can switch between Stable and Beta"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.0.0 is out - you are on the stable release now",
+      "date": "October 4, 2026",
+      "content": "The 9.0 betas are over: 9.0.0 is the stable release. Install it from the SteamLite Updater (Channel: Stable) or the releases page. XP, levels and SteamLite achievements are back in 9.0.0."
+    },
     {
       "title": "SteamLite 9.0.0 Beta 8 - Couch mode polish",
       "date": "October 4, 2026",
@@ -27,11 +36,6 @@
       "title": "SteamLite 9.0.0 Beta 5 - Discord presence upgrade",
       "date": "October 4, 2026",
       "content": "Discord Rich Presence is better: your game card has the game art, a correct timer, achievement progress, your streak and View on Steam / Get SteamLite buttons. Not in a game, it shows which page you are on. You can turn each part off or hide game names under Settings > Behaviour > Discord presence, and it now reconnects by itself."
-    },
-    {
-      "title": "SteamLite 9.0.0 Beta 4 - a Settings page",
-      "date": "October 4, 2026",
-      "content": "Settings is now a full page instead of two pop-up windows: a section list on the left, a search box, and a bar that appears when you have unsaved changes. Everything from Settings and Advanced Settings is there."
     }
   ]
 }
