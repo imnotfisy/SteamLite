@@ -1,0 +1,36 @@
+{
+  "changelog": {
+    "version": "9.0.0-beta.2",
+    "title": "Glass Interface - Beta 2",
+    "items": [
+      "New glass interface: a slim floating sidebar, one floating header, frosted-glass dialogs",
+      "Tools & extras redesigned with search and categories",
+      "The dashboard greeting shows your streak; the profile title tag sits next to your name",
+      "The Favorites button appears only when you have a favourite",
+      "Smoother animations: collapsing sections, refresh buttons, menus and fading notifications",
+      "Beta rule: no XP, levels or SteamLite achievements are earned in the beta"
+    ]
+  },
+  "news": [
+    {
+      "title": "SteamLite 9.0.0 Beta 2",
+      "date": "October 4, 2026",
+      "content": "The second beta of the glass interface is out. Tools & extras has a new look with search and categories, the favourites button only shows once you have a favourite, and animations are smoother. Please report anything that looks wrong from Tools & extras > Diagnostics."
+    },
+    {
+      "title": "The beta does not give XP",
+      "date": "October 4, 2026",
+      "content": "To keep your progress safe, beta builds do not give XP, levels or SteamLite achievements, and those screens are hidden. Everything you already earned is untouched, and streaks still work. The full system is back in the stable version."
+    },
+    {
+      "title": "Reporting a bug",
+      "date": "October 4, 2026",
+      "content": "Open Tools & extras > Diagnostics, copy the page and send it with a short description and, if you can, a screenshot. It never includes your API key or SteamID."
+    },
+    {
+      "title": "Going back to stable",
+      "date": "October 4, 2026",
+      "content": "Switch the update channel back to Stable in Settings > Advanced and install the latest stable version, or use the SteamLite Updater and pick an older stable version under Other versions. You can also switch the look back to Classic any time in Settings > Advanced > Interface."
+    }
+  ]
+}
