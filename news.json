@@ -1,13 +1,19 @@
 {
   "changelog": {
-    "version": "8.7.1",
-    "title": "Smooth Again",
+    "version": "8.7.2",
+    "title": "Betas In The Main Repo",
     "items": [
-      "Fixed: animations were choppy in 8.7.0 - Memory saver is now off by default",
-      "The background glow is smooth again, and idle CPU use stays low"
+      "The Beta update channel now finds betas in the main SteamLite repository (as pre-releases)",
+      "The SteamLite Updater follows the same rule and hides betas on the stable channel",
+      "No other changes - this is 8.7.1 with the new update logic"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.7.2 Released",
+      "date": "October 4, 2026",
+      "content": "SteamLite 8.7.2 changes where betas are published: the Beta update channel now reads the main SteamLite repository, so you only need one place to follow. Stable users are not affected and never see a beta."
+    },
     {
       "title": "SteamLite 8.7.1 Released - Smooth Again",
       "date": "October 3, 2026",
