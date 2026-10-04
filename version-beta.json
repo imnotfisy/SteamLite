@@ -1,5 +1,5 @@
 {
-    "version":  "9.0.0-beta.8",
-    "downloadUrl":  "https://github.com/imnotfisy/SteamLite/releases/tag/v9.0.0-beta.8",
-    "notes":  "Beta 8: smooth transitions into and out of couch mode, and the couch Play button now follows the same launch tracking as the normal one (Loading..., Stopping..., Stop once the game is really running). No XP, levels or SteamLite achievements in the beta."
+    "version":  "9.0.0-beta.9",
+    "downloadUrl":  "https://github.com/imnotfisy/SteamLite/releases/tag/v9.0.0-beta.9",
+    "notes":  "Beta 9: SteamLite Debug Tools are bundled with betas (Start menu \u003e SteamLite Debug Tools): unlock everything, set streak / XP / level, fake the date, open DevTools, run JavaScript and read the live log. No XP, levels or SteamLite achievements in the beta unless you turn them on from the tool."
 }
