@@ -1,0 +1,20 @@
+{
+  "canvas": [],
+  "vars": {
+    "--bg-dark": "#17100a",
+    "--bg-glass": "rgba(23, 16, 10, 0.88)",
+    "--bg-glass-light": "rgba(36, 24, 13, 0.92)",
+    "--bg-elevated": "rgba(45, 29, 15, 0.95)",
+    "--border-glass": "rgba(205, 127, 50, 0.18)",
+    "--border-glass-hover": "rgba(205, 127, 50, 0.42)",
+    "--text-primary": "#faf2ea",
+    "--text-secondary": "#b4895f",
+    "--text-tertiary": "#6d5339",
+    "--accent-color": "#cd7f32",
+    "--accent-color-2": "#cd7f32",
+    "--success": "#6ee7a0",
+    "--warning": "#fbbf24",
+    "--danger": "#f87171"
+  },
+  "css": "h1, .home-title, .game-title, .modal-title { text-shadow: 0 0 12px rgba(205, 127, 50, 0.5); } .nav-btn.active { box-shadow: 0 4px 14px rgba(205, 127, 50, 0.42); } .game-card { border-color: rgba(205, 127, 50, 0.14); } .game-card:hover { border-color: rgba(205, 127, 50, 0.45); box-shadow: 0 8px 26px rgba(205, 127, 50, 0.18); } .toast { border-color: rgba(205, 127, 50, 0.4); } ::selection { background: #cd7f32; color: #17100a; }"
+}

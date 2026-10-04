@@ -1,0 +1,20 @@
+{
+  "canvas": [],
+  "vars": {
+    "--bg-dark": "#170a06",
+    "--bg-glass": "rgba(23, 10, 6, 0.88)",
+    "--bg-glass-light": "rgba(41, 21, 10, 0.93)",
+    "--bg-elevated": "rgba(55, 29, 14, 0.95)",
+    "--border-glass": "rgba(251, 146, 60, 0.2)",
+    "--border-glass-hover": "rgba(251, 146, 60, 0.45)",
+    "--text-primary": "#fff6ef",
+    "--text-secondary": "#ce9e78",
+    "--text-tertiary": "#7c5b45",
+    "--accent-color": "#fb923c",
+    "--accent-color-2": "#f43f5e",
+    "--success": "#6ee7a0",
+    "--warning": "#fbbf24",
+    "--danger": "#f87171"
+  },
+  "css": "h1, .home-title, .game-title, .modal-title { text-shadow: 0 0 14px rgba(251, 146, 60, 0.5), 0 0 30px rgba(244, 63, 94, 0.25); } .home-title::after { content: ' 🔥'; } .nav-btn.active { box-shadow: 0 4px 16px rgba(251, 146, 60, 0.45); } .game-card:hover { border-color: rgba(251, 146, 60, 0.5); box-shadow: 0 8px 28px rgba(251, 146, 60, 0.18); } .chart-bar-fill, .history-bar { background: linear-gradient(90deg, #fb923c, #f43f5e); } .toast { border-color: rgba(251, 146, 60, 0.4); } ::selection { background: #fb923c; color: #170a06; }"
+}

@@ -1,0 +1,127 @@
+{
+  "changelog": {
+    "version": "8.7.4",
+    "title": "Setup Fix",
+    "items": [
+      "Fixed: setup no longer asks you to restart Windows",
+      "The SteamLite Updater can switch between the Stable and Beta channels (click \"Channel\" at the top of its window)"
+    ]
+  },
+  "news": [
+    {
+      "title": "SteamLite 8.7.4 Released - Setup Fix",
+      "date": "October 4, 2026",
+      "content": "SteamLite 8.7.4 fixes the restart prompt that appeared at the end of setup in 8.7.3, and adds a Stable / Beta switch to the SteamLite Updater."
+    },
+    {
+      "title": "SteamLite 8.7.3 Released - Updater Fix",
+      "date": "October 4, 2026",
+      "content": "SteamLite 8.7.3 fixes the SteamLite Updater not being replaced when it ran the update itself. After this version the Updater always matches your SteamLite, including the new beta location."
+    },
+    {
+      "title": "SteamLite 8.7.2 Released",
+      "date": "October 4, 2026",
+      "content": "SteamLite 8.7.2 changes where betas are published: the Beta update channel now reads the main SteamLite repository, so you only need one place to follow. Stable users are not affected and never see a beta."
+    },
+    {
+      "title": "SteamLite 8.7.1 Released - Smooth Again",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.7.1 fixes the choppy animations from 8.7.0. Memory saver is now off by default (you can still turn it on in Settings > Advanced), and the background glow is smooth again. The idle CPU fix stays."
+    },
+    {
+      "title": "SteamLite 8.7.0 Released - The Performance Update",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.7.0 is a performance update. It now uses roughly 30% less memory and almost no CPU while idle, after we fixed an endless card shimmer and a background glow that kept the GPU busy. There is a new Memory saver setting (on by default) and a choice of two editions in one installer: Full, with every tool, or Lite, with just the basics to browse and launch games. Switch between them any time in Settings > Advanced."
+    },
+    {
+      "title": "SteamLite 8.6.5 Released - The Big Tools Update",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.6.5 adds about 40 features, most of them in the new Tools & extras hub (the grid button at the top). Let SteamLite pick what to play, keep an Up Next queue, see a calendar of every day you played, check your library value and cost per hour, and set wishlist target prices with price history. While you play there is game mode, an always-on-top timer, a shutdown timer, launch profiles, save backups and a co-op finder. You also get seasons with a reward track, a weekly bingo card, prestige at level 100, a Spring Bloom event, automatic backups, a notification history, theme share codes, controller navigation and a Bulgarian translation of the main screens."
+    },
+    {
+      "title": "SteamLite 8.6.1 Released - Balance Update",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.6.1 rebalances levelling. Streak restores are now rare: the five achievements that gave 5 of them give 1, level rewards start at level 25 and you can hold at most 5 (nothing you already own is taken away). While an event is on, all XP is doubled, on top of the weekend boost, but the bonus fades the more of it you earn in a day, so nobody levels up in a rush. Events that are not running are also hidden from the Achievements window and the Theme Shop."
+    },
+    {
+      "title": "SteamLite 8.6.0 Released - Challenges, Wishlist & More",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.6.0 is a big one. Streak restores can now be spent to save a broken streak, levels unlock profile titles, avatar frames and bonus restores, and there are daily and weekly challenges for bonus XP. A new Wishlist window shows your Steam wishlist with sale alerts, every game can have a status and a star rating, and Year in Review makes a picture of your year to save and share. You also get optional play-time reminders, a run as administrator option for games, and a friend activity feed. Two new yearly events arrive with their own achievements and themes: Winter Holidays in December and Summer Splash from June 21. The SteamLite Updater can now install any other version too."
+    },
+    {
+      "title": "SteamLite 8.5.2 Released - Bug Fixes",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.5.2 is a bug-fix release. It fixes the sidebar and friends list flashing every 30 seconds, the soft glow behind games not working, a missing custom background leaving the window empty, the background video speed being ignored and black colour pickers in the Theme Maker. The SteamLite Updater is also more reliable when an old copy of SteamLite is still registered on the PC."
+    },
+    {
+      "title": "SteamLite 8.5.1 Released - 15 New Achievements & Themes",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.5.1 adds 15 new achievements, from playing on weekends and on lots of different days to long sessions, big playtime totals, favorites, collections and your SteamLite level. Every one of them unlocks its own new theme in the Theme Shop, and gives random XP towards your SteamLite level. With 55 achievements in total, level 100 is now within reach."
+    },
+    {
+      "title": "SteamLite 8.5.0 Released - Levels & Inventory",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.5.0 adds SteamLite levels. Every achievement, the Halloween ones included, gives a random 60-140 XP when you unlock it, each level takes 50 XP and the top level is 100. Every Saturday and Sunday all XP is boosted by 1.2x. Your level appears beside your Steam level on your profile. There is also a new Inventory button that shows your level, the weekend boost, your streak restores, your play streak and the reward themes you have earned, and you can now hide the badges on your profile from Edit Profile."
+    },
+    {
+      "title": "SteamLite 8.4.1 Released - SteamLite Updater",
+      "date": "October 3, 2026",
+      "content": "SteamLite 8.4.1 adds SteamLite Updater, a small separate app with its own window that manages updates: it shows your version next to the latest one, the release notes, a download progress bar with speed and time left, and installs the update and restarts SteamLite for you. It also works when SteamLite itself cannot check for updates, so you can open it from the Start menu or the command palette at any time."
+    },
+    {
+      "title": "SteamLite 8.4.0 Released - Halloween Event",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.4.0 brings the Halloween event (October 1 - November 1): 8 spooky achievements, a new Haunted Harvest theme to unlock, and a countdown banner on your dashboard - all only available until November 1. It is also a big quality-of-life update: a brand new sound design with three sound packs, disk usage tools that show how much space each game takes and help you free some up, drag and drop and Start menu import for non-Steam games, Undo buttons, arrow-key navigation in the library, rebindable global hotkeys, Quiet Hours, a switch to quit instead of hiding to the tray, Skip this version for updates, and quick links to SteamDB, PCGamingWiki and more."
+    },
+    {
+      "title": "SteamLite 8.3.6 Released",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.3.6 fixes updates not being detected on some PCs (the app now waits until its window is ready, retries, and re-checks every 4 hours), and fixes missing cover images on many newer games by finding their art through Steam's store - a long-standing issue that goes back to at least v1.3.0. If updates have stopped being detected on your PC, install 8.3.6 manually once - updates from here on will work in-app."
+    },
+    {
+      "title": "SteamLite 8.3.5 Released",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.3.5 adds a first-time setup you can replay from the command palette, Compare with a friend (see how your libraries and playtime stack up), a Game News widget on the dashboard, achievement search with a new slide-and-fade animation, Appearance settings (card styles including a new Cover only view, card size and spacing, fonts and UI scale), and Potato Mode for older PCs and integrated graphics."
+    },
+    {
+      "title": "SteamLite 8.3.0 Released",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.3.0 is a big profile, friends and library update: banner gradients, an Edit Profile window with a tagline, game showcase, avatar frames and badges; pinned friends with nicknames, notes, search and sorting; friend notifications with profile pictures; smart collections, multi-select and a smarter Play Next; a weekly playtime goal and per-game session history; plus settings backup, start-with-Windows and keyboard shortcuts."
+    },
+    {
+      "title": "SteamLite 8.2.2 Released",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.2.2 fixes Restart & Install closing the app without ever opening the installer, removes the old small update banner so the new updater page is the only update UI, and makes the installer close any leftover SteamLite process before upgrading. If you're on 8.2.0 or 8.2.1, install 8.2.2 manually once - updates from 8.2.2 onward will work in-app."
+    },
+    {
+      "title": "SteamLite 8.2.1 Released",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.2.1 fixes the update notification appearing twice when an update is found (the updater page and the small banner showed at the same time)."
+    },
+    {
+      "title": "SteamLite 8.2.0 Released",
+      "date": "October 2, 2026",
+      "content": "SteamLite 8.2.0 lets you customise your own profile banner with any image or GIF (with blur and dim controls), brings a redesigned What's New screen with categorized changes and a release history, and fixes the in-app updater so the installer opens properly after SteamLite closes."
+    },
+    {
+      "title": "SteamLite 8.1.4 Released",
+      "date": "October 1, 2026",
+      "content": "SteamLite 8.1.4 fixes the Friends in Common list popping in with no transition on a friend's profile, and replaces the installer with a proper NSIS setup wizard (app icon, all-users/just-me choice, upgrade detection, optional launch on finish)."
+    },
+    {
+      "title": "SteamLite 8.1.3 Bug Fix & Security Release",
+      "date": "October 1, 2026",
+      "content": "SteamLite 8.1.3 is a focused bug-fix release: it corrects a streak-recovery date bug, fixes the Max Common Friends setting not saving, cleans up two event-listener memory leaks (game modal and UI Editor dragging), stops a duplicate achievement-unlock toast, hardens news rendering against malformed content, fixes Dashboard layout edits and theme background colors not persisting, fixes the Play/Stop button never detecting a running game on PCs without wmic.exe, cleans up the game modal's ⋯ menu (scrollbar flash, redundant News entry), restores proper fade in/out for the game modal and Settings menu, and optimises animations. The app also drops its old codename, and the installer now offers real options (install location, shortcuts, launch-after-install)."
+    },
+    {
+      "title": "SteamLite 8.1.2 Released",
+      "date": "September 15, 2026",
+      "content": "SteamLite 8.1.2 brings 5 new themes, 5 new achievements, and fixes for dashboard widget persistence and profile banner layout. Enjoy the new visual options and continue your achievement journey!"
+    },
+    {
+      "title": "SteamLite 8.1.1 Bug Fix Release",
+      "date": "September 10, 2026",
+      "content": "SteamLite 8.1.1 focuses on fixing reported issues and adding quality-of-life improvements including achievement image display, UI fixes, dashboard customization, and modernized What's New screen."
+    }
+  ]
+}

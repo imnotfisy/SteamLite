@@ -1,0 +1,549 @@
+# SteamLite 8.7.4 Changelog
+
+## Fixes
+- **No more "restart your computer" prompt after installing.** 8.7.3 asked Windows to delete the old SteamLite Updater at the next restart, which showed a reboot page at the end of setup. It no longer does that; the Updater removes the leftover file itself the next time it opens.
+
+## New
+- **Switch between Stable and Beta in the SteamLite Updater.** Click the "Channel" link at the top of the Updater window to flip between Stable and Beta; it checks that channel straight away and remembers your choice. From a beta, switching to Stable offers the latest stable version.
+
+---
+
+# SteamLite 8.7.3 Changelog
+
+The SteamLite Updater now really gets updated.
+
+## Fixes
+- **The Updater was never replaced when it ran the update itself.** The installer skipped copying a new "SteamLite Updater.exe" if the old one was running (which it is when it started the install), so the Updater stayed on its old version for good, including the old beta location. The installer now moves the running copy aside and installs the new one, so the Updater always matches your SteamLite version.
+- With the new Updater, the Beta channel finds betas in the main SteamLite repository (the old separate beta repository is no longer used).
+
+---
+
+# SteamLite 8.7.2 Changelog
+
+Betas now live in the main SteamLite repository.
+
+## Changes
+- **Beta channel moved.** When you choose the Beta update channel (Settings > Advanced), SteamLite and the SteamLite Updater now look for betas in the main repository as pre-releases (a `version-beta.json` file) instead of the separate beta repository. Stable users never see a beta, and the Updater's "Other versions" list only shows pre-releases on the Beta channel.
+- Nothing else changes: this is 8.7.1 with the new update logic.
+
+---
+
+# SteamLite 8.7.1 Changelog
+
+Smooth animations again.
+
+## Fixes
+- **Animations are smooth again.** Memory saver is now **off by default**, because drawing with the CPU made animations and transitions choppy. Turn it on in Settings > Advanced only if you prefer lower memory over smoothness. If you had it on, it is reset to off.
+- The drifting background glow moves smoothly again (it still pauses when the window is not in front, and the card shimmer still stops once a cover has loaded, so idle CPU stays low).
+
+---
+
+# SteamLite 8.7.0 Changelog
+
+The Performance Update: SteamLite now uses roughly 30% less memory and almost no CPU while idle, and there are two editions to choose from.
+
+## New
+- **Two editions, one installer.** Choose **Full** (everything) or **Lite** (just the basics to browse and launch games) when you install, and switch any time in Settings > Advanced > Edition. SteamLite restarts and keeps your games, settings and progress. The updater is included with both.
+- **Memory saver** (Settings > Advanced, on by default). Draws with the CPU instead of the GPU and runs without separate graphics and audio processes. Memory use drops from about 225 MB to about 160 MB in our tests (the game list size changes this), and it also removes the GPU process from Task Manager. Turn it off if animations or video backgrounds feel slow. Needs a restart.
+
+## Fixes (performance)
+- **Idle CPU.** SteamLite was using about one full CPU core while sitting open. The loading shimmer on every game card kept repainting forever, and the drifting background glow made the GPU re-blur every panel on every frame. The shimmer now stops once a cover has loaded and the glow moves in a few small steps per second, so idle CPU is close to zero. The glow and a looping background video also pause while the window is not in front.
+- Game cards that are scrolled out of view are no longer laid out or painted.
+- Background network features that SteamLite does not use are switched off.
+
+---
+
+# SteamLite 8.6.5 Changelog
+
+A huge update: about 40 new features. Almost all of them live in the new **Tools & extras** hub (the grid button at the top, or "Tools & extras" in the command palette), and every tool also has a command palette entry.
+
+## New
+
+### Play smarter
+- **What should I play?** Pick how long you have (30 min, 1 hour, 2+ hours) and your mood (surprise me, keep going, something new, quick win, backlog) and it suggests three games from your library, with the reason for each.
+- **Up Next queue.** A list of games you plan to play, in order. Drag to reorder, add from the right-click menu or any game window, and "What should I play?" favours it.
+- **Closest to 100%.** Games where only a few Steam achievements are left, closest first, with a one-click scan of your whole library.
+- **Estimated play time.** Every game window shows how long players typically spend in it (from SteamSpy) next to your own time.
+- **Game status in the palette.** With a game open, the command palette can set its status or add it to Up Next.
+
+### Stats and your history
+- **Play calendar.** A heatmap of every day you played in the last year, with your longest run, longest break, best week and busiest weekday.
+- **Library stats.** Library value at full price, cost per hour (best and worst value), unplayed value, genres by playtime (after a SteamSpy scan) and a duplicates finder that can hide the extra copy.
+- **Export.** Save your library with playtime, status, rating, achievements, genres and price as CSV or JSON.
+- **Game journal.** Write notes inside any game, and see your notes and sessions together on one timeline.
+
+### Money
+- **Wishlist price alerts.** Set a target price on any wishlist game and get a notification when it drops that low. The wishlist also shows each game's lowest price seen and a small price history line.
+- **Free games and sales.** Free-to-keep Steam promotions, discounts of 75% or more, and a calendar of the big sales with a countdown (the dates are the usual ones - Steam announces the exact days).
+
+### While you play
+- **Game mode.** Mutes pop-ups and notification sounds while a game is running.
+- **Session widget.** A small always-on-top timer and clock (plus a break nudge) for windowed and borderless games, in the corner you choose.
+- **Shutdown timer.** Turn the PC off when your game closes, or after a set time, with a 60-second warning and a cancel button.
+- **Launch profiles.** Per game: run on above-normal or high priority, a high-performance power plan while playing (restored afterwards), and programs to close before launch.
+- **Game save backups.** Choose a game's save folder and back it up by hand or automatically when the game closes, then restore any of the last 8 (a safety copy is made first).
+- **Co-op finder and friend game alerts.** See which games you and a friend both own, most played first, and get told when a friend starts a game you own.
+
+### Library
+- **Import Epic and GOG games.** Finds games installed through the Epic Games Launcher and GOG Galaxy and adds them like non-Steam games.
+- **Library health check.** Finds games Steam thinks are installed but are missing, half-installed or empty, and cleans up leftover shader cache from games you no longer have installed.
+- **Big libraries are smoother.** Game cards are added in batches as you scroll instead of all at once.
+
+### Progress
+- **Seasons.** A reward track for every three months (Frost, Bloom, Blaze, Harvest) with 20 tiers fed by the XP you already earn: titles, a streak restore, an avatar frame, a tray icon and a theme.
+- **Weekly bingo.** A 3x3 card of small play goals every week. Each line gives bonus XP, and the whole card gives more.
+- **Challenge bonuses.** Clear all three daily challenges for +20 XP, all three weekly ones for +60 XP, and every daily for 7 days in a row for +100 XP.
+- **Prestige.** At level 100 you can prestige: your level starts again with a star (★), a gold icon and a title, and you keep everything you unlocked.
+- **Cosmetics.** Four new season avatar frames, season and prestige tray / window icons, and two new sound packs (Crystal at level 30, Deep at level 60).
+- **Spring Bloom event (March 20 - April 5).** Six achievements and the Spring Bloom theme, yours forever once earned.
+- **Five new themes:** Spring Bloom and one theme for each season.
+
+### Social and sharing
+- **Profile card.** A picture of your profile - level, title, frame, streak and most played games - to save and share.
+- **Theme share codes.** Copy your current look as a short code, or paste a code to try someone else's theme. Codes can only carry colours and styling, and anything that could load web content is refused.
+
+### Settings, safety and support
+- **Notification history.** A bell at the top keeps the last 50 pop-ups, including ones you missed.
+- **Automatic backups.** Pick a folder and SteamLite saves a backup of your progress and settings on a schedule (never your login). Backups now include your streak restores, prestige and seasons.
+- **Diagnostics.** A page with your version, system, settings summary and recent errors to copy when you need help. It never includes your API key or SteamID.
+- **Day / night themes.** Switch theme automatically by time or with Windows (only themes you own).
+- **Per-game accent.** The app takes its colour from the cover of the game you open (optional).
+- **Controller navigation.** Move around with a gamepad: D-pad or stick, A to open, B to go back, LB / RB to switch page, Y for the hub.
+- **Command palette 2.0.** Your most-used commands come first, search finds things even when you type only some of the letters, and Enter and the arrow keys work.
+- **Quick account switch.** If you have more than one saved account, the tray menu can switch between them.
+- **Bulgarian.** The main screens can be shown in Bulgarian (Extras settings > Language). The rest stays in English for now.
+- **Update tour.** After an update, a short tour shows what is new and lets you try each feature.
+- **Beta channel warning.** Switching to the beta channel now asks you to confirm.
+
+## Fixes
+- The link-opening call now only accepts web and Steam links.
+- The SteamLite level and season rewards now follow your prestige.
+
+---
+
+# SteamLite 8.6.1 Changelog
+
+A balance update: levels now come slower, streak restores are rare, and events only show up while they are on.
+
+## Changes
+
+### Streak restores are rare now
+- **Smaller rewards.** The five achievements that gave 5 streak restores (the three event finales and the two community picks) now give 1. Level rewards are 1 restore at level 25, 1 at level 50, 2 at level 75 and 3 at level 100 (they used to start at level 10).
+- **You can hold at most 5.** A reward that would go over the limit is capped, and a level reward waits until you have room.
+- **What you have is kept.** Nobody loses restores they already own, and levels you have already reached do not pay out the new level rewards.
+
+### XP boosts, with diminishing returns
+- **Events double all XP.** While an event is on (Halloween, Winter Holidays, Summer Splash), every achievement and challenge gives double XP.
+- **Weekends still give 1.2x**, and the two add together (event + weekend = 2.2x), they do not multiply.
+- **The bonus fades during the day.** The more boosted XP you earn in a day, the weaker the bonus gets: about 75% strength after one achievement, 50% after three and 25% after nine. It resets every day, so a boosted day helps without making levels fly by. The Inventory shows what is active and how strong the bonus still is.
+
+### Events only show while they are on
+- **Events that are not running are hidden.** The Achievements window and the Theme Shop no longer list the Halloween, Winter Holidays or Summer Splash achievements and themes outside their dates. Achievements you already earned stay visible, and so do themes you own.
+
+---
+
+# SteamLite 8.6.0 Changelog
+
+## New
+
+### Levels, rewards and challenges
+- **Spendable streak restores.** When a streak of 3 or more breaks, the Inventory shows a "Use a streak restore" button. Spend one and the streak comes straight back (earning any achievement still brings it back for free within 5 days).
+- **Level rewards.** Levelling up now gives you things: 13 profile titles (Newcomer at level 1 up to Ascended at 100), 5 new animated avatar frames (Flame at 12, Aurora at 22, Gold at 35, Galaxy at 55, Legendary at 75) and bonus streak restores at levels 10, 20, 30, 40, 50, 75 and 100. The Inventory lists what you have and what comes next.
+- **Profile titles.** Pick a title from your levels or from any achievement you have unlocked in Edit Profile. It shows under your name on your profile.
+- **Daily and weekly challenges.** Three of each, picked fresh every day (and every Monday), such as "Play 2 different games" or "Play for 8 hours". Each one pays bonus XP (1.2x on weekends), and you get a pop-up when you finish one. They are in the Inventory.
+
+### New features
+- **Wishlist and sales.** A new button at the top (and "Wishlist and Sales" in the command palette) lists your Steam wishlist with prices and discounts, on-sale games first. SteamLite also checks every few hours and tells you when something on your wishlist goes on sale (switch this off in Advanced Settings). Your Steam profile and game details need to be public.
+- **Game status and rating.** In every game you can set Playing, Backlog, Completed or Dropped and give it 1 to 5 stars. The status shows on the game card, and the library filter can show just one status, or just the games you rated.
+- **Year in Review.** A shareable picture of your year: total hours, your top 5 games, sessions, days played, best streak, achievements and level. Save it as a PNG, and look back at last year too. Open it from the command palette.
+- **Play-time reminders.** In Advanced Settings: a break reminder after a number of minutes of playing one game, and a reminder when you pass a daily play limit. Both are off until you set them.
+- **Run as administrator.** A new option in each game's properties for games that need it (it needs a custom .exe, and Windows asks for permission).
+- **Friend activity.** A new "Activity" link in the friends list shows who started or stopped playing what and who came online. It is recorded while SteamLite is open.
+
+### More events
+- **Winter Holidays (December 1 - 31)**: 6 achievements (Merry Christmas, Advent Calendar, Gift Wrapped, By the Fireside, Auld Lang Syne and the Christmas Spirit finale) and the **Winter Wonderland** theme, yours forever once you earn it.
+- **Summer Splash (June 21 - July 5)**: 6 achievements (Solstice, Sunny Days, Beach Bum, Sale Hunter, Midnight Swim and the Summer Survivor finale) and the **Summer Splash** theme.
+- Like Halloween, each event has a dashboard banner with a theme preview and can only be earned while it is on. There are now 67 achievements in total.
+
+### SteamLite Updater
+- **Other versions.** A new "Other versions..." link lists every release, so you can also go back to an older version if a new one gives you trouble. Your games, settings and achievements are kept.
+- **Install when I close SteamLite.** The update window has a new option that installs the update as soon as you quit SteamLite, without more clicking.
+
+## Notes
+- The new achievements, challenges and level rewards all count towards your level. Level 100 stays a long-term goal.
+- The new themes are included in SteamLite itself, so they appear in the Theme Shop as soon as you update.
+
+---
+
+# SteamLite 8.5.2 Changelog
+
+A bug-fix release - nothing new, just things that were wrong.
+
+## Bug fixes
+
+### SteamLite Updater
+- **Wrong install picked.** If you had an old "just me" copy of SteamLite listed next to a newer "all users" one, the Updater could read the old one's version and update the wrong folder. SteamLite now tells the Updater which folder it is running from, and without that the Updater only trusts installs whose SteamLite.exe is really there and takes the newest.
+- **"Try again" after a failed re-check** could start downloading the previous result instead of checking again.
+- **Smoother window.** The Updater now repaints without flickering.
+
+### Flicker and display
+- **Friends list and your profile in the sidebar** refreshed every 30 seconds by rebuilding everything, which made avatars, the name and the online dot flash. They now only change when something actually changed, and the avatar is kept when a refresh fails.
+- **Game ambient glow** (the soft colour behind a game's window) did not work because the cover could not be read for colour. It does now, and a stale glow from the previous game is cleared when a cover can't be read.
+- **Missing background files.** If your custom background image or video was moved or deleted, the window was left empty. It now falls back to the normal background.
+- **Background video speed** was ignored when the video loaded. The speed setting works again.
+- **Theme Maker colour pickers** for Glass, Glass Light and the borders showed black. They now show their real colours.
+
+---
+
+# SteamLite 8.5.1 Changelog
+
+## New
+
+### 15 new achievements, each with its own theme
+Every new achievement gives a random 60-140 XP like the others, and unlocks a new theme in the Theme Shop that is yours to keep.
+
+| Achievement | How to get it | Theme |
+|---|---|---|
+| 🎉 Weekend Warrior | Play on 8 different weekend days | Weekend Warrior |
+| 📅 Regular | Play on 14 different days | Regular Teal |
+| 🗓️ Calendar Keeper | Play on 60 different days | Calendar Sapphire |
+| 🚀 Long Haul | Play 10 sessions of 2 hours or more | Long Haul Copper |
+| 🎯 Launch Legend | Launch games 500 times | Launch Legend Onyx |
+| ⌛ Quarter K | Play for 250 hours in total | Quarter K Jade |
+| ⏳ Time Lord | Play for 2500 hours in total | Time Lord Amethyst |
+| 💖 Devoted | Play 100 hours of a single game | Devoted Rose |
+| ⭐ Favourite Things | Add 10 games to your favorites | Favourite Coral |
+| 🗂️ Organiser | Create 3 collections | Organiser Slate |
+| 🔎 Achievement Hunter | Unlock 10 SteamLite achievements | Hunter Moss |
+| 🏅 Trophy Case | Unlock 25 SteamLite achievements | Trophy Bronze |
+| ⚡ Rising Star | Reach SteamLite level 25 | Level-Up Electric |
+| 🧊 Restore Hoarder | Hold 5 streak restores at the same time | Hoarder Ice |
+| 🔥 Fortnight Strong | Reach a 14-day play streak | Fortnight Ember |
+
+### Bug fixes
+- **"Update now" now opens the SteamLite Updater for "all users" installs too.** The installer puts the Updater under ProgramData for those installs, which SteamLite did not look in, so it quietly used the old in-app update instead.
+
+### Notes
+- There are now 55 achievements, so level 100 (4,950 XP) is reachable: they average about 5,500 XP in total, or about 4,700 without the October-only Halloween ones, and weekend boosts help.
+- Achievements that you already qualify for unlock the next time SteamLite checks (when it starts, or when you open Achievements), and their themes are granted at once.
+- The new themes are included in SteamLite itself, so they appear in the Theme Shop as soon as you update.
+
+---
+
+# SteamLite 8.5.0 Changelog
+
+## New
+
+### SteamLite levels
+- **Levels and XP.** Every SteamLite achievement, the Halloween event ones included, gives a random 60-140 XP (100 on average) when you unlock it. Each level takes 50 XP and the highest level is 100. Achievements you already had count as 100 XP each.
+- **Weekend XP boost.** Every Saturday and Sunday all XP is boosted by 1.2×. The Inventory shows whether the boost is active, when it ends, or when the next one starts, and the achievement pop-up marks boosted XP.
+- **Shown beside your Steam level.** Your profile now shows "SteamLite Lv" next to your Steam level, with a small bar for how far you are to the next level. Click it to open your inventory.
+- **Level-ups in the pop-up.** The achievement pop-up now shows the XP you gained and when you reach a new level, and every achievement card shows the XP it gave (or the 60-140 XP range while it is locked).
+
+### Inventory
+- **A new Inventory button** at the top (next to Achievements, or "Inventory" in the command palette). It shows your SteamLite level, how many streak restores you have, your current play streak (and a renewable broken streak, if you have one), and the reward themes you have earned.
+
+### Profile
+- **Hide your badges.** Edit Profile has a new "Hide the badges section on my profile" option. When it is on, your profile shows a short note instead of the badges, and you can turn it back on at any time.
+
+### Notes
+- With 40 achievements averaging 100 XP, most players will top out around level 81. Level 100 needs about 4,950 XP, so only lucky rolls and weekend boosts get close (the 8 Halloween ones can only be earned in October).
+
+---
+
+# SteamLite 8.4.1 Changelog
+
+## New
+
+### SteamLite Updater
+- **A small stand-alone updater app.** `SteamLite Updater.exe` is installed in its own folder (%LOCALAPPDATA%\SteamLite Updater, separate from SteamLite so it never gets overwritten while running) and has its own window: it shows the version you have and the latest one, the release notes, a download progress bar with speed and time left, and installs the update for you.
+- **Updating from SteamLite now opens the Updater.** When an update is found, "Update now" hands over to the Updater, which downloads it (and can resume a download that was interrupted), closes SteamLite, installs the update and starts SteamLite again.
+- **It works even when SteamLite doesn't.** You can open it from the Start menu ("SteamLite Updater") or from the command palette ("Open SteamLite Updater"), so a broken or blocked in-app update check no longer means reinstalling by hand.
+- **Uses what Windows already has.** The Updater is about 300 KB and needs nothing extra installed. It checks the same places as SteamLite (GitHub, with a fallback) and supports the Beta channel.
+
+### Notes
+- The Updater arrives with this version, so the first update to 8.4.1 still uses the old in-app updater. From 8.4.1 on, updates go through the Updater.
+- If the Updater is missing for some reason, SteamLite falls back to its previous in-app update.
+
+---
+
+# SteamLite 8.4.0 Changelog
+
+## New
+
+### Halloween event (October 1 - November 1, returns every year)
+- **A seasonal Halloween event.** While it's on, a banner on the dashboard shows a countdown and how many event achievements you have, you get a one-time notification when it starts, and the Achievements window has a Halloween section at the top.
+- **8 Halloween achievements**, counted only from play during the event:
+  - **Trick or Treat** - play a game on Halloween (October 31).
+  - **Witching Hour** - start a session between 3:00 and 4:00 AM.
+  - **Night Stalker** - start 5 sessions after 10 PM.
+  - **Vampire Hours** - play on 7 different days.
+  - **Tangled Web** - play 7 different games.
+  - **Haunted Marathon** - play a single session of 3 hours or more.
+  - **Graveyard Shift** - play 13 hours during the event.
+  - **Spooky Season Survivor** - unlock every other Halloween achievement. Unlocks the Haunted Harvest theme and rewards 5 streak restores.
+- **Haunted Harvest theme** (Theme Shop): pumpkin orange on a haunted purple night, with a glowing orange accent. It's the reward for unlocking all 8 Halloween achievements, and once you earn it, it's yours forever - even after the event ends. It ships with SteamLite like the other bundled themes.
+- **Preview the theme:** the event banner has a **Preview theme** button that tries Haunted Harvest on before you've unlocked it. Nothing is saved or unlocked, and it doesn't count as applying a theme. A bar at the bottom lets you exit (or press Esc) and your own look comes straight back. If you've already earned the theme, the same bar lets you apply it.
+- **Limited time:** Halloween achievements, and the Haunted Harvest theme they unlock, can only be earned until November 1. After that the event closes, the banner goes away, and the theme can no longer be unlocked (the Theme Shop says it was a limited-time event theme). Anything you earned - including the theme - stays unlocked for good.
+
+### Sound
+- **A brand new sound design.** There are now 13 distinct sounds instead of 3: clicks, windows opening and closing (they used to make the same noise), switches turning on and off, notifications, success and error messages, achievements, streaks, a game launching or stopping, and favoriting.
+- **Three sound packs** (Advanced Settings -> Sound Pack, with a Preview button): **Glass** (new, the default, bright and bell-like), **Classic** (the original sounds) and **Arcade** (chiptune).
+- Toasts sound like what they say: failures, confirmations and achievements each have their own sound.
+
+### Disk usage
+- **Size on disk.** Each installed game card now shows how much space it uses, and you can sort your library by size (Filters -> Sort By -> Size on disk).
+- **Disk Usage widget** on the dashboard: how much your games use in total, free space on every drive that holds a Steam library, and your five biggest games.
+- **Free Up Space** (Ctrl+K -> "Free Up Space", or the button on the widget): every installed game by size, with filters for "not played in 6+ months", "never played" and "over 10 GB", and a "good candidate" tag on big games you haven't touched. Uninstalling still goes through Steam's own confirmation.
+
+### Adding games
+- **Drag and drop** a program (.exe) or a Windows shortcut (.lnk) onto the window to add it as a non-Steam game. Drop several at once and pick which to add. Shortcut arguments are kept.
+- **Import from Start menu:** scan your Start menu for programs and add the ones you want. Steam games, installers, uninstallers and Windows tools are left out.
+
+### Undo
+- Hiding a game (one or many), removing a game from a collection, deleting a collection and removing a non-Steam game now show an **Undo** button for a few seconds.
+
+### Keyboard and shortcuts
+- **Move around the library with the arrow keys.** Enter opens the highlighted game, F favorites it, Home and End jump to the first and last. Down from the search box drops into the grid.
+- **Rebindable global hotkeys** (Advanced Settings -> Global Hotkeys): change the shortcuts for Quick Launch, the Command Palette and Stop Game. SteamLite tells you if another program already uses one.
+
+### Settings
+- **Quiet Hours:** mute notification sounds and friend pop-ups on a schedule (for example 22:00 to 08:00).
+- **Keep running in the tray when closed** can now be turned off, so the close button quits SteamLite.
+- **Check for updates automatically** can now be turned off.
+- **Skip this version** on the update dialog: automatic checks stay quiet about that release (a manual check still shows it).
+- **Quick links:** right-click a game to open its Steam Store page, SteamDB, PCGamingWiki or HowLongToBeat.
+
+## Bug Fixes
+- "Quit SteamLite" in the command palette used to just hide the window to the tray. It now really quits.
+- Dropping a file onto the window no longer tries to open it inside SteamLite.
+
+## Improvements
+- Sounds that happen close together are no longer dropped. Before, one shared 150ms limit meant opening a window right after a click could be silent.
+- Reverb is skipped in Potato Mode, and the sound volume slider still controls every pack.
+
+## Known Issues
+- Halloween achievements only count play from the event dates (October 1 - November 1), so sessions from before October 1 do not count.
+- Free Up Space can only uninstall one game at a time, because Steam asks for confirmation on each.
+- Sizes come from Steam's own install records, so they update after Steam finishes installing or updating a game (press F5 to refresh).
+
+---
+
+# SteamLite 8.3.6 Changelog
+
+## Bug Fixes
+- **Updates not being detected:** the "update available" message was only sent once, 3 seconds after launch, so on a slower PC it could be sent before the window had finished loading and was lost. SteamLite now holds a found update until the window is ready, retries a few times if the first check fails (for example when the network isn't up yet), and re-checks every 4 hours, so an app left running in the tray still finds new versions.
+- **Missing covers on newer games:** many recently released games showed no cover image. This was a long-standing issue that goes back to at least v1.3.0 of SteamLite: Steam stores newer games' art at a different address than the one SteamLite looked up. SteamLite now falls back to Steam's store to find the real image, saves it, and remembers games that have no store page so they aren't looked up again every launch.
+- A failed manual update check now says why (for example a DNS or connection error) instead of just "failed".
+
+## Improvements
+- If raw.githubusercontent.com is blocked or unreliable on your network, the update check falls back to the GitHub API.
+- Hardened the cover image loader so it only accepts game IDs, never a file path.
+
+## Known Issues
+- Games with no Steam store page at all still show their name instead of a cover. You can set your own with right-click, Change Cover.
+- If you're on a version older than 8.3.6 and updates aren't being detected, install 8.3.6 manually once. Updates from 8.3.6 onward will be found reliably.
+
+---
+
+# SteamLite 8.3.5 Changelog
+
+## New
+- **First-time setup:** a short guided setup now runs the first time you sign in - pick an accent color and game card style, choose startup and notification options, and see the shortcuts worth knowing. Every step is optional, and you can replay it any time from the command palette (Ctrl+K, then "Run Setup Again").
+- **Compare with a friend:** a new Compare button on friend profiles opens a head-to-head of your libraries: games owned, total and average playtime, most played game, every game you share with who has played it more, and the games they love that you don't own yet.
+- **Game News widget:** the dashboard has a new feed of the latest announcements from the games you play most. Click an item to read it, hit the refresh arrow to update it, and resize or reorder it like any other widget.
+- **Appearance settings** (Advanced Settings -> Appearance, or Ctrl+K -> "Appearance"):
+  - **Card styles:** Standard, Wide, Compact list, or the new Cover only (just the art, with the title appearing on hover).
+  - **Card size and spacing:** sliders for how big the game cards are and how much space is between them.
+  - **Fonts:** choose from several built-in options, or type the name of any font installed on your PC.
+  - **UI scale:** make everything from 80% to 140% of normal size.
+- **Search and animated achievements:** you can now search achievements (by name or description) in a game's Achievements tab and in the SteamLite Achievements window, with a live count of matches. Achievement lists also slide and fade into place one after another, and the animation is quicker while you type.
+- **Potato Mode** (Advanced Settings) for older PCs and integrated graphics. It turns off background blurs, looping animations, the drifting background glow, background videos and blur, and card shadows; skips drawing off-screen game cards; loads cover art lazily; checks for running games every 5 seconds instead of 2; and checks friends every minute instead of every 30 seconds.
+
+## Bug Fixes
+- Fixed game tracking being able to start a new process scan before the previous one had finished, which stacked up PowerShell processes on slow PCs.
+
+## Improvements
+- Hovering a game card remembers its glow color instead of recalculating it every time.
+- Cover art now loads lazily, so big libraries open faster.
+
+## Known Issues
+- Compare only works with friends whose game list is public on Steam.
+- Pins, nicknames, notes, showcases, badges and stats are stored on your PC only. Other SteamLite users can't see them on your profile, and you can't see theirs.
+
+---
+
+# SteamLite 8.3.0 Changelog
+
+## New
+
+### Profile
+- **Banner styles:** besides an image or GIF, your banner can now be a two-color gradient (with an angle) or a solid color.
+- **Profile editor:** a new "Edit Profile" button on your own profile lets you set a tagline, pick up to 5 favourite games to showcase, choose an avatar frame (Glow, Ring, Pulse or Rainbow), and set an accent color just for your profile.
+- **Badges:** your unlocked SteamLite achievements and current play streak now show on your profile.
+
+### Friends
+- **Pin friends** to the top of the list (hover a friend and click the pin, or right-click them).
+- **Nicknames and private notes:** give a friend a nickname and add a note about them. Both are only visible to you, and both show on their profile too.
+- **Search and sort** your friends list: by status, A-Z, or last online.
+- **Hide or mute** a friend. Hidden friends disappear from the list (tick "Show hidden" to see them), and muted or hidden friends never trigger notifications.
+- **Friend notifications now show their profile picture**, and you also get a "just came online" notification for friends you've pinned. Click a notification to open their profile.
+- **Tidier friend profiles:** "Friends in Common" now sits on the profile banner, and the Play Together / Pin / Nickname / Note buttons have their own row, so nothing gets squeezed and the name always sits beside the profile picture.
+
+### Library
+- **Smart collections:** "Recently Played", "Unplayed Backlog" and "Most Played" appear in the sidebar and keep themselves up to date.
+- **Multi-select:** click the new select button (or press Ctrl+Shift+S), pick several games, then add them to a collection, favorite them, or hide them in one go.
+- **Smarter Play Next:** choose what it picks from (any installed game, unplayed games, your favorites, or the current collection) in the filters menu. It also won't pick the same game twice in a row.
+- **Your sort order and filters are now remembered** between launches.
+
+### Stats
+- **This Week widget** on the dashboard: a Monday-to-Sunday playtime chart with a weekly goal you can set, plus a nudge when a game you used to love has been gathering dust.
+- **Session history** in each game's window: how many sessions you've played, the average and longest, and your latest five.
+
+### Quality of life
+- **Settings backup and restore:** export your preferences, collections, favorites, friend nicknames and playtime history to a file and import them on another PC. Your API key and login are never included.
+- **Start with Windows** and **Start minimized to tray** options in Advanced Settings.
+- **Keyboard shortcuts:** Ctrl+1/2/3 for Home/Library/Favorites, Ctrl+F to search your library, Ctrl+Shift+F to search friends, Ctrl+, for Settings, F5 to refresh, Esc to close the top window, and Ctrl+/ for the full list.
+
+## Bug Fixes
+- Fixed saving Settings quietly replacing the in-app copy of your configuration with only the fields on that screen, which would have discarded things like friend nicknames and your profile customisation until the next restart.
+- The profile editor ignores showcase games that are no longer in your library, so they can't use up one of your 5 slots invisibly.
+
+## Known Issues
+- Pins, nicknames, notes, showcases, badges and stats are stored on your PC only. Other SteamLite users can't see them on your profile, and you can't see theirs.
+
+---
+
+# SteamLite 8.2.2 Changelog
+
+## Bug Fixes
+- Fixed "Restart & Install" closing SteamLite and then doing nothing. The helper that was meant to open the installer after the app quit was being killed along with the app (Windows ends a child process with its parent, and a detached PowerShell can't start at all), so the installer never appeared. It now uses a helper that survives the app closing and opens the installer through Windows (including the administrator prompt) a few seconds later.
+
+## Improvements
+- Removed the old small update banner entirely. The updater page is now the single place updates are shown, from "update available" through downloading to "ready to install".
+- The installer now closes any SteamLite process still running before it copies files, so upgrading can't fail with "file in use".
+
+## Known Issues
+- If you're updating from 8.2.0 or 8.2.1, the in-app updater on those versions still has the old problem, so install 8.2.2 manually once. Updates from 8.2.2 onward will open the installer correctly.
+
+---
+
+# SteamLite 8.2.1 Changelog
+
+## Bug Fixes
+- Fixed the update notification showing twice when an update is found — the full updater page and the small "update available / ready to install" banner appeared at the same time.
+
+---
+
+# SteamLite 8.2.0 Changelog
+
+## New
+- **Editable profile banner:** hover your own banner and click "Edit Banner" to pick any image or GIF from your PC, drag the preview to move the image where you want it, zoom in, adjust blur and dimming with live preview, or reset to the default avatar banner. It's saved per profile and remembered across restarts.
+- **Reworked What's New screen:** a new hero header with a summary of the update, changes sorted into New / Bug Fixes / Improvements sections with staggered fade-in, and a collapsible list of previous releases. You can now reopen it any time from the command palette (Ctrl+K → "What's New") and it loads the latest changelog even if you've already seen it.
+
+## Bug Fixes
+- Fixed the in-app updater not opening the installer after SteamLite closed. The installer asks for administrator rights, and the app was starting it in a way that can't show that prompt (and was quitting before the failure was noticed). SteamLite now closes fully, then opens the installer wizard so you can finish the upgrade.
+
+## Improvements
+- The banner image picker now accepts GIF and WebP files as well as JPG and PNG.
+
+## Known Issues
+- Other players' SteamLite streaks still can't be shown on the Friends tab — streaks are stored locally on each install with no server behind them.
+
+---
+
+# SteamLite 8.1.4 Changelog
+
+## Bug Fixes
+- Fixed the "Friends in Common" list on a friend's profile popping in instantly with no transition — it now fades/slides in smoothly, with a slight stagger per entry.
+
+## Improvements
+- Replaced the custom installer with a proper NSIS-based setup wizard: the SteamLite icon now shows in the installer window, it asks whether to install for all users or just you, detects and offers to upgrade an existing install, and finishes with an optional "Launch SteamLite" step. Unattended installs (`/S`, used by the in-app updater) are unchanged.
+
+## Known Issues
+- Other players' SteamLite streaks can't be shown on the Friends tab — streaks are tracked entirely locally on each person's own install with no server/sync layer behind them, so there's nothing to fetch.
+- The in-app auto-updater depends on a matching release actually being published to the project's GitHub repo; if none is published yet for a given version, "Update Now" will fail and a manual download is the only option. This isn't something a local code change can fix.
+
+---
+
+# SteamLite 8.1.3 Changelog
+
+## Bug Fixes
+- Fixed streak-recovery window expiring (or staying active) on the wrong day around month/day boundaries (e.g. Sept→Oct, or day 9→10) due to a non-zero-padded date comparison.
+- Fixed "Max common friends shown" (Advanced Settings) being saved in the UI but never actually persisted — the app now remembers it across restarts.
+- Fixed a memory/event-listener leak in the game detail modal where opening a game repeatedly stacked duplicate click handlers, causing achievement/news tabs to load multiple times and firing duplicate click sounds.
+- Fixed a memory/input-lag leak in the UI Editor where dragging widgets kept attaching new mouse listeners to the whole app on every edit, never cleaning up old ones.
+- Fixed the SteamLite "exclusive achievement" unlock toast re-appearing every time you reopened a game's SteamLite tab instead of only the first time it's earned.
+- Hardened game news rendering against malformed/crafted Steam announcement content that could otherwise inject live HTML attributes into the app.
+- Fixed Dashboard layout edits (resized widgets and reordered sections) not persisting — they used to reset the moment you left the Home tab and came back, or restarted the app.
+- Fixed the background color (and other theme colors) resetting to default after applying a theme and restarting the app — only the accent color was actually being saved before.
+- Fixed the Play button getting stuck on "Loading..." and never flipping to the red "Stop" button on PCs without `wmic.exe` (removed in newer Windows 11 builds) — the PowerShell fallback used to list running processes in the opposite column order the code expected, so a launched game's process was never actually detected as running. This also means clicking Stop now actually terminates the game process on those PCs, instead of just silently ending the session while the game kept running.
+- Fixed the game modal's "⋯" menu flashing a sideways scrollbar for a split second when opened.
+- Fixed the game modal and Settings menu not fading in/out when opened or closed — a leftover animation rule was silently overriding the fade and freezing modals at full opacity.
+
+## Improvements
+- General stability and security pass across the renderer.
+- Optimised animations.
+- Removed the redundant "News" entry from the game modal's "⋯" menu (News already has its own tab in the modal).
+- Dropped the "Mango" codename from the app's title bar, window title, and tray tooltip — SteamLite now just shows its version number.
+- The installer now lets you pick an install location and choose whether to create a desktop shortcut, a Start Menu shortcut, and whether to launch SteamLite after installing (unattended `/S` installs keep the previous defaults).
+
+## Known Issues
+- None
+
+---
+
+# SteamLite 9.0.0 (Codename: Mango) Changelog
+
+## New
+- All-new Updater page: a dedicated update flow (available → downloading → ready) with version comparison, changelog preview, and a live progress bar, replacing the old bare notification banner.
+- Refreshed navigation with an animated active-tab accent indicator.
+
+## Bug Fixes
+- Fixed "Hide offline friends" (Advanced Settings) being saved but never actually applied — the Friends list now respects it.
+
+## Improvements
+- General UI polish pass across modals and update surfaces.
+
+## Known Issues
+- None
+
+---
+
+# SteamLite 8.1.2 Changelog
+
+## Bug Fixes
+- Fixed dashboard widget size persistence (widget sizes now properly save and restore on relaunch)
+- Fixed profile banner statistics positioning (moved to top of banner for better visibility)
+
+## Improvements
+- Added 5 new themes: Cotton Candy, Desert Dusk, Emerald Dream, Lavender Haze, Obsidian Fire
+- Added 5 new achievements: Dedicated Gamer, Game Master, Session Pro, Streak Legend, Theme Enthusiast
+- Improved profile banner layout with stats positioned at the top
+- Enhanced dashboard customization with persistent widget sizes
+
+## Known Issues
+- None
+
+---
+
+# SteamLite 8.1.1 Changelog
+
+## Bug Fixes
+- Fixed achievement images not displaying in game modal
+- Fixed play button infinite loading loop by improving exe tracking fallback
+- Fixed UI clipping between friends-in-common and account stats on profile banner
+- Fixed status indicator visibility on profile pictures (now properly displayed with larger size and glow)
+- Fixed Change Profile button position and name cutoff
+- Fixed Add Non-Steam Game button hover color to use user's accent color
+
+## Improvements
+- Added dashboard widget size customization (resize widgets with +/- buttons)
+- Added SteamLite exclusive achievements with unlock notifications
+- Reworked What's New screen with modern hero section and styling
+- Made Add Non-Steam Game button smaller and sleeker (48px with SVG icon)
+- Improved status indicator visibility and styling on profile pictures
+- Enhanced achievement display in game modal with proper images and layout
+
+## Known Issues
+- None

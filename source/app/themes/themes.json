@@ -1,0 +1,832 @@
+{
+  "themes": [
+    {
+      "id": "dracula",
+      "name": "Dracula",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "The classic dark purple Dracula palette.",
+      "file": "dracula.json",
+      "colors": [
+        "#bd93f9",
+        "#282a36",
+        "#50fa7b"
+      ]
+    },
+    {
+      "id": "catppuccin-mocha",
+      "name": "Catppuccin Mocha",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Soft pastel colors on a warm dark base. Easy on the eyes.",
+      "file": "catppuccin-mocha.json",
+      "colors": [
+        "#cba6f7",
+        "#1e1e2e",
+        "#f38ba8"
+      ]
+    },
+    {
+      "id": "nordic-frost",
+      "name": "Nordic Frost",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Cool blues and frosted grays inspired by the Nord palette.",
+      "file": "nordic-frost.json",
+      "colors": [
+        "#88c0d0",
+        "#2e3440",
+        "#a3be8c"
+      ]
+    },
+    {
+      "id": "solarized-dark",
+      "name": "Solarized Dark",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "The timeless Solarized Dark scheme with ocean-blue accents.",
+      "file": "solarized-dark.json",
+      "colors": [
+        "#268bd2",
+        "#002b36",
+        "#b58900"
+      ]
+    },
+    {
+      "id": "crt-terminal",
+      "name": "CRT Terminal",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Green phosphor monitor vibes with a monospace font and glowing titles.",
+      "file": "crt-terminal.json",
+      "colors": [
+        "#33ff66",
+        "#050a05",
+        "#ffb000"
+      ]
+    },
+    {
+      "id": "ocean-deep",
+      "name": "Ocean Deep",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Deep sea blues with a bright cyan accent and coral highlights.",
+      "file": "ocean-deep.json",
+      "colors": [
+        "#00b4d8",
+        "#0d1b2a",
+        "#ef476f"
+      ]
+    },
+    {
+      "id": "gruvbox-dark",
+      "name": "Gruvbox Dark",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Warm retro groove colors with an orange accent.",
+      "file": "gruvbox-dark.json",
+      "colors": [
+        "#fe8019",
+        "#282828",
+        "#b8bb26"
+      ]
+    },
+    {
+      "id": "synthwave",
+      "name": "Synthwave",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Neon pink on deep purple with glowing titles.",
+      "file": "synthwave.json",
+      "colors": [
+        "#ff2ec4",
+        "#0d0221",
+        "#00ffa3"
+      ]
+    },
+    {
+      "id": "midnight-rose",
+      "name": "Midnight Rose",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Romantic rose-pink accents on a deep plum base.",
+      "file": "midnight-rose.json",
+      "colors": [
+        "#e06080",
+        "#1a0e14",
+        "#6ee8a0"
+      ]
+    },
+    {
+      "id": "cyber-lime",
+      "name": "Cyber Lime",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Electric neon green for a hacker-terminal aesthetic.",
+      "file": "cyber-lime.json",
+      "colors": [
+        "#8cff32",
+        "#0a1208",
+        "#ffe04a"
+      ]
+    },
+    {
+      "id": "centurion-gold",
+      "name": "Centurion Gold",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Opulent gold and warm amber — reward for 100 game launches.",
+      "file": "centurion-gold.json",
+      "colors": [
+        "#d4af37",
+        "#1a1608",
+        "#7ec850"
+      ],
+      "requires": "veteran-launches"
+    },
+    {
+      "id": "500-club-platinum",
+      "name": "500 Club Platinum",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Cool platinum-silver prestige — reward for 500 hours in a single game.",
+      "file": "500-club-platinum.json",
+      "colors": [
+        "#c0c0d0",
+        "#0f0f13",
+        "#6ee7a0"
+      ],
+      "requires": "five-hundred"
+    },
+    {
+      "id": "marathon-redline",
+      "name": "Marathon Redline",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Blazing red — reward for a single 5+ hour session.",
+      "file": "marathon-redline.json",
+      "colors": [
+        "#ff2d2d",
+        "#1a0a0a",
+        "#5cff7e"
+      ],
+      "requires": "marathon"
+    },
+    {
+      "id": "streak-inferno",
+      "name": "Streak Inferno",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Molten orange fire theme — reward for a 7-day play streak.",
+      "file": "streak-inferno.json",
+      "colors": [
+        "#ff7800",
+        "#140800",
+        "#66ff66"
+      ],
+      "requires": "streak-7"
+    },
+    {
+      "id": "unstoppable-solar",
+      "name": "Unstoppable Solar",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Radiant golden glow — reward for a 30-day play streak.",
+      "file": "unstoppable-solar.json",
+      "colors": [
+        "#ffc832",
+        "#0c0c18",
+        "#6eff8a"
+      ],
+      "requires": "streak-30"
+    },
+    {
+      "id": "completionist-prism",
+      "name": "Completionist Prism",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Ethereal violet prism — reward for 100% completing any game.",
+      "file": "completionist-prism.json",
+      "colors": [
+        "#b478ff",
+        "#0e0e14",
+        "#6eff96"
+      ],
+      "requires": "completionist"
+    },
+    {
+      "id": "aurora-borealis",
+      "name": "Aurora Borealis",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Northern lights green on a deep arctic night.",
+      "file": "aurora-borealis.json",
+      "colors": [
+        "#00ff88",
+        "#0a0f14",
+        "#ffd644"
+      ]
+    },
+    {
+      "id": "volcanic-ash",
+      "name": "Volcanic Ash",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Smoldering ember orange on charred stone.",
+      "file": "volcanic-ash.json",
+      "colors": [
+        "#c8783c",
+        "#141210",
+        "#7ec850"
+      ]
+    },
+    {
+      "id": "chrome-aurora",
+      "name": "Chrome Aurora",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Liquid chrome-blue glow — reward for applying 5 themes.",
+      "file": "chrome-aurora.json",
+      "colors": [
+        "#64c8ff",
+        "#080c10",
+        "#5cff8a"
+      ],
+      "requires": "theme-collector"
+    },
+    {
+      "id": "sunset-drive",
+      "name": "Sunset Drive",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Warm coastal sunset — coral and dusk pink.",
+      "file": "sunset-drive.json",
+      "colors": [
+        "#ff7864",
+        "#1a0f14",
+        "#6ee8a0"
+      ]
+    },
+    {
+      "id": "deep-forest",
+      "name": "Deep Forest",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Mossy greens on cool forest-floor dark.",
+      "file": "deep-forest.json",
+      "colors": [
+        "#6ec88c",
+        "#0c120e",
+        "#e8d066"
+      ]
+    },
+    {
+      "id": "neon-noir",
+      "name": "Neon Noir",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Hot neon pink on midnight blue.",
+      "file": "neon-noir.json",
+      "colors": [
+        "#ff2ec4",
+        "#0b0e14",
+        "#00e5a0"
+      ]
+    },
+    {
+      "id": "glacier-mint",
+      "name": "Glacier Mint",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Cool mint frost over deep arctic teal.",
+      "file": "glacier-mint.json",
+      "colors": [
+        "#6effe2",
+        "#0a1214",
+        "#e8d066"
+      ]
+    },
+    {
+      "id": "castiel-aurora",
+      "name": "Castiel's Aurora",
+      "author": "Castiel",
+      "authorSteamId": "76561199473454186",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Castiel - ethereal purple and gold.",
+      "file": "aurora-borealis.json",
+      "colors": [
+        "#9b59b6",
+        "#2c3e50",
+        "#f1c40f"
+      ]
+    },
+    {
+      "id": "castiel-midnight",
+      "name": "Castiel's Midnight",
+      "author": "Castiel",
+      "authorSteamId": "76561199473454186",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Castiel - deep midnight blue with silver accents.",
+      "file": "glacier-mint.json",
+      "colors": [
+        "#3498db",
+        "#1a252f",
+        "#bdc3c7"
+      ]
+    },
+    {
+      "id": "castiel-sunset",
+      "name": "Castiel's Sunset",
+      "author": "Castiel",
+      "authorSteamId": "76561199473454186",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Castiel - warm sunset oranges and purples.",
+      "file": "sunset-drive.json",
+      "colors": [
+        "#e67e22",
+        "#2c1810",
+        "#9b59b6"
+      ]
+    },
+    {
+      "id": "alex-cyber",
+      "name": "Alex's Cyber",
+      "author": "Alex",
+      "authorSteamId": "76561199152494033",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Alex - cyber green and neon blue.",
+      "file": "cyber-lime.json",
+      "colors": [
+        "#2ecc71",
+        "#0d1117",
+        "#00d4ff"
+      ]
+    },
+    {
+      "id": "alex-forest",
+      "name": "Alex's Forest",
+      "author": "Alex",
+      "authorSteamId": "76561199152494033",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Alex - deep forest greens and earth tones.",
+      "file": "deep-forest.json",
+      "colors": [
+        "#27ae60",
+        "#1e272e",
+        "#d4ac0d"
+      ]
+    },
+    {
+      "id": "alex-noir",
+      "name": "Alex's Noir",
+      "author": "Alex",
+      "authorSteamId": "76561199152494033",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A community theme by Alex - film noir black and white with red accents.",
+      "file": "neon-noir.json",
+      "colors": [
+        "#e74c3c",
+        "#0a0a0a",
+        "#ecf0f1"
+      ]
+    },
+    {
+      "id": "cotton-candy",
+      "name": "Cotton Candy",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Sweet pastel pinks and blues for a dreamy aesthetic.",
+      "file": "cotton-candy.json",
+      "colors": [
+        "#ff9ff3",
+        "#2d3436",
+        "#74b9ff"
+      ]
+    },
+    {
+      "id": "desert-dusk",
+      "name": "Desert Dusk",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Warm desert sunset with amber and purple gradients.",
+      "file": "desert-dusk.json",
+      "colors": [
+        "#ff9f43",
+        "#2c1e14",
+        "#a55eea"
+      ]
+    },
+    {
+      "id": "emerald-dream",
+      "name": "Emerald Dream",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Rich emerald greens on a deep forest background.",
+      "file": "emerald-dream.json",
+      "colors": [
+        "#00d2d3",
+        "#0e1410",
+        "#ffeaa7"
+      ]
+    },
+    {
+      "id": "lavender-haze",
+      "name": "Lavender Haze",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Soft lavender tones with gentle violet accents.",
+      "file": "lavender-haze.json",
+      "colors": [
+        "#a29bfe",
+        "#2d2430",
+        "#fd79a8"
+      ]
+    },
+    {
+      "id": "obsidian-fire",
+      "name": "Obsidian Fire",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Dark obsidian black with fiery orange accents.",
+      "file": "obsidian-fire.json",
+      "colors": [
+        "#ff6b6b",
+        "#0a0a0a",
+        "#feca57"
+      ]
+    },
+    {
+      "id": "haunted-harvest",
+      "name": "Haunted Harvest",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Pumpkin orange on a haunted purple night - the limited-time Halloween event reward for unlocking all 8 Halloween achievements. Earn it before November 1 and it is yours forever.",
+      "file": "haunted-harvest.json",
+      "colors": [
+        "#ff7a18",
+        "#0b0612",
+        "#a855f7"
+      ],
+      "requires": "hw-survivor"
+    },
+    {
+      "id": "weekend-warrior",
+      "name": "Weekend Warrior",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Hot pink and violet for weekend players — reward for the \"Weekend Warrior\" achievement.",
+      "file": "weekend-warrior.json",
+      "colors": [
+        "#ff3cac",
+        "#170a1f",
+        "#6ee7a0"
+      ],
+      "requires": "weekend-warrior"
+    },
+    {
+      "id": "regular-teal",
+      "name": "Regular Teal",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Calm teal for players who keep coming back — reward for the \"Regular\" achievement.",
+      "file": "regular-teal.json",
+      "colors": [
+        "#2dd4bf",
+        "#07191a",
+        "#6ee7a0"
+      ],
+      "requires": "regular"
+    },
+    {
+      "id": "calendar-sapphire",
+      "name": "Calendar Sapphire",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Deep sapphire blue for 60 days of play — reward for the \"Calendar Keeper\" achievement.",
+      "file": "calendar-sapphire.json",
+      "colors": [
+        "#3b82f6",
+        "#08111f",
+        "#6ee7a0"
+      ],
+      "requires": "calendar-keeper"
+    },
+    {
+      "id": "long-haul-copper",
+      "name": "Long Haul Copper",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Warm copper for the long sessions — reward for the \"Long Haul\" achievement.",
+      "file": "long-haul-copper.json",
+      "colors": [
+        "#c97b4a",
+        "#1a1109",
+        "#6ee7a0"
+      ],
+      "requires": "long-haul"
+    },
+    {
+      "id": "launch-legend-onyx",
+      "name": "Launch Legend Onyx",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Silver on onyx for 500 launches — reward for the \"Launch Legend\" achievement.",
+      "file": "launch-legend-onyx.json",
+      "colors": [
+        "#e5e7eb",
+        "#0a0a0c",
+        "#6ee7a0"
+      ],
+      "requires": "launch-legend"
+    },
+    {
+      "id": "quarter-k-jade",
+      "name": "Quarter K Jade",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Fresh jade green for 250 hours — reward for the \"Quarter K\" achievement.",
+      "file": "quarter-k-jade.json",
+      "colors": [
+        "#34d399",
+        "#06150f",
+        "#6ee7a0"
+      ],
+      "requires": "quarter-k"
+    },
+    {
+      "id": "time-lord-amethyst",
+      "name": "Time Lord Amethyst",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Royal amethyst for 2500 hours — reward for the \"Time Lord\" achievement.",
+      "file": "time-lord-amethyst.json",
+      "colors": [
+        "#a78bfa",
+        "#0f0a1e",
+        "#6ee7a0"
+      ],
+      "requires": "time-lord"
+    },
+    {
+      "id": "devoted-rose",
+      "name": "Devoted Rose",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Rose pink for your one true game — reward for the \"Devoted\" achievement.",
+      "file": "devoted-rose.json",
+      "colors": [
+        "#fb7185",
+        "#1a0a10",
+        "#6ee7a0"
+      ],
+      "requires": "devoted"
+    },
+    {
+      "id": "favourite-coral",
+      "name": "Favourite Coral",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Sunny coral for a well-loved library — reward for the \"Favourite Things\" achievement.",
+      "file": "favourite-coral.json",
+      "colors": [
+        "#ff8a65",
+        "#1c0e0a",
+        "#6ee7a0"
+      ],
+      "requires": "favourite-things"
+    },
+    {
+      "id": "organiser-slate",
+      "name": "Organiser Slate",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Tidy slate grey for a tidy library — reward for the \"Organiser\" achievement.",
+      "file": "organiser-slate.json",
+      "colors": [
+        "#94a3b8",
+        "#0e1218",
+        "#6ee7a0"
+      ],
+      "requires": "organiser"
+    },
+    {
+      "id": "hunter-moss",
+      "name": "Hunter Moss",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Mossy green for the achievement hunter — reward for the \"Achievement Hunter\" achievement.",
+      "file": "hunter-moss.json",
+      "colors": [
+        "#a3e635",
+        "#0c1406",
+        "#6ee7a0"
+      ],
+      "requires": "achievement-hunter"
+    },
+    {
+      "id": "trophy-bronze",
+      "name": "Trophy Bronze",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Polished bronze for a full trophy case — reward for the \"Trophy Case\" achievement.",
+      "file": "trophy-bronze.json",
+      "colors": [
+        "#cd7f32",
+        "#17100a",
+        "#6ee7a0"
+      ],
+      "requires": "trophy-case"
+    },
+    {
+      "id": "level-up-electric",
+      "name": "Level-Up Electric",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Electric yellow and cyan for level 25 — reward for the \"Rising Star\" achievement.",
+      "file": "level-up-electric.json",
+      "colors": [
+        "#facc15",
+        "#0b0d14",
+        "#6ee7a0"
+      ],
+      "requires": "level-25"
+    },
+    {
+      "id": "hoarder-ice",
+      "name": "Hoarder Ice",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Icy blue for a stash of restores — reward for the \"Restore Hoarder\" achievement.",
+      "file": "hoarder-ice.json",
+      "colors": [
+        "#7dd3fc",
+        "#08141c",
+        "#6ee7a0"
+      ],
+      "requires": "restore-hoarder"
+    },
+    {
+      "id": "fortnight-ember",
+      "name": "Fortnight Ember",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Glowing ember red for a 14-day streak — reward for the \"Fortnight Strong\" achievement.",
+      "file": "fortnight-ember.json",
+      "colors": [
+        "#ff5a1f",
+        "#160805",
+        "#6ee7a0"
+      ],
+      "requires": "streak-14"
+    },
+    {
+      "id": "winter-wonderland",
+      "name": "Winter Wonderland",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Festive red and green on a midnight-blue winter night — reward for the \"Christmas Spirit\" achievement (event only).",
+      "file": "winter-wonderland.json",
+      "colors": [
+        "#e63946",
+        "#0b1118",
+        "#2ecc71"
+      ],
+      "requires": "xmas-spirit"
+    },
+    {
+      "id": "summer-splash",
+      "name": "Summer Splash",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Sunny gold and ocean blue for a summer by the sea — reward for the \"Summer Survivor\" achievement (event only).",
+      "file": "summer-splash.json",
+      "colors": [
+        "#ffb703",
+        "#06161f",
+        "#00b4d8"
+      ],
+      "requires": "summer-survivor"
+    },
+    {
+      "id": "spring-bloom",
+      "name": "Spring Bloom",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Soft blossom pink and fresh green for the first days of spring — reward for the \"Spring Awakening\" achievement (event only).",
+      "file": "spring-bloom.json",
+      "colors": [
+        "#f472b6",
+        "#120a14",
+        "#86efac"
+      ],
+      "requires": "spring-awaken"
+    },
+    {
+      "id": "season-frost",
+      "name": "Season: Frost",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Icy blue and lilac for the Frost season (January - March) — reward for the \"Frost\" achievement (event only).",
+      "file": "season-frost.json",
+      "colors": [
+        "#7dd3fc",
+        "#07101a",
+        "#c4b5fd"
+      ],
+      "requires": "season:frost"
+    },
+    {
+      "id": "season-bloom",
+      "name": "Season: Bloom",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Rose and honey for the Bloom season (April - June) — reward for the \"Bloom\" achievement (event only).",
+      "file": "season-bloom.json",
+      "colors": [
+        "#fda4af",
+        "#160b10",
+        "#fcd34d"
+      ],
+      "requires": "season:bloom"
+    },
+    {
+      "id": "season-blaze",
+      "name": "Season: Blaze",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Hot orange and crimson for the Blaze season (July - September) — reward for the \"Blaze\" achievement (event only).",
+      "file": "season-blaze.json",
+      "colors": [
+        "#fb923c",
+        "#170a06",
+        "#f43f5e"
+      ],
+      "requires": "season:blaze"
+    },
+    {
+      "id": "season-harvest",
+      "name": "Season: Harvest",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Amber and olive for the Harvest season (October - December) — reward for the \"Harvest\" achievement (event only).",
+      "file": "season-harvest.json",
+      "colors": [
+        "#d97706",
+        "#140f06",
+        "#84cc16"
+      ],
+      "requires": "season:harvest"
+    }
+  ]
+}

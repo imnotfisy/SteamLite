@@ -1,0 +1,20 @@
+{
+  "canvas": [],
+  "vars": {
+    "--bg-dark": "#0b1118",
+    "--bg-glass": "rgba(11, 17, 24, 0.88)",
+    "--bg-glass-light": "rgba(29, 20, 28, 0.93)",
+    "--bg-elevated": "rgba(42, 23, 30, 0.95)",
+    "--border-glass": "rgba(230, 57, 70, 0.2)",
+    "--border-glass-hover": "rgba(230, 57, 70, 0.45)",
+    "--text-primary": "#fdeff0",
+    "--text-secondary": "#c3727d",
+    "--text-tertiary": "#704650",
+    "--accent-color": "#e63946",
+    "--accent-color-2": "#2ecc71",
+    "--success": "#6ee7a0",
+    "--warning": "#fbbf24",
+    "--danger": "#f87171"
+  },
+  "css": "h1, .home-title, .game-title, .modal-title { text-shadow: 0 0 14px rgba(230, 57, 70, 0.5), 0 0 30px rgba(46, 204, 113, 0.25); } .home-title::after { content: ' ❄️'; } .nav-btn.active { box-shadow: 0 4px 16px rgba(230, 57, 70, 0.45); } .game-card:hover { border-color: rgba(230, 57, 70, 0.5); box-shadow: 0 8px 28px rgba(230, 57, 70, 0.18); } .chart-bar-fill, .history-bar { background: linear-gradient(90deg, #e63946, #2ecc71); } .toast { border-color: rgba(230, 57, 70, 0.4); } ::selection { background: #e63946; color: #0b1118; }"
+}

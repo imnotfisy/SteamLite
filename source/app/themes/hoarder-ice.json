@@ -1,0 +1,20 @@
+{
+  "canvas": [],
+  "vars": {
+    "--bg-dark": "#08141c",
+    "--bg-glass": "rgba(8, 20, 28, 0.88)",
+    "--bg-glass-light": "rgba(16, 33, 44, 0.92)",
+    "--bg-elevated": "rgba(22, 43, 55, 0.95)",
+    "--border-glass": "rgba(125, 211, 252, 0.18)",
+    "--border-glass-hover": "rgba(125, 211, 252, 0.42)",
+    "--text-primary": "#f2fbff",
+    "--text-secondary": "#88b8ce",
+    "--text-tertiary": "#4e6e7e",
+    "--accent-color": "#7dd3fc",
+    "--accent-color-2": "#7dd3fc",
+    "--success": "#6ee7a0",
+    "--warning": "#fbbf24",
+    "--danger": "#f87171"
+  },
+  "css": "h1, .home-title, .game-title, .modal-title { text-shadow: 0 0 12px rgba(125, 211, 252, 0.5); } .nav-btn.active { box-shadow: 0 4px 14px rgba(125, 211, 252, 0.42); } .game-card { border-color: rgba(125, 211, 252, 0.14); } .action-btn { background: linear-gradient(135deg, rgba(125, 211, 252, 0.28), rgba(125, 211, 252, 0.08)); } .chart-bar-fill, .history-bar { background: linear-gradient(90deg, #7dd3fc, #7dd3fc); }"
+}

@@ -1,0 +1,12 @@
+﻿{
+  "name": "SteamLite",
+  "version": "8.7.4",
+  "description": "A custom Steam library client",
+  "main": "main.dev.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord-rpc": "^4.0.1",
+    "electron-store": "^8.1.0"
+  }
+}
