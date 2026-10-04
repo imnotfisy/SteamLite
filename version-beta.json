@@ -1,5 +1,5 @@
 {
-    "version":  "9.0.0-beta.2",
-    "downloadUrl":  "https://github.com/imnotfisy/SteamLite/releases/tag/v9.0.0-beta.2",
-    "notes":  "Beta 2 of the glass interface: redesigned Tools \u0026 extras, smoother animations, and the favourites button only when you have favourites. No XP, levels or SteamLite achievements in the beta. Switch back any time in Settings \u003e Advanced \u003e Interface."
+    "version":  "9.0.0-beta.3",
+    "downloadUrl":  "https://github.com/imnotfisy/SteamLite/releases/tag/v9.0.0-beta.3",
+    "notes":  "Beta 3: no more restart prompt after setup, and the SteamLite Updater can switch between Stable and Beta (click Channel at the top of its window). No XP, levels or SteamLite achievements in the beta."
 }
