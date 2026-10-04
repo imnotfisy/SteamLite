@@ -1,13 +1,20 @@
 {
   "changelog": {
-    "version": "9.0.0-beta.4",
-    "title": "Beta 4 - Settings page",
+    "version": "9.0.0-beta.5",
+    "title": "Beta 5 - Discord presence",
     "items": [
-      "Settings is now a full page with a section list, search and a save bar",
-      "Everything from Settings and Advanced Settings is on the page"
+      "Discord presence shows the game art, a correct timer, achievement progress, your streak and View on Steam / Get SteamLite buttons",
+      "A browsing card shows which page you are on",
+      "Privacy options: hide the game, the browsing card, your streak, the buttons or game names",
+      "It reconnects by itself, and connects when you open Discord later"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.0.0 Beta 5 - Discord presence upgrade",
+      "date": "October 4, 2026",
+      "content": "Discord Rich Presence is better: your game card has the game art, a correct timer, achievement progress, your streak and View on Steam / Get SteamLite buttons. Not in a game, it shows which page you are on. You can turn each part off or hide game names under Settings > Behaviour > Discord presence, and it now reconnects by itself."
+    },
     {
       "title": "SteamLite 9.0.0 Beta 4 - a Settings page",
       "date": "October 4, 2026",
@@ -27,11 +34,6 @@
       "title": "The beta does not give XP",
       "date": "October 4, 2026",
       "content": "To keep your progress safe, beta builds do not give XP, levels or SteamLite achievements, and those screens are hidden. Everything you already earned is untouched, and streaks still work. The full system is back in the stable version."
-    },
-    {
-      "title": "Reporting a bug",
-      "date": "October 4, 2026",
-      "content": "Open Tools & extras > Diagnostics, copy the page and send it with a short description and, if you can, a screenshot. It never includes your API key or SteamID."
     }
   ]
 }
