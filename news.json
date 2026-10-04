@@ -1,13 +1,22 @@
 {
   "changelog": {
-    "version": "8.7.4",
-    "title": "Setup Fix",
+    "version": "9.0.0",
+    "title": "SteamLite 9.0 - Glass, Couch mode and more",
     "items": [
-      "Fixed: setup no longer asks you to restart Windows",
-      "The SteamLite Updater can switch between the Stable and Beta channels (click \"Channel\" at the top of its window)"
+      "A new glass interface and layout (Classic is still one switch away)",
+      "Settings is a full page with search and a save bar",
+      "Couch mode: a fullscreen, controller-first launcher with a game page for every game",
+      "Spotify now playing in the top bar, and a much better Discord Rich Presence",
+      "Tools & extras redesigned, modern notifications, smoother animations",
+      "Full or Lite edition, Memory saver, no idle CPU use and the Updater can switch between Stable and Beta"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.0.0 Released - Glass, Couch mode and more",
+      "date": "October 4, 2026",
+      "content": "SteamLite 9.0.0 is here. A new floating glass interface (Classic is one switch away), a full-page Settings, couch mode for your sofa with a page for every game, Spotify now playing in the top bar, a much better Discord presence card and a redesigned Tools & extras. It uses less memory and no idle CPU, and the Updater can now switch between Stable and Beta."
+    },
     {
       "title": "SteamLite 8.7.4 Released - Setup Fix",
       "date": "October 4, 2026",
