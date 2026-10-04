@@ -1,14 +1,18 @@
 {
   "changelog": {
-    "version": "9.0.0-beta.3",
-    "title": "Beta 3 - Updater and installer fixes",
+    "version": "9.0.0-beta.4",
+    "title": "Beta 4 - Settings page",
     "items": [
-      "Fixed: setup no longer asks you to restart Windows",
-      "The SteamLite Updater can switch between the Stable and Beta channels (click \"Channel\" at the top of its window)",
-      "Going from a beta back to the latest stable version is offered by the Updater"
+      "Settings is now a full page with a section list, search and a save bar",
+      "Everything from Settings and Advanced Settings is on the page"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.0.0 Beta 4 - a Settings page",
+      "date": "October 4, 2026",
+      "content": "Settings is now a full page instead of two pop-up windows: a section list on the left, a search box, and a bar that appears when you have unsaved changes. Everything from Settings and Advanced Settings is there."
+    },
     {
       "title": "SteamLite 9.0.0 Beta 3",
       "date": "October 4, 2026",
@@ -28,11 +32,6 @@
       "title": "Reporting a bug",
       "date": "October 4, 2026",
       "content": "Open Tools & extras > Diagnostics, copy the page and send it with a short description and, if you can, a screenshot. It never includes your API key or SteamID."
-    },
-    {
-      "title": "Going back to stable",
-      "date": "October 4, 2026",
-      "content": "Switch the update channel back to Stable in Settings > Advanced and install the latest stable version, or use the SteamLite Updater and pick an older stable version under Other versions. You can also switch the look back to Classic any time in Settings > Advanced > Interface."
     }
   ]
 }
