@@ -1,14 +1,18 @@
 {
   "changelog": {
-    "version": "8.7.2",
-    "title": "Betas In The Main Repo",
+    "version": "8.7.3",
+    "title": "Updater Fix",
     "items": [
-      "The Beta update channel now finds betas in the main SteamLite repository (as pre-releases)",
-      "The SteamLite Updater follows the same rule and hides betas on the stable channel",
-      "No other changes - this is 8.7.1 with the new update logic"
+      "Fixed: the SteamLite Updater was left on its old version when it ran an update itself, so it kept using the old beta location",
+      "The installer now replaces the Updater even while it is running; the Beta channel uses the main repository"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.7.3 Released - Updater Fix",
+      "date": "October 4, 2026",
+      "content": "SteamLite 8.7.3 fixes the SteamLite Updater not being replaced when it ran the update itself. After this version the Updater always matches your SteamLite, including the new beta location."
+    },
     {
       "title": "SteamLite 8.7.2 Released",
       "date": "October 4, 2026",
