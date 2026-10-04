@@ -1,5 +1,5 @@
 {
-    "version":  "9.0.0-beta.4",
-    "downloadUrl":  "https://github.com/imnotfisy/SteamLite/releases/tag/v9.0.0-beta.4",
-    "notes":  "Beta 4: Settings is now a full page with a section list, search and a save bar. No XP, levels or SteamLite achievements in the beta."
+    "version":  "9.0.0-beta.5",
+    "downloadUrl":  "https://github.com/imnotfisy/SteamLite/releases/tag/v9.0.0-beta.5",
+    "notes":  "Beta 5: a much better Discord Rich Presence (game art, timer, achievements, streak, buttons, privacy options) and reliable reconnecting. No XP, levels or SteamLite achievements in the beta."
 }
