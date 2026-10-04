@@ -1,17 +1,19 @@
 {
   "changelog": {
-    "version": "9.0.0-beta.2",
-    "title": "Glass Interface - Beta 2",
+    "version": "9.0.0-beta.3",
+    "title": "Beta 3 - Updater and installer fixes",
     "items": [
-      "New glass interface: a slim floating sidebar, one floating header, frosted-glass dialogs",
-      "Tools & extras redesigned with search and categories",
-      "The dashboard greeting shows your streak; the profile title tag sits next to your name",
-      "The Favorites button appears only when you have a favourite",
-      "Smoother animations: collapsing sections, refresh buttons, menus and fading notifications",
-      "Beta rule: no XP, levels or SteamLite achievements are earned in the beta"
+      "Fixed: setup no longer asks you to restart Windows",
+      "The SteamLite Updater can switch between the Stable and Beta channels (click \"Channel\" at the top of its window)",
+      "Going from a beta back to the latest stable version is offered by the Updater"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.0.0 Beta 3",
+      "date": "October 4, 2026",
+      "content": "Beta 3 fixes the restart prompt at the end of setup and adds a Stable / Beta switch to the SteamLite Updater, including a way back to the latest stable version from a beta."
+    },
     {
       "title": "SteamLite 9.0.0 Beta 2",
       "date": "October 4, 2026",
