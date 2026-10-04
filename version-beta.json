@@ -1,5 +1,5 @@
 {
-    "version":  "9.0.0-beta.7",
-    "downloadUrl":  "https://github.com/imnotfisy/SteamLite/releases/tag/v9.0.0-beta.7",
-    "notes":  "Beta 7: Couch mode, a fullscreen controller-first launcher with big game pages (Overview, Achievements, Screenshots, News), plus Spotify now playing. No XP, levels or SteamLite achievements in the beta."
+    "version":  "9.0.0-beta.8",
+    "downloadUrl":  "https://github.com/imnotfisy/SteamLite/releases/tag/v9.0.0-beta.8",
+    "notes":  "Beta 8: smooth transitions into and out of couch mode, and the couch Play button now follows the same launch tracking as the normal one (Loading..., Stopping..., Stop once the game is really running). No XP, levels or SteamLite achievements in the beta."
 }
