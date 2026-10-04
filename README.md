@@ -2,7 +2,7 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-8.7.4-blue)
+![SteamLite Version](https://img.shields.io/badge/version-9.0.0-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/2VP6x6Rvak)
@@ -49,6 +49,11 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **Year in Review** - A shareable picture of your year in games
 - **Play-time Reminders** - Optional break reminders and a daily play limit
 - **Friend Activity** - See who started playing what and who came online
+- **Glass interface (9.0)** - A floating glass sidebar that opens when you point at it, one floating header, frosted-glass windows and a dashboard greeting. Classic is one switch away
+- **Settings page** - A full page with a section list, search and a save bar
+- **Couch mode** - A fullscreen, controller-first launcher with a game page (Overview, Achievements, Screenshots, News) for every game
+- **Spotify now playing** - A top-bar player with album art and controls, no login needed
+- **Discord Rich Presence** - Game art, timer, achievement progress, streak, buttons and privacy options
 - **Full and Lite editions** - Pick everything or just the basics for launching games when you install, and switch any time in Settings > Advanced
 - **Memory saver** (optional) - Software rendering and fewer processes for roughly 30% less memory, at the cost of smoothness
 - **Tools & extras hub** - One grid button that opens every new tool (also in the command palette)
