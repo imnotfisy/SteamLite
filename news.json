@@ -1,13 +1,18 @@
 {
   "changelog": {
-    "version": "8.7.3",
-    "title": "Updater Fix",
+    "version": "8.7.4",
+    "title": "Setup Fix",
     "items": [
-      "Fixed: the SteamLite Updater was left on its old version when it ran an update itself, so it kept using the old beta location",
-      "The installer now replaces the Updater even while it is running; the Beta channel uses the main repository"
+      "Fixed: setup no longer asks you to restart Windows",
+      "The SteamLite Updater can switch between the Stable and Beta channels (click \"Channel\" at the top of its window)"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 8.7.4 Released - Setup Fix",
+      "date": "October 4, 2026",
+      "content": "SteamLite 8.7.4 fixes the restart prompt that appeared at the end of setup in 8.7.3, and adds a Stable / Beta switch to the SteamLite Updater."
+    },
     {
       "title": "SteamLite 8.7.3 Released - Updater Fix",
       "date": "October 4, 2026",
