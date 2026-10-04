@@ -1,15 +1,26 @@
 {
   "changelog": {
-    "version": "9.0.0-beta.5",
-    "title": "Beta 5 - Discord presence",
+    "version": "9.0.0-beta.7",
+    "title": "Beta 7 - Couch mode",
     "items": [
-      "Discord presence shows the game art, a correct timer, achievement progress, your streak and View on Steam / Get SteamLite buttons",
-      "A browsing card shows which page you are on",
-      "Privacy options: hide the game, the browsing card, your streak, the buttons or game names",
-      "It reconnects by itself, and connects when you open Discord later"
+      "Couch mode: a fullscreen, controller-first launcher with big covers and a hero panel",
+      "Game pages sized for the TV: Play, Favorite, Status and Rating buttons plus Overview, Achievements, Screenshots and News tabs",
+      "D-pad / stick to move, A to play or stop, B back, X favourite, Y music, LB / RB tracks, Start to exit",
+      "Open it from the top bar, Ctrl+Shift+G, the command palette or Settings > Behaviour > Couch mode",
+      "It can start with SteamLite or open when a controller connects"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.0.0 Beta 7 - Couch mode",
+      "date": "October 4, 2026",
+      "content": "Beta 7 adds Couch mode: a fullscreen launcher you can drive entirely from a gamepad. Big covers in rows, a hero panel with the game you are on, A to open a game page (Play, Favorite, Status, Rating and tabs for Overview, Achievements, Screenshots and News), B to go back, X to favourite and Y for music. Open it from the controller button in the top bar or press Ctrl+Shift+G."
+    },
+    {
+      "title": "SteamLite 9.0.0 Beta 6 - Spotify now playing",
+      "date": "October 4, 2026",
+      "content": "Beta 6 adds Spotify to SteamLite: a small player in the top bar shows the song and album art with play / pause / next / previous, and clicking it opens a full player with a seekable progress bar. No login is needed. Switch it on in Settings > Behaviour > Now playing (it is off by default)."
+    },
     {
       "title": "SteamLite 9.0.0 Beta 5 - Discord presence upgrade",
       "date": "October 4, 2026",
@@ -24,16 +35,6 @@
       "title": "SteamLite 9.0.0 Beta 3",
       "date": "October 4, 2026",
       "content": "Beta 3 fixes the restart prompt at the end of setup and adds a Stable / Beta switch to the SteamLite Updater, including a way back to the latest stable version from a beta."
-    },
-    {
-      "title": "SteamLite 9.0.0 Beta 2",
-      "date": "October 4, 2026",
-      "content": "The second beta of the glass interface is out. Tools & extras has a new look with search and categories, the favourites button only shows once you have a favourite, and animations are smoother. Please report anything that looks wrong from Tools & extras > Diagnostics."
-    },
-    {
-      "title": "The beta does not give XP",
-      "date": "October 4, 2026",
-      "content": "To keep your progress safe, beta builds do not give XP, levels or SteamLite achievements, and those screens are hidden. Everything you already earned is untouched, and streaks still work. The full system is back in the stable version."
     }
   ]
 }
