@@ -1,16 +1,18 @@
 {
   "changelog": {
-    "version": "9.0.0-beta.7",
-    "title": "Beta 7 - Couch mode",
+    "version": "9.0.0-beta.8",
+    "title": "Beta 8 - Couch mode polish",
     "items": [
-      "Couch mode: a fullscreen, controller-first launcher with big covers and a hero panel",
-      "Game pages sized for the TV: Play, Favorite, Status and Rating buttons plus Overview, Achievements, Screenshots and News tabs",
-      "D-pad / stick to move, A to play or stop, B back, X favourite, Y music, LB / RB tracks, Start to exit",
-      "Open it from the top bar, Ctrl+Shift+G, the command palette or Settings > Behaviour > Couch mode",
-      "It can start with SteamLite or open when a controller connects"
+      "Smooth transitions into and out of couch mode (the app steps back, the couch screen zooms in, rows rise in)",
+      "The couch Play button now behaves like the one in the game window: Loading..., Stopping..., and Stop once the game is really running"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.0.0 Beta 8 - Couch mode polish",
+      "date": "October 4, 2026",
+      "content": "Beta 8 adds smooth transitions into and out of couch mode, and the couch Play button now follows the same launch tracking as the normal Play button: Loading..., Stopping..., and Stop only once the game is really running."
+    },
     {
       "title": "SteamLite 9.0.0 Beta 7 - Couch mode",
       "date": "October 4, 2026",
@@ -30,11 +32,6 @@
       "title": "SteamLite 9.0.0 Beta 4 - a Settings page",
       "date": "October 4, 2026",
       "content": "Settings is now a full page instead of two pop-up windows: a section list on the left, a search box, and a bar that appears when you have unsaved changes. Everything from Settings and Advanced Settings is there."
-    },
-    {
-      "title": "SteamLite 9.0.0 Beta 3",
-      "date": "October 4, 2026",
-      "content": "Beta 3 fixes the restart prompt at the end of setup and adds a Stable / Beta switch to the SteamLite Updater, including a way back to the latest stable version from a beta."
     }
   ]
 }
