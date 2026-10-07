@@ -117,7 +117,7 @@
 
     // ---------- profile card ----------
     safe('profile-card', () => {
-        const FRAME_COL = { none: ['#ffffff55'], glow: ['#8b5cf6'], ring: ['#8b5cf6', '#a78bfa'], pulse: ['#8b5cf6'], rainbow: ['#f43f5e', '#f59e0b', '#22c55e', '#3b82f6'], flame: ['#ff7a18', '#ffb347'], aurora: ['#34d399', '#a78bfa'], gold: ['#f5c542', '#b8860b'], galaxy: ['#6366f1', '#ec4899', '#22d3ee'], legend: ['#f5c542', '#ff3cac'], frost: ['#7dd3fc', '#c4b5fd'], bloom: ['#fda4af', '#fcd34d'], blaze: ['#fb923c', '#f43f5e'], harvest: ['#d97706', '#84cc16'] };
+        const FRAME_COL = { none: ['#ffffff55'], steamlite: ['#7c3aed', '#c084fc'], glow: ['#8b5cf6'], ring: ['#8b5cf6', '#a78bfa'], pulse: ['#8b5cf6'], rainbow: ['#f43f5e', '#f59e0b', '#22c55e', '#3b82f6'], flame: ['#ff7a18', '#ffb347'], aurora: ['#34d399', '#a78bfa'], gold: ['#f5c542', '#b8860b'], galaxy: ['#6366f1', '#ec4899', '#22d3ee'], legend: ['#f5c542', '#ff3cac'], frost: ['#7dd3fc', '#c4b5fd'], bloom: ['#fda4af', '#fcd34d'], blaze: ['#fb923c', '#f43f5e'], harvest: ['#d97706', '#84cc16'] };
         async function openCard() {
             const m = SLF.modal('pcard-modal', 'Profile card', { cls: 'narrow' });
             m.body.innerHTML = '<div class="yr-canvas-wrap"><canvas id="pc-canvas" width="900" height="560"></canvas></div><div class="fx-row"><button class="fx-btn primary" id="pc-save">Save image</button></div>';

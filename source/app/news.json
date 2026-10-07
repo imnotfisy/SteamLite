@@ -1,12 +1,26 @@
 {
   "changelog": {
-    "version": "9.0.2",
-    "title": "SteamLite 9.0.2 - Settings fix",
+    "version": "9.0.3",
+    "title": "SteamLite 9.0.3 - SteamLite Day",
     "items": [
-      "Fixed: clicking a tab in Settings pushed the top bar half off the screen"
+      "SteamLite Day (October 7 - 14): complete 5 quests to earn the SteamLite title, the SteamLite avatar frame and the Remembering the Roots theme",
+      "Events that are on at the same time are all shown on the dashboard, the one ending first on top",
+      "The achievements window only lists the events that are on while one is running",
+      "Season avatar frames can be picked now",
+      "The Compact List library view has a new, more modern look"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite Day - Oct 7 to Oct 14",
+      "date": "October 7, 2026",
+      "content": "SteamLite Day is on until October 14. Complete 5 quests to earn the exclusive SteamLite profile title, the exclusive SteamLite avatar frame and the Remembering the Roots theme. Open the achievements window or the banner on your dashboard to see the quests. Update to SteamLite 9.0.3 to join."
+    },
+    {
+      "title": "SteamLite 10.0.0 comes January 2027",
+      "date": "October 7, 2026",
+      "content": "SteamLite 10.0.0 comes January 2027 with brand new features and [REDACTED]"
+    },
     {
       "title": "SteamLite 9.0.2 Released - Settings fix",
       "date": "October 7, 2026",
@@ -26,11 +40,6 @@
       "title": "SteamLite 8.7.4 Released - Setup Fix",
       "date": "October 4, 2026",
       "content": "SteamLite 8.7.4 fixes the restart prompt that appeared at the end of setup in 8.7.3, and adds a Stable / Beta switch to the SteamLite Updater."
-    },
-    {
-      "title": "SteamLite 8.7.3 Released - Updater Fix",
-      "date": "October 4, 2026",
-      "content": "SteamLite 8.7.3 fixes the SteamLite Updater not being replaced when it ran the update itself. After this version the Updater always matches your SteamLite, including the new beta location."
     }
   ]
 }

@@ -403,6 +403,7 @@ function createWindow() {
             getMetaAchievements: (opts) => ipcRenderer.invoke('get-meta-achievements', opts),
             checkAchievements: (opts) => ipcRenderer.invoke('check-achievements', opts),
             onMetaAchievementUnlocked: (cb) => ipcRenderer.on('meta-achievement-unlocked', (e, d) => cb(d)),
+            onEventQuest: (cb) => ipcRenderer.on('event-quest', (e, d) => cb(d)),
             onStreakUpdated: (cb) => ipcRenderer.on('streak-updated', (e, d) => cb(d)),
             getProfiles: () => ipcRenderer.invoke('get-profiles'),
             addProfile: (data) => ipcRenderer.invoke('add-profile', data),
@@ -770,7 +771,7 @@ ipcMain.handle('save-config', (event, config) => {
 const BACKUP_KEYS = ['accentColor', 'wideGrid', 'soundVolume', 'updateChannel', 'bgPath', 'bgBlur', 'bgOpacity', 'bgSpeed',
     'themeVars', 'discordRpcEnabled', 'launchToLibrary', 'hideOfflineFriends', 'reduceAnimations', 'notifSounds', 'notifDuration',
     'notifMaxStack', 'maxCommonFriends', 'widgetSizes', 'dashboardSectionOrder', 'profileBanners', 'friendPrefs', 'profileCustom',
-    'uiPrefs', 'startMinimized', 'potatoMode', 'closeToTray', 'autoUpdateCheck', 'hotkeys', 'themeUnlocks', 'achievementXp', 'boostLog', 'streakRestores', 'prestige', 'xpScale', 'cosmetics', 'seasonClaimed', 'journal', 'saveBackups', 'wishlistTargets', 'wishlistHistory', 'featSettings', 'autoBackup', 'challengeXp', 'challengesDone', 'levelRewardsClaimed', 'gameMeta', 'wishlistAlerts', 'breakReminderMin', 'dailyLimitHours', 'customThemes', 'customCovers', 'favorites', 'hiddenGames', 'collections', 'gameConfigs',
+    'uiPrefs', 'startMinimized', 'potatoMode', 'closeToTray', 'autoUpdateCheck', 'hotkeys', 'themeUnlocks', 'achievementXp', 'boostLog', 'streakRestores', 'prestige', 'xpScale', 'eventQuests', 'cosmetics', 'seasonClaimed', 'journal', 'saveBackups', 'wishlistTargets', 'wishlistHistory', 'featSettings', 'autoBackup', 'challengeXp', 'challengesDone', 'levelRewardsClaimed', 'gameMeta', 'wishlistAlerts', 'breakReminderMin', 'dailyLimitHours', 'customThemes', 'customCovers', 'favorites', 'hiddenGames', 'collections', 'gameConfigs',
     'gameNotes', 'nonSteamGames', 'telemetry', 'sessionHistory', 'achievementCache', 'metaAchievements', 'streak'];
 
 ipcMain.handle('export-settings', async () => {
@@ -1502,16 +1503,18 @@ const ACHIEVEMENT_DEFS = [
 function eventMemberIds(eventId) { return ACHIEVEMENT_DEFS.filter(d => d.event === eventId && !d.capstone && d.id !== 'hw-survivor').map(d => d.id); }
 function eventWindowStats(id, history) {
     const st = eventState(id), days = new Set(), games = new Set(), dates = new Set();
-    let totalSec = 0, longestSec = 0, late = 0, early = 0;
+    let totalSec = 0, longestSec = 0, late = 0, early = 0, sessions = 0, evening = 0;
     for (const h of history) {
         if (!(h.start >= st.start && h.start < st.end)) continue;
+        sessions++; if (new Date(h.start).getHours() >= 18) evening++;
         const d = new Date(h.start);
         days.add(streakDayKey(h.start)); games.add(String(h.gameId)); dates.add((d.getMonth() + 1) + '-' + d.getDate());
         totalSec += h.seconds || 0; longestSec = Math.max(longestSec, h.seconds || 0);
         if (d.getHours() >= 22) late++;
         if (d.getHours() < 9) early++;
     }
-    return { open: st.open, days: days.size, games: games.size, totalSec, longestSec, late, early, dates: Array.from(dates) };
+    const themeAt = store.get('themeAppliedAt') || 0;
+    return { open: st.open, days: days.size, games: games.size, totalSec, longestSec, late, early, sessions, evening, themeApplied: themeAt >= st.start && themeAt < st.end, dates: Array.from(dates) };
 }
 const HALLOWEEN_IDS = ACHIEVEMENT_DEFS.filter(d => d.event === 'halloween' && d.id !== 'hw-survivor').map(d => d.id);
 
@@ -1523,7 +1526,9 @@ const EVENTS = {
     halloween: { id: 'halloween', name: 'Halloween Event', icon: '🎃', start: [10, 1], end: [11, 1], graceDays: 0, theme: 'haunted-harvest', themeName: 'Haunted Harvest', blurb: 'Earn spooky achievements and unlock the Haunted Harvest theme by unlocking all 8 achievements - and it is yours forever.' },
     christmas: { id: 'christmas', name: 'Winter Holidays', icon: '🎄', start: [12, 1], end: [12, 31], graceDays: 0, theme: 'winter-wonderland', themeName: 'Winter Wonderland', blurb: 'Play through December, unlock all 6 festive achievements and the Winter Wonderland theme is yours forever.' },
     spring: { id: 'spring', name: 'Spring Bloom', icon: '🌷', start: [3, 20], end: [4, 5], graceDays: 0, theme: 'spring-bloom', themeName: 'Spring Bloom', blurb: 'Spring is here: unlock all 6 spring achievements and the Spring Bloom theme is yours forever.' },
-    summer: { id: 'summer', name: 'Summer Splash', icon: '🏖️', start: [6, 21], end: [7, 5], graceDays: 0, theme: 'summer-splash', themeName: 'Summer Splash', blurb: 'Soak up the sun: unlock all 6 summer achievements and the Summer Splash theme is yours forever.' }
+    summer: { id: 'summer', name: 'Summer Splash', icon: '🏖️', start: [6, 21], end: [7, 5], graceDays: 0, theme: 'summer-splash', themeName: 'Summer Splash', blurb: 'Soak up the sun: unlock all 6 summer achievements and the Summer Splash theme is yours forever.' },
+    // SteamLite Day has quests instead of achievements (see QUEST_EVENTS). It does not change the XP boost.
+    steamlite: { id: 'steamlite', name: 'SteamLite Day', icon: '\uD83C\uDF89', start: [10, 7], end: [10, 14], graceDays: 0, quest: true, noBoost: true, theme: 'remembering-the-roots', themeName: 'Remembering the Roots', blurb: 'SteamLite Day: complete 5 quests to earn the exclusive SteamLite profile title, the SteamLite avatar frame and the Remembering the Roots theme.' }
 };
 function eventState(id, nowMs = Date.now()) {
     if (process.env.SL_FAKE_NOW) nowMs = Number(process.env.SL_FAKE_NOW) || nowMs; // testing only: pretend it is another date
@@ -1535,7 +1540,63 @@ function eventState(id, nowMs = Date.now()) {
     const forced = process.env.SL_FORCE_EVENT === id;
     const active = forced || (now >= start && now < end);
     const open = active || (now >= start && now < new Date(end.getTime() + ev.graceDays * 86400000));
-    return { id: ev.id, name: ev.name, icon: ev.icon, theme: ev.theme, themeName: ev.themeName, blurb: ev.blurb, year, start: start.getTime(), end: end.getTime(), active, open, daysLeft: active ? Math.max(0, Math.ceil((end.getTime() - nowMs) / 86400000)) : 0 };
+    return { id: ev.id, name: ev.name, icon: ev.icon, theme: ev.theme, themeName: ev.themeName, blurb: ev.blurb, quest: !!ev.quest, noBoost: !!ev.noBoost, year, start: start.getTime(), end: end.getTime(), active, open, daysLeft: active ? Math.max(0, Math.ceil((end.getTime() - nowMs) / 86400000)) : 0 };
+}
+
+// ===== Quest events =====
+// A quest event has quests instead of achievements. Finish `need` of them while the event is on and its rewards are
+// yours for good: a profile title, an avatar frame and a theme. A finished quest stays finished. Nothing can be earned
+// once the event is over. Progress comes from the tracked play sessions that started inside the event.
+const QUEST_EVENTS = {
+    steamlite: {
+        need: 5,
+        rewards: { title: 'SteamLite', frame: 'steamlite', theme: 'remembering-the-roots' },
+        quests: [
+            { id: 'first', text: 'Play a game through SteamLite', max: 1, calc: w => Math.min(w.sessions, 1) },
+            { id: 'three-games', text: 'Play 3 different games', max: 3, calc: w => w.games },
+            { id: 'two-hours', text: 'Play for 2 hours in total', max: 120, unit: 'min', calc: w => Math.floor(w.totalSec / 60) },
+            { id: 'three-days', text: 'Play on 3 different days', max: 3, calc: w => w.days },
+            { id: 'long-session', text: 'Play one session of 45 minutes or more', max: 1, calc: w => w.longestSec >= 2700 ? 1 : 0 },
+            { id: 'evening', text: 'Start a session after 6 PM', max: 1, calc: w => w.evening ? 1 : 0 },
+            { id: 'theme', text: 'Apply a theme from the Theme Shop', max: 1, calc: w => w.themeApplied ? 1 : 0 }
+        ]
+    }
+};
+function eventQuestState(id) {
+    const q = QUEST_EVENTS[id]; if (!q) return null;
+    const st = eventState(id), key = id + ':' + st.year;
+    const rec = (store.get('eventQuests') || {})[key] || { quests: {} };
+    const w = eventWindowStats(id, store.get('sessionHistory') || []);
+    const list = q.quests.map(d => {
+        const done = !!(rec.quests && rec.quests[d.id]);
+        const cur = done ? d.max : Math.min(d.max, d.calc(w));
+        return { id: d.id, text: d.text, unit: d.unit || '', max: d.max, current: cur, done: done || cur >= d.max };
+    });
+    return { key, need: q.need, rewards: q.rewards, list, doneCount: list.filter(x => x.done).length, claimed: !!rec.claimed };
+}
+function checkEventQuests() {
+    if (NO_PROGRESS) return;
+    for (const id of Object.keys(QUEST_EVENTS)) {
+        const st = eventState(id);
+        if (!st.active) continue; // limited time: quests only count while the event is on
+        const qs = eventQuestState(id), all = store.get('eventQuests') || {};
+        const rec = all[qs.key] || { quests: {} }; rec.quests = rec.quests || {};
+        let changed = false;
+        qs.list.forEach(q => {
+            if (q.current >= q.max && !rec.quests[q.id]) {
+                rec.quests[q.id] = Date.now(); changed = true;
+                if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('event-quest', { event: id, eventName: st.name, text: q.text, done: Object.keys(rec.quests).length, need: qs.need });
+            }
+        });
+        if (Object.keys(rec.quests).length >= qs.need && !rec.claimed) {
+            rec.claimed = Date.now(); changed = true;
+            const r = QUEST_EVENTS[id].rewards, cos = store.get('cosmetics') || {};
+            cos.titles = [...new Set([...(cos.titles || []), r.title])]; cos.frames = [...new Set([...(cos.frames || []), r.frame])];
+            store.set('cosmetics', cos); grantTheme(r.theme);
+            if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('event-quest', { event: id, eventName: st.name, complete: true, rewards: r });
+        }
+        if (changed) { all[qs.key] = rec; store.set('eventQuests', all); }
+    }
 }
 
 function getStreakState() {
@@ -1691,7 +1752,7 @@ function effectiveLevel(unlocked) { const lv = levelInfo(totalXp(unlocked)).leve
 // (100,000 XP earned -> 75% strength, 300,000 -> 50%, 900,000 -> 25%). It resets every day, so nobody levels up in a rush.
 function currentBoost(nowMs) {
     const wk = weekendBoost(nowMs);
-    const live = Object.keys(EVENTS).map(id => eventState(id, nowMs)).filter(e => e.active);
+    const live = Object.keys(EVENTS).map(id => eventState(id, nowMs)).filter(e => e.active && !e.noBoost).sort((a, b) => a.end - b.end);
     const parts = [];
     if (live.length) parts.push({ id: 'event', label: live[0].name, icon: live[0].icon, mult: EVENT_BOOST, endsAt: live[0].end });
     if (wk.active) parts.push({ id: 'weekend', label: 'Weekend', mult: WEEKEND_BOOST, endsAt: wk.endsAt });
@@ -1742,6 +1803,7 @@ function grantTheme(themeId) {
 
 function checkAchievements(librarySize) {
     if (NO_PROGRESS) return [];
+    try { checkEventQuests(); } catch (e) { }
     const stats = collectStats(librarySize);
     const unlocked = store.get('metaAchievements') || {};
     getAchievementXp(unlocked); // give anything unlocked before XP existed its flat amount first, so only new unlocks are rolled below
@@ -1840,6 +1902,8 @@ ipcMain.handle('get-meta-achievements', (event, opts) => {
 function eventsSummary(unlocked) {
     unlocked = unlocked || store.get('metaAchievements') || {};
     return Object.keys(EVENTS).map(id => {
+        const qs = eventQuestState(id);
+        if (qs) return { ...eventState(id), unlocked: Math.min(qs.doneCount, qs.need), total: qs.need, quests: qs.list, rewards: qs.rewards, claimed: qs.claimed };
         const ids = ACHIEVEMENT_DEFS.filter(d => d.event === id).map(d => d.id);
         return { ...eventState(id), unlocked: ids.filter(i => unlocked[i]).length, total: ids.length };
     });

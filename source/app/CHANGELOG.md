@@ -1,3 +1,25 @@
+# SteamLite 9.0.3 Changelog
+
+**SteamLite Day** is here: a new limited-time event with quests, from October 7 to October 14.
+
+## SteamLite Day (October 7 - 14)
+- **Complete 5 quests (not achievements) to earn limited-time rewards:** the exclusive **SteamLite** profile title, the exclusive **SteamLite** avatar frame and the exclusive **Remembering the Roots** theme (deep purple all across the board). Rewards are yours for good, but they can only be earned while the event is on.
+- 7 quests to choose from, and any 5 count: play a game through SteamLite, play 3 different games, play for 2 hours in total, play on 3 different days, play one session of 45 minutes or more, start a session after 6 PM and apply a theme from the Theme Shop. Progress is counted from the play sessions SteamLite tracks during the event.
+- The quests and your progress are in the achievements window, under the event's name.
+
+## Events on the dashboard and in the achievements window
+- **When two or more events are on at the same time, every one of them is shown on the dashboard.** The event that ends first is on top (SteamLite Day sits above Halloween this week).
+- **While an event is on, the achievements window only lists the events that are on;** the ended ones are hidden until nothing is running.
+- SteamLite Day does not change the XP boost.
+
+## Compact library, reworked
+- The Compact List option has a new look: every game is one glass row with a bigger rounded cover, the name and install status, hours played, when you last played it, an achievements chip and the favourite star. Rows slide and glow with an accent bar on hover, and the columns drop away gracefully in narrow windows.
+
+## Also
+- The avatar frame picker now lists the season frames (Frost, Bloom, Blaze, Harvest) once you have earned them; they could not be picked before.
+
+---
+
 # SteamLite 9.0.2 Changelog
 
 An emergency fix for 9.0.1.

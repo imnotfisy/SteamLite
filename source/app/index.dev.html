@@ -4648,6 +4648,8 @@
         .status-pill.dropped { background: rgba(107, 114, 128, 0.85); }
         .profile-title-chip { display: inline-block; margin: 6px 0 0; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; color: var(--accent-color); border: 1px solid color-mix(in srgb, var(--accent-color) 55%, transparent); background: color-mix(in srgb, var(--accent-color) 12%, transparent); }
         .pe-frame-btn.locked { opacity: 0.5; }
+        .profile-avatar-modern.frame-steamlite { animation: profileAvatarIn var(--dur-slow) var(--ease-spring), avatarSteamlite 4s ease-in-out var(--dur-slow) infinite; }
+        @keyframes avatarSteamlite { 0%, 100% { box-shadow: 0 0 0 3px #7c3aed, 0 0 0 6px #c084fc, 0 0 26px rgba(124, 58, 237, 0.7); } 50% { box-shadow: 0 0 0 3px #c084fc, 0 0 0 6px #7c3aed, 0 0 38px rgba(192, 132, 252, 0.8); } }
         .profile-avatar-modern.frame-flame { animation: profileAvatarIn var(--dur-slow) var(--ease-spring), avatarFlame 1.7s ease-in-out var(--dur-slow) infinite; }
         .profile-avatar-modern.frame-aurora { animation: profileAvatarIn var(--dur-slow) var(--ease-spring), avatarAurora 6s ease-in-out var(--dur-slow) infinite; }
         .profile-avatar-modern.frame-gold { box-shadow: 0 0 0 3px #f5c542, 0 0 0 6px #b8860b, 0 0 26px rgba(245, 197, 66, 0.6); }
@@ -7331,7 +7333,7 @@
 
         // ===== Profile customisation (8.3.0): tagline, avatar frame, per-profile accent, game showcase =====
         // Stored per SteamID in config.profileCustom: { tagline, showcase: [appid x5], frame, accent }
-        const AVATAR_FRAMES = [['none', 'None'], ['glow', 'Glow'], ['ring', 'Ring'], ['pulse', 'Pulse'], ['rainbow', 'Rainbow'], ['flame', 'Flame'], ['aurora', 'Aurora'], ['gold', 'Gold'], ['galaxy', 'Galaxy'], ['legend', 'Legendary']]; // the last five are level rewards
+        const AVATAR_FRAMES = [['none', 'None'], ['glow', 'Glow'], ['ring', 'Ring'], ['pulse', 'Pulse'], ['rainbow', 'Rainbow'], ['flame', 'Flame'], ['aurora', 'Aurora'], ['gold', 'Gold'], ['galaxy', 'Galaxy'], ['legend', 'Legendary'], ['frost', 'Frost'], ['bloom', 'Bloom'], ['blaze', 'Blaze'], ['harvest', 'Harvest'], ['steamlite', 'SteamLite']]; // flame..legend are level rewards, the next four are season rewards, SteamLite is an event reward
         const SHOWCASE_MAX = 5;
 
         function getOwnCustom() {
@@ -7377,9 +7379,10 @@
                 const need = ((peMeta && peMeta.levelRewards) || []).find(r => r.type === 'frame' && r.id === k);
                 const isSeasonFrame = ['frost', 'bloom', 'blaze', 'harvest'].includes(k);
                 const seasonLocked = isSeasonFrame && !((((peMeta || {}).cosmetics || {}).frames || []).includes(k));
-                const locked = !!(need && !need.unlocked) || seasonLocked;
-                const lockTxt = seasonLocked ? 'season' : (need ? need.level : '');
-                return '<button type="button" class="pe-frame-btn' + (k === peDraft.frame ? ' active' : '') + (locked ? ' locked' : '') + '" data-frame="' + k + '"' + (locked ? ' data-locked="' + lockTxt + '"' : '') + '>' + label + (locked ? (seasonLocked ? ' 🔒 Season reward' : ' 🔒 Lv ' + need.level) : '') + '</button>';
+                const eventLocked = k === 'steamlite' && !((((peMeta || {}).cosmetics || {}).frames || []).includes(k));
+                const locked = !!(need && !need.unlocked) || seasonLocked || eventLocked;
+                const lockTxt = eventLocked ? 'event' : seasonLocked ? 'season' : (need ? need.level : '');
+                return '<button type="button" class="pe-frame-btn' + (k === peDraft.frame ? ' active' : '') + (locked ? ' locked' : '') + '" data-frame="' + k + '"' + (locked ? ' data-locked="' + lockTxt + '"' : '') + '>' + label + (locked ? (eventLocked ? ' 🔒 Event reward' : seasonLocked ? ' 🔒 Season reward' : ' 🔒 Lv ' + need.level) : '') + '</button>';
             }).join('');
         }
 
@@ -7419,7 +7422,7 @@
 
         document.getElementById('pe-frames').addEventListener('click', (e) => {
             const btn = e.target.closest('.pe-frame-btn'); if (!btn) return;
-            if (btn.dataset.locked) { playSound('click'); showToast(btn.dataset.locked === 'season' ? 'This frame is a Season reward - earn it on the season track.' : 'This frame unlocks at SteamLite level ' + btn.dataset.locked + '.'); return; }
+            if (btn.dataset.locked) { playSound('click'); showToast(btn.dataset.locked === 'event' ? 'This frame is a limited-time event reward - complete the quests during SteamLite Day.' : btn.dataset.locked === 'season' ? 'This frame is a Season reward - earn it on the season track.' : 'This frame unlocks at SteamLite level ' + btn.dataset.locked + '.'); return; }
             playSound('click'); peDraft.frame = btn.dataset.frame; renderFrameButtons();
         });
         document.getElementById('pe-game-search').addEventListener('input', renderShowcasePicker);
@@ -7657,7 +7660,14 @@
         }
 
         async function fetchAchievementForCard(appId, card) { if (!activeConfig.apiKey || !activeConfig.steamId) return; if (achievementCache[appId]) { const progress = achievementCache[appId]; updateCardAchUI(card, progress); return; } const progress = await window.electronAPI.getAchievementProgress({ apiKey: activeConfig.apiKey, steamId: activeConfig.steamId, appId: appId }); if (progress && progress.total > 0) { achievementCache[appId] = { ...progress, timestamp: Date.now() }; if (window.electronAPI.cacheAchievement) window.electronAPI.cacheAchievement({ appId, total: progress.total, achieved: progress.achieved }); updateCardAchUI(card, progress); } }
-        function updateCardAchUI(card, progress) { totalAchAchieved += progress.achieved; totalAchTotal += progress.total; const achStat = document.getElementById('stat-ach-value'); if (achStat) { const percent = totalAchTotal > 0 ? Math.round((totalAchAchieved / totalAchTotal) * 100) : 0; achStat.innerText = `${percent}%`; } const bar = card.querySelector('.ach-progress-fill'); const text = card.querySelector('.ach-progress-text'); const compactText = card.querySelector('.compact-only'); const percent = (progress.achieved / progress.total) * 100; if (bar) bar.style.width = `${percent}%`; if (text) text.innerText = `${progress.achieved}/${progress.total}`; if (compactText) compactText.innerText = `${progress.achieved}/${progress.total}`; }
+        // the compact list shows a few numbers per game
+        function compactHours(game) { const h = getPlaytimeSeconds(game) / 3600; return h <= 0 ? '0 h' : h < 10 ? h.toFixed(1) + ' h' : Math.round(h).toLocaleString() + ' h'; }
+        function compactAgo(ts) {
+            if (!ts) return 'Never';
+            const d = Math.floor((Date.now() - ts) / 86400000);
+            return d <= 0 ? 'Today' : d === 1 ? 'Yesterday' : d < 30 ? d + ' days ago' : d < 365 ? Math.floor(d / 30) + ' mo ago' : Math.floor(d / 365) + ' y ago';
+        }
+        function updateCardAchUI(card, progress) { totalAchAchieved += progress.achieved; totalAchTotal += progress.total; const achStat = document.getElementById('stat-ach-value'); if (achStat) { const percent = totalAchTotal > 0 ? Math.round((totalAchAchieved / totalAchTotal) * 100) : 0; achStat.innerText = `${percent}%`; } const bar = card.querySelector('.ach-progress-fill'); const text = card.querySelector('.ach-progress-text'); const compactText = card.querySelector('.compact-only'); const percent = (progress.achieved / progress.total) * 100; if (bar) bar.style.width = `${percent}%`; if (text) text.innerText = `${progress.achieved}/${progress.total}`; if (compactText) compactText.innerText = progress.total > 0 ? `${progress.achieved}/${progress.total}` : ''; }
 
         function createGameCard(game, isInstalled) {
             const card = document.createElement('div'); card.className = 'game-card'; const appId = String(game.appid || game.id); const imgUrl = getGameImage(appId);
@@ -7665,7 +7675,7 @@
             card.setAttribute('title', tooltip); card.dataset.appid = appId; card.dataset.installed = isInstalled;
             if (selectMode && selectedGames.has(appId)) card.classList.add('selected');
             const isFav = favorites.includes(appId);
-            card.innerHTML = `<div class="card-banner" data-name="${esc(game.name)}"><img loading="lazy" decoding="async" src="${imgUrl}" alt="${esc(game.name)}" onerror="this.onerror=null; this.style.display='none'; this.parentElement.classList.add('banner-fallback');"><div class="ach-progress-container"><div class="ach-progress-fill"></div></div><div class="ach-progress-text">0/0</div></div><button class="fav-btn ${isFav ? 'active' : ''}"><svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 18.896l-7.416 4.517 1.48-8.279L0 9.306l8.332-1.151z"/></svg></button><div class="game-info"><div class="game-title">${esc(game.name)}</div><div class="game-status ${game.isShared ? 'shared' : 'installed'}">${game.isShared ? 'Family Shared' : (isInstalled ? 'Installed' + (game.sizeOnDisk ? ' · ' + formatBytes(game.sizeOnDisk) : '') : 'Not Installed')}</div><div class="ach-progress-text compact-only">0/0</div></div>`;
+            card.innerHTML = `<div class="card-banner" data-name="${esc(game.name)}"><img loading="lazy" decoding="async" src="${imgUrl}" alt="${esc(game.name)}" onerror="this.onerror=null; this.style.display='none'; this.parentElement.classList.add('banner-fallback');"><div class="ach-progress-container"><div class="ach-progress-fill"></div></div><div class="ach-progress-text">0/0</div></div><button class="fav-btn ${isFav ? 'active' : ''}"><svg viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 18.896l-7.416 4.517 1.48-8.279L0 9.306l8.332-1.151z"/></svg></button><div class="game-info"><div class="game-title">${esc(game.name)}</div><div class="game-status ${game.isShared ? 'shared' : 'installed'}">${game.isShared ? 'Family Shared' : (isInstalled ? 'Installed' + (game.sizeOnDisk ? ' · ' + formatBytes(game.sizeOnDisk) : '') : 'Not Installed')}</div><div class="cm-col cm-play"><b>${compactHours(game)}</b><span>played</span></div><div class="cm-col cm-last"><b>${compactAgo(tel && tel.lastPlayed)}</b><span>last played</span></div><div class="ach-progress-text compact-only"></div></div>`;
             const gmeta = gameMetaCache[appId];
             if (gmeta && gmeta.status) card.querySelector('.card-banner').insertAdjacentHTML('beforeend', '<div class="status-pill ' + gmeta.status + '">' + esc(gmeta.status) + '</div>');
             card.addEventListener('mouseenter', () => applyAmbientColor(imgUrl)); card.addEventListener('mouseleave', () => { document.documentElement.style.setProperty('--ambient-opacity', '0'); });
@@ -8752,14 +8762,14 @@
             (meta && meta.achievements || []).forEach(a => { unlockedAch[a.id] = !!a.unlockedAt; achProgress[a.id] = a.progress; achName[a.id] = a.name; achEvent[a.id] = a.event || null; });
             // an event reward theme can't be earned once its event has ended (people who already earned it keep it)
             const grantedThemes = new Set((meta && meta.unlockedThemes) || []); // earned for good (stays unlocked after the event, even if the achievement list changes)
-            const eventEnded = (id) => { const evId = achEvent[id]; if (!evId) return false; const e = ((meta && meta.events) || []).find(x => x.id === evId); return !!e && !e.open; };
+            const eventEnded = (id) => { if (String(id).startsWith('event:')) { const e = ((meta && meta.events) || []).find(x => x.id === String(id).slice(6)); return !!e && !e.open; } const evId = achEvent[id]; if (!evId) return false; const e = ((meta && meta.events) || []).find(x => x.id === evId); return !!e && !e.open; };
 
             const makeCard = (t) => {
                 const locked = t.requires && !unlockedAch[t.requires] && !grantedThemes.has(t.id);
                 const ended = locked && eventEnded(t.requires);
                 const card = document.createElement('div'); card.className = `theme-card${locked ? ' locked' : ''}`;
                 const swatches = (Array.isArray(t.colors) ? t.colors : []).slice(0, 6).map(c => `<span class="theme-swatch" style="background: ${esc(c)};"></span>`).join('');
-                const lockHint = ended ? '<div class="theme-desc" style="color: var(--warning);">🔒 Limited-time event theme - the event has ended. It returns next year.</div>' : (locked ? `<div class="theme-desc" style="color: var(--warning);">🔒 ${String(t.requires).startsWith('season:') ? 'Reach tier 20 in the ' + esc(String(t.requires).slice(7)) + ' season' : esc(achName[t.requires] || t.requires) + ' — ' + (achProgress[t.requires] ? achProgress[t.requires].current + ' / ' + achProgress[t.requires].max : 'required')}</div>` : '');
+                const lockHint = ended ? '<div class="theme-desc" style="color: var(--warning);">🔒 Limited-time event theme - the event has ended. It returns next year.</div>' : (locked ? `<div class="theme-desc" style="color: var(--warning);">🔒 ${String(t.requires).startsWith('event:') ? 'Complete 5 quests in ' + esc(((((meta && meta.events) || []).find(x => x.id === String(t.requires).slice(6))) || {}).name || 'the event') : String(t.requires).startsWith('season:') ? 'Reach tier 20 in the ' + esc(String(t.requires).slice(7)) + ' season' : esc(achName[t.requires] || t.requires) + ' — ' + (achProgress[t.requires] ? achProgress[t.requires].current + ' / ' + achProgress[t.requires].max : 'required')}</div>` : '');
                 const youBadge = t.local ? '<span class="theme-you-badge">Created by you</span>' : '';
                 const authorHtml = t.authorAvatar ? `<div class="theme-author-with-pfp"><img src="${esc(t.authorAvatar)}" class="theme-author-pfp" onerror="this.style.display='none'"><span>${esc(t.author || 'Unknown')}</span></div>` : `<div class="theme-author">by ${esc(t.author || 'Unknown')}</div>`;
                 card.innerHTML = `${locked ? '<div class="theme-lock-badge">' + (ended ? '🔒 Event ended' : '🔒 Locked') + '</div>' : ''}<div class="theme-info"><div class="theme-name">${esc(t.name || t.id)} ${youBadge}</div>${authorHtml}<div class="theme-desc">${esc(t.description || '')}</div>${lockHint}<div class="theme-swatches">${swatches}</div></div><div class="theme-card-actions"><button class="action-btn theme-apply-btn" ${locked ? 'disabled style="opacity: 0.45; cursor: not-allowed;"' : ''}>${locked ? 'Locked' : 'Apply'}</button>${t.local ? '<button class="action-btn btn-secondary theme-export-btn">Export</button><button class="action-btn btn-secondary theme-del-btn" title="Delete theme">🗑</button>' : ''}</div>`;
@@ -9062,16 +9072,19 @@
             updateStreakChip(data.streak);
             // events that are not running are hidden - except achievements you already earned in them
             const evOpenMap = {}; ((data && data.events) || []).forEach(e => { evOpenMap[e.id] = !!e.open; });
-            const list = ((data && data.achievements) || []).filter(a => !a.event || evOpenMap[a.event] || a.unlockedAt);
+            // while any event is on, only the events that are on are listed (ended ones are hidden); with none on, ended events show what you earned
+            const liveEvIds = new Set(((data && data.events) || []).filter(e => e.active).map(e => e.id));
+            const list = ((data && data.achievements) || []).filter(a => !a.event || (liveEvIds.size ? liveEvIds.has(a.event) : (evOpenMap[a.event] || a.unlockedAt)));
             const unlockedCount = list.filter(a => a.unlockedAt).length;
             document.getElementById('achievements-subtitle').innerText = `${unlockedCount} / ${list.length} unlocked · Level ${data.level ? data.level.level : 1} · 🔥 streak: ${data.streak.current} day${data.streak.current === 1 ? '' : 's'} (best ${data.streak.best})`;
             const searchEl = document.getElementById('meta-ach-search');
             searchEl.value = '';
             const paint = (fast) => {
             const q = searchEl.value.trim().toLowerCase();
+            const questEvs = ((data && data.events) || []).filter(e => e.quest && e.active && (!q || (e.name + ' quest quests ' + (e.quests || []).map(x => x.text).join(' ')).toLowerCase().includes(q)));
             const shown = list.filter(a => !q || String(a.name).toLowerCase().includes(q) || String(a.desc || '').toLowerCase().includes(q) || (a.event && (((data.events || []).find(e => e.id === a.event) || {}).name || '').toLowerCase().includes(q)) || (a.event === 'halloween' && 'halloween spooky pumpkin'.includes(q)) || (a.event === 'christmas' && 'christmas xmas winter holidays'.includes(q)) || (a.event === 'summer' && 'summer splash beach'.includes(q)));
             grid.innerHTML = '';
-            if (!shown.length) { grid.innerHTML = '<div class="screenshot-empty" style="grid-column: 1 / -1;">No achievements match your search.</div>'; return; }
+            if (!shown.length && !questEvs.length) { grid.innerHTML = '<div class="screenshot-empty" style="grid-column: 1 / -1;">No achievements match your search.</div>'; return; }
             const evById = (id) => (data.events || []).find(e => e.id === id);
             const addCard = (a) => {
                 const card = document.createElement('div');
@@ -9084,13 +9097,28 @@
             };
             const eventItems = shown.filter(a => a.event), regular = shown.filter(a => !a.event);
             const addHead = (html, cls) => { const h = document.createElement('div'); h.className = 'ach-group-head ' + cls; h.innerHTML = html; grid.appendChild(h); };
-            if (eventItems.length) {
-                // open events first, then ended ones
-                const ids = [...new Set(eventItems.map(a => a.event))].sort((a, b) => ((evById(b) || {}).open ? 1 : 0) - ((evById(a) || {}).open ? 1 : 0));
+            // quests (events with quests instead of achievements): a rewards card, then one card per quest
+            const addQuests = (ev) => {
+                const r = ev.rewards || {};
+                const box = document.createElement('div'); box.className = 'ach-meta-card ach-anim event-card quest-reward' + (ev.claimed ? ' unlocked' : ''); box.style.gridColumn = '1 / -1';
+                const pct = ev.total ? Math.round(ev.unlocked / ev.total * 100) : 0;
+                box.innerHTML = '<div class="ach-meta-icon">\uD83C\uDFC5</div><div class="ach-meta-info"><div class="ach-meta-name">Event rewards</div><div class="ach-meta-desc">Complete ' + ev.total + ' quests (not achievements) to earn the exclusive &quot;' + esc(r.title) + '&quot; profile title, the &quot;' + esc(r.title) + '&quot; avatar frame and the ' + esc(ev.themeName) + ' theme. Limited time only.</div><div class="ach-meta-bar-bg"><div class="ach-meta-bar-fill" style="width:' + pct + '%"></div></div><div class="ach-meta-progress-text"><span>' + (ev.claimed ? '\u2705 Rewards earned' : ev.unlocked + ' / ' + ev.total + ' quests') + '</span><span></span></div></div>';
+                grid.appendChild(box);
+                (ev.quests || []).forEach(qq => {
+                    const card = document.createElement('div'); card.className = 'ach-meta-card ach-anim event-card' + (qq.done ? ' unlocked' : '');
+                    const p = qq.max > 0 ? Math.min(100, Math.round(qq.current / qq.max * 100)) : 0;
+                    card.innerHTML = '<div class="ach-meta-icon">' + (qq.done ? '\u2705' : '\uD83C\uDFAF') + '</div><div class="ach-meta-info"><div class="ach-meta-name">' + esc(qq.text) + '<span class="ach-xp-tag">Quest</span></div><div class="ach-meta-desc">' + esc(ev.name) + '</div><div class="ach-meta-bar-bg"><div class="ach-meta-bar-fill" style="width:' + p + '%"></div></div><div class="ach-meta-progress-text"><span>' + (qq.done ? 'Done' : qq.current + ' / ' + qq.max + (qq.unit ? ' ' + qq.unit : '')) + '</span><span></span></div></div>';
+                    grid.appendChild(card);
+                });
+            };
+            if (eventItems.length || questEvs.length) {
+                // events that are on first, the one that ends first on top
+                const ids = [...new Set([...eventItems.map(a => a.event), ...questEvs.map(e => e.id)])].sort((a, b) => { const A = evById(a) || {}, B = evById(b) || {}; return (B.open ? 1 : 0) - (A.open ? 1 : 0) || (A.end || 0) - (B.end || 0); });
                 ids.forEach(id => {
                     const ev = evById(id);
                     const status = ev ? (ev.active ? '<span class="ev-chip live">Live · ' + ev.daysLeft + ' day' + (ev.daysLeft === 1 ? '' : 's') + ' left</span>' : (ev.open ? '<span class="ev-chip">Wrapping up</span>' : '<span class="ev-chip ended">Ended · back next year</span>')) : '';
-                    addHead('<span>' + (ev ? ev.icon + ' ' + esc(ev.name) : esc(id)) + '</span>' + status + (ev ? '<span class="ev-count">' + ev.unlocked + ' / ' + ev.total + ' unlocked</span>' : ''), id);
+                    addHead('<span>' + (ev ? ev.icon + ' ' + esc(ev.name) : esc(id)) + '</span>' + status + (ev ? '<span class="ev-count">' + ev.unlocked + ' / ' + ev.total + (ev.quest ? ' quests done' : ' unlocked') + '</span>' : ''), id);
+                    if (ev && ev.quest) addQuests(ev);
                     eventItems.filter(a => a.event === id).forEach(addCard);
                 });
                 if (regular.length) addHead('<span>Everyday achievements</span>', '');
@@ -9464,7 +9492,7 @@
             let owned = false;
             try { const meta = await window.electronAPI.getMetaAchievements({ librarySize: installedGames.length + uninstalledGames.length }); owned = ((meta && meta.unlockedThemes) || []).includes(themeId); } catch (e) { }
             document.getElementById('tp-title').textContent = 'Previewing ' + name;
-            document.getElementById('tp-sub').textContent = owned ? 'You own this theme. Nothing is changed until you apply it.' : ('Only a preview - unlock it by completing all ' + ((eventsCache.find(e => e.theme === themeId) || {}).total || 'of the') + ' ' + ((eventsCache.find(e => e.theme === themeId) || {}).name || 'event') + ' achievements.');
+            document.getElementById('tp-sub').textContent = owned ? 'You own this theme. Nothing is changed until you apply it.' : ('Only a preview - unlock it by completing all ' + ((eventsCache.find(e => e.theme === themeId) || {}).total || 'of the') + ' ' + ((eventsCache.find(e => e.theme === themeId) || {}).name || 'event') + (((eventsCache.find(e => e.theme === themeId) || {}).quest) ? ' quests.' : ' achievements.'));
             const act = document.getElementById('tp-action');
             act.textContent = owned ? 'Apply theme' : 'View achievements';
             act.onclick = async () => {
@@ -9504,14 +9532,20 @@
         function daysLeftText(n) { return n + ' day' + (n === 1 ? '' : 's') + ' left'; }
         async function loadEventBanner() {
             if (!document.getElementById('event-banner-slot')) return;
-            const ev = (await refreshEvents()).find(e => e.active);
+            // every event that is on is shown; the one that ends first goes on top
+            const live = (await refreshEvents()).filter(e => e.active).sort((x, y) => x.end - y.end);
             const slot = document.getElementById('event-banner-slot'); if (!slot) return; // navigated away meanwhile
-            if (!ev) { slot.innerHTML = ''; return; }
-            const pct = ev.total ? Math.round(ev.unlocked / ev.total * 100) : 0;
-            const endText = new Date(ev.end - 1).toLocaleDateString(undefined, { month: 'long', day: 'numeric' }); // last day of the event
-            slot.innerHTML = '<div class="event-banner"><div class="event-icon">' + ev.icon + '</div><div class="event-body"><div class="event-title">' + esc(ev.name) + ' <span class="ev-chip live">' + daysLeftText(ev.daysLeft) + '</span></div><div class="event-sub">' + esc(ev.blurb) + ' Everything is only available until <b>' + endText + '</b>.</div><div class="event-progress"><div class="event-bar"><i style="width:' + pct + '%"></i></div><span>' + ev.unlocked + ' / ' + ev.total + ' achievements</span></div></div><div class="event-actions"><button class="action-btn" id="event-ach-btn">View achievements</button><button class="action-btn btn-secondary" id="event-theme-btn">👁 Preview theme</button></div></div>';
-            document.getElementById('event-ach-btn').addEventListener('click', () => { playSound('open'); openAchievementsModal(); });
-            document.getElementById('event-theme-btn').addEventListener('click', () => { startThemePreview(ev.theme + '.json', ev.theme, ev.themeName); });
+            if (!live.length) { slot.innerHTML = ''; return; }
+            slot.innerHTML = live.map(ev => {
+                const pct = ev.total ? Math.round(ev.unlocked / ev.total * 100) : 0;
+                const endText = new Date(ev.end - 1).toLocaleDateString(undefined, { month: 'long', day: 'numeric' }); // last day of the event
+                return '<div class="event-banner ev-' + ev.id + '" data-ev="' + ev.id + '"><div class="event-icon">' + ev.icon + '</div><div class="event-body"><div class="event-title">' + esc(ev.name) + ' <span class="ev-chip live">' + daysLeftText(ev.daysLeft) + '</span></div><div class="event-sub">' + esc(ev.blurb) + ' Everything is only available until <b>' + endText + '</b>.</div><div class="event-progress"><div class="event-bar"><i style="width:' + pct + '%"></i></div><span>' + ev.unlocked + ' / ' + ev.total + (ev.quest ? ' quests' : ' achievements') + (ev.quest && ev.claimed ? ' \u00B7 rewards earned' : '') + '</span></div></div><div class="event-actions"><button class="action-btn ev-ach">' + (ev.quest ? 'View quests' : 'View achievements') + '</button><button class="action-btn btn-secondary ev-theme">\uD83D\uDC41 Preview theme</button></div></div>';
+            }).join('');
+            slot.querySelectorAll('.event-banner').forEach(el => {
+                const ev = live.find(e => e.id === el.dataset.ev);
+                el.querySelector('.ev-ach').addEventListener('click', () => { playSound('open'); openAchievementsModal(); });
+                el.querySelector('.ev-theme').addEventListener('click', () => { startThemePreview(ev.theme + '.json', ev.theme, ev.themeName); });
+            });
         }
         // once per event year, a notification that the event has started (one for every live event)
         async function maybeAnnounceEvent() {
@@ -9520,7 +9554,7 @@
                 const seen = getUiPref('eventSeen', {}), key = ev.id + ev.year;
                 if (seen[key]) continue;
                 await setUiPref({ eventSeen: { ...getUiPref('eventSeen', {}), [key]: true } });
-                showToast(ev.icon + ' The ' + ev.name + ' is live! Earn achievements and the ' + ev.themeName + ' theme.', () => openAchievementsModal(), { sound: 'achievement', icon: undefined });
+                showToast(ev.icon + (ev.quest ? ' ' + ev.name + ' is live! Complete ' + ev.total + ' quests to earn exclusive rewards and the ' + ev.themeName + ' theme.' : ' The ' + ev.name + ' is live! Earn achievements and the ' + ev.themeName + ' theme.'), () => openAchievementsModal(), { sound: 'achievement', icon: undefined });
             }
         }
 
@@ -9650,6 +9684,10 @@
 
         // ---------- Notifications for the new systems ----------
         window.electronAPI.onChallengeComplete((d) => { showToast('✅ ' + (d.scope === 'daily' ? 'Daily' : 'Weekly') + ' challenge done: ' + d.text + ' · +' + Number(d.xp).toLocaleString() + ' XP' + (d.boosted ? ' (×' + d.mult + ' boost)' : ''), () => openInventory(), { sound: 'achievement' }); });
+        if (window.electronAPI.onEventQuest) window.electronAPI.onEventQuest((d) => {
+            if (d.complete) showToast('\uD83C\uDF89 ' + d.eventName + ' complete! You earned the "' + d.rewards.title + '" title, the "' + d.rewards.title + '" avatar frame and a new theme.', () => openAchievementsModal(), { sound: 'achievement' });
+            else showToast('\uD83C\uDFAF ' + d.eventName + ' quest done: ' + d.text + ' (' + d.done + ' / ' + d.need + ')', () => openAchievementsModal(), { sound: 'achievement' });
+        });
         window.electronAPI.onLevelReward((d) => { showToast('🎁 Level ' + d.level + ' reward: +' + d.restores + ' streak restore' + (d.restores === 1 ? '' : 's') + '!', () => openInventory(), { sound: 'achievement' }); });
         window.electronAPI.onWishlistSale((items) => {
             const names = items.filter(i => i.name).map(i => i.name + ' -' + i.discount + '%');

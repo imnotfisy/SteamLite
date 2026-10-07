@@ -188,7 +188,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Opulent gold and warm amber — reward for 100 game launches.",
+      "description": "Opulent gold and warm amber \u2014 reward for 100 game launches.",
       "file": "centurion-gold.json",
       "colors": [
         "#d4af37",
@@ -203,7 +203,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Cool platinum-silver prestige — reward for 500 hours in a single game.",
+      "description": "Cool platinum-silver prestige \u2014 reward for 500 hours in a single game.",
       "file": "500-club-platinum.json",
       "colors": [
         "#c0c0d0",
@@ -218,7 +218,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Blazing red — reward for a single 5+ hour session.",
+      "description": "Blazing red \u2014 reward for a single 5+ hour session.",
       "file": "marathon-redline.json",
       "colors": [
         "#ff2d2d",
@@ -233,7 +233,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Molten orange fire theme — reward for a 7-day play streak.",
+      "description": "Molten orange fire theme \u2014 reward for a 7-day play streak.",
       "file": "streak-inferno.json",
       "colors": [
         "#ff7800",
@@ -248,7 +248,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Radiant golden glow — reward for a 30-day play streak.",
+      "description": "Radiant golden glow \u2014 reward for a 30-day play streak.",
       "file": "unstoppable-solar.json",
       "colors": [
         "#ffc832",
@@ -263,7 +263,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Ethereal violet prism — reward for 100% completing any game.",
+      "description": "Ethereal violet prism \u2014 reward for 100% completing any game.",
       "file": "completionist-prism.json",
       "colors": [
         "#b478ff",
@@ -306,7 +306,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Liquid chrome-blue glow — reward for applying 5 themes.",
+      "description": "Liquid chrome-blue glow \u2014 reward for applying 5 themes.",
       "file": "chrome-aurora.json",
       "colors": [
         "#64c8ff",
@@ -321,7 +321,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Warm coastal sunset — coral and dusk pink.",
+      "description": "Warm coastal sunset \u2014 coral and dusk pink.",
       "file": "sunset-drive.json",
       "colors": [
         "#ff7864",
@@ -546,7 +546,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Hot pink and violet for weekend players — reward for the \"Weekend Warrior\" achievement.",
+      "description": "Hot pink and violet for weekend players \u2014 reward for the \"Weekend Warrior\" achievement.",
       "file": "weekend-warrior.json",
       "colors": [
         "#ff3cac",
@@ -561,7 +561,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Calm teal for players who keep coming back — reward for the \"Regular\" achievement.",
+      "description": "Calm teal for players who keep coming back \u2014 reward for the \"Regular\" achievement.",
       "file": "regular-teal.json",
       "colors": [
         "#2dd4bf",
@@ -576,7 +576,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Deep sapphire blue for 60 days of play — reward for the \"Calendar Keeper\" achievement.",
+      "description": "Deep sapphire blue for 60 days of play \u2014 reward for the \"Calendar Keeper\" achievement.",
       "file": "calendar-sapphire.json",
       "colors": [
         "#3b82f6",
@@ -591,7 +591,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Warm copper for the long sessions — reward for the \"Long Haul\" achievement.",
+      "description": "Warm copper for the long sessions \u2014 reward for the \"Long Haul\" achievement.",
       "file": "long-haul-copper.json",
       "colors": [
         "#c97b4a",
@@ -606,7 +606,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Silver on onyx for 500 launches — reward for the \"Launch Legend\" achievement.",
+      "description": "Silver on onyx for 500 launches \u2014 reward for the \"Launch Legend\" achievement.",
       "file": "launch-legend-onyx.json",
       "colors": [
         "#e5e7eb",
@@ -621,7 +621,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Fresh jade green for 250 hours — reward for the \"Quarter K\" achievement.",
+      "description": "Fresh jade green for 250 hours \u2014 reward for the \"Quarter K\" achievement.",
       "file": "quarter-k-jade.json",
       "colors": [
         "#34d399",
@@ -636,7 +636,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Royal amethyst for 2500 hours — reward for the \"Time Lord\" achievement.",
+      "description": "Royal amethyst for 2500 hours \u2014 reward for the \"Time Lord\" achievement.",
       "file": "time-lord-amethyst.json",
       "colors": [
         "#a78bfa",
@@ -651,7 +651,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Rose pink for your one true game — reward for the \"Devoted\" achievement.",
+      "description": "Rose pink for your one true game \u2014 reward for the \"Devoted\" achievement.",
       "file": "devoted-rose.json",
       "colors": [
         "#fb7185",
@@ -666,7 +666,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Sunny coral for a well-loved library — reward for the \"Favourite Things\" achievement.",
+      "description": "Sunny coral for a well-loved library \u2014 reward for the \"Favourite Things\" achievement.",
       "file": "favourite-coral.json",
       "colors": [
         "#ff8a65",
@@ -681,7 +681,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Tidy slate grey for a tidy library — reward for the \"Organiser\" achievement.",
+      "description": "Tidy slate grey for a tidy library \u2014 reward for the \"Organiser\" achievement.",
       "file": "organiser-slate.json",
       "colors": [
         "#94a3b8",
@@ -696,7 +696,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Mossy green for the achievement hunter — reward for the \"Achievement Hunter\" achievement.",
+      "description": "Mossy green for the achievement hunter \u2014 reward for the \"Achievement Hunter\" achievement.",
       "file": "hunter-moss.json",
       "colors": [
         "#a3e635",
@@ -711,7 +711,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Polished bronze for a full trophy case — reward for the \"Trophy Case\" achievement.",
+      "description": "Polished bronze for a full trophy case \u2014 reward for the \"Trophy Case\" achievement.",
       "file": "trophy-bronze.json",
       "colors": [
         "#cd7f32",
@@ -726,7 +726,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Electric yellow and cyan for level 25 — reward for the \"Rising Star\" achievement.",
+      "description": "Electric yellow and cyan for level 25 \u2014 reward for the \"Rising Star\" achievement.",
       "file": "level-up-electric.json",
       "colors": [
         "#facc15",
@@ -741,7 +741,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Icy blue for a stash of restores — reward for the \"Restore Hoarder\" achievement.",
+      "description": "Icy blue for a stash of restores \u2014 reward for the \"Restore Hoarder\" achievement.",
       "file": "hoarder-ice.json",
       "colors": [
         "#7dd3fc",
@@ -756,7 +756,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Glowing ember red for a 14-day streak — reward for the \"Fortnight Strong\" achievement.",
+      "description": "Glowing ember red for a 14-day streak \u2014 reward for the \"Fortnight Strong\" achievement.",
       "file": "fortnight-ember.json",
       "colors": [
         "#ff5a1f",
@@ -771,7 +771,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Festive red and green on a midnight-blue winter night — reward for the \"Christmas Spirit\" achievement (event only).",
+      "description": "Festive red and green on a midnight-blue winter night \u2014 reward for the \"Christmas Spirit\" achievement (event only).",
       "file": "winter-wonderland.json",
       "colors": [
         "#e63946",
@@ -786,7 +786,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Sunny gold and ocean blue for a summer by the sea — reward for the \"Summer Survivor\" achievement (event only).",
+      "description": "Sunny gold and ocean blue for a summer by the sea \u2014 reward for the \"Summer Survivor\" achievement (event only).",
       "file": "summer-splash.json",
       "colors": [
         "#ffb703",
@@ -801,7 +801,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Soft blossom pink and fresh green for the first days of spring — reward for the \"Spring Awakening\" achievement (event only).",
+      "description": "Soft blossom pink and fresh green for the first days of spring \u2014 reward for the \"Spring Awakening\" achievement (event only).",
       "file": "spring-bloom.json",
       "colors": [
         "#f472b6",
@@ -816,7 +816,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Icy blue and lilac for the Frost season (January - March) — reward for the \"Frost\" achievement (event only).",
+      "description": "Icy blue and lilac for the Frost season (January - March) \u2014 reward for the \"Frost\" achievement (event only).",
       "file": "season-frost.json",
       "colors": [
         "#7dd3fc",
@@ -831,7 +831,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Rose and honey for the Bloom season (April - June) — reward for the \"Bloom\" achievement (event only).",
+      "description": "Rose and honey for the Bloom season (April - June) \u2014 reward for the \"Bloom\" achievement (event only).",
       "file": "season-bloom.json",
       "colors": [
         "#fda4af",
@@ -846,7 +846,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Hot orange and crimson for the Blaze season (July - September) — reward for the \"Blaze\" achievement (event only).",
+      "description": "Hot orange and crimson for the Blaze season (July - September) \u2014 reward for the \"Blaze\" achievement (event only).",
       "file": "season-blaze.json",
       "colors": [
         "#fb923c",
@@ -861,7 +861,7 @@
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Amber and olive for the Harvest season (October - December) — reward for the \"Harvest\" achievement (event only).",
+      "description": "Amber and olive for the Harvest season (October - December) \u2014 reward for the \"Harvest\" achievement (event only).",
       "file": "season-harvest.json",
       "colors": [
         "#d97706",
@@ -869,6 +869,21 @@
         "#84cc16"
       ],
       "requires": "season:harvest"
+    },
+    {
+      "id": "remembering-the-roots",
+      "name": "Remembering the Roots",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Deep purple all across the board, the way SteamLite began. Exclusive reward for completing 5 quests in the SteamLite Day event.",
+      "file": "remembering-the-roots.json",
+      "colors": [
+        "#8b5cf6",
+        "#0b0516",
+        "#c084fc"
+      ],
+      "requires": "event:steamlite"
     }
   ]
 }
