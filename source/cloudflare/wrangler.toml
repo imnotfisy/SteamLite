@@ -1,0 +1,12 @@
+﻿name = "steamlite-online"
+main = "src/worker.js"
+compatibility_date = "2025-01-01"
+workers_dev = true
+preview_urls = false
+
+[[d1_databases]]
+binding = "DB"
+database_name = "steamlite-online"
+# deploy.ps1 fills this in after the database is created
+database_id = "96c44286-19fd-4bd7-91b0-697d6f3e728d"
+

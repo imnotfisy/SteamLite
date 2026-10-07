@@ -1,0 +1,7 @@
+{
+  "name": "steamlite-online-worker",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": { "build": "node build.js", "dev": "node build.js && wrangler dev --local --port 8788", "deploy": "node build.js && wrangler deploy" },
+  "devDependencies": { "wrangler": "^4" }
+}

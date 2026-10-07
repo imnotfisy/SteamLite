@@ -8,6 +8,7 @@ This folder is the source of the stable release **9.1.0**.
 | `updater/` | The stand-alone SteamLite Updater (C#, WinForms). `build.ps1` compiles it with the compiler that ships with Windows |
 | `nsis/` | The installer script (NSIS) |
 | `server/` | The SteamLite Online server (Node.js, no dependencies): poll votes, leaderboard, theme gallery, live status, plus the tunnel script |
+| `server/` | The SteamLite Online server (Node.js, no dependencies): poll votes, leaderboard, theme gallery, live status, plus the tunnel script. `cloudflare/` is the same server as a Cloudflare Worker, which is the one players use |
 | `tools/` | `pack_asar.js` and `extract_asar.js`, small dependency-free tools to pack and unpack `app.asar` |
 
 ## Run it from source

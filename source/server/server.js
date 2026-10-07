@@ -94,17 +94,29 @@ const ADMIN_HTML = `<!doctype html><meta charset=utf-8><title>SteamLite server a
 <style>body{font:14px system-ui;background:#0e0b1a;color:#eee;max-width:900px;margin:24px auto;padding:0 16px}h1{font-size:20px}section{background:#1a1530;border:1px solid #3a2f66;border-radius:14px;padding:16px;margin:16px 0}button{background:#7c3aed;color:#fff;border:0;border-radius:8px;padding:6px 14px;cursor:pointer;font:inherit;margin-right:6px}button.x{background:#7f1d1d}textarea{width:100%;height:220px;background:#0e0b1a;color:#eee;border:1px solid #3a2f66;border-radius:8px;font:12px monospace;padding:8px;box-sizing:border-box}input{background:#0e0b1a;color:#eee;border:1px solid #3a2f66;border-radius:8px;padding:6px}.sw{display:inline-block;width:18px;height:18px;border-radius:5px;margin-right:3px}.th{border-top:1px solid #3a2f66;padding:10px 0}pre{white-space:pre-wrap;font-size:11px;color:#aaa;max-height:120px;overflow:auto}</style>
 <h1>SteamLite server admin</h1><section>Admin token <input id=tk type=password size=40> <button onclick="go()">Load</button> <span id=msg></span></section>
 <section><b>Themes waiting for review</b><div id=pend>Enter the token above.</div></section>
-<section><b>Live status</b> (announcements and special gifts, shown to every player)<br><textarea id=st></textarea><br><button onclick="saveSt()">Save status</button><small> gifts: {"id":"unique","title":"...","xp":20000,"until":1790000000000}</small></section>
+<section><b>Post an announcement</b> <small>(a pop-up for every player, and the top of their dashboard news)</small><br>
+<input id=at placeholder="Title" size=26> <input id=ax placeholder="Message" size=44> show for <input id=ad type=number value=3 style="width:56px"> days <button onclick="addAnn()">Post</button></section>
+<section><b>Send a special gift</b> <small>(XP in the Drops window, once per player, max 100000)</small><br>
+<input id=gt placeholder="Name, e.g. Weekend gift" size=26> <input id=gx type=number value=20000 style="width:90px"> XP, available for <input id=gh type=number value=24 style="width:56px"> hours <button onclick="addGift()">Send</button></section>
+<section><b>Message from the team</b> <small>(one line at the top of the news, leave empty for none)</small><br><input id=mo size=60> <button onclick="saveMo()">Save</button></section>
+<section><b>Live right now</b><div id=live>Enter the token above.</div></section>
 <section><b>Polls</b><br><textarea id=po></textarea><br><button onclick="savePo()">Save polls</button></section>
 <section><b>Stats</b><pre id=stats></pre></section>
 <script>
 const H=()=>({'Content-Type':'application/json','Authorization':'Bearer '+tk.value});const $=id=>document.getElementById(id);
 async function api(m,p,b){const r=await fetch(p,{method:m,headers:H(),body:b?JSON.stringify(b):undefined});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||r.status);return j}
-async function go(){try{sessionStorage.t=tk.value;const d=await api('GET','/admin/data');$('msg').textContent='ok';$('st').value=JSON.stringify(d.status,null,2);$('po').value=JSON.stringify(d.polls,null,2);$('stats').textContent=JSON.stringify(d.stats,null,2);
+let cur={motd:'',announcements:[],gifts:[]};
+async function go(){try{sessionStorage.t=tk.value;const d=await api('GET','/admin/data');$('msg').textContent='ok';cur=d.status;$('mo').value=cur.motd||'';paintLive();$('po').value=JSON.stringify(d.polls,null,2);$('stats').textContent=JSON.stringify(d.stats,null,2);
 $('pend').innerHTML=d.pending.length?d.pending.map(t=>'<div class=th><b>'+esc(t.name)+'</b> by '+esc(t.author)+' - '+esc(t.desc)+'<br>'+Object.values(t.vars).filter(v=>/^#|rgb/.test(v)).slice(0,10).map(v=>'<span class=sw style="background:'+esc(v)+'"></span>').join('')+'<pre>'+esc(t.css||'(no extra css)')+'</pre><button onclick="act(\\''+t.id+'\\',\\'approve\\')">Approve</button><button class=x onclick="act(\\''+t.id+'\\',\\'reject\\')">Reject</button></div>').join(''):'Nothing waiting.'}catch(e){$('msg').textContent=e.message}}
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function act(id,a){await api('POST','/admin/theme/'+id+'/'+a);go()}
-async function saveSt(){try{await api('PUT','/admin/status',JSON.parse($('st').value));$('msg').textContent='status saved'}catch(e){$('msg').textContent=e.message}}
+const now=()=>Date.now();
+function paintLive(){const a=(cur.announcements||[]).filter(x=>!x.until||x.until>now()),g=(cur.gifts||[]).filter(x=>x.until>now());const btn=(k,id)=>'<button class=x data-k='+k+' data-id="'+esc(id)+'" onclick="rm(this.dataset.k,this.dataset.id)">Remove</button>';$('live').innerHTML=(a.length||g.length)?a.map(x=>'<div class=th>Announcement: <b>'+esc(x.title)+'</b> - '+esc(x.text||'')+' <small>(until '+new Date(x.until).toLocaleString()+')</small> '+btn('announcements',x.id)+'</div>').join('')+g.map(x=>'<div class=th>Gift: <b>'+esc(x.title)+'</b> +'+x.xp+' XP <small>(until '+new Date(x.until).toLocaleString()+')</small> '+btn('gifts',x.id)+'</div>').join(''):'Nothing is live. Announcements and gifts you post show up here.'}
+async function saveCur(){await api('PUT','/admin/status',cur);const d=await api('GET','/admin/data');cur=d.status;paintLive();$('msg').textContent='saved'}
+async function addAnn(){try{const t=$('at').value.trim();if(!t){$('msg').textContent='Write a title first';return}cur.announcements=(cur.announcements||[]).filter(x=>!x.until||x.until>now());cur.announcements.push({id:'a'+now(),title:t,text:$('ax').value.trim(),until:now()+Math.max(1,+$('ad').value||3)*864e5,date:new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})});await saveCur();$('at').value='';$('ax').value=''}catch(e){$('msg').textContent=e.message}}
+async function addGift(){try{const t=$('gt').value.trim(),xp=Math.min(100000,Math.max(1,+$('gx').value||0));if(!t){$('msg').textContent='Name the gift first';return}cur.gifts=(cur.gifts||[]).filter(x=>x.until>now());cur.gifts.push({id:'g'+now(),title:t,xp,until:now()+Math.max(1,+$('gh').value||24)*36e5});await saveCur();$('gt').value=''}catch(e){$('msg').textContent=e.message}}
+async function saveMo(){try{cur.motd=$('mo').value.trim();await saveCur()}catch(e){$('msg').textContent=e.message}}
+async function rm(k,id){try{cur[k]=(cur[k]||[]).filter(x=>x.id!==id);await saveCur()}catch(e){$('msg').textContent=e.message}}
 async function savePo(){try{await api('PUT','/admin/polls',JSON.parse($('po').value));$('msg').textContent='polls saved'}catch(e){$('msg').textContent=e.message}}
 if(sessionStorage.t){tk.value=sessionStorage.t;go()}
 </script>`;
@@ -136,7 +148,7 @@ async function route(req, res, url) {
     // ----- live status -----
     if (p === '/status' && m === 'GET') {
         const now = Date.now(), s = status.data;
-        return send(res, 200, { motd: s.motd || '', announcements: (s.announcements || []).filter(a => a && a.id && (!a.until || a.until > now)).slice(0, 5), gifts: (s.gifts || []).filter(g => g && g.id && g.until > now && g.xp > 0).slice(0, 5).map(g => ({ id: String(g.id).slice(0, 40), title: cleanText(g.title, 60), xp: clamp(g.xp, 1, 100000), until: g.until })) });
+        return send(res, 200, { motd: s.motd || '', announcements: (s.announcements || []).filter(a => a && a.id && (!a.until || a.until > now)).slice(0, 5).map(a => ({ id: String(a.id).slice(0, 40), title: cleanText(a.title, 120), text: cleanText(a.text, 400), date: cleanText(a.date, 40), url: /^https:\/\/[^\s<>"']{1,300}$/.test(String(a.url || '')) ? String(a.url) : '' })), gifts: (s.gifts || []).filter(g => g && g.id && g.until > now && g.xp > 0).slice(0, 5).map(g => ({ id: String(g.id).slice(0, 40), title: cleanText(g.title, 60), xp: clamp(g.xp, 1, 100000), until: g.until })) });
     }
 
     // ----- polls -----
