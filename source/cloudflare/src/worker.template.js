@@ -82,8 +82,8 @@ async function verifySteam(url, n) {
     const check = new URLSearchParams(); for (const [k, v] of q) if (k.startsWith('openid.')) check.set(k, v); check.set('openid.mode', 'check_authentication');
     try { const r = await fetch(STEAM_OPENID, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: check.toString() }); return /(^|\n)is_valid:true/.test(await r.text()) ? m[1] : null; } catch (e) { return null; }
 }
-async function steamName(id) { // the public profile page, no key needed
-    try { const r = await fetch('https://steamcommunity.com/profiles/' + id + '/?xml=1'); const t = await r.text(); const m = /<steamID><!\[CDATA\[(.*?)\]\]><\/steamID>/s.exec(t); return m ? m[1] : ''; } catch (e) { return ''; }
+async function steamProfile(id) { // the public profile page, no key needed
+    try { const r = await fetch('https://steamcommunity.com/profiles/' + id + '/?xml=1'); const t = await r.text(); const m = /<steamID><!\[CDATA\[(.*?)\]\]><\/steamID>/s.exec(t), a = /<avatarFull><!\[CDATA\[(.*?)\]\]><\/avatarFull>/s.exec(t); return { name: m ? m[1] : '', avatar: a && /^https:\/\/[\w.-]+\.(steamstatic\.com|akamaihd\.net)\/[\w\/.-]{1,200}$/.test(a[1]) ? a[1] : '' }; } catch (e) { return { name: '', avatar: '' }; }
 }
 const page = (title, html) => new Response('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + title + '</title><body style="font-family:system-ui,sans-serif;background:#0b0b12;color:#eee;display:grid;place-items:center;min-height:100vh;margin:0"><div style="max-width:420px;padding:32px;text-align:center"><h2>' + title + '</h2><p style="color:#aab">' + html + '</p></div>', { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'none'; style-src 'unsafe-inline'", 'X-Content-Type-Options': 'nosniff' } });
 
@@ -111,6 +111,13 @@ async function route(req, env) {
         }
         if (p === '/admin/status' && m === 'PUT') { const b = await body(req, 60000); if (!b || typeof b !== 'object') return J(400, { error: 'Bad status' }); await kvSet(env, 'status', { motd: cleanText(b.motd, 200), announcements: (Array.isArray(b.announcements) ? b.announcements : []).slice(0, 10), gifts: (Array.isArray(b.gifts) ? b.gifts : []).slice(0, 10) }); return J(200, { ok: true }); }
         if (p === '/admin/polls' && m === 'PUT') { const b = await body(req, 60000); if (!b || !Array.isArray(b.polls)) return J(400, { error: 'Bad polls' }); await kvSet(env, 'polls', b); return J(200, { ok: true }); }
+        if (p === '/admin/reports' && m === 'GET') {
+            const rows = (await env.DB.prepare("SELECT r.id, r.at, r.reason, r.snap, r.conv, r.target, t.name tname, rp.name rname, EXISTS(SELECT 1 FROM bans b WHERE b.uid = r.target AND b.until > ?) banned FROM reports r LEFT JOIN accounts t ON t.uid = r.target LEFT JOIN accounts rp ON rp.uid = r.reporter WHERE r.status = 'open' ORDER BY r.at DESC LIMIT 50").bind(Date.now()).all()).results;
+            return J(200, { reports: rows.map(r => ({ id: r.id, at: r.at, reason: r.reason, text: r.snap, conv: r.conv, target: r.target, targetName: r.tname || '(deleted)', reporterName: r.rname || '(deleted)', banned: !!r.banned })) });
+        }
+        if ((mm = /^\/admin\/report\/([a-f0-9]{12})\/resolve$/.exec(p)) && m === 'POST') { await env.DB.prepare("UPDATE reports SET status = 'done' WHERE id = ?").bind(mm[1]).run(); return J(200, { ok: true }); }
+        if (p === '/admin/ban' && m === 'POST') { const b = await body(req, 1000); if (!uidOk(b.uid)) return J(400, { error: 'Bad uid' }); const hours = clamp(b.hours || 24, 1, 24 * 3650); await env.DB.prepare('INSERT INTO bans(uid, until, reason) VALUES(?, ?, ?) ON CONFLICT(uid) DO UPDATE SET until = excluded.until, reason = excluded.reason').bind(b.uid, Date.now() + hours * 3600000, cleanText(b.reason, 200)).run(); return J(200, { ok: true }); }
+        if (p === '/admin/unban' && m === 'POST') { const b = await body(req, 500); if (!uidOk(b.uid)) return J(400, { error: 'Bad uid' }); await env.DB.prepare('DELETE FROM bans WHERE uid = ?').bind(b.uid).run(); return J(200, { ok: true }); }
         return J(404, { error: 'Not found' });
     }
 
@@ -132,8 +139,8 @@ async function route(req, env) {
         if (await limited(env, 'ar' + addr, 30, 600000)) return page('Sign-in failed', 'Too many tries. Wait a few minutes and try again.');
         const steamid = await verifySteam(url, n);
         if (!steamid) return page('Sign-in failed', 'Steam could not confirm who you are. Close this tab, go back to SteamLite and try again.');
-        const name = cleanName(await steamName(steamid)) || 'Player ' + steamid.slice(-4), now = Date.now(), au = await uidFor(steamid);
-        await env.DB.prepare('INSERT INTO accounts(steamid, uid, name, created, last) VALUES(?, ?, ?, ?, ?) ON CONFLICT(steamid) DO UPDATE SET name = excluded.name, last = excluded.last').bind(steamid, au, name, now, now).run();
+        const prof = await steamProfile(steamid), name = cleanName(prof.name) || 'Player ' + steamid.slice(-4), now = Date.now(), au = await uidFor(steamid);
+        await env.DB.prepare('INSERT INTO accounts(steamid, uid, name, avatar, created, last) VALUES(?, ?, ?, ?, ?, ?) ON CONFLICT(steamid) DO UPDATE SET name = excluded.name, avatar = excluded.avatar, last = excluded.last').bind(steamid, au, name, prof.avatar, now, now).run();
         const token = HEX(32);
         await env.DB.prepare('INSERT INTO sessions(h, steamid, created) VALUES(?, ?, ?)').bind(await sha(token), steamid, now).run();
         await env.DB.prepare('INSERT OR REPLACE INTO auth_pending(n, token, steamid, name, exp) VALUES(?, ?, ?, ?, ?)').bind(n, token, steamid, name, now + 600000).run();
@@ -157,7 +164,8 @@ async function route(req, env) {
         if (!acct) return J(401, { error: 'Not signed in' });
         const id = acct.steamid, u = acct.uid;
         await env.DB.batch([env.DB.prepare('DELETE FROM sessions WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM backups WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM lb WHERE uid = ?').bind(u),
-            env.DB.prepare('DELETE FROM theme_likes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM votes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM themes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
+            env.DB.prepare('DELETE FROM theme_likes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM votes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM themes WHERE uid = ?').bind(u),
+            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
         return J(200, { ok: true });
     }
     if (p === '/backup') {
@@ -175,6 +183,159 @@ async function route(req, env) {
             const txt = r && (old ? r.prev : r.data); if (!txt) return J(404, { error: 'No backup yet' });
             return J(200, { at: old ? r.prev_at : r.at, backup: JSON.parse(txt) });
         }
+    }
+
+    // ----- friends, messages, group chats and friend streaks (signed-in players only) -----
+    if (p.startsWith('/social/')) {
+        if (!acct) return J(401, { error: 'Sign in first' });
+        const me = acct.uid, today = Math.floor(Date.now() / 86400000), isGet = m === 'GET';
+        const banned = async () => !!(await env.DB.prepare('SELECT 1 x FROM bans WHERE uid = ? AND until > ?').bind(me, Date.now()).first());
+        if (!isGet && await banned()) return J(403, { error: 'Your messaging is turned off.' });
+        if (await limited(env, 'so' + me, isGet ? 600 : 120, 60000)) return J(429, { error: 'Slow down' });
+        const pair = (x, y) => x < y ? [x, y] : [y, x];
+        const first = (sql, ...a) => env.DB.prepare(sql).bind(...a).first(), all = async (sql, ...a) => (await env.DB.prepare(sql).bind(...a).all()).results;
+        const friendsWith = async (x, y) => { const [a, b] = pair(x, y); return !!(await first("SELECT 1 x FROM friends WHERE a = ? AND b = ? AND status = 'accepted'", a, b)); };
+        const blockedEither = async (x, y) => !!(await first('SELECT 1 x FROM blocks WHERE (uid = ?1 AND target = ?2) OR (uid = ?2 AND target = ?1)', x, y));
+        const acctOf = (u) => first('SELECT uid, name, avatar FROM accounts WHERE uid = ?', u);
+        const view = (a) => a ? { uid: a.uid, name: a.name, avatar: a.avatar || '' } : { uid: '', name: 'Deleted player', avatar: '' };
+        const streakView = (s) => { if (!s) return { streak: 0, best: 0, atRisk: false, doneToday: false, mineToday: false, theirsToday: false }; const mine = s.a === me ? s.a_day : s.b_day, theirs = s.a === me ? s.b_day : s.a_day, cur = s.last_day >= today - 1 ? s.streak : 0; return { streak: cur, best: s.best, doneToday: s.last_day === today, mineToday: mine === today, theirsToday: theirs === today, atRisk: cur > 0 && s.last_day === today - 1 }; };
+        const inConv = (c) => first('SELECT m.role, c.kind, c.name, c.owner FROM members m JOIN convs c ON c.id = m.conv WHERE m.conv = ? AND m.uid = ?', c, me);
+        const clean = (t) => String(t == null ? '' : t).replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, '').replace(/\r\n?/g, '\n').trim();
+        const cid = (v) => /^[dg][a-f0-9]{16,40}$/.test(String(v || '')) ? String(v) : '';
+        const code = (u) => 'SL-' + u.slice(0, 10).toUpperCase();
+
+        if (p === '/social/overview' && isGet) {
+            const fr = await all("SELECT f.a, f.b, f.status, f.req_by, ac.uid fuid, ac.name, ac.avatar FROM friends f JOIN accounts ac ON ac.uid = CASE WHEN f.a = ?1 THEN f.b ELSE f.a END WHERE f.a = ?1 OR f.b = ?1 LIMIT 300", me);
+            const st = await all('SELECT * FROM streaks WHERE a = ?1 OR b = ?1', me), stMap = {}; st.forEach(s => { stMap[s.a === me ? s.b : s.a] = s; });
+            const friends = fr.filter(f => f.status === 'accepted').map(f => Object.assign(view({ uid: f.fuid, name: f.name, avatar: f.avatar }), streakView(stMap[f.fuid]))).sort((x, y) => y.streak - x.streak || x.name.localeCompare(y.name));
+            const incoming = fr.filter(f => f.status === 'pending' && f.req_by !== me).map(f => view({ uid: f.fuid, name: f.name, avatar: f.avatar })), outgoing = fr.filter(f => f.status === 'pending' && f.req_by === me).map(f => view({ uid: f.fuid, name: f.name, avatar: f.avatar }));
+            const cv = await all('SELECT c.id, c.kind, c.name, c.last_at, (SELECT COUNT(*) FROM msgs x WHERE x.conv = c.id AND x.id > mm.last_read AND x.uid != ?1) unread, (SELECT text FROM msgs x WHERE x.conv = c.id ORDER BY x.id DESC LIMIT 1) ltext, (SELECT uid FROM msgs x WHERE x.conv = c.id ORDER BY x.id DESC LIMIT 1) luid, (SELECT COUNT(*) FROM members z WHERE z.conv = c.id) n FROM members mm JOIN convs c ON c.id = mm.conv WHERE mm.uid = ?1 ORDER BY c.last_at DESC LIMIT 60', me);
+            const peers = await all("SELECT m1.conv, ac.uid, ac.name, ac.avatar FROM members m1 JOIN convs c ON c.id = m1.conv AND c.kind = 'dm' JOIN members m2 ON m2.conv = m1.conv AND m2.uid != m1.uid JOIN accounts ac ON ac.uid = m2.uid WHERE m1.uid = ?", me), peerOf = {}; peers.forEach(x => { peerOf[x.conv] = x; });
+            const names = {}; fr.forEach(f => { names[f.fuid] = f.name; }); names[me] = acct.name;
+            const convs = cv.map(c => { const pr = peerOf[c.id]; return { id: c.id, kind: c.kind, name: c.kind === 'dm' ? (pr ? pr.name : 'Deleted player') : c.name, avatar: pr ? (pr.avatar || '') : '', peer: pr ? pr.uid : '', members: c.n, unread: c.unread, at: c.last_at, last: c.ltext ? { text: String(c.ltext).slice(0, 120), mine: c.luid === me, from: names[c.luid] || '' } : null }; });
+            return J(200, { me: { uid: me, name: acct.name, code: code(me) }, friends, incoming, outgoing, convs, unread: convs.reduce((s, c) => s + c.unread, 0) });
+        }
+        if (p === '/social/find' && m === 'POST') {
+            if (await limited(env, 'sf' + me, 30, 3600000)) return J(429, { error: 'Searched too often. Try again later.' });
+            const b = await body(req, 20000), out = [];
+            if (typeof b.code === 'string') {
+                const c = b.code.trim().toLowerCase().replace(/^sl-/, '');
+                if (/^[a-f0-9]{8,32}$/.test(c)) { const r = await all('SELECT uid, name, avatar FROM accounts WHERE uid LIKE ? LIMIT 2', c + '%'); if (r.length === 1 && r[0].uid !== me) out.push(view(r[0])); }
+                return J(200, { found: out });
+            }
+            const ids = (Array.isArray(b.steamids) ? b.steamids : []).map(String).filter(x => /^\d{17}$/.test(x)).slice(0, 300);
+            const uids = []; for (const s of ids) uids.push(await uidFor(s));
+            for (let i = 0; i < uids.length; i += 50) { const ch = uids.slice(i, i + 50); (await all('SELECT uid, name, avatar FROM accounts WHERE uid IN (' + ch.map(() => '?').join(',') + ')', ...ch)).forEach(r => { if (r.uid !== me) out.push(view(r)); }); }
+            return J(200, { found: out });
+        }
+        if (p === '/social/friend' && m === 'POST') {
+            const b = await body(req, 500), t = b.uid; if (!uidOk(t) || t === me) return J(400, { error: 'Bad request' });
+            if (await limited(env, 'sr' + me, 40, 86400000)) return J(429, { error: 'You sent a lot of requests today. Try again tomorrow.' });
+            if (!(await acctOf(t))) return J(404, { error: 'That player was not found.' });
+            if (await blockedEither(me, t)) return J(403, { error: 'You cannot add this player.' });
+            const [a, c] = pair(me, t), row = await first('SELECT status, req_by FROM friends WHERE a = ? AND b = ?', a, c);
+            if (row && row.status === 'accepted') return J(200, { ok: true, status: 'accepted' });
+            if (row && row.req_by !== me) { await env.DB.prepare("UPDATE friends SET status = 'accepted', at = ? WHERE a = ? AND b = ?").bind(Date.now(), a, c).run(); return J(200, { ok: true, status: 'accepted' }); }
+            if (row) return J(200, { ok: true, status: 'pending' });
+            if ((await first("SELECT COUNT(*) c FROM friends WHERE req_by = ? AND status = 'pending'", me)).c >= 50) return J(400, { error: 'You have 50 requests waiting. Wait for answers first.' });
+            if ((await first("SELECT COUNT(*) c FROM friends WHERE (a = ?1 OR b = ?1) AND status = 'accepted'", me)).c >= 200) return J(400, { error: 'Your friends list is full (200).' });
+            await env.DB.prepare("INSERT INTO friends(a, b, status, req_by, at) VALUES(?, ?, 'pending', ?, ?)").bind(a, c, me, Date.now()).run();
+            return J(200, { ok: true, status: 'pending' });
+        }
+        if (p === '/social/respond' && m === 'POST') {
+            const b = await body(req, 500); if (!uidOk(b.uid)) return J(400, { error: 'Bad request' }); const [a, c] = pair(me, b.uid);
+            const row = await first("SELECT req_by FROM friends WHERE a = ? AND b = ? AND status = 'pending'", a, c); if (!row || row.req_by === me) return J(404, { error: 'No such request' });
+            if (b.accept) await env.DB.prepare("UPDATE friends SET status = 'accepted', at = ? WHERE a = ? AND b = ?").bind(Date.now(), a, c).run(); else await env.DB.prepare('DELETE FROM friends WHERE a = ? AND b = ?').bind(a, c).run();
+            return J(200, { ok: true });
+        }
+        if (p === '/social/unfriend' && m === 'POST') {
+            const b = await body(req, 500); if (!uidOk(b.uid)) return J(400, { error: 'Bad request' }); const [a, c] = pair(me, b.uid);
+            await env.DB.batch([env.DB.prepare('DELETE FROM friends WHERE a = ? AND b = ?').bind(a, c), env.DB.prepare('DELETE FROM streaks WHERE a = ? AND b = ?').bind(a, c)]); return J(200, { ok: true });
+        }
+        if (p === '/social/block' && m === 'POST') {
+            const b = await body(req, 500); if (!uidOk(b.uid) || b.uid === me) return J(400, { error: 'Bad request' }); const [a, c] = pair(me, b.uid);
+            if (b.on === false) await env.DB.prepare('DELETE FROM blocks WHERE uid = ? AND target = ?').bind(me, b.uid).run();
+            else await env.DB.batch([env.DB.prepare('INSERT OR IGNORE INTO blocks(uid, target) VALUES(?, ?)').bind(me, b.uid), env.DB.prepare('DELETE FROM friends WHERE a = ? AND b = ?').bind(a, c), env.DB.prepare('DELETE FROM streaks WHERE a = ? AND b = ?').bind(a, c)]);
+            return J(200, { ok: true });
+        }
+        if (p === '/social/blocks' && isGet) return J(200, { blocked: (await all('SELECT ac.uid, ac.name, ac.avatar FROM blocks b JOIN accounts ac ON ac.uid = b.target WHERE b.uid = ?', me)).map(view) });
+        if (p === '/social/dm' && m === 'POST') {
+            const b = await body(req, 500); if (!uidOk(b.uid) || b.uid === me) return J(400, { error: 'Bad request' });
+            if (!(await friendsWith(me, b.uid)) || await blockedEither(me, b.uid)) return J(403, { error: 'You can only message friends.' });
+            const [a, c] = pair(me, b.uid), id = 'd' + (await sha(a + c)).slice(0, 31), now = Date.now();
+            await env.DB.batch([env.DB.prepare("INSERT OR IGNORE INTO convs(id, kind, name, owner, created, last_at) VALUES(?, 'dm', '', '', ?, ?)").bind(id, now, now), env.DB.prepare("INSERT OR IGNORE INTO members(conv, uid, role, joined, last_read) VALUES(?, ?, 'member', ?, 0)").bind(id, me, now), env.DB.prepare("INSERT OR IGNORE INTO members(conv, uid, role, joined, last_read) VALUES(?, ?, 'member', ?, 0)").bind(id, b.uid, now)]);
+            return J(200, { ok: true, id });
+        }
+        if (p === '/social/conv' && isGet) {
+            const id = cid(q.get('id')); if (!id) return J(400, { error: 'Bad request' });
+            const mem = await inConv(id); if (!mem) return J(404, { error: 'Not found' });
+            const after = clamp(q.get('after') || 0, 0, 1e12);
+            const rows = after ? await all('SELECT x.id, x.uid, x.text, x.at, a.name FROM msgs x LEFT JOIN accounts a ON a.uid = x.uid WHERE x.conv = ? AND x.id > ? ORDER BY x.id ASC LIMIT 80', id, after) : (await all('SELECT x.id, x.uid, x.text, x.at, a.name FROM msgs x LEFT JOIN accounts a ON a.uid = x.uid WHERE x.conv = ? ORDER BY x.id DESC LIMIT 60', id)).reverse();
+            const maxId = rows.length ? rows[rows.length - 1].id : 0;
+            if (maxId) await env.DB.prepare('UPDATE members SET last_read = MAX(last_read, ?) WHERE conv = ? AND uid = ?').bind(maxId, id, me).run();
+            const mems = await all('SELECT ac.uid, ac.name, ac.avatar, mm.role, mm.last_read FROM members mm LEFT JOIN accounts ac ON ac.uid = mm.uid WHERE mm.conv = ? ORDER BY mm.joined LIMIT 25', id);
+            const out = { id, kind: mem.kind, name: mem.name, owner: mem.owner === me, members: mems.map(x => Object.assign(view(x), { role: x.role })), messages: rows.map(x => ({ id: x.id, uid: x.uid, name: x.name || 'Deleted player', text: x.text, at: x.at, mine: x.uid === me })) };
+            if (mem.kind === 'dm') { const other = mems.find(x => x.uid !== me); out.peerRead = other ? other.last_read : 0; if (other && other.uid) { const [a, c] = pair(me, other.uid); out.streak = streakView(await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c)); out.peerUid = other.uid; out.canSend = await friendsWith(me, other.uid) && !(await blockedEither(me, other.uid)); } else out.canSend = false; }
+            return J(200, out);
+        }
+        if (p === '/social/send' && m === 'POST') {
+            const b = await body(req, 4000), id = cid(b.conv), text = clean(b.text).slice(0, 1000);
+            if (!id || !text) return J(400, { error: 'Write something first.' });
+            if (await limited(env, 'sm' + me, 40, 60000)) return J(429, { error: 'You are sending messages too fast.' });
+            const mem = await inConv(id); if (!mem) return J(404, { error: 'Not found' });
+            let peer = '';
+            if (mem.kind === 'dm') { const o = await first('SELECT uid FROM members WHERE conv = ? AND uid != ?', id, me); peer = o ? o.uid : ''; if (!peer || !(await friendsWith(me, peer)) || await blockedEither(me, peer)) return J(403, { error: 'You can only message friends.' }); }
+            const now = Date.now(), r = await env.DB.prepare('INSERT INTO msgs(conv, uid, text, at) VALUES(?, ?, ?, ?) RETURNING id').bind(id, me, text, now).first();
+            await env.DB.batch([env.DB.prepare('UPDATE convs SET last_at = ? WHERE id = ?').bind(now, id), env.DB.prepare('UPDATE members SET last_read = ? WHERE conv = ? AND uid = ?').bind(r.id, id, me)]);
+            let sv = null;
+            if (peer) {
+                const [a, c] = pair(me, peer), col = me === a ? 'a_day' : 'b_day';
+                await env.DB.prepare('INSERT OR IGNORE INTO streaks(a, b, streak, best, last_day, a_day, b_day) VALUES(?, ?, 0, 0, 0, 0, 0)').bind(a, c).run();
+                await env.DB.prepare('UPDATE streaks SET ' + col + ' = ? WHERE a = ? AND b = ?').bind(today, a, c).run();
+                let s = await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c);
+                if (s.a_day === today && s.b_day === today && s.last_day !== today) { const n = s.last_day === today - 1 ? s.streak + 1 : 1; await env.DB.prepare('UPDATE streaks SET streak = ?, best = MAX(best, ?), last_day = ? WHERE a = ? AND b = ?').bind(n, n, today, a, c).run(); s = await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c); }
+                sv = streakView(s);
+            }
+            if (Math.random() < 0.01) { await env.DB.prepare('DELETE FROM msgs WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM convs WHERE id NOT IN (SELECT DISTINCT conv FROM msgs) AND last_at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM members WHERE conv NOT IN (SELECT id FROM convs)').run(); }
+            return J(200, { ok: true, id: r.id, at: now, streak: sv });
+        }
+        if (p === '/social/delete' && m === 'POST') {
+            const b = await body(req, 500), id = clamp(b.id, 1, 1e12), msg = await first('SELECT uid, conv FROM msgs WHERE id = ?', id); if (!msg) return J(404, { error: 'Not found' });
+            const mem = await inConv(msg.conv); if (!mem || (msg.uid !== me && mem.owner !== me)) return J(403, { error: 'You cannot delete that.' });
+            await env.DB.prepare('DELETE FROM msgs WHERE id = ?').bind(id).run(); return J(200, { ok: true });
+        }
+        if (p === '/social/group' && m === 'POST') {
+            const b = await body(req, 3000), name = cleanText(b.name, 32), ids = [...new Set(Array.isArray(b.members) ? b.members.filter(uidOk) : [])].filter(x => x !== me).slice(0, 19);
+            if (name.length < 2) return J(400, { error: 'Give the group a name (2+ letters).' }); if (!ids.length) return J(400, { error: 'Pick at least one friend.' });
+            if (await limited(env, 'sg' + me, 6, 86400000)) return J(429, { error: 'You made a lot of groups today.' });
+            for (const u of ids) if (!(await friendsWith(me, u)) || await blockedEither(me, u)) return J(403, { error: 'You can only add friends to a group.' });
+            const id = 'g' + HEX(8), now = Date.now();
+            await env.DB.batch([env.DB.prepare("INSERT INTO convs(id, kind, name, owner, created, last_at) VALUES(?, 'group', ?, ?, ?, ?)").bind(id, name, me, now, now), env.DB.prepare("INSERT INTO members(conv, uid, role, joined, last_read) VALUES(?, ?, 'owner', ?, 0)").bind(id, me, now)].concat(ids.map(u => env.DB.prepare("INSERT INTO members(conv, uid, role, joined, last_read) VALUES(?, ?, 'member', ?, 0)").bind(id, u, now))));
+            return J(200, { ok: true, id });
+        }
+        let gm;
+        if ((gm = /^\/social\/group\/(add|remove|rename)$/.exec(p)) && m === 'POST') {
+            const b = await body(req, 1000), id = cid(b.conv), mem = id ? await inConv(id) : null; if (!mem || mem.kind !== 'group') return J(404, { error: 'Not found' });
+            if (gm[1] === 'rename') { if (mem.owner !== me) return J(403, { error: 'Only the group owner can do that.' }); const nm = cleanText(b.name, 32); if (nm.length < 2) return J(400, { error: 'Pick a longer name.' }); await env.DB.prepare('UPDATE convs SET name = ? WHERE id = ?').bind(nm, id).run(); return J(200, { ok: true }); }
+            if (!uidOk(b.uid)) return J(400, { error: 'Bad request' });
+            if (gm[1] === 'add') {
+                if (mem.owner !== me) return J(403, { error: 'Only the group owner can add people.' });
+                if (!(await friendsWith(me, b.uid)) || await blockedEither(me, b.uid)) return J(403, { error: 'You can only add friends.' });
+                if ((await first('SELECT COUNT(*) c FROM members WHERE conv = ?', id)).c >= 20) return J(400, { error: 'A group holds up to 20 people.' });
+                await env.DB.prepare("INSERT OR IGNORE INTO members(conv, uid, role, joined, last_read) VALUES(?, ?, 'member', ?, (SELECT COALESCE(MAX(id), 0) FROM msgs WHERE conv = ?))").bind(id, b.uid, Date.now(), id).run(); return J(200, { ok: true });
+            }
+            if (b.uid !== me && mem.owner !== me) return J(403, { error: 'Only the group owner can remove people.' });
+            await env.DB.prepare('DELETE FROM members WHERE conv = ? AND uid = ?').bind(id, b.uid).run();
+            if (b.uid === me && mem.owner === me) { const next = await first('SELECT uid FROM members WHERE conv = ? ORDER BY joined LIMIT 1', id); if (next) await env.DB.batch([env.DB.prepare('UPDATE convs SET owner = ? WHERE id = ?').bind(next.uid, id), env.DB.prepare("UPDATE members SET role = 'owner' WHERE conv = ? AND uid = ?").bind(id, next.uid)]); else await env.DB.batch([env.DB.prepare('DELETE FROM msgs WHERE conv = ?').bind(id), env.DB.prepare('DELETE FROM convs WHERE id = ?').bind(id)]); }
+            return J(200, { ok: true });
+        }
+        if (p === '/social/report' && m === 'POST') {
+            const b = await body(req, 2000); if (await limited(env, 'sx' + me, 10, 86400000)) return J(429, { error: 'You sent a lot of reports today.' });
+            const reason = cleanText(b.reason, 300); if (!uidOk(b.uid) || reason.length < 3) return J(400, { error: 'Tell us briefly what happened.' });
+            let snap = '', conv = cid(b.conv); if (conv && b.msgId && await inConv(conv)) { const mg = await first('SELECT text FROM msgs WHERE id = ? AND conv = ? AND uid = ?', clamp(b.msgId, 1, 1e12), conv, b.uid); if (mg) snap = mg.text.slice(0, 500); }
+            await env.DB.prepare('INSERT INTO reports(id, reporter, target, conv, snap, reason, at, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?)').bind(HEX(6), me, b.uid, conv, snap, reason, Date.now(), 'open').run(); return J(200, { ok: true });
+        }
+        return J(404, { error: 'Not found' });
     }
 
     // ----- live status -----

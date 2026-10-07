@@ -1,8 +1,12 @@
 {
   "changelog": {
-    "version": "9.2.0",
-    "title": "SteamLite 9.2 - Sign in with Steam",
+    "version": "9.2.1",
+    "title": "SteamLite 9.2.1 - Messages, group chats and friend streaks",
     "items": [
+      "Messages: chat with friends who use SteamLite, in private chats or group chats of up to 20",
+      "Friend streaks: message each other every day to grow a streak, with a reminder if one is about to end",
+      "Add friends with a code, or find your Steam friends who already use SteamLite",
+      "Block, report and delete messages, with a moderator view for reports",
       "Sign in with Steam is now required: one quick sign-in, then cloud backup of your progress, the same leaderboard name on every PC and a tick next to verified names",
       "Always-on SteamLite Online on Cloudflare, so the leaderboard, themes and votes are there around the clock",
       "Drops: free XP every hour, 5 hours and day, with a streak bonus, rarities, coins and a lucky wheel",
@@ -14,6 +18,11 @@
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.2.1 Released - Messages, group chats and friend streaks",
+      "date": "October 7, 2026",
+      "content": "You can now message your friends inside SteamLite. Open Messages from the folder button in the header: add friends with a code or find your Steam friends who use SteamLite, chat privately or in group chats of up to 20, and keep a friend streak going by messaging each other every day. You can block and report anyone, and delete your own messages."
+    },
     {
       "title": "SteamLite 9.2.0 Released - Sign in with Steam",
       "date": "October 7, 2026",

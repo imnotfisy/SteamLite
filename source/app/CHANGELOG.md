@@ -1,3 +1,18 @@
+# SteamLite 9.2.1 Changelog
+
+Messages: chat with friends, group chats and friend streaks, all through your SteamLite account.
+
+## Messages (new)
+- **Open Messages from the folder button in the header** (a red number shows unread messages). Messages are plain text, up to 1,000 characters, and are kept for 30 days.
+- **Friends:** add a friend with their friend code (shown in the Friends tab), or press Find my Steam friends on SteamLite to see which of your Steam friends already use it. Both of you have to agree before you can chat.
+- **Private chats and group chats:** groups hold up to 20 friends. The owner can add and remove people and rename the group, and anyone can leave.
+- **Friend streaks:** every day that you both send each other a message adds one to your streak. Miss a day and it starts over (your best streak is kept). A flame shows the streak in the chat and the friends list, and you get a reminder in the evening when one is about to end.
+- **Seen markers, unread badges and pop-ups** for new messages and friend requests. Switch them off in More settings > Notifications (Messages and friend requests) or snooze all pop-ups.
+- **Safety:** block anyone, report a message, and delete your own messages. Reports go to a moderator view on the server admin page, where a player can be muted for a while. Deleting your account removes your messages, friends and streaks.
+- Messages are private between the people in the chat, but they are not end-to-end encrypted: they are stored on SteamLite Online so they can reach your friends.
+
+---
+
 # SteamLite 9.2.0 Changelog
 
 Accounts: sign in with Steam, keep your progress in the cloud, and a SteamLite Online that is always on.

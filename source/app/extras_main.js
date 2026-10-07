@@ -272,6 +272,17 @@ module.exports = function initExtras(ctx) {
     handle('srvTheme', (p) => srv('GET', '/themes/' + String(p.id || '').replace(/[^a-f0-9]/g, '') + uidQ()));
     handle('srvThemeLike', (p) => srv('POST', '/themes/' + String(p.id || '').replace(/[^a-f0-9]/g, '') + '/like', { uid: onlineId() }));
     handle('srvThemeShare', (p) => srv('POST', '/themes', { uid: onlineId(), name: p.name, desc: p.desc, author: p.author, vars: p.vars, css: p.css }));
+    // ---------- messages, groups and friend streaks: the window asks for these by name and the server does the checking ----------
+    const SOC = { blocks: ['GET', '/social/blocks'], find: ['POST', '/social/find'], friend: ['POST', '/social/friend'], respond: ['POST', '/social/respond'], unfriend: ['POST', '/social/unfriend'], block: ['POST', '/social/block'],
+        dm: ['POST', '/social/dm'], send: ['POST', '/social/send'], del: ['POST', '/social/delete'], group: ['POST', '/social/group'], groupAdd: ['POST', '/social/group/add'], groupRemove: ['POST', '/social/group/remove'], groupRename: ['POST', '/social/group/rename'], report: ['POST', '/social/report'] };
+    handle('soc', async (p) => {
+        const op = String(p.op || '');
+        if (op === 'overview') return srv('GET', '/social/overview');
+        if (op === 'conv') return srv('GET', '/social/conv?id=' + String(p.id || '').replace(/[^a-z0-9]/g, '').slice(0, 40) + '&after=' + (Math.floor(Number(p.after)) || 0));
+        const e = SOC[op]; if (!e) return { ok: false, error: 'Unknown request.' };
+        const body = Object.assign({}, p); delete body.op; return srv(e[0], e[1], e[0] === 'GET' ? undefined : body, 10000);
+    });
+
     // special gifts from the server: a one-off amount of XP (never more than 100,000), once per gift, only while it is on
     handle('giftClaim', async (p) => {
         if (ctx.NO_PROGRESS) return { ok: false, error: 'Not available in this build.' };

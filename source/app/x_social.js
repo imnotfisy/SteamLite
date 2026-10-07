@@ -19,9 +19,10 @@
     document.head.appendChild(css);
 
     // ---- notification rules: mute kinds of pop-ups, or snooze them all for a while ----
-    const KINDS = [['sales', 'Sales and wishlist', 'Price drops, free games and sale alerts'], ['friends', 'Friends', 'Friend activity and game alerts'], ['rewards', 'Rewards and progress', 'Achievements, challenges, quests, drops and level-ups'], ['updates', 'Updates', 'New version available']];
+    const KINDS = [['sales', 'Sales and wishlist', 'Price drops, free games and sale alerts'], ['friends', 'Friends', 'Friend activity and game alerts'], ['rewards', 'Rewards and progress', 'Achievements, challenges, quests, drops and level-ups'], ['updates', 'Updates', 'New version available'], ['messages', 'Messages and friend requests', 'New messages, friend requests and streak reminders']];
     const kindOf = (msg, opts) => {
         const t = String(msg);
+        if (/^(new message from|you have \d+ unread|new friend request|you have \d+ friend request|your \d+-day streak)/i.test(t)) return 'messages';
         if (opts && opts.notification) return 'friends';
         if (/on sale|price you wanted|free to keep|wishlist|\bsale\b/i.test(t)) return 'sales';
         if (/achievement|challenge|quest|drop opened|lucky wheel|level|reward|bingo|season|milestone|hours in|prestige/i.test(t)) return 'rewards';

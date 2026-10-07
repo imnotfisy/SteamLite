@@ -15,6 +15,7 @@
     const ITEMS = [
         { id: 'inventory-btn', label: 'Inventory', tint: '#fbbf24' },
         { id: 'achievements-toggle', label: 'Achievements', tint: '#f59e0b' },
+        { id: 'chat-btn', label: 'Messages', tint: '#38bdf8' },
         { id: 'drops-btn', label: 'Drops', tint: '#f472b6' },
         { id: 'shop-btn', label: 'Shop', tint: '#fb923c' },
         { id: 'trophy-btn', label: 'Trophy room', tint: '#facc15' },
@@ -40,12 +41,13 @@
     let open = false;
     const unread = () => { const d = $('nb-dot'); return d && d.classList.contains('on') ? (d.textContent || '1') : ''; };
     const syncBadge = () => {
-        const u = unread(), dr = $('drops-btn') ? ($('drops-btn').dataset.count || '') : '', dot = $('af-dot');
-        if (dot) dot.classList.toggle('on', !!(u || dr));
+        const u = unread(), dr = $('drops-btn') ? ($('drops-btn').dataset.count || '') : '', ch = $('chat-btn') ? ($('chat-btn').dataset.count || '') : '', dot = $('af-dot');
+        if (dot) dot.classList.toggle('on', !!(u || dr || ch));
+        const cb = pop.querySelector('[data-id="chat-btn"] .af-badge'); if (cb) { cb.textContent = ch; cb.classList.toggle('on', !!ch); }
         const t = pop.querySelector('[data-id="notif-btn"] .af-badge'); if (t) { t.textContent = u; t.classList.toggle('on', !!u); }
         const g = pop.querySelector('[data-id="drops-btn"] .af-badge'); if (g) { g.textContent = dr; g.classList.toggle('on', !!dr); }
     };
-    document.addEventListener('sl-drops', syncBadge);
+    document.addEventListener('sl-drops', syncBadge); document.addEventListener('sl-chat', syncBadge);
     const nb = $('nb-dot'); if (nb) new MutationObserver(syncBadge).observe(nb, { attributes: true, childList: true, characterData: true, subtree: true });
 
     const build = () => {
