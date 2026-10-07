@@ -3,7 +3,7 @@
    Each feature is installed inside safe(), so a bug in one can never stop the rest of the app from working. */
 (function () {
     'use strict';
-    const SLF = window.SLF = { cmds: [], tiles: [], installed: [], version: '9.1.0', tourVersion: '9.1.0', langNames: { en: 'English', bg: 'Български' } };
+    const SLF = window.SLF = { cmds: [], tiles: [], installed: [], version: '9.2.0', tourVersion: '9.1.0', langNames: { en: 'English', bg: 'Български' } };
     SLF.langOptions = () => Object.keys(SLF.langNames).map(k => '<option value="' + k + '">' + SLF.langNames[k] + '</option>').join('');
     const $ = (id) => document.getElementById(id);
     const feat = (name, payload) => window.electronAPI.feat(name, payload);

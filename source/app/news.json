@@ -1,8 +1,10 @@
 {
   "changelog": {
-    "version": "9.1.0",
-    "title": "SteamLite 9.1 - Drops, Shop and so much more",
+    "version": "9.2.0",
+    "title": "SteamLite 9.2 - Sign in with Steam",
     "items": [
+      "Sign in with Steam is now required: one quick sign-in, then cloud backup of your progress, the same leaderboard name on every PC and a tick next to verified names",
+      "Always-on SteamLite Online on Cloudflare, so the leaderboard, themes and votes are there around the clock",
       "Drops: free XP every hour, 5 hours and day, with a streak bonus, rarities, coins and a lucky wheel",
       "A Shop for frames and titles, a Trophy room and an Events calendar",
       "Dashboard widgets, a weekly recap and a stats card",
@@ -12,6 +14,11 @@
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.2.0 Released - Sign in with Steam",
+      "date": "October 7, 2026",
+      "content": "SteamLite now asks you to sign in with Steam when you open it. After one quick restart it loads your games and profile, backs up your progress to the cloud, restores it on any PC and gives verified players a tick on the leaderboard. Steam confirms who you are, SteamLite never sees your password, and it keeps working offline once you are signed in."
+    },
     {
       "title": "SteamLite 9.1.0 Released - Drops, Shop and more",
       "date": "October 7, 2026",

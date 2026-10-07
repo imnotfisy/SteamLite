@@ -191,6 +191,7 @@ let tray = null;
 let isQuiting = false;
 let features = { hooks: {} }; // filled in by features_main.js once the app is ready
 let extras = { hooks: {} }; // filled in by extras_main.js
+let account = null; // filled in by account_main.js (both editions)
 
 const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
@@ -662,9 +663,15 @@ app.whenReady().then(() => {
         });
         setTimeout(() => { try { features.hooks.applyIcons && features.hooks.applyIcons(); } catch (e) { } }, 800);
     } catch (e) { console.error('Could not start the extra features:', e && e.message); }
+    try { // the account and the connection to SteamLite Online: both editions
+        account = require('./account_main')({
+            app, ipcMain, store, fetchApi, BACKUP_KEYS, APP_VERSION,
+            restorePoint: (why) => extras.hooks.restorePoint && extras.hooks.restorePoint(why), quitApp: () => { isQuiting = true; app.quit(); }
+        });
+    } catch (e) { console.error('Could not start the account module:', e && e.message); }
     if (EDITION === 'full') try {
         extras = require('./extras_main')({
-            app, ipcMain, store, fs, path, fetchApi, getMainWindow: () => mainWindow, BACKUP_KEYS, APP_VERSION, streakDayKey, mulberry32, seedFrom,
+            account, app, ipcMain, store, fs, path, fetchApi, getMainWindow: () => mainWindow, BACKUP_KEYS, APP_VERSION, streakDayKey, mulberry32, seedFrom,
             EVENTS, eventState, eventQuestState, QUEST_EVENTS, NO_PROGRESS, ACHIEVEMENT_DEFS, effectiveLevel, LEVEL_FRAMES, LEVEL_TITLES, readBundledThemes, getLocalGames, getSteamBasePath
         });
     } catch (e) { console.error('Could not start the extras:', e && e.message); }

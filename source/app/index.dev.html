@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -4847,6 +4847,7 @@
     try { if (localStorage.getItem("sl_ui") !== "classic") document.body.classList.add("ui9"); } catch (e) { document.body.classList.add("ui9"); }
     </script>
     <script src="icons.js"></script>
+    <script src="account_gate.js"></script>
     <style id="custom-theme-style"></style>
 
     <video id="custom-bg-video" autoplay loop muted></video>
@@ -9155,6 +9156,7 @@
             if (activeConfig.themeVars && typeof activeConfig.themeVars === 'object') {
                 for (const k in activeConfig.themeVars) document.documentElement.style.setProperty(k, activeConfig.themeVars[k]);
             }
+            if (window.SLGate && await SLGate.run()) return; // signing in with Steam is required: the sign-in screen stops everything else
             applyEffectiveAccent();
             applyLibraryPrefs();
             applyAppearance();

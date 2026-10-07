@@ -1,3 +1,23 @@
+# SteamLite 9.2.0 Changelog
+
+Accounts: sign in with Steam, keep your progress in the cloud, and a SteamLite Online that is always on.
+
+## Signing in is now required
+- **A sign-in screen on every launch until you are signed in.** It asks you to sign in with Steam; when it works it says who you are and offers a Restart SteamLite button, and SteamLite then opens with your account's Steam profile. After that it opens straight away.
+- **Offline is fine:** once you have signed in, SteamLite keeps working with no internet or when the server is down. Only the very first sign-in needs a connection.
+- **Both editions** (Full and Lite) use the same sign-in. Signing out in More settings brings the sign-in screen back.
+
+## Sign in with Steam (new)
+- **More settings > SteamLite account > Sign in with Steam.** Steam's own page confirms who you are; SteamLite never sees your password. It is optional, and everything works without it.
+- **Cloud backup:** settings, XP, achievements, drops, coins and events are saved to your account about once a day (or press Back up now). Restore on any PC, or go back to the backup before the latest.
+- **Your leaderboard name is yours:** signed-in players get a tick, and nobody else can take your name. Votes, shared themes and likes follow you between PCs.
+- **Delete my account** removes your backup, leaderboard entry, votes and shared themes from the server.
+
+## SteamLite Online
+- The server now runs on Cloudflare, so the leaderboard, community themes, votes and announcements are available around the clock, with no PC needed.
+
+---
+
 # SteamLite 9.1.0 Changelog
 
 The biggest feature update since 9.0: Drops, a Shop, a Trophy room, dashboard widgets, smart collections, tags, more languages, accessibility options and a lot more.

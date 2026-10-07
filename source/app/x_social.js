@@ -72,6 +72,7 @@
         const sw = (id, on) => '<label class="switch-toggle"><input type="checkbox" id="' + id + '"' + (on ? ' checked' : '') + '><span class="switch-slider"></span></label>';
         const row = (b, d, ctl) => '<div class="ms-sw"><div><b>' + b + '</b><span class="d">' + d + '</span></div>' + ctl + '</div>';
         m.body.innerHTML =
+            '<div class="fx-section">SteamLite account</div><div id="ms-acct" class="ms-acct"><div class="fx-meta">Checking...</div></div>' +
             '<div class="fx-section">Notifications</div>' + KINDS.map(k => row(k[1], k[2], sw('ms-mute-' + k[0], !mu[k[0]]))).join('') +
             row('Snooze all pop-ups', snoozed() ? 'Quiet until ' + new Date(sn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Pause every pop-up for a while (they still go to the history)', '<select class="fx-select" id="ms-snooze"><option value="0">Off</option><option value="1">1 hour</option><option value="8">8 hours</option><option value="24">24 hours</option></select>') +
             '<div class="fx-section">Playing</div>' +
@@ -93,6 +94,30 @@
         $('ms-snooze').value = '0'; $('ms-lang').value = getUiPref('lang', 'en');
         const rp = async () => { const l = (await feat('rpList')) || []; $('ms-rp-list').innerHTML = l.length ? l.map(x => '<div class="rp-item"><div class="fx-grow"><b>' + new Date(x.at).toLocaleString() + '</b><div class="fx-meta">' + E(x.reason || 'saved') + (x.version ? ' · SteamLite ' + E(x.version) : '') + '</div></div><button class="fx-btn" data-r="' + E(x.file) + '">Restore</button><button class="fx-btn danger" data-x="' + E(x.file) + '">✕</button></div>').join('') : '<div class="fx-meta">No restore points yet.</div>'; };
         rp();
+        let loginTimer = null; const stopLogin = () => { if (loginTimer) { clearInterval(loginTimer); loginTimer = null; } feat('acctLoginCancel'); };
+        const ago = (t) => t ? new Date(t).toLocaleString() : 'never';
+        const acct = async (waiting) => {
+            const el = $('ms-acct'); if (!el) { stopLogin(); return; }
+            if (waiting) { el.innerHTML = '<div class="fx-note" style="margin:0 0 8px">Finish signing in on the Steam page that just opened in your browser. This window updates by itself.</div><div class="fx-row"><button class="fx-btn" id="ms-ac-cancel">Cancel</button></div>'; return; }
+            const s = (await feat('acctStatus')) || {}, inf = (await feat('srvInfo')) || {};
+            if (!s.signedIn) {
+                el.innerHTML = '<div class="fx-note" style="margin:0 0 8px">' + (s.expired ? 'Your sign-in ran out, please sign in again. ' : '') + 'Sign in with Steam to back up your progress to the cloud, keep the same leaderboard name on every PC and carry your votes and shared themes with you. Steam\'s own page confirms who you are: SteamLite never sees your Steam password.</div><div class="fx-row"><button class="fx-btn primary" id="ms-ac-login"' + (inf.online ? '' : ' disabled') + '>Sign in with Steam</button>' + (inf.online ? '' : '<span class="fx-meta">SteamLite Online is not reachable right now.</span>') + '</div>';
+                return;
+            }
+            el.innerHTML = '<div class="ms-sw"><div><b>Signed in as ' + E(s.name || 'Steam player') + '</b><span class="d">Steam account ending ' + E(s.idTail || '') + (s.offline ? ' · offline right now' : '') + '</span></div><button class="fx-btn" id="ms-ac-logout">Sign out</button></div>' +
+                '<div class="fx-note" style="margin:6px 0">Cloud backup: last saved ' + ago(s.backupAt || s.localBackupAt) + '. It also saves by itself about once a day. Your backup holds settings, XP, achievements, drops, coins and events, not your games.</div>' +
+                '<div class="fx-row"><button class="fx-btn primary" id="ms-ac-backup">Back up now</button><button class="fx-btn" id="ms-ac-restore">Restore from cloud</button>' + (s.prevAt ? '<button class="fx-btn" id="ms-ac-prev">Restore the one before</button>' : '') + '<button class="fx-btn danger" id="ms-ac-delete">Delete my account</button></div>';
+        };
+        acct();
+        const startLogin = async () => {
+            const r = await feat('acctLogin'); if (!r || !r.ok) { showToast((r && r.error) || 'Could not open the sign-in page.'); return; }
+            acct(true); if (loginTimer) clearInterval(loginTimer);
+            loginTimer = setInterval(async () => {
+                if (!$('ms-acct')) { stopLogin(); return; }
+                const c = await feat('acctLoginCheck'); if (c && c.expired) { stopLogin(); acct(); return; }
+                if (c && c.done) { clearInterval(loginTimer); loginTimer = null; showToast('Signed in as ' + c.name + '.'); acct(); }
+            }, 2500);
+        };
         feat('srvInfo').then(i => { const el = $('ms-on-status'); if (el) el.textContent = !i || !i.configured ? 'No server address is set yet, so the leaderboard, community themes and live votes are off.' : (i.online ? 'Connected: the leaderboard, community themes, live votes and announcements work.' : 'The server did not answer. It may be off for a moment.'); });
         feat('srvOverrideGet').then(v => { const el = $('ms-on-url'); if (el && v) el.value = v; });
         m.body.onchange = async (e) => {
@@ -107,7 +132,17 @@
         };
         m.body.onclick = async (e) => {
             const id = e.target.id, r = e.target.closest('[data-r]'), x = e.target.closest('[data-x]');
-            if (id === 'ms-on-save') { const res = await feat('srvOverride', { url: $('ms-on-url').value }); showToast(res && res.ok ? 'Server address saved.' : ((res && res.error) || 'Could not save.')); openMore(); }
+            if (id === 'ms-ac-login') await startLogin();
+            else if (id === 'ms-ac-cancel') { stopLogin(); acct(); }
+            else if (id === 'ms-ac-logout') { await feat('acctLogout'); showToast('Signed out. Your cloud backup stays in your account.'); setTimeout(() => location.reload(), 900); }
+            else if (id === 'ms-ac-backup') { e.target.disabled = true; const r = await feat('acctBackup'); showToast(r && r.ok ? 'Backed up to your account.' : ((r && r.error) || 'Could not back up.')); acct(); }
+            else if (id === 'ms-ac-restore' || id === 'ms-ac-prev') {
+                if (await showConfirm('Restore from the cloud?', 'Your settings and progress are replaced with the saved copy' + (id === 'ms-ac-prev' ? ' from before the latest one' : '') + '. A restore point of the current state is saved first, and SteamLite restarts.')) { const r = await feat('acctRestore', { prev: id === 'ms-ac-prev' }); if (r && r.ok) { showToast('Restored. Restarting...'); setTimeout(() => feat('restartApp'), 900); } else showToast((r && r.error) || 'Could not restore.'); }
+            }
+            else if (id === 'ms-ac-delete') {
+                if (await showConfirm('Delete your SteamLite account?', 'This removes your cloud backup, your leaderboard entry, your votes and the themes you shared from the server. Your own progress on this PC is not touched.')) { const r = await feat('acctDelete'); showToast(r && r.ok ? 'Your account and its data were deleted.' : ((r && r.error) || 'Could not delete.')); if (r && r.ok) setTimeout(() => location.reload(), 1200); else acct(); }
+            }
+            else if (id === 'ms-on-save') { const res = await feat('srvOverride', { url: $('ms-on-url').value }); showToast(res && res.ok ? 'Server address saved.' : ((res && res.error) || 'Could not save.')); openMore(); }
             else if (id === 'ms-wh-save') { const v = $('ms-wh-url').value.trim(); if (!v) return; const res = await feat('webhookSet', { url: v }); showToast(res.ok ? 'Webhook saved.' : res.error); $('ms-wh-url').value = ''; }
             else if (id === 'ms-wh-test') { const res = await feat('webhookTest'); showToast(res && res.ok ? 'Test message sent. Check your server.' : 'Could not post. Is the webhook saved?'); }
             else if (id === 'ms-scale') { m.close(); if (typeof openAppearance === 'function') openAppearance(); }

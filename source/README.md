@@ -1,14 +1,15 @@
-# SteamLite source code (stable 9.1.0)
+# SteamLite source code (stable 9.2.0)
 
-This folder is the source of the stable release **9.1.0**.
+This folder is the source of the stable release **9.2.0**.
 
 | Folder | What it is |
 |---|---|
 | `app/` | The Electron app: `main.dev.js` (main process), `index.dev.html` (the interface), the extra feature scripts (`features*.js`, `perf.js`, `shell.js`, `icons.js`, `settings_page.js`, `couch.js`, `media*.js`, `discord_presence.js`), the Glass styling (`ui9.css`), themes and `package.json` |
 | `updater/` | The stand-alone SteamLite Updater (C#, WinForms). `build.ps1` compiles it with the compiler that ships with Windows |
 | `nsis/` | The installer script (NSIS) |
-| `server/` | The SteamLite Online server (Node.js, no dependencies): poll votes, leaderboard, theme gallery, live status, plus the tunnel script |
-| `server/` | The SteamLite Online server (Node.js, no dependencies): poll votes, leaderboard, theme gallery, live status, plus the tunnel script. `cloudflare/` is the same server as a Cloudflare Worker, which is the one players use |
+| `server/` | The SteamLite Online server for a PC (Node.js, no dependencies). Kept for reference: players use the Cloudflare version |
+| `server/` | The SteamLite Online server for a PC (Node.js, no dependencies). Kept for reference: players use the Cloudflare version |
+| `cloudflare/` | SteamLite Online as a Cloudflare Worker with a D1 database (accounts, backups, leaderboard, themes, votes). This is the server players use |
 | `tools/` | `pack_asar.js` and `extract_asar.js`, small dependency-free tools to pack and unpack `app.asar` |
 
 ## Run it from source
@@ -24,7 +25,7 @@ Set `SL_NO_USERDATA_PIN=1` and pass `--user-data-dir=<folder>` to keep a test ru
 1. Get the Electron 42 Windows build, rename `electron.exe` to `SteamLite.exe`, and copy the folder to a staging directory.
 2. `npm install` inside `app/`, then pack the app into the staging directory: `node tools/pack_asar.js app <staging>/resources/app.asar`
 3. Build the updater: `powershell -File updater/build.ps1`
-4. Build the installer: `makensis /DAPP_VERSION=9.1.0 "/DAPP_DIR=<staging>" /DOUT_FILE=SteamLite.Setup.9.1.0.exe nsis/SteamLite.nsi`
+4. Build the installer: `makensis /DAPP_VERSION=9.2.0 "/DAPP_DIR=<staging>" /DOUT_FILE=SteamLite.Setup.9.2.0.exe nsis/SteamLite.nsi`
 
 ## Notes
 - Releases and update information live in the repository root (`version.json`, `news.json`, `themes/`). Betas are published as pre-releases and use `version-beta.json` / `news-beta.json`.

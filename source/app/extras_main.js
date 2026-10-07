@@ -246,34 +246,8 @@ module.exports = function initExtras(ctx) {
         catch (e) { return { ok: false, error: 'Could not load the list right now.' }; }
     });
 
-    // ---------- SteamLite Online: the server (polls, leaderboard, theme gallery, live status) ----------
-    // The address comes from online.json in the SteamLite repository, so it can change without an update. Everything here fails
-    // quietly: with no server, the app simply behaves as before.
-    const crypto = require('crypto');
-    const URL_OK = /^(https:\/\/[\w.-]+(:\d+)?|http:\/\/(127\.0\.0\.1|localhost)(:\d+)?)$/i;
-    let baseCache = { url: '', at: 0 };
-    async function onlineBase() {
-        const forced = process.env.SL_ONLINE_URL || store.get('onlineServerOverride');
-        if (forced && URL_OK.test(String(forced).replace(/\/+$/, ''))) return String(forced).replace(/\/+$/, '');
-        if (baseCache.url && Date.now() - baseCache.at < 600000) return baseCache.url;
-        try {
-            const d = await fetchApi('https://raw.githubusercontent.com/imnotfisy/SteamLite/main/online.json?t=' + Date.now(), {}, 6000);
-            const u = d && String(d.url || '').replace(/\/+$/, '');
-            baseCache = { url: u && URL_OK.test(u) ? u : '', at: Date.now() };
-        } catch (e) { baseCache = { url: baseCache.url, at: Date.now() - 540000 }; }
-        return baseCache.url;
-    }
-    function onlineId() { let id = store.get('onlineId'); if (!/^[a-f0-9]{32}$/.test(id || '')) { id = crypto.randomBytes(16).toString('hex'); store.set('onlineId', id); } return id; }
-    async function srv(method, p, body) {
-        const base = await onlineBase(); if (!base) return { ok: false, error: 'not-configured' };
-        const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 7000);
-        try {
-            const r = await fetch(base + p, { method, signal: ctl.signal, headers: { 'Content-Type': 'application/json', 'X-SL-Client': 'SteamLite/' + ctx.APP_VERSION }, body: body ? JSON.stringify(body) : undefined });
-            let j = null; try { j = await r.json(); } catch (e) { }
-            if (!r.ok) return { ok: false, error: (j && j.error) || ('HTTP ' + r.status), code: r.status };
-            return Object.assign({ ok: true }, j || {});
-        } catch (e) { return { ok: false, error: 'offline' }; } finally { clearTimeout(t); }
-    }
+    // ---------- SteamLite Online (the server address, requests and accounts live in account_main.js) ----------
+    const { srv, onlineBase, onlineId } = ctx.account;
     let statusMem = { at: 0, data: null };
     async function srvStatus(force) {
         if (!force && Date.now() - statusMem.at < 300000) return statusMem.data;
@@ -285,7 +259,7 @@ module.exports = function initExtras(ctx) {
     handle('srvOverride', (p) => { // advanced: point the app at another server address (for testing on this PC, for example)
         const u = String(p.url || '').trim().replace(/\/+$/, '');
         if (u && !URL_OK.test(u)) return { ok: false, error: 'Use an https:// address (or http://localhost:8787 to test on this PC).' };
-        store.set('onlineServerOverride', u); baseCache = { url: '', at: 0 }; statusMem = { at: 0, data: null }; return { ok: true, url: u };
+        store.set('onlineServerOverride', u); ctx.account.resetBase(); statusMem = { at: 0, data: null }; return { ok: true, url: u };
     });
     handle('srvOverrideGet', () => store.get('onlineServerOverride') || '');
     handle('srvPolls', () => srv('GET', '/polls' + uidQ()));
