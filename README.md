@@ -2,7 +2,7 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-9.2.0-blue)
+![SteamLite Version](https://img.shields.io/badge/version-9.2.1-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/2VP6x6Rvak)
@@ -49,6 +49,7 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **Year in Review** - A shareable picture of your year in games
 - **Play-time Reminders** - Optional break reminders and a daily play limit
 - **Friend Activity** - See who started playing what and who came online
+- **Messages and friend streaks (9.2.1)** - Chat with friends who use SteamLite in private or group chats (up to 20), add friends with a code, keep daily friend streaks, block and report
 - **Sign in with Steam and cloud backup (9.2)** - Signing in is required once; your progress backs up to your account and restores on any PC, with verified names on the leaderboard
 - **Drops, Shop and Trophy room (9.1)** - Free XP every hour, 5 hours and day with streaks, rarities and a lucky wheel; spend coins on frames and titles; collect everything in the Trophy room
 - **Dashboard widgets and recap (9.1)** - Continue playing, weekly hours, daily goal, theme of the week, a weekly recap and a stats card
