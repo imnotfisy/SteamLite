@@ -4838,8 +4838,13 @@
             *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
     </style>
+    <link rel="stylesheet" href="ui9.css">
 </head>
 <body>
+    <script>/* 9.0 interface: Glass is the default, Classic is the old look (Settings > Advanced > Interface). Set before first paint so there is no flash. */
+    try { if (localStorage.getItem("sl_ui") !== "classic") document.body.classList.add("ui9"); } catch (e) { document.body.classList.add("ui9"); }
+    </script>
+    <script src="icons.js"></script>
     <style id="custom-theme-style"></style>
 
     <video id="custom-bg-video" autoplay loop muted></video>
@@ -4861,8 +4866,8 @@
         <div id="titlebar">
             <div class="titlebar-drag"><span class="titlebar-text">SteamLite 8.4.0</span></div>
             <div class="window-controls">
-                <button id="btn-minimize">—</button>
-                <button id="btn-close">✕</button>
+                <button id="btn-minimize" title="Minimise"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+                <button id="btn-close" title="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
             </div>
         </div>
 
@@ -5191,7 +5196,7 @@
                         <option value="beta">Beta</option>
                     </select>
                 </div>
-                <div class="dev-tools active">
+                <div class="dev-tools active" hidden style="display:none !important">
                     <div class="switch-row">
                         <span class="form-label">Developer Mode</span>
                         <button class="context-btn" id="activate-dev-license-btn">Activate Dev License</button>
@@ -6984,7 +6989,7 @@
             const weeklyHtml = '<div class="chart-container dashboard-section" data-section="weekly" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">This Week (' + weekTotalH.toFixed(1) + 'h)</div><div class="week-chart">' + weekBars + '</div><div class="goal-bar"><div class="goal-fill" style="width: ' + goalPct + '%"></div></div><div class="goal-text"><span>' + goalPct + '% of your ' + weeklyGoal + 'h weekly goal</span><button class="goal-edit-btn" id="weekly-goal-btn" title="Change weekly goal">✎</button></div>' + nudgeHtml + '</div>';
 
             // Paint the dashboard immediately; news is fetched asynchronously so a slow GitHub request can't block the view
-            container.innerHTML = `<div class="home-view"><div class="home-header"><h1 class="home-title">Dashboard</h1><button id="edit-dashboard-btn" class="edit-dashboard-btn" title="Edit Dashboard Layout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button></div><div id="event-banner-slot"></div><div class="dashboard-sections" id="dashboard-sections"><div class="chart-container dashboard-section" data-section="news" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">News & Announcements <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px; margin-left: 8px; color: var(--accent-color);"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div><div id="home-news-wrap"><div class="screenshot-empty">Loading news...</div></div></div><div class="chart-container dashboard-section" data-section="feed" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">Game News<button class="feed-refresh" id="feed-refresh-btn" title="Refresh">↻</button></div><div id="home-feed-wrap"><div class="screenshot-empty">Loading news from your games...</div></div></div><div class="chart-container dashboard-section" data-section="playtime" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">Playtime - Last 30 Days (${historyTotalH}h)</div><div class="history-chart">${historyHtml}</div></div>${weeklyHtml}<div class="chart-container dashboard-section" data-section="disk" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">Disk Usage</div><div id="home-disk-wrap"><div class="screenshot-empty">Checking disk usage...</div></div></div><div class="chart-container dashboard-section" data-section="top5" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">Top 5 Most Played</div>${chartHtml || '<div class="screenshot-empty">No playtime data.</div>'}</div><div class="chart-container dashboard-section" data-section="recent" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">Recently Played</div><div class="recent-carousel">${recentHtml}</div></div></div></div>`;
+            container.innerHTML = `<div class="home-view"><div class="home-header"><h1 class="home-title">Dashboard</h1><button id="edit-dashboard-btn" class="edit-dashboard-btn" title="Edit Dashboard Layout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button></div><div id="event-banner-slot"></div><div class="dashboard-sections" id="dashboard-sections"><div class="chart-container dashboard-section" data-section="news" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title nw-head">News & Announcements<span class="nw-live" title="Fetched from the SteamLite news feed"></span></div><div id="home-news-wrap"><div class="screenshot-empty">Loading news...</div></div></div><div class="chart-container dashboard-section" data-section="feed" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">Game News<button class="feed-refresh" id="feed-refresh-btn" title="Refresh">↻</button></div><div id="home-feed-wrap"><div class="screenshot-empty">Loading news from your games...</div></div></div><div class="chart-container dashboard-section" data-section="playtime" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">Playtime - Last 30 Days (${historyTotalH}h)</div><div class="history-chart">${historyHtml}</div></div>${weeklyHtml}<div class="chart-container dashboard-section" data-section="disk" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">Disk Usage</div><div id="home-disk-wrap"><div class="screenshot-empty">Checking disk usage...</div></div></div><div class="chart-container dashboard-section" data-section="top5" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">Top 5 Most Played</div>${chartHtml || '<div class="screenshot-empty">No playtime data.</div>'}</div><div class="chart-container dashboard-section" data-section="recent" data-size="1"><div class="size-controls"><button class="size-btn" data-action="decrease">−</button><button class="size-btn" data-action="increase">+</button></div><div class="chart-title">Recently Played</div><div class="recent-carousel">${recentHtml}</div></div></div></div>`;
 
             // Game news feed widget (loads in parallel with the SteamLite news below)
             loadDashboardFeed(false);
@@ -6998,11 +7003,24 @@
             const newsWrap = document.getElementById('home-news-wrap');
             if (newsWrap) {
                 if (externalNews && externalNews.news && externalNews.news.length > 0) {
+                    const NW = {
+                        release: { tag: 'Release', svg: '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>' },
+                        soon: { tag: 'Coming soon', svg: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>' },
+                        fix: { tag: 'Fixes', svg: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/>' },
+                        theme: { tag: 'Themes', svg: '<circle cx="13.5" cy="6.5" r=".6"/><circle cx="17.5" cy="10.5" r=".6"/><circle cx="8.5" cy="7.5" r=".6"/><circle cx="6.5" cy="12.5" r=".6"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.12a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/>' },
+                        info: { tag: 'News', svg: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>' }
+                    };
+                    const kindOf = (t) => /\b(comes|coming|soon|upcoming|next week)\b/i.test(t) ? 'soon' : /\b(released|is out|is here|now available|launch)/i.test(t) ? 'release' : /\b(bug|fix|fixes|patch)/i.test(t) ? 'fix' : /\btheme/i.test(t) ? 'theme' : 'info';
                     let newsHtml = '';
-                    externalNews.news.forEach(item => {
-                        newsHtml += `<div class="news-item"><div class="news-title">${esc(item.title)}</div><div class="news-date">${esc(item.date)}</div><div class="news-content">${esc(item.content)}</div></div>`;
+                    externalNews.news.slice(0, 4).forEach((item, i) => { // at most 4 entries are shown
+                        const k = NW[kindOf(String(item.title || '') + ' ' + String(item.content || '').slice(0, 80))];
+                        newsHtml += `<article class="nw-card${i === 0 ? ' nw-feature' : ''}" tabindex="0" title="Click to read more"><div class="nw-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${k.svg}</svg></div><div class="nw-body"><div class="nw-top"><span class="nw-tag">${k.tag}</span><span class="nw-date">${esc(item.date)}</span></div><div class="nw-title">${esc(item.title)}</div><div class="nw-text">${esc(item.content)}</div></div></article>`;
                     });
                     newsWrap.innerHTML = newsHtml;
+                    newsWrap.querySelectorAll('.nw-card').forEach(c => {
+                        const tog = () => { playSound('click'); c.classList.toggle('open'); };
+                        c.addEventListener('click', tog); c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tog(); } });
+                    });
                 } else {
                     newsWrap.innerHTML = '<div class="screenshot-empty">No news available.</div>';
                 }
@@ -7458,7 +7476,7 @@
             if (lvEl && meta && meta.level) {
                 const lv = meta.level;
                 lvEl.innerHTML = '⚡ SteamLite Lv ' + lv.level + (lv.maxed ? ' · MAX' : '') + '<span class="sl-xp-mini"><i style="width: ' + (lv.maxed ? 100 : Math.round(lv.into / lv.perLevel * 100)) + '%"></i></span>';
-                lvEl.title = lv.maxed ? 'Max SteamLite level - click to open your inventory' : 'SteamLite level ' + lv.level + ' · ' + lv.xp + ' XP - click to open your inventory';
+                lvEl.title = lv.maxed ? 'Max SteamLite level - click to open your inventory' : 'SteamLite level ' + lv.level + ' · ' + lv.xp.toLocaleString() + ' XP - click to open your inventory';
                 lvEl.addEventListener('click', () => { playSound('click'); openInventory(); });
             }
             const bd = document.getElementById('profile-badges');
@@ -7489,7 +7507,7 @@
             const ownCustom = isOwnProfile ? getOwnCustom() : null;
             let statusText = 'Offline'; let statusColor = 'var(--text-secondary)'; let statusIndicator = 'offline';
             if (u.gameextrainfo) { statusText = `In-Game: ${u.gameextrainfo}`; statusColor = 'var(--accent-color)'; statusIndicator = 'ingame'; } else if (u.personastate === 1) { statusText = 'Online'; statusColor = 'var(--success)'; statusIndicator = 'online'; } else if (u.personastate === 3) { statusText = 'Away'; statusColor = 'var(--warning)'; statusIndicator = 'away'; }
-            container.innerHTML = `<div class="profile-view"><div class="profile-banner"><div class="profile-banner-bg" id="profile-banner-bg"></div><div class="profile-banner-dim" id="profile-banner-dim"></div><div class="profile-banner-overlay"></div>${!isOwnProfile ? '<div class="friends-in-common on-banner" id="friends-in-common"><div class="friends-in-common-label">Friends in Common</div><div class="friends-in-common-list" id="friends-in-common-list"><div style="color: var(--text-secondary); font-size: 12px;">Loading...</div></div></div>' : ''}${isOwnProfile ? '<button class="banner-edit-btn" id="banner-edit-btn" title="Edit profile banner">✎ Edit Banner</button>' : ''}<div class="profile-banner-stats"><div class="banner-stat"><div class="banner-stat-label">Games</div><div class="banner-stat-value">${gamesList.length}</div></div><div class="banner-stat"><div class="banner-stat-label">Playtime</div><div class="banner-stat-value">${totalHours}h</div></div><div class="banner-stat"><div class="banner-stat-label">VAC</div><div class="banner-stat-value ${b && b.VACBanned ? 'vac-ban' : 'vac-clean'}">${b && b.VACBanned ? 'Banned' : 'Clean'}</div></div></div></div><div class="profile-content"><div class="profile-header-modern"><img src="${u.avatarfull}" class="profile-avatar-modern ${statusIndicator}${ownCustom && ownCustom.frame !== 'none' ? ' frame-' + ownCustom.frame : ''}"><div class="profile-info-modern"><h1>${esc(shownName)}${roleBadgeHtml(u)}</h1>${fpPrefs.nick ? `<div class="friend-nick-real">${esc(u.personaname)}</div>` : ''}<div class="profile-level-modern">Level ${profileData.level || 'N/A'}</div>${isOwnProfile ? '<div class="profile-level-modern sl-level" id="profile-sl-level" title="SteamLite level - click to open your inventory">⚡ SteamLite Lv ...<span class="sl-xp-mini"><i style="width: 0%"></i></span></div>' : ''}${isOwnProfile && ownCustom.title ? `<div class="profile-title-chip">${esc(ownCustom.title)}</div>` : ''}${isOwnProfile && ownCustom.tagline ? `<div class="profile-tagline">${esc(ownCustom.tagline)}</div>` : ''}</div></div><div class="profile-actions-row">${isOwnProfile ? `<button class="action-btn btn-secondary" id="edit-profile-btn">✎ Edit Profile</button>` : `<button class="action-btn" id="play-together-btn">🎮 Play Together</button><div class="friend-actions"><button class="action-btn btn-secondary" id="fp-pin">${fpPrefs.pinned ? '📌 Unpin' : '📌 Pin'}</button><button class="action-btn btn-secondary" id="fp-nick">✎ Nickname</button><button class="action-btn btn-secondary" id="fp-note">📝 Note</button><button class="action-btn btn-secondary" id="fp-compare">⚖️ Compare</button></div>`}</div>${!isOwnProfile && fpPrefs.note ? `<div class="friend-note-card"><b>Your note:</b> ${esc(fpPrefs.note)}</div>` : ''}${isOwnProfile ? `<div class="library-section" style="margin-top: 32px;"><div class="section-title" style="cursor: default;">Badges</div>${ownCustom.hideBadges ? '<div class="badge-empty">Badges are hidden. Turn them back on in Edit Profile.</div>' : '<div class="badge-row" id="profile-badges"></div>'}</div><div class="library-section" style="margin-top: 8px;"><div class="section-title" style="cursor: default;">Showcase</div><div class="showcase-row" id="profile-showcase"></div></div>` : ''}<div class="library-section" style="margin-top: 32px;"><div class="section-title">Owned Games (${gamesList.length})</div><div class="game-grid" id="profile-games-grid"></div></div></div></div>`;
+            container.innerHTML = `<div class="profile-view"><div class="profile-banner"><div class="profile-banner-bg" id="profile-banner-bg"></div><div class="profile-banner-dim" id="profile-banner-dim"></div><div class="profile-banner-overlay"></div>${!isOwnProfile ? '<div class="friends-in-common on-banner" id="friends-in-common"><div class="friends-in-common-label">Friends in Common</div><div class="friends-in-common-list" id="friends-in-common-list"><div style="color: var(--text-secondary); font-size: 12px;">Loading...</div></div></div>' : ''}${isOwnProfile ? '<button class="banner-edit-btn" id="banner-edit-btn" title="Edit profile banner">✎ Edit Banner</button>' : ''}<div class="profile-banner-stats"><div class="banner-stat"><div class="banner-stat-label">Games</div><div class="banner-stat-value">${gamesList.length}</div></div><div class="banner-stat"><div class="banner-stat-label">Playtime</div><div class="banner-stat-value">${totalHours}h</div></div><div class="banner-stat"><div class="banner-stat-label">VAC</div><div class="banner-stat-value ${b && b.VACBanned ? 'vac-ban' : 'vac-clean'}">${b && b.VACBanned ? 'Banned' : 'Clean'}</div></div></div></div><div class="profile-content"><div class="profile-header-modern"><img src="${u.avatarfull}" class="profile-avatar-modern ${statusIndicator}${ownCustom && ownCustom.frame !== 'none' ? ' frame-' + ownCustom.frame : ''}"><div class="profile-info-modern"><h1>${esc(shownName)}${roleBadgeHtml(u)}${isOwnProfile && ownCustom.title ? `<span class="profile-title-chip inline">${esc(ownCustom.title)}</span>` : ''}</h1>${fpPrefs.nick ? `<div class="friend-nick-real">${esc(u.personaname)}</div>` : ''}<div class="profile-level-modern">Level ${profileData.level || 'N/A'}</div>${isOwnProfile ? '<div class="profile-level-modern sl-level" id="profile-sl-level" title="SteamLite level - click to open your inventory">⚡ SteamLite Lv ...<span class="sl-xp-mini"><i style="width: 0%"></i></span></div>' : ''}${isOwnProfile && ownCustom.tagline ? `<div class="profile-tagline">${esc(ownCustom.tagline)}</div>` : ''}</div></div><div class="profile-actions-row">${isOwnProfile ? `<button class="action-btn btn-secondary" id="edit-profile-btn">✎ Edit Profile</button>` : `<button class="action-btn" id="play-together-btn">🎮 Play Together</button><div class="friend-actions"><button class="action-btn btn-secondary" id="fp-pin">${fpPrefs.pinned ? '📌 Unpin' : '📌 Pin'}</button><button class="action-btn btn-secondary" id="fp-nick">✎ Nickname</button><button class="action-btn btn-secondary" id="fp-note">📝 Note</button><button class="action-btn btn-secondary" id="fp-compare">⚖️ Compare</button></div>`}</div>${!isOwnProfile && fpPrefs.note ? `<div class="friend-note-card"><b>Your note:</b> ${esc(fpPrefs.note)}</div>` : ''}${isOwnProfile ? `<div class="library-section" style="margin-top: 32px;"><div class="section-title" style="cursor: default;">Badges</div>${ownCustom.hideBadges ? '<div class="badge-empty">Badges are hidden. Turn them back on in Edit Profile.</div>' : '<div class="badge-row" id="profile-badges"></div>'}</div><div class="library-section" style="margin-top: 8px;"><div class="section-title" style="cursor: default;">Showcase</div><div class="showcase-row" id="profile-showcase"></div></div>` : ''}<div class="library-section" style="margin-top: 32px;"><div class="section-title">Owned Games (${gamesList.length})</div><div class="game-grid" id="profile-games-grid"></div></div></div></div>`;
             applyBannerLayers(document.getElementById('profile-banner-bg'), document.getElementById('profile-banner-dim'), u.avatarfull, isOwnProfile ? getOwnBanner() : null);
             if (isOwnProfile) {
                 document.getElementById('banner-edit-btn').addEventListener('click', () => { playSound('click'); openBannerEditor(u.avatarfull); });
@@ -7632,7 +7650,7 @@
             container.innerHTML = html;
             if (activeCollectionFilter) { const colGrid = document.getElementById('collection-games-grid'); fillGrid(colGrid, inst, true); fillGrid(colGrid, uninst, false); }
             else { if (allFavs.length > 0) { const favGrid = document.getElementById('favs-grid'); fillGrid(favGrid, allFavs, g => g.installed); } if (inst.length > 0) { const instGrid = document.getElementById('installed-games-grid'); fillGrid(instGrid, inst, true); } if (uninst.length > 0) { const uninstGrid = document.getElementById('uninstalled-games-grid'); fillGrid(uninstGrid, uninst, false); } if (sharedGames.length > 0) { const sharedGrid = document.getElementById('shared-games-grid'); fillGrid(sharedGrid, sharedGames, g => g.installed); } }
-            document.querySelectorAll('.section-title[data-collapse-target]').forEach(title => { title.addEventListener('click', () => { const targetId = title.dataset.collapseTarget; const grid = document.getElementById(targetId); if (grid) { grid.classList.toggle('hidden'); title.classList.toggle('collapsed'); } }); });
+            document.querySelectorAll('.section-title[data-collapse-target]').forEach(title => { title.addEventListener('click', () => { const targetId = title.dataset.collapseTarget; const grid = document.getElementById(targetId); if (grid) { if (window.SLPerf && SLPerf.collapse) SLPerf.collapse(grid, title); else { grid.classList.toggle('hidden'); title.classList.toggle('collapsed'); } } }); });
             if (achObserver) achObserver.disconnect();
             achObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const card = entry.target; const appId = card.dataset.appid; fetchAchievementForCard(appId, card); achObserver.unobserve(card); } }); }, { rootMargin: '100px' });
             document.querySelectorAll('.game-card').forEach(card => achObserver.observe(card));
@@ -8862,7 +8880,7 @@
             const duration = (activeConfig && activeConfig.notifDuration ? activeConfig.notifDuration : 4) * 1000;
             const popup = document.createElement('div');
             popup.className = 'ach-popup';
-            popup.innerHTML = `<span class="ach-popup-icon">${info.icon || '🏆'}</span><div><div class="ach-popup-name">Achievement unlocked!</div><div class="ach-popup-sub"><b>${esc(info.name)}</b> · ${info.rewardTheme ? `New theme: <b>${esc(prettyThemeId(info.rewardTheme))}</b>` : esc(info.desc)} · <b>+${info.xp || 100} XP</b>${info.xpMult > 1 ? ' (×' + info.xpMult + ' boost)' : ''}${info.leveledUp ? ` · <b>Level ${info.level}!</b>` : ''}</div></div>`;
+            popup.innerHTML = `<span class="ach-popup-icon">${info.icon || '🏆'}</span><div><div class="ach-popup-name">Achievement unlocked!</div><div class="ach-popup-sub"><b>${esc(info.name)}</b> · ${info.rewardTheme ? `New theme: <b>${esc(prettyThemeId(info.rewardTheme))}</b>` : esc(info.desc)} · <b>+${(info.xp || 100000).toLocaleString()} XP</b>${info.xpMult > 1 ? ' (×' + info.xpMult + ' boost)' : ''}${info.leveledUp ? ` · <b>Level ${info.level}!</b>` : ''}</div></div>`;
             container.appendChild(popup);
             playSound('achievement');
             setTimeout(() => { popup.classList.add('leaving'); setTimeout(() => { popup.remove(); showNextAchPopup(); }, 380); }, duration);
@@ -8985,9 +9003,9 @@
             const rec = streak.recovery && streak.recovery.activeUntil ? streak.recovery : null;
             const themes = data.unlockedThemes || [];
             let html = '<div class="inv-level"><div class="inv-level-badge"><small>LEVEL</small><b>' + lv.level + '</b></div><div class="inv-level-body">'
-                + '<div class="inv-level-title">SteamLite Level ' + lv.level + (lv.maxed ? ' · MAX' : '') + '<span>' + lv.xp + ' XP total</span></div>'
+                + '<div class="inv-level-title">SteamLite Level ' + lv.level + (lv.maxed ? ' · MAX' : '') + '<span>' + lv.xp.toLocaleString() + ' XP total</span></div>'
                 + '<div class="inv-xp-bar"><i style="width: 0%" data-pct="' + pct + '"></i></div>'
-                + '<div class="inv-xp-note">' + (lv.maxed ? 'You reached the maximum level.' : (lv.perLevel - lv.into) + ' XP to level ' + (lv.level + 1)) + ' · ' + unlockedCount + ' achievement' + (unlockedCount === 1 ? '' : 's') + ' unlocked · each gives ' + lv.xpMin + '-' + lv.xpMax + ' XP</div>'
+                + '<div class="inv-xp-note">' + (lv.maxed ? 'You reached the maximum level.' : (lv.perLevel - lv.into).toLocaleString() + ' XP to level ' + (lv.level + 1)) + ' · ' + unlockedCount + ' achievement' + (unlockedCount === 1 ? '' : 's') + ' unlocked · each gives ' + lv.xpMin.toLocaleString() + '-' + lv.xpMax.toLocaleString() + ' XP</div>'
                 + '</div></div>';
             if (boost) {
                 if (boost.active) {
@@ -9002,7 +9020,7 @@
             const chItem = (c) => {
                 const pct = Math.round((c.current / c.max) * 100);
                 const prog = c.unit === 'min' ? (c.max >= 120 ? (c.current / 60).toFixed(1) + ' / ' + (c.max / 60) + ' h' : c.current + ' / ' + c.max + ' min') : c.current + ' / ' + c.max;
-                return '<div class="ch-item' + (c.done ? ' done' : '') + '"><div class="ch-top"><span>' + (c.done ? '✅ ' : '') + esc(c.text) + '</span><span class="ch-xp">+' + (c.xp || c.baseXp) + ' XP</span></div><div class="ch-bar"><i style="width:' + pct + '%"></i></div><div class="ch-sub">' + (c.done ? 'Completed' : prog) + '</div></div>';
+                return '<div class="ch-item' + (c.done ? ' done' : '') + '"><div class="ch-top"><span>' + (c.done ? '✅ ' : '') + esc(c.text) + '</span><span class="ch-xp">+' + (c.xp || c.baseXp).toLocaleString() + ' XP</span></div><div class="ch-bar"><i style="width:' + pct + '%"></i></div><div class="ch-sub">' + (c.done ? 'Completed' : prog) + '</div></div>';
             };
             const ch = data.challenges;
             if (ch) {
@@ -9061,7 +9079,7 @@
                 const pct = a.progress.max > 0 ? Math.min(100, Math.round((a.progress.current / a.progress.max) * 100)) : 0;
                 const date = a.unlockedAt ? new Date(a.unlockedAt).toLocaleDateString() : null;
                 card.innerHTML = `<div class="ach-meta-icon">${a.icon}</div><div class="ach-meta-info"><div class="ach-meta-name">${esc(a.name)}</div><div class="ach-meta-desc">${esc(a.desc)}</div><div class="ach-meta-bar-bg"><div class="ach-meta-bar-fill" style="width: ${pct}%"></div></div><div class="ach-meta-progress-text"><span>${date ? '✅ ' + date : a.progress.current + ' / ' + a.progress.max}</span><span>${pct}%</span></div>${a.rewardTheme ? `<div class="ach-meta-reward">🎁 Reward theme: ${esc(prettyThemeId(a.rewardTheme))}</div>` : ''}</div>`;
-                card.querySelector('.ach-meta-name').insertAdjacentHTML('beforeend', `<span class="ach-xp-tag">${a.xp ? '+' + a.xp + ' XP' : (data.level ? data.level.xpMin + '-' + data.level.xpMax + ' XP' : '')}</span>`);
+                card.querySelector('.ach-meta-name').insertAdjacentHTML('beforeend', `<span class="ach-xp-tag">${a.xp ? '+' + a.xp.toLocaleString() + ' XP' : (data.level ? data.level.xpMin.toLocaleString() + '-' + data.level.xpMax.toLocaleString() + ' XP' : '')}</span>`);
                 grid.appendChild(card);
             };
             const eventItems = shown.filter(a => a.event), regular = shown.filter(a => !a.event);
@@ -9631,7 +9649,7 @@
         }
 
         // ---------- Notifications for the new systems ----------
-        window.electronAPI.onChallengeComplete((d) => { showToast('✅ ' + (d.scope === 'daily' ? 'Daily' : 'Weekly') + ' challenge done: ' + d.text + ' · +' + d.xp + ' XP' + (d.boosted ? ' (×' + d.mult + ' boost)' : ''), () => openInventory(), { sound: 'achievement' }); });
+        window.electronAPI.onChallengeComplete((d) => { showToast('✅ ' + (d.scope === 'daily' ? 'Daily' : 'Weekly') + ' challenge done: ' + d.text + ' · +' + Number(d.xp).toLocaleString() + ' XP' + (d.boosted ? ' (×' + d.mult + ' boost)' : ''), () => openInventory(), { sound: 'achievement' }); });
         window.electronAPI.onLevelReward((d) => { showToast('🎁 Level ' + d.level + ' reward: +' + d.restores + ' streak restore' + (d.restores === 1 ? '' : 's') + '!', () => openInventory(), { sound: 'achievement' }); });
         window.electronAPI.onWishlistSale((items) => {
             const names = items.filter(i => i.name).map(i => i.name + ' -' + i.discount + '%');
@@ -9986,10 +10004,14 @@
         initApp();
     </script>
     <script src="perf.js"></script>
+    <script src="settings_page.js"></script>
+    <script src="media_ui.js"></script>
+    <script src="couch.js"></script>
     <script>/* Full edition only: the Tools & extras layer. The Lite edition never loads it. */
     if (!window.electronAPI || window.electronAPI.edition !== 'lite') {
         ["features.js", "features_play.js", "features_progress.js"].forEach(function (f) { document.write('<script src="' + f + '"><\/script>'); });
     }
     </script>
+    <script src="shell.js"></script>
 </body>
 </html>

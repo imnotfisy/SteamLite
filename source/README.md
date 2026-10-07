@@ -1,10 +1,10 @@
-# SteamLite source code (stable 8.7.4)
+# SteamLite source code (stable 9.0.1)
 
-This folder is the source of the stable release **8.7.4**.
+This folder is the source of the stable release **9.0.1**.
 
 | Folder | What it is |
 |---|---|
-| `app/` | The Electron app: `main.dev.js` (main process), `index.dev.html` (the interface), and the extra feature scripts (`features*.js`, `perf.js`), themes and `package.json` |
+| `app/` | The Electron app: `main.dev.js` (main process), `index.dev.html` (the interface), the extra feature scripts (`features*.js`, `perf.js`, `shell.js`, `icons.js`, `settings_page.js`, `couch.js`, `media*.js`, `discord_presence.js`), the Glass styling (`ui9.css`), themes and `package.json` |
 | `updater/` | The stand-alone SteamLite Updater (C#, WinForms). `build.ps1` compiles it with the compiler that ships with Windows |
 | `nsis/` | The installer script (NSIS) |
 | `tools/` | `pack_asar.js` and `extract_asar.js`, small dependency-free tools to pack and unpack `app.asar` |
@@ -22,7 +22,7 @@ Set `SL_NO_USERDATA_PIN=1` and pass `--user-data-dir=<folder>` to keep a test ru
 1. Get the Electron 42 Windows build, rename `electron.exe` to `SteamLite.exe`, and copy the folder to a staging directory.
 2. `npm install` inside `app/`, then pack the app into the staging directory: `node tools/pack_asar.js app <staging>/resources/app.asar`
 3. Build the updater: `powershell -File updater/build.ps1`
-4. Build the installer: `makensis /DAPP_VERSION=8.7.4 "/DAPP_DIR=<staging>" /DOUT_FILE=SteamLite.Setup.8.7.4.exe nsis/SteamLite.nsi`
+4. Build the installer: `makensis /DAPP_VERSION=9.0.1 "/DAPP_DIR=<staging>" /DOUT_FILE=SteamLite.Setup.9.0.1.exe nsis/SteamLite.nsi`
 
 ## Notes
 - Releases and update information live in the repository root (`version.json`, `news.json`, `themes/`). Betas are published as pre-releases and use `version-beta.json` / `news-beta.json`.

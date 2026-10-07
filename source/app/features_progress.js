@@ -9,7 +9,7 @@
     // ---------- notifications from the new XP sources ----------
     safe('progress-toasts', () => {
         onFeat('seasonReward', (d) => showToast('🏁 Season reward: ' + d.rewards.join(', '), () => SLF.openSeason && SLF.openSeason(), { sound: 'achievement' }));
-        onFeat('bingoXp', (d) => showToast('🎯 ' + d.text + ' · +' + d.xp + ' XP', () => SLF.openBingo && SLF.openBingo(), { sound: 'achievement' }));
+        onFeat('bingoXp', (d) => showToast('🎯 ' + d.text + ' · +' + Number(d.xp).toLocaleString() + ' XP', () => SLF.openBingo && SLF.openBingo(), { sound: 'achievement' }));
     });
 
     // ---------- sound packs unlocked by level (Crystal at 30, Deep at 60, or any prestige) ----------
@@ -136,7 +136,7 @@
             c.restore();
             c.fillStyle = '#fff'; c.font = font(46, '800'); c.fillText(name.slice(0, 22), 250, 118);
             const pc = (mt && mt.prestige && mt.prestige.count) || 0;
-            c.fillStyle = accent; c.font = font(26, '700'); c.fillText((custom.title || 'SteamLite player') + (pc ? '   ★' + pc : ''), 250, 160);
+            c.fillStyle = accent; c.font = font(26, '700'); c.fillText((custom.title || 'SteamLite player') + (pc ? '   Prestige ' + pc : ''), 250, 160);
             if (custom.tagline) { c.fillStyle = '#ffffffaa'; c.font = font(22, '500'); c.fillText(custom.tagline.slice(0, 50), 250, 196); }
             const all = SLF.allGames(), totalSec = all.reduce((s, x) => s + getPlaytimeSeconds(x), 0), unl = mt ? mt.achievements.filter(a => a.unlockedAt).length : 0;
             const tiles = [['Lv ' + (mt && mt.level ? mt.level.level : 1), 'SteamLite level'], [String(all.filter(x => !x.isShared).length), 'games'], [SLF.hours(totalSec) + ' h', 'played'], [unl + '', 'achievements'], [(mt && mt.streak ? mt.streak.best : 0) + '', 'best streak (days)']];

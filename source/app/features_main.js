@@ -465,7 +465,8 @@ module.exports = function initFeatures(ctx) {
         { q: 2, id: 'blaze', name: 'Blaze', theme: 'season-blaze', frame: 'blaze', tray: 'blaze' },
         { q: 3, id: 'harvest', name: 'Harvest', theme: 'season-harvest', frame: 'harvest', tray: 'harvest' }
     ];
-    const SEASON_TIERS = 20, SEASON_TIER_XP = 200;
+    const XPS = ctx.XP_SCALE || 1; // every XP amount is this much bigger since 9.0.1
+    const SEASON_TIERS = 20, SEASON_TIER_XP = 200 * XPS;
     const SEASON_REWARDS = { 3: 'title1', 5: 'restore', 8: 'frame', 12: 'title2', 16: 'tray', 20: 'theme' };
     function nowMs() { return process.env.SL_FAKE_NOW ? (Number(process.env.SL_FAKE_NOW) || Date.now()) : Date.now(); }
     function seasonFor(ts) {
@@ -611,7 +612,7 @@ module.exports = function initFeatures(ctx) {
         { id: 'g5', text: 'Play 5 different games', max: 5, f: a => a.games }
     ];
     const BINGO_LINES = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
-    const LINE_XP = 30, FULL_XP = 150;
+    const LINE_XP = 30 * XPS, FULL_XP = 150 * XPS;
     function weekWin(ts) { const d = new Date(ts), dow = (d.getDay() + 6) % 7, start = new Date(d.getFullYear(), d.getMonth(), d.getDate() - dow).getTime(); return { key: day(start), start, end: new Date(d.getFullYear(), d.getMonth(), d.getDate() - dow + 7).getTime() }; }
     function bingoState(ts) {
         const w = weekWin(ts), history = store.get('sessionHistory') || [], a = activity(w.start, w.end, history);
@@ -649,8 +650,8 @@ module.exports = function initFeatures(ctx) {
         const gains = [];
         const award = (key, base, label) => { if (done[key]) return; const r = ctx.applyBoost(base); done[key] = Date.now(); xpLog[key] = r.xp; gains.push({ text: label, xp: r.xp }); };
         const today = ctx.getChallenges(t);
-        if (today.daily.list.every(c => c.done)) award('dailyall:' + today.daily.key, 20, 'All daily challenges done');
-        if (today.weekly.list.every(c => c.done)) award('weeklyall:' + today.weekly.key, 60, 'All weekly challenges done');
+        if (today.daily.list.every(c => c.done)) award('dailyall:' + today.daily.key, 20 * XPS, 'All daily challenges done');
+        if (today.weekly.list.every(c => c.done)) award('weeklyall:' + today.weekly.key, 60 * XPS, 'All weekly challenges done');
         // consecutive days with all 3 dailies done (looking back up to 60 days, today counts only once finished)
         let streak = 0;
         for (let i = 0; i < 60; i++) {
@@ -658,16 +659,16 @@ module.exports = function initFeatures(ctx) {
             const all = ch.list.every(c => c.done);
             if (all) streak++; else if (i > 0) break; else if (i === 0) continue;
         }
-        if (streak >= 7) award('dailystreak:' + day(t - (streak % 7) * DAY) + ':' + Math.floor(streak / 7), 100, '7 days of clearing every daily challenge');
+        if (streak >= 7) award('dailystreak:' + day(t - (streak % 7) * DAY) + ':' + Math.floor(streak / 7), 100 * XPS, '7 days of clearing every daily challenge');
         if (gains.length) { store.set('challengesDone', done); store.set('challengeXp', xpLog); gains.forEach(g => send('bingoXp', g)); }
         return { streak };
     }
     handle('challengeExtras', () => {
         const r = challengeExtrasSync();
-        return { streak: r.streak, dailyBonus: 20, weeklyBonus: 60, streakBonus: 100 };
+        return { streak: r.streak, dailyBonus: 20 * XPS, weeklyBonus: 60 * XPS, streakBonus: 100 * XPS };
     });
 
-    hooks.afterXp = () => { try { seasonSync(); bingoSync(); challengeExtrasSync(); } catch (e) { pushErr('afterXp: ' + e.message); } };
+    hooks.afterXp = () => { if (ctx.NO_PROGRESS) return; try { seasonSync(); bingoSync(); challengeExtrasSync(); } catch (e) { pushErr('afterXp: ' + e.message); } };
     setTimeout(() => hooks.afterXp(), 20 * 1000);
     setInterval(() => hooks.afterXp(), 10 * 60 * 1000);
 

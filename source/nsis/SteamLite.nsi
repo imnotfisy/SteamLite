@@ -37,7 +37,7 @@
 !define DEBUG_SRC "..\debugtool\SteamLite Debug.exe"
 !define APP_PUBLISHER "SteamLite"
 !define UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\SteamLite"
-!define ICON_PATH "..\app\icon.ico"
+!define ICON_PATH "..\app_src\icon.ico"
 
 ; ---------- MultiUser / installer-level settings (must be defined before including MultiUser.nsh) ----------
 !define MULTIUSER_EXECUTIONLEVEL Highest

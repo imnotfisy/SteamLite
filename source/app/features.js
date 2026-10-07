@@ -3,7 +3,7 @@
    Each feature is installed inside safe(), so a bug in one can never stop the rest of the app from working. */
 (function () {
     'use strict';
-    const SLF = window.SLF = { cmds: [], tiles: [], installed: [], version: '8.6.5' };
+    const SLF = window.SLF = { cmds: [], tiles: [], installed: [], version: '9.0.1' };
     const $ = (id) => document.getElementById(id);
     const feat = (name, payload) => window.electronAPI.feat(name, payload);
     const onFeat = (name, cb) => window.electronAPI.onFeat(name, cb);
@@ -90,12 +90,14 @@
         }
         el.querySelector('h3').textContent = title;
         const sub = el.querySelector('.fx-sub'); sub.style.display = opts.sub ? '' : 'none'; sub.textContent = opts.sub || '';
-        const api = { el, body: el.querySelector('.fx-body'), open() { playSound('whoosh'); el.classList.add('active'); return api; }, close() { el.classList.remove('active'); }, isOpen: () => el.classList.contains('active') };
+        const api = { el, body: el.querySelector('.fx-body'), open() { playSound('whoosh'); void el.offsetWidth; el.classList.add('active'); return api; }, close() { el.classList.remove('active'); }, isOpen: () => el.classList.contains('active') };
         return api;
     };
     SLF.addCmd = (name, icon, action) => SLF.cmds.push({ name, icon, action });
     SLF.actions = {};
-    SLF.addTile = (group, icon, name, desc, action, cmd) => { SLF.actions[name] = action; SLF.tiles.push({ group, icon, name, desc, action }); if (cmd !== false) SLF.addCmd(name, icon, action); };
+    SLF.beta = !!(window.electronAPI && window.electronAPI.betaBuild);
+    const BETA_HIDDEN = /^(Season|Weekly bingo|Inventory)$/;
+    SLF.addTile = (group, icon, name, desc, action, cmd) => { if (SLF.beta && BETA_HIDDEN.test(name)) return; SLF.actions[name] = action; SLF.tiles.push({ group, icon, name, desc, action }); if (cmd !== false) SLF.addCmd(name, icon, action); };
     const allGames = () => [...installedGames, ...uninstalledGames];
     SLF.allGames = allGames;
     SLF.gameById = (id) => allGames().find(g => String(g.appid ?? g.id) === String(id));
@@ -190,11 +192,35 @@
 
     // ---------- the Tools hub ----------
     function openHub() {
-        const m = SLF.modal('hub-modal', 'Tools & extras', { cls: 'wide', sub: 'Everything new in one place. Every tool is also in the command palette.' });
-        const groups = [...new Set(SLF.tiles.map(t => t.group))];
-        m.body.innerHTML = groups.map(g => '<div class="fx-section">' + E(g) + '</div><div class="fx-grid">' + SLF.tiles.filter(t => t.group === g).map(t => '<button class="fx-tile" data-t="' + SLF.tiles.indexOf(t) + '"><span class="ti">' + t.icon + '</span><b>' + E(t.name) + '</b><span>' + E(t.desc) + '</span></button>').join('') + '</div>').join('');
-        m.body.onclick = (e) => { const b = e.target.closest('.fx-tile'); if (!b) return; const t = SLF.tiles[Number(b.dataset.t)]; playSound('click'); m.close(); setTimeout(() => safeRun(t.name, t.action), 60); };
+        const m = SLF.modal('hub-modal', 'Tools & extras', { cls: 'wide hub', sub: 'Every tool is also in the command palette.' });
+        const tiles = SLF.tiles.map((t, i) => Object.assign({ i }, t));
+        const groups = [...new Set(tiles.map(t => t.group))];
+        let cat = 'All', q = '';
+        const recent = (getUiPref('hubRecent', []) || []).filter(n => tiles.some(t => t.name === n)).slice(0, 5);
+        m.body.innerHTML = '<div class="hub-top"><input class="fx-input hub-search" id="hub-search" placeholder="Search tools..." autocomplete="off" spellcheck="false"><div class="hub-chips" id="hub-chips"></div></div><div class="hub-grid" id="hub-grid"></div><div class="fx-empty" id="hub-empty" style="display:none">Nothing matches that search.</div>';
+        const chipNames = ['All'].concat(recent.length ? ['Recent'] : [], groups);
+        const visible = () => tiles.filter(t => (cat === 'All' || (cat === 'Recent' ? recent.includes(t.name) : t.group === cat))
+            && (!q || (t.name + ' ' + t.desc + ' ' + t.group).toLowerCase().includes(q)));
+        const paintChips = () => { $('hub-chips').innerHTML = chipNames.map(n => '<button class="hub-chip' + (n === cat ? ' active' : '') + '" data-c="' + E(n) + '">' + E(n) + '</button>').join(''); };
+        const paintGrid = () => {
+            const list = visible();
+            if (cat === 'Recent') list.sort((a, b) => recent.indexOf(a.name) - recent.indexOf(b.name));
+            $('hub-grid').innerHTML = list.map((t, n) => '<button class="hub-tile" style="--d:' + Math.min(n, 14) * 28 + 'ms" data-t="' + t.i + '"><span class="hub-ico">' + t.icon + '</span><span class="hub-txt"><b>' + E(t.name) + '</b><span>' + E(t.desc) + '</span></span><span class="hub-go">&#8250;</span></button>').join('');
+            $('hub-empty').style.display = list.length ? 'none' : '';
+            return list;
+        };
+        const run = (t) => {
+            playSound('click'); m.close();
+            try { setUiPref({ hubRecent: [t.name].concat((getUiPref('hubRecent', []) || []).filter(n => n !== t.name)).slice(0, 8) }); } catch (e) { }
+            setTimeout(() => safeRun(t.name, t.action), 120);
+        };
+        paintChips(); paintGrid();
+        $('hub-chips').onclick = (e) => { const b = e.target.closest('.hub-chip'); if (!b) return; playSound('click'); cat = b.dataset.c; paintChips(); paintGrid(); };
+        $('hub-search').oninput = (e) => { q = e.target.value.trim().toLowerCase(); paintGrid(); };
+        $('hub-search').onkeydown = (e) => { if (e.key === 'Enter') { const l = visible(); if (l.length) run(l[0]); } };
+        m.body.onclick = (e) => { const b = e.target.closest('.hub-tile'); if (!b) return; run(SLF.tiles[Number(b.dataset.t)]); };
         m.open();
+        setTimeout(() => { try { $('hub-search').focus(); } catch (e) { } }, 220);
     }
     SLF.openHub = openHub;
     const safeRun = (name, fn) => { try { const r = fn(); if (r && r.catch) r.catch(e => { console.error('[' + name + ']', e); showToast('Something went wrong in "' + name + '".', null, { noHistory: true }); }); } catch (e) { console.error('[' + name + ']', e); showToast('Something went wrong in "' + name + '".', null, { noHistory: true }); } };
@@ -388,7 +414,7 @@
         const key = (k) => { const t = document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName) ? document.activeElement : document; (t === document ? document : t).dispatchEvent(new KeyboardEvent('keydown', { key: k, bubbles: true })); };
         const navs = () => [...document.querySelectorAll('.nav-btn[data-view]')].filter(b => b.dataset.view !== 'settings');
         function poll() {
-            if (getUiPref('controller', true)) {
+            if (getUiPref('controller', true) && !window.SLCouchOpen) {
                 const pads = (navigator.getGamepads && navigator.getGamepads()) || [], p = [...pads].find(x => x && x.connected);
                 if (p) {
                     const now = performance.now(), b = p.buttons.map(x => x.pressed), ax = p.axes;
@@ -445,24 +471,37 @@
     // ---------- welcome tour after an update ----------
     safe('update-tour', () => {
         SLF.tourSteps = () => [
-            { icon: '🧰', title: 'Tools & extras', text: 'The new grid button at the top opens every new tool in one place.', act: () => openHub(), label: 'Open the hub' },
-            { icon: '🎲', title: 'What should I play?', text: 'Tell it how long you have and what you feel like, and it picks from your library and your Up Next queue.', act: () => SLF.openPicker && SLF.openPicker(), label: 'Try it' },
-            { icon: '🗓️', title: 'Play calendar and stats', text: 'A heatmap of every day you played, your library value and the cost per hour of each game.', act: () => SLF.openCalendar && SLF.openCalendar(), label: 'See my calendar' },
-            { icon: '🏁', title: 'Seasons, bingo and prestige', text: 'A 3-month season track, a weekly bingo card, and prestige once you reach level 100.', act: () => SLF.openSeason && SLF.openSeason(), label: 'Open the season' },
-            { icon: '🔔', title: 'Notification history', text: 'The bell keeps the last 50 pop-ups so you never miss an achievement or a sale.', act: () => SLF.openNotifHistory && SLF.openNotifHistory(), label: 'Open the bell' },
-            { icon: '💾', title: 'Automatic backups', text: 'Pick a folder and SteamLite backs up your progress every week.', act: () => SLF.actions['Automatic backups'] && SLF.actions['Automatic backups'](), label: 'Set it up' }
+            { icon: '\uD83D\uDDC2\uFE0F', title: 'A tidier header', text: 'Inventory, achievements, wishlist, notifications and Tools & extras now live in one folder button at the top. The minimise and close buttons moved into the header too, and the Spotify player is a floating pill you can drag anywhere.', act: () => { if (window.SLShell) SLShell.openFolder(); }, label: 'Open the folder' },
+            { icon: '\uD83C\uDFC6', title: '15 new achievements', text: 'Hundred Days, Ultra Marathon, Archivist, Triple Crown and more. XP is bigger now: a level now takes 80,000 XP. Your current level did not change.', act: () => { const b = document.getElementById('achievements-toggle'); if (b) b.click(); }, label: 'See achievements' },
+            { icon: '\uD83C\uDFA8', title: '3 new themes', text: 'Royal Gold, Mocha Cream and Sakura Night are in the Theme Shop, free for everyone.', act: () => { const b = document.querySelector('.nav-btn[data-view="settings"]'); if (b) b.click(); setTimeout(() => { const t = document.getElementById('download-themes-btn'); if (t) t.click(); }, 500); }, label: 'Browse themes' },
+            { icon: '\uD83C\uDFB5', title: 'Now playing, your way', text: 'Start music in Spotify (turn it on in Settings > Behaviour > Now playing) and the player floats on screen. Drag it anywhere; double-click it to put it back.', act: () => { const b = document.querySelector('.nav-btn[data-view="settings"]'); if (b) b.click(); }, label: 'Open Settings' }
         ];
         SLF.openTour = () => {
             const steps = SLF.tourSteps(); let i = 0;
             const m = SLF.modal('tour-modal', 'What\'s new in ' + SLF.version, { cls: 'narrow' });
-            const render = () => {
-                const s = steps[i];
-                m.body.innerHTML = '<div style="text-align:center;padding:10px 0"><div style="font-size:46px">' + s.icon + '</div><h3 style="margin:8px 0 6px;color:var(--text-primary)">' + E(s.title) + '</h3><p style="color:var(--text-secondary);font-size:14px;line-height:1.5">' + E(s.text) + '</p></div>'
-                    + '<div class="fx-row" style="justify-content:space-between"><span class="fx-meta">' + (i + 1) + ' / ' + steps.length + '</span><span>' + (s.label ? '<button class="fx-btn" id="tour-try">' + E(s.label) + '</button> ' : '') + '<button class="fx-btn primary" id="tour-next">' + (i === steps.length - 1 ? 'Done' : 'Next') + '</button></span></div>';
-                if ($('tour-try')) $('tour-try').onclick = () => { m.close(); s.act(); };
-                $('tour-next').onclick = () => { if (i === steps.length - 1) m.close(); else { i++; render(); } };
+            // every step is a slide on one track; Next / Back slide the track sideways
+            m.body.innerHTML = '<div class="tour-view"><div class="tour-track" id="tour-track">' + steps.map((s, n) =>
+                '<div class="tour-slide' + (n === 0 ? ' on' : '') + '"><div class="tour-ico">' + s.icon + '</div><h3>' + E(s.title) + '</h3><p>' + E(s.text) + '</p></div>').join('') + '</div></div>'
+                + '<div class="tour-dots" id="tour-dots">' + steps.map((s, n) => '<button class="tour-dot' + (n === 0 ? ' on' : '') + '" data-n="' + n + '" aria-label="Step ' + (n + 1) + '"></button>').join('') + '</div>'
+                + '<div class="fx-row" style="justify-content:space-between"><span class="fx-meta" id="tour-count"></span><span id="tour-btns"></span></div>';
+            const track = $('tour-track'), slides = [...track.children], dots = [...$('tour-dots').children];
+            const go = (n) => {
+                i = Math.max(0, Math.min(steps.length - 1, n));
+                track.style.transform = 'translateX(' + (-100 * i) + '%)';
+                slides.forEach((el, k) => el.classList.toggle('on', k === i));
+                dots.forEach((el, k) => el.classList.toggle('on', k === i));
+                paint();
             };
-            render(); m.open();
+            const paint = () => {
+                const s = steps[i];
+                $('tour-count').textContent = (i + 1) + ' / ' + steps.length;
+                $('tour-btns').innerHTML = (i > 0 ? '<button class="fx-btn" id="tour-back">Back</button> ' : '') + (s.label ? '<button class="fx-btn" id="tour-try">' + E(s.label) + '</button> ' : '') + '<button class="fx-btn primary" id="tour-next">' + (i === steps.length - 1 ? 'Done' : 'Next') + '</button>';
+                if ($('tour-back')) $('tour-back').onclick = () => go(i - 1);
+                if ($('tour-try')) $('tour-try').onclick = () => { m.close(); s.act(); };
+                $('tour-next').onclick = () => { if (i === steps.length - 1) m.close(); else go(i + 1); };
+            };
+            dots.forEach(d => d.onclick = () => go(+d.dataset.n));
+            paint(); m.open();
         };
         SLF.addCmd('What\'s new tour', '🎉', SLF.openTour);
         setTimeout(async () => {

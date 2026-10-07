@@ -1,3 +1,68 @@
+# SteamLite 9.0.1 Changelog
+
+A tidier header, a floating player you can move, 15 new achievements, 3 new themes, icons instead of emojis, a bigger XP scale and a more modern news widget.
+
+## A tidier header
+- **The header now starts at the very top** of the window, so there is no empty strip above it any more, and the version number is gone from the top.
+- **Minimise and close are part of the header.** The buttons keep their size; the other header buttons moved over to make room.
+- **One folder for the extras.** Inventory, Achievements, Wishlist & sales, Notifications and Tools & extras are inside a single folder button, like on a phone. Click it and a box opens with big icons; the red badge on it shows unread notifications.
+- **Now playing is a floating pill.** Drag it anywhere on the window and it remembers the spot (double-click it to send it back). Click it for the full player, which now opens next to it and always stays on screen.
+
+## News & Announcements
+- The dashboard widget was rebuilt: the newest item is a large highlighted card, the rest are compact cards with a type icon (release, coming soon, fixes, themes), a label and the date. Click a card to read all of it.
+
+## New
+- **15 new achievements:** Hundred Days (100-day streak), Century of Days (play on 100 different days), Launch Master (1000 launches), Lifer (5000 hours), Obsessed (250 hours in one game), Ultra Marathon (an 8-hour session), Session Legend (1000 sessions), Archivist (own 1000 games), Jack of All Trades (play 150 different games), Display Cabinet (50 SteamLite achievements), Halfway There (level 50), Maxed Out (level 100), Triple Crown (100% in 3 games), Nocturnal (25 sessions between 2AM and 5AM) and Theme Smith (create 3 themes). Hundred Days, Halfway There and Triple Crown also give a streak restore.
+- **3 new themes:** Royal Gold, Mocha Cream and Sakura Night (Theme Shop, free).
+- **Icons instead of emojis.** Every emoji in the app is now a clean icon that follows your theme colours: Settings, the tools hub, notifications, achievements, the tour, menus and pop-ups.
+
+## XP and levels
+- **A level now takes 80,000 XP** (it used to be 50). To match, everything that gives XP is 1000x bigger: achievements give 60,000-140,000 XP, daily and weekly challenges, bingo, the season track and the challenge bonuses too.
+- **Nobody loses a level.** The XP you had already earned was converted once, so your level, titles, frames and rewards stay exactly where they were. Old backups are converted when you import them.
+
+## Fixes
+- A sideways scroll bar appeared along the bottom of the sidebar while hovering it in Settings.
+- The Developer section was removed from Settings.
+- The first window opened after launching the app flashed white in the blur; the blur is now prepared while the app loads.
+- The Spotify pop-up could be cut off at the bottom of the window.
+
+---
+
+# SteamLite 9.0.0 Changelog
+
+The biggest update yet: a new look and a new layout, a Settings page, couch mode, Spotify, a much better Discord card, and a long list of performance and polish fixes. Everything from the 9.0 betas is in here, and XP, levels, seasons and SteamLite achievements are back to normal.
+
+## A new look and layout
+- **Glass interface.** The wide sidebar is now a slim floating glass rail that opens when you point at it. The title strip and header are one floating bar, the dashboard uses the extra width and starts with a greeting (with your streak, games and hours played), and windows, menus and the friends list are frosted glass that takes its colours from your theme. **Classic** is still there: Settings > Advanced > Interface switches instantly.
+- **Settings is a full page** with a section list, a search box and a save bar for unsaved changes. Everything from Settings and Advanced Settings is on it.
+- **Tools & extras was redesigned** with search, category chips and a tile grid.
+- **Modern notifications** (a status badge, a countdown line, a real fade-out), scrollbars that stay clear of rounded corners and fade after 5 seconds, round buttons and sliders that show how far they are filled.
+- **More motion.** Library sections collapse and open smoothly, refresh buttons spin, menus pop in, and the Favorites button in the sidebar only shows when you have favourites and pops in and out.
+- The profile title tag sits next to your username (after the developer badge).
+
+## Couch mode
+- A **fullscreen, controller-first launcher** (controller button in the top bar, Ctrl+Shift+G, the command palette or Settings > Behaviour > Couch mode). Big covers in rows (Continue playing, Favorites, Most played, All installed, Not installed) and a hero panel for the game you are on.
+- **A game page for every game,** sized for the TV: Play / Stop / Install, Favorite, Status and Rating, and Overview, Achievements, Screenshots and News tabs.
+- **D-pad or stick** to move, **A** open or select, **B** back, **X** favourite, **Y** play / pause music, **LB / RB** change track or tab, **Start** exit. The Play button uses the same launch tracking as the normal one (Loading..., Stopping..., Stop).
+- Smooth transitions in and out, goes fullscreen and back, can start with SteamLite or open when a controller connects.
+
+## Music and Discord
+- **Spotify now playing:** a small player in the top bar with the album art and play / pause / next / previous, and a full player with a progress bar you can click. No login: it reads the Windows media information. Off by default (Settings > Behaviour > Now playing); Spotify only or any media player.
+- **Discord Rich Presence:** the game's art, a correct timer, achievement progress, your streak and "View on Steam" / "Get SteamLite" buttons; a browsing card showing the page you are on; privacy options (hide the game, browsing, streak, buttons or game names); it reconnects by itself and connects when you open Discord later.
+
+## Editions, updates and performance
+- **Full or Lite edition** chosen at install and switchable in Settings > Advanced > Edition, plus an optional **Memory saver**.
+- **Idle CPU:** SteamLite no longer uses a CPU core while sitting open (the endless card shimmer and the background glow were the cause).
+- **Betas and the Updater.** Betas are pre-releases in this repository (`version-beta.json`, `news-beta.json`). The SteamLite Updater can switch between Stable and Beta from a link at the top of its window, can go from a beta back to the latest stable, and is now always replaced by the installer, with no more "restart your computer" page at the end of setup.
+- At most 4 news entries are shown on the dashboard.
+
+## Fixes
+- White browser-default buttons in dialogs, the Theme Shop title wrapping, the friends list sitting at the wrong height and sliders drawn as a thick white bar were fixed.
+- Opening the first Tools & extras window after launch now animates like the rest.
+- Setup no longer asks you to restart Windows.
+
+---
+
 # SteamLite 8.7.4 Changelog
 
 ## Fixes

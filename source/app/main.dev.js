@@ -8,6 +8,12 @@ const { pathToFileURL } = require('url');
 const Store = require('electron-store');
 
 const APP_VERSION = app.getVersion();
+// Beta builds do not hand out XP, levels or SteamLite achievements (so testers cannot lose or corrupt progress).
+// SL_PROGRESS=1 turns them back on for testing.
+const NO_PROGRESS = /beta/i.test(APP_VERSION) && !process.env.SL_PROGRESS;
+// The debug tools (SteamLite Debug.exe, bundled with betas only) start the app with SL_DEBUG=1; the command channel below exists only then,
+// and only in beta builds, so a stable build ignores it completely.
+const DEBUG_TOOLS = !!process.env.SL_DEBUG && /beta/i.test(APP_VERSION);
 // SL_CDP=1 turns on a CDP debug port for automated UI testing (never on in normal use)
 if (process.env.SL_CDP) app.commandLine.appendSwitch('remote-debugging-port', '9222');
 const LAUNCH_IDLE_TIMEOUT = 5 * 60 * 1000;
@@ -20,35 +26,11 @@ if (!process.env.SL_NO_USERDATA_PIN) {
     } catch (e) { }
 }
 
-// Discord RPC Safe Require & Setup
+// Discord Rich Presence: the library is loaded here, the connection and the card live in discord_presence.js
 let DiscordRPC = null;
-let discordRPCClient = null;
-let discordReady = false;
+let discordPresence = null;
 const DISCORD_CLIENT_ID = '1517860638620127263';
-
-try {
-    DiscordRPC = require('discord-rpc');
-    DiscordRPC.register(DISCORD_CLIENT_ID);
-    discordRPCClient = new DiscordRPC.Client({ transport: 'ipc' });
-
-    discordRPCClient.on('ready', () => {
-        console.log('Discord RPC Connected successfully!');
-        discordReady = true;
-    });
-
-    discordRPCClient.on('disconnected', () => {
-        discordReady = false;
-        setTimeout(() => {
-            discordRPCClient.login({ clientId: DISCORD_CLIENT_ID }).catch(console.error);
-        }, 5000);
-    });
-
-    discordRPCClient.login({ clientId: DISCORD_CLIENT_ID }).catch(err => {
-        console.error('Failed to login to Discord RPC:', err.message);
-    });
-} catch (e) {
-    console.log('discord-rpc module not installed. Skipping Discord RPC.');
-}
+try { DiscordRPC = require('discord-rpc'); } catch (e) { console.log('discord-rpc module not installed. Skipping Discord RPC.'); }
 
 const NON_GAME_APPIDS = new Set(['228980', '228985', '243750', '243730', '17510', '17515', '17520', '17530', '427520', '43110', '211', '218', '250820', '705', '480']);
 const NON_GAME_NAME_REGEX = /(?:original\s+)?soundtrack|\(ost\)|redistributable|steamworks|dedicated server$|\bsdk\b|proton\s+\w+\s+runtime|steam linux runtime|steam input configurator/i;
@@ -188,8 +170,14 @@ function readEdition() {
 }
 const EDITION = readEdition();
 
+try {
+    discordPresence = require('./discord_presence')({ DiscordRPC, store, clientId: DISCORD_CLIENT_ID, appVersion: APP_VERSION, log: (m) => console.log(m) });
+    app.whenReady().then(() => { try { discordPresence.start(); } catch (e) { } });
+} catch (e) { console.error('Discord presence could not start:', e && e.message); }
+
 let mainWindow;
 let activeGameTracking = null;
+let mediaPlayer = null;
 let tray = null;
 let isQuiting = false;
 let features = { hooks: {} }; // filled in by features_main.js once the app is ready
@@ -336,6 +324,8 @@ function createWindow() {
             getPathForFile: (file) => { try { return webUtils.getPathForFile(file); } catch (e) { return ''; } },
             appQuit: () => ipcRenderer.send('app-quit'),
             edition: '${EDITION}',
+            betaBuild: ${NO_PROGRESS ? 'true' : 'false'},
+            ${DEBUG_TOOLS ? "dbg: (c, a) => ipcRenderer.invoke('dbg', c, a)," : ''}
             getEdition: () => ipcRenderer.invoke('get-edition'),
             setEdition: (ed) => ipcRenderer.invoke('set-edition', ed),
             setMemorySaver: (on) => ipcRenderer.invoke('set-memory-saver', on),
@@ -389,6 +379,15 @@ function createWindow() {
             resetCover: (appId) => ipcRenderer.invoke('reset-cover', appId),
             saveCollections: (data) => ipcRenderer.invoke('save-collections', data),
             updateDiscordRpc: (data) => ipcRenderer.invoke('update-discord-rpc', data),
+            discordGetOpts: () => ipcRenderer.invoke('discord-get-opts'),
+            discordSetOpts: (p) => ipcRenderer.invoke('discord-set-opts', p),
+            discordPreview: () => ipcRenderer.invoke('discord-preview'),
+            windowFullscreen: (on) => ipcRenderer.invoke('window-fullscreen', on),
+            couchStoreInfo: (id) => ipcRenderer.invoke('couch-store-info', id),
+            mediaGet: () => ipcRenderer.invoke('media-get'),
+            mediaSetOpts: (p) => ipcRenderer.invoke('media-set-opts', p),
+            mediaControl: (p) => ipcRenderer.invoke('media-control', p),
+            onMedia: (cb) => { ipcRenderer.on('media-update', (e, d) => cb(d)); },
             onGameStatusChange: (cb) => ipcRenderer.on('game-status', (e, d) => cb(d)),
             onUpdateAvailable: (cb) => ipcRenderer.on('update-available', (e, d) => cb(d)),
             onQuickLaunch: (cb) => ipcRenderer.on('show-quick-launch', () => cb()),
@@ -645,7 +644,7 @@ app.whenReady().then(() => {
             getMainWindow: () => mainWindow, getTray: () => tray, APP_VERSION, BACKUP_KEYS,
             streakDayKey, getLocalGames, getSteamBasePath, getProfiles, swapPerUserData, getChallenges, applyBoost, addRestores,
             levelInfo, totalXp, rawXp, grantTheme, ACHIEVEMENT_DEFS,
-            lowMemoryActive: () => lowMemoryOn, quitApp: () => { isQuiting = true; app.quit(); }
+            lowMemoryActive: () => lowMemoryOn, NO_PROGRESS, XP_SCALE, quitApp: () => { isQuiting = true; app.quit(); }
         });
         setTimeout(() => { try { features.hooks.applyIcons && features.hooks.applyIcons(); } catch (e) { } }, 800);
     } catch (e) { console.error('Could not start the extra features:', e && e.message); }
@@ -655,6 +654,8 @@ app.whenReady().then(() => {
 });
 
 app.on('will-quit', () => {
+    try { discordPresence && discordPresence.destroy(); } catch (e) { }
+    try { mediaPlayer && mediaPlayer.destroy(); } catch (e) { }
     globalShortcut.unregisterAll();
     if (updateOnQuit) launchUpdaterAfterQuit();
 });
@@ -769,7 +770,7 @@ ipcMain.handle('save-config', (event, config) => {
 const BACKUP_KEYS = ['accentColor', 'wideGrid', 'soundVolume', 'updateChannel', 'bgPath', 'bgBlur', 'bgOpacity', 'bgSpeed',
     'themeVars', 'discordRpcEnabled', 'launchToLibrary', 'hideOfflineFriends', 'reduceAnimations', 'notifSounds', 'notifDuration',
     'notifMaxStack', 'maxCommonFriends', 'widgetSizes', 'dashboardSectionOrder', 'profileBanners', 'friendPrefs', 'profileCustom',
-    'uiPrefs', 'startMinimized', 'potatoMode', 'closeToTray', 'autoUpdateCheck', 'hotkeys', 'themeUnlocks', 'achievementXp', 'boostLog', 'streakRestores', 'prestige', 'cosmetics', 'seasonClaimed', 'journal', 'saveBackups', 'wishlistTargets', 'wishlistHistory', 'featSettings', 'autoBackup', 'challengeXp', 'challengesDone', 'levelRewardsClaimed', 'gameMeta', 'wishlistAlerts', 'breakReminderMin', 'dailyLimitHours', 'customThemes', 'customCovers', 'favorites', 'hiddenGames', 'collections', 'gameConfigs',
+    'uiPrefs', 'startMinimized', 'potatoMode', 'closeToTray', 'autoUpdateCheck', 'hotkeys', 'themeUnlocks', 'achievementXp', 'boostLog', 'streakRestores', 'prestige', 'xpScale', 'cosmetics', 'seasonClaimed', 'journal', 'saveBackups', 'wishlistTargets', 'wishlistHistory', 'featSettings', 'autoBackup', 'challengeXp', 'challengesDone', 'levelRewardsClaimed', 'gameMeta', 'wishlistAlerts', 'breakReminderMin', 'dailyLimitHours', 'customThemes', 'customCovers', 'favorites', 'hiddenGames', 'collections', 'gameConfigs',
     'gameNotes', 'nonSteamGames', 'telemetry', 'sessionHistory', 'achievementCache', 'metaAchievements', 'streak'];
 
 ipcMain.handle('export-settings', async () => {
@@ -798,8 +799,10 @@ ipcMain.handle('import-settings', async () => {
         const parsed = JSON.parse(fs.readFileSync(result.filePaths[0], 'utf8'));
         if (!parsed || parsed.app !== 'SteamLite' || typeof parsed.data !== 'object' || parsed.data === null) return { ok: false, error: 'This file is not a SteamLite backup.' };
         let restored = 0;
+        const oldScale = parsed.data.xpScale !== 2; // a backup made before 9.0.1 holds XP in the old, smaller amounts
         for (const k of BACKUP_KEYS) {
-            if (parsed.data[k] !== undefined && parsed.data[k] !== null) { store.set(k, parsed.data[k]); restored++; }
+            if (k === 'xpScale') continue;
+            if (parsed.data[k] !== undefined && parsed.data[k] !== null) { store.set(k, oldScale ? scaleXpValue(k, parsed.data[k]) : parsed.data[k]); restored++; }
         }
         return { ok: true, restored };
     } catch (err) { return { ok: false, error: 'Could not read that file.' }; }
@@ -879,19 +882,44 @@ ipcMain.handle('save-game-notes', (event, { appId, notes }) => {
 });
 
 ipcMain.handle('update-discord-rpc', (event, data) => {
-    if (!store.get('discordRpcEnabled')) return true;
-    if (discordRPCClient && discordReady) {
-        discordRPCClient.setActivity({
-            details: data.details,
-            state: data.state,
-            startTimestamp: data.startTimestamp || undefined,
-            largeImageKey: DISCORD_CLIENT_ID,
-            largeImageText: `SteamLite ${APP_VERSION}`,
-            instance: false
-        }).catch(err => console.error('Failed to set Discord activity:', err.message));
-    }
+    if (!discordPresence) return true;
+    if (data && data.enabled !== undefined) { discordPresence.enabledChanged(); return true; }
+    if (data) discordPresence.browsing({ details: data.details, state: data.state });
     return true;
 });
+// "Now playing" (Spotify / any media player) through Windows' media session; it only runs while switched on in settings
+try {
+    mediaPlayer = require('./media')({ app, ipcMain, store, spawn, path, fs, getWindow: () => mainWindow });
+    app.whenReady().then(() => { try { mediaPlayer.start(); } catch (e) { } });
+} catch (e) { console.error('Now playing could not start:', e && e.message); }
+
+// fullscreen for couch mode; answers whether the window already was fullscreen so leaving puts it back the way it was
+ipcMain.handle('window-fullscreen', (e, on) => {
+    const was = !!(mainWindow && mainWindow.isFullScreen());
+    try { if (mainWindow && !mainWindow.isDestroyed()) mainWindow.setFullScreen(!!on); } catch (err) { }
+    return { was };
+});
+
+// store details for the couch-mode game page (description, genres, release date ...), cached for 12 hours
+const storeInfoCache = {};
+ipcMain.handle('couch-store-info', async (e, appId) => {
+    appId = String(appId);
+    if (!/^\d+$/.test(appId)) return null;
+    const c = storeInfoCache[appId];
+    if (c && Date.now() - c.at < 12 * 3600 * 1000) return c.data;
+    try {
+        const d = await fetchApi(`https://store.steampowered.com/api/appdetails?appids=${appId}&l=english`, {}, 10000);
+        const x = d && d[appId] && d[appId].success && d[appId].data;
+        if (!x) return null;
+        const out = { desc: x.short_description || '', genres: (x.genres || []).map(g => g.description), released: (x.release_date && x.release_date.date) || '', devs: x.developers || [], pubs: x.publishers || [], score: (x.metacritic && x.metacritic.score) || null, categories: (x.categories || []).map(g => g.description).slice(0, 8) };
+        storeInfoCache[appId] = { at: Date.now(), data: out };
+        return out;
+    } catch (err) { return null; }
+});
+
+ipcMain.handle('discord-get-opts', () => discordPresence ? { opts: discordPresence.getOpts(), status: discordPresence.status() } : null);
+ipcMain.handle('discord-set-opts', (e, p) => discordPresence ? discordPresence.setOpts(p || {}) : null);
+ipcMain.handle('discord-preview', () => discordPresence ? discordPresence.preview() : null);
 
 function fetchApi(url, headers = {}, timeout = 12000) {
     return new Promise((resolve, reject) => {
@@ -1102,9 +1130,13 @@ ipcMain.handle('set-ui-scale', (event, factor) => {
 
 // GITHUB NEWS & CHANGELOG LOGIC
 ipcMain.handle('get-external-news', async () => {
-    const url = 'https://raw.githubusercontent.com/imnotfisy/SteamLite/main/news.json';
+    // betas have their own news set (news-beta.json in the main repo); if it is missing, fall back to the normal one
+    const wantBeta = store.get('updateChannel') === 'beta' || /beta/i.test(APP_VERSION);
+    const base = 'https://raw.githubusercontent.com/imnotfisy/SteamLite/main/';
     try {
-        const data = await fetchApi(url);
+        let data = null;
+        if (wantBeta) { try { data = await fetchApi(base + 'news-beta.json'); } catch (e) { data = null; } }
+        if (!data) data = await fetchApi(base + 'news.json');
         const lastSeen = store.get('lastSeenChangelogVersion');
         let showChangelog = false;
 
@@ -1413,6 +1445,23 @@ const ACHIEVEMENT_DEFS = [
     { id: 'restore-hoarder', name: 'Restore Hoarder', desc: 'Hold 5 streak restores at the same time.', icon: '🧊', rewardTheme: 'hoarder-ice', check: s => s.restores >= 5, progress: s => [Math.min(s.restores, 5), 5] },
     { id: 'streak-14', name: 'Fortnight Strong', desc: 'Reach a 14-day play streak.', icon: '🔥', rewardTheme: 'fortnight-ember', check: s => s.streakBest >= 14, progress: s => [Math.min(s.streakBest, 14), 14] },
 
+    // ===== 9.0.1 =====
+    { id: 'streak-100', name: 'Hundred Days', desc: 'Reach a 100-day play streak.', icon: '🔥', rewardRestores: 1, check: s => s.streakBest >= 100, progress: s => [Math.min(s.streakBest, 100), 100] },
+    { id: 'days-100', name: 'Century of Days', desc: 'Play on 100 different days.', icon: '📅', check: s => s.activeDays >= 100, progress: s => [Math.min(s.activeDays, 100), 100] },
+    { id: 'launches-1000', name: 'Launch Master', desc: 'Launch games 1000 times.', icon: '🚀', check: s => s.totalLaunches >= 1000, progress: s => [Math.min(s.totalLaunches, 1000), 1000] },
+    { id: 'time-5000', name: 'Lifer', desc: 'Play for 5000 hours in total.', icon: '⏳', check: s => s.totalPlaytimeSec >= 18000000, progress: s => [Math.min(Math.floor(s.totalPlaytimeSec / 3600), 5000), 5000] },
+    { id: 'single-250', name: 'Obsessed', desc: 'Play 250 hours of a single game.', icon: '🎯', check: s => s.maxGamePlaytimeSec >= 900000, progress: s => [Math.min(Math.floor(s.maxGamePlaytimeSec / 3600), 250), 250] },
+    { id: 'marathon-8h', name: 'Ultra Marathon', desc: 'Play a single session of 8 hours or more.', icon: '🏃', check: s => s.longestSessionSec >= 28800, progress: s => [Math.min(Math.floor(s.longestSessionSec / 3600), 8), 8] },
+    { id: 'sessions-1000', name: 'Session Legend', desc: 'Complete 1000 tracked sessions.', icon: '🕹️', check: s => s.totalSessions >= 1000, progress: s => [Math.min(s.totalSessions, 1000), 1000] },
+    { id: 'library-1000', name: 'Archivist', desc: 'Own 1000 or more games.', icon: '🏛️', check: s => s.librarySize >= 1000, progress: s => [Math.min(s.librarySize, 1000), 1000] },
+    { id: 'distinct-150', name: 'Jack of All Trades', desc: 'Play 150 different games.', icon: '🎲', check: s => s.distinctGames >= 150, progress: s => [Math.min(s.distinctGames, 150), 150] },
+    { id: 'ach-50', name: 'Display Cabinet', desc: 'Unlock 50 SteamLite achievements.', icon: '🏅', check: s => s.achUnlocked >= 50, progress: s => [Math.min(s.achUnlocked, 50), 50] },
+    { id: 'level-50', name: 'Halfway There', desc: 'Reach SteamLite level 50.', icon: '⚡', rewardRestores: 1, check: s => s.level >= 50, progress: s => [Math.min(s.level, 50), 50] },
+    { id: 'level-100', name: 'Maxed Out', desc: 'Reach SteamLite level 100.', icon: '👑', check: s => s.level >= 100, progress: s => [Math.min(s.level, 100), 100] },
+    { id: 'perfect-3', name: 'Triple Crown', desc: 'Unlock every achievement in 3 different games.', icon: '✅', rewardRestores: 1, check: s => s.perfectGames >= 3, progress: s => [Math.min(s.perfectGames, 3), 3] },
+    { id: 'night-25', name: 'Nocturnal', desc: 'Start 25 tracked sessions between 2AM and 5AM.', icon: '🌙', check: s => s.nightSessions >= 25, progress: s => [Math.min(s.nightSessions, 25), 25] },
+    { id: 'theme-smith', name: 'Theme Smith', desc: 'Create 3 of your own themes with the Theme Maker.', icon: '🖌️', check: s => s.customThemesCount >= 3, progress: s => [Math.min(s.customThemesCount, 3), 3] },
+
     // ===== Halloween event (October 1 - November 1, every year) =====
     // Counted only from play inside the event window, and only unlockable while the event is open. Once earned
     // they stay unlocked for good.
@@ -1567,12 +1616,15 @@ function collectStats(librarySize) {
 }
 
 // ===== SteamLite levels =====
-// Every achievement (event ones included) gives a random 60-140 XP (about 100 on average) the moment it unlocks, and
+// Every achievement (event ones included) gives a random 60,000-140,000 XP (about 100,000 on average) the moment it unlocks, and
 // the amount is remembered in `achievementXp`. On Saturdays and Sundays all XP is boosted by 1.2x. Each level takes
-// 50 XP; level 1 is the start and 100 is the cap. Achievements unlocked before XP existed count as a flat 100 XP.
-const XP_MIN = 60, XP_MAX = 140, XP_LEGACY = 100, XP_PER_LEVEL = 50, MAX_LEVEL = 100, WEEKEND_BOOST = 1.2;
+// 80,000 XP, so the top level (100) needs 7,920,000 XP in total. Achievements unlocked before XP existed count as a flat 100,000 XP.
+// (Before 9.0.1 a level took 50 XP and amounts were 1000x smaller. XP_SCALE is how much bigger every new reward is; the XP a
+// player had already earned is multiplied by XP_MIGRATE once, so nobody loses a level, see migrateXpScale.)
+const XP_SCALE = 1000, XP_MIGRATE = 1600;
+const XP_MIN = 60 * XP_SCALE, XP_MAX = 140 * XP_SCALE, XP_LEGACY = 100 * XP_SCALE, XP_PER_LEVEL = 80000, MAX_LEVEL = 100, WEEKEND_BOOST = 1.2;
 const EVENT_BOOST = 2.0;       // while an event is on, all XP is doubled...
-const BOOST_DR_SCALE = 300;    // ...but bonus XP fades the more of it you earn in a day (see applyBoost)
+const BOOST_DR_SCALE = 300 * XP_SCALE; // ...but bonus XP fades the more of it you earn in a day (see applyBoost)
 const RESTORE_CAP = 5;         // you can hold at most this many streak restores
 // Gives streak restores up to the cap and returns how many were actually added (holding more than the cap is never taken away)
 function addRestores(n) {
@@ -1586,6 +1638,25 @@ function levelInfo(xp) {
     const maxed = level >= MAX_LEVEL;
     return { xp, level, maxLevel: MAX_LEVEL, maxed, into: maxed ? XP_PER_LEVEL : xp - (level - 1) * XP_PER_LEVEL, perLevel: XP_PER_LEVEL, nextAt: maxed ? null : level * XP_PER_LEVEL, xpMin: XP_MIN, xpMax: XP_MAX };
 }
+// XP already earned is multiplied once (1600x: one level went from 50 to 80,000 XP), so every level, title and reward stays exactly where it was.
+function scaleXpValue(key, v) {
+    const m = (o) => { const r = {}; for (const k in o) r[k] = typeof o[k] === 'number' ? Math.round(o[k] * XP_MIGRATE) : o[k]; return r; };
+    if ((key === 'achievementXp' || key === 'challengeXp') && v && typeof v === 'object') return m(v);
+    if (key === 'prestige' && v && typeof v === 'object') return Object.assign({}, v, { baseXp: Math.round((v.baseXp || 0) * XP_MIGRATE) });
+    return v;
+}
+function migrateXpScale() {
+    if (store.get('xpScale') === 2) return;
+    try {
+        // achievements unlocked before XP existed were worth a flat 100 each: write that down first so they are scaled like the rest
+        const un = store.get('metaAchievements') || {}, lg = store.get('achievementXp') || {};
+        for (const def of ACHIEVEMENT_DEFS) if (un[def.id] && typeof lg[def.id] !== 'number') lg[def.id] = 100;
+        store.set('achievementXp', lg);
+    } catch (e) { }
+    try { for (const k of ['achievementXp', 'challengeXp', 'prestige']) { const v = store.get(k); if (v && typeof v === 'object') store.set(k, scaleXpValue(k, v)); } } catch (e) { }
+    store.set('xpScale', 2);
+}
+migrateXpScale();
 // Weekend = Saturday and Sunday, local time. SL_FAKE_NOW (testing only) pretends it is another moment.
 function weekendBoost(nowMs) {
     if (nowMs === undefined) nowMs = process.env.SL_FAKE_NOW ? (Number(process.env.SL_FAKE_NOW) || Date.now()) : Date.now();
@@ -1616,8 +1687,8 @@ function totalXp(unlocked) { return Math.max(0, rawXp(unlocked) - ((store.get('p
 function effectiveLevel(unlocked) { const lv = levelInfo(totalXp(unlocked)).level; return ((store.get('prestige') || {}).count || 0) > 0 ? 100 : lv; }
 // XP boosts. While an event is live all XP is doubled, and on weekends it is boosted by 1.2x. They add together
 // (event + weekend = 2.2x) instead of multiplying. The bonus part then fades through the day: its strength is
-// 1 / (1 + bonusBaseXpEarnedToday / 300), so the first achievement gets nearly the full boost and later ones less
-// (100 XP earned -> 75% strength, 300 -> 50%, 900 -> 25%). It resets every day, so nobody levels up in a rush.
+// 1 / (1 + bonusBaseXpEarnedToday / 300,000), so the first achievement gets nearly the full boost and later ones less
+// (100,000 XP earned -> 75% strength, 300,000 -> 50%, 900,000 -> 25%). It resets every day, so nobody levels up in a rush.
 function currentBoost(nowMs) {
     const wk = weekendBoost(nowMs);
     const live = Object.keys(EVENTS).map(id => eventState(id, nowMs)).filter(e => e.active);
@@ -1670,6 +1741,7 @@ function grantTheme(themeId) {
 }
 
 function checkAchievements(librarySize) {
+    if (NO_PROGRESS) return [];
     const stats = collectStats(librarySize);
     const unlocked = store.get('metaAchievements') || {};
     getAchievementXp(unlocked); // give anything unlocked before XP existed its flat amount first, so only new unlocks are rolled below
@@ -1779,6 +1851,68 @@ ipcMain.handle('check-achievements', (event, opts) => {
     if (opts && typeof opts.librarySize === 'number') store.set('lastLibrarySize', librarySize);
     return checkAchievements(librarySize).map(def => ({ id: def.id, name: def.name, rewardTheme: def.rewardTheme || null }));
 });
+
+if (DEBUG_TOOLS) {
+    const dbgThemeIds = () => { try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'themes', 'themes.json'), 'utf8').replace(/^\uFEFF/, '')).themes.filter(t => t.requires).map(t => t.id); } catch (e) { return []; } };
+    const dayKey = () => streakDayKey();
+    const runDbg = async (cmd, arg) => {
+        const now = Date.now();
+        switch (cmd) {
+            case 'info': {
+                const m = process.memoryUsage();
+                return { version: APP_VERSION, edition: EDITION, noProgress: NO_PROGRESS, lowMemory: lowMemoryOn, electron: process.versions.electron, chrome: process.versions.chrome, node: process.versions.node,
+                    userData: app.getPath('userData'), execPath: process.execPath, uptimeSec: Math.round(process.uptime()), mainRssMB: Math.round(m.rss / 1048576),
+                    processes: app.getAppMetrics().map(p => p.type + ' ' + Math.round((p.memory.privateBytes || p.memory.workingSetSize) / 1024) + ' MB'), fakeNow: process.env.SL_FAKE_NOW || '' };
+            }
+            case 'unlockAchievements': {
+                const un = store.get('metaAchievements') || {}, xp = store.get('achievementXp') || {};
+                ACHIEVEMENT_DEFS.forEach(d => { if (!un[d.id]) un[d.id] = now; if (!xp[d.id]) xp[d.id] = 60 + Math.floor(Math.random() * 81); });
+                store.set('metaAchievements', un); store.set('achievementXp', xp);
+                return ACHIEVEMENT_DEFS.length + ' achievements unlocked';
+            }
+            case 'unlockThemes': { const ids = dbgThemeIds(); ids.forEach(grantTheme); return ids.length + ' reward themes unlocked'; }
+            case 'maxLevel': { const xp = store.get('achievementXp') || {}; xp.dbg_level = 5000; store.set('achievementXp', xp); return 'XP set so you are level 100'; }
+            case 'unlockAll': {
+                await runDbg('unlockAchievements'); await runDbg('unlockThemes'); await runDbg('maxLevel');
+                store.set('streak', { current: 100, best: Math.max(100, (getStreakState().best || 0)), lastPlayDay: dayKey(), recovery: { activeUntil: null, previousStreak: 0 } });
+                store.set('streakRestores', 5);
+                return 'Everything unlocked: achievements, reward themes, level 100, a 100-day streak and 5 streak restores';
+            }
+            case 'lockAll': {
+                ['metaAchievements', 'achievementXp', 'themeUnlocks', 'challengeXp', 'challengesDone', 'boostLog', 'levelRewardsClaimed', 'seasonClaimed', 'bingo', 'cosmetics'].forEach(k => { try { store.delete(k); } catch (er) { } });
+                store.set('prestige', { count: 0, baseXp: 0 }); store.set('streakRestores', 0);
+                return 'Progress reset (achievements, XP, reward themes, challenges, season, bingo, restores)';
+            }
+            case 'setStreak': { const n = Math.max(0, Math.min(9999, parseInt(arg, 10) || 0)); store.set('streak', { current: n, best: Math.max(n, getStreakState().best || 0), lastPlayDay: dayKey(), recovery: { activeUntil: null, previousStreak: 0 } }); return 'Streak set to ' + n; }
+            case 'addRestores': { const n = Math.max(0, Math.min(99, parseInt(arg, 10) || 0)); store.set('streakRestores', (store.get('streakRestores') || 0) + n); return 'Streak restores: ' + store.get('streakRestores'); }
+            case 'addXp': { const n = parseInt(arg, 10) || 0; const xp = store.get('achievementXp') || {}; xp['dbg_' + now] = n; store.set('achievementXp', xp); return n + ' XP added'; }
+            case 'setPrestige': { const n = Math.max(0, parseInt(arg, 10) || 0); store.set('prestige', { count: n, baseXp: (store.get('prestige') || {}).baseXp || 0 }); return 'Prestige set to ' + n; }
+            case 'resetTour': { const u = Object.assign({}, store.get('uiPrefs') || {}); delete u.tourSeen; store.set('uiPrefs', u); store.delete('lastSeenChangelogVersion'); return 'The what is new tour and changelog will show again after a restart'; }
+            case 'clearCaches': {
+                ['achievementCache', 'spyCache', 'pricesCache'].forEach(k => { try { store.delete(k); } catch (er) { } });
+                try { const { session } = require('electron'); await session.defaultSession.clearCache(); } catch (er) { }
+                return 'Caches cleared';
+            }
+            case 'openDevTools': if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.openDevTools({ mode: 'detach' }); return 'DevTools opened';
+            case 'openUserData': shell.openPath(app.getPath('userData')); return app.getPath('userData');
+            case 'reload': if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.reloadIgnoringCache(); return 'Reloaded';
+            case 'relaunch': isQuiting = true; app.relaunch(); app.quit(); return 'Restarting';
+            case 'dumpConfig': {
+                const all = JSON.parse(JSON.stringify(store.store || {}));
+                ['apiKey', 'steamId', 'devLicense', 'profiles', 'familyIds'].forEach(k => { if (all[k] !== undefined) all[k] = '(hidden)'; });
+                return JSON.stringify(all, null, 2);
+            }
+            case 'setKey': {
+                if (!arg || typeof arg.key !== 'string' || /^(apiKey|steamId|devLicense)$/.test(arg.key)) return 'Refused';
+                let v = arg.value; try { v = JSON.parse(arg.value); } catch (er) { }
+                store.set(arg.key, v); return arg.key + ' = ' + JSON.stringify(v);
+            }
+            case 'fakeUpdate': if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('update-available', { version: '9.9.9', url: 'https://github.com/imnotfisy/SteamLite/releases', notes: 'Debug test update.', currentVersion: APP_VERSION }); return 'Update dialog triggered';
+        }
+        return 'Unknown command: ' + cmd;
+    };
+    ipcMain.handle('dbg', (e, c, a) => runDbg(c, a));
+}
 
 if (process.env.SL_DEBUG) {
     ipcMain.handle('debug-streak-tick', () => {
@@ -1912,13 +2046,14 @@ function getChallenges(nowMs) {
             list: pool.slice(0, 3).map(c => {
                 const k = scope + ':' + win.key + ':' + c.id;
                 const current = Math.min(c.max, c.calc(activity));
-                return { id: c.id, key: k, text: c.text, unit: c.unit || '', max: c.max, current, baseXp: c.xp, done: !!done[k], xp: xpLog[k] || null };
+                return { id: c.id, key: k, text: c.text, unit: c.unit || '', max: c.max, current, baseXp: c.xp * XP_SCALE, done: !!done[k], xp: xpLog[k] || null };
             })
         };
     }
     return out;
 }
 function checkChallenges() {
+    if (NO_PROGRESS) return [];
     const ch = getChallenges();
     const done = store.get('challengesDone') || {}, xpLog = store.get('challengeXp') || {};
     const newly = [];
@@ -2263,16 +2398,7 @@ function getProcessList(rawCallback) {
 }
 
 function setDiscordGameActivity(gameId, name) {
-    if (!store.get('discordRpcEnabled') || !discordRPCClient || !discordReady) return;
-    const isSteamGame = /^\d+$/.test(String(gameId));
-    discordRPCClient.setActivity({
-        details: `Playing ${name}`,
-        state: 'In-Game',
-        startTimestamp: Date.now(),
-        largeImageKey: isSteamGame ? `https://cdn.akamai.steamstatic.com/steam/apps/${gameId}/header.jpg` : DISCORD_CLIENT_ID,
-        largeImageText: `${name} | SteamLite ${APP_VERSION}`,
-        instance: false
-    }).catch(err => console.error('Failed to set Discord activity:', err.message));
+    if (discordPresence) discordPresence.game({ id: gameId, name, startedAt: Date.now() });
 }
 
 function finalizeSession(tracking, countLaunch = true) {
@@ -2308,9 +2434,7 @@ function finalizeSession(tracking, countLaunch = true) {
     } else if (countLaunch && mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('game-status', { appId: tracking.gameId, status: 'stopped' });
     }
-    if (discordRPCClient && discordReady) {
-        discordRPCClient.clearActivity().catch(() => { });
-    }
+    if (discordPresence) discordPresence.gameStopped();
     try { features.hooks.onGameStopped && features.hooks.onGameStopped(tracking); } catch (e) { }
     activeGameTracking = null;
     buildTrayMenu();
@@ -2594,7 +2718,7 @@ function compareVersions(v1, v2) {
     if (!isV1Beta && isV2Beta) return 1;
     if (isV1Beta && isV2Beta) {
         // "9.0.0-beta" is beta 1, "9.0.0-beta.2" is beta 2
-        const no = (v) => { const mm = /beta[.-]?(\d+)/i.exec(v); return mm ? Number(mm[1]) : 1; };
+        const no = (v) => { const m = /beta[.-]?(\d+)/i.exec(v); return m ? Number(m[1]) : 1; };
         if (no(v1) !== no(v2)) return no(v1) > no(v2) ? 1 : -1;
     }
     return 0;

@@ -1,13 +1,27 @@
 {
   "changelog": {
-    "version": "8.7.4",
-    "title": "Setup Fix",
+    "version": "9.0.1",
+    "title": "SteamLite 9.0.1 - A tidier header, new achievements and themes",
     "items": [
-      "Fixed: setup no longer asks you to restart Windows",
-      "The SteamLite Updater can switch between the Stable and Beta channels (click \"Channel\" at the top of its window)"
+      "A tidier header: the window buttons moved into it and the extras live in one folder button",
+      "The now playing pill floats and can be dragged anywhere",
+      "15 new achievements and 3 new themes",
+      "Icons instead of emojis everywhere, and a more modern News & Announcements widget",
+      "A level now takes 80,000 XP; your current level is unchanged",
+      "Fixes: sideways scroll bar in the sidebar, white flash in the first window after launch"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.0.1 Released - New achievements and themes",
+      "date": "October 7, 2026",
+      "content": "SteamLite 9.0.1 is out. A tidier header with the extras in one folder, a floating now-playing pill you can move anywhere, 15 new achievements, 3 new themes (Royal Gold, Mocha Cream, Sakura Night), icons instead of emojis and a redesigned news widget. A level now takes 80,000 XP; your current level is unchanged."
+    },
+    {
+      "title": "SteamLite 9.0.0 Released - Glass, Couch mode and more",
+      "date": "October 4, 2026",
+      "content": "SteamLite 9.0.0 is here. A new floating glass interface (Classic is one switch away), a full-page Settings, couch mode for your sofa with a page for every game, Spotify now playing in the top bar, a much better Discord presence card and a redesigned Tools & extras. It uses less memory and no idle CPU, and the Updater can now switch between Stable and Beta."
+    },
     {
       "title": "SteamLite 8.7.4 Released - Setup Fix",
       "date": "October 4, 2026",

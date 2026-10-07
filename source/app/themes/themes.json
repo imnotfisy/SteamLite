@@ -141,6 +141,48 @@
       ]
     },
     {
+      "id": "royal-gold",
+      "name": "Royal Gold",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Regal gold on a deep violet-black base.",
+      "file": "royal-gold.json",
+      "colors": [
+        "#f5c451",
+        "#0f0b18",
+        "#b794f6"
+      ]
+    },
+    {
+      "id": "mocha-cream",
+      "name": "Mocha Cream",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Warm coffee browns with a soft cream accent. Cosy and easy on the eyes.",
+      "file": "mocha-cream.json",
+      "colors": [
+        "#e6c9a8",
+        "#1a120d",
+        "#d98c5f"
+      ]
+    },
+    {
+      "id": "sakura-night",
+      "name": "Sakura Night",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Cherry-blossom pink and sky blue under an ink-blue night.",
+      "file": "sakura-night.json",
+      "colors": [
+        "#ffa3c8",
+        "#0c0f1e",
+        "#8ec5ff"
+      ]
+    },
+    {
       "id": "centurion-gold",
       "name": "Centurion Gold",
       "author": "SteamLite",
