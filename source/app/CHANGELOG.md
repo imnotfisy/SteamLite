@@ -1,3 +1,75 @@
+# SteamLite 9.1.0 Changelog
+
+The biggest feature update since 9.0: Drops, a Shop, a Trophy room, dashboard widgets, smart collections, tags, more languages, accessibility options and a lot more.
+
+## Drops (new)
+- **Free XP three ways:** an hourly drop, a 5-hour drop and a daily drop, 5,000 - 10,000 XP each. Open the gift icon in the header folder. A red badge shows when something is ready.
+- **Daily streak:** claim the daily drop on consecutive days for +10% XP on every drop per day, up to +70%.
+- **Rarity:** every drop is Common, Rare or Epic, with its own colour, and Epic drops play an extra chime. Each drop type has its own sound.
+- **Coins:** every drop also pays coins (1 per 100 XP) to spend in the Shop.
+- **Lucky wheel:** one free spin a day for XP, coins or even a streak restore.
+
+## Shop, Trophy room and Events
+- **Shop:** buy avatar frames and profile titles with coins. Four daily picks change every day at midnight, and limited-time items appear only while an event is on (Halloween, Winter Holidays, Spring Bloom, Summer Splash, SteamLite Day). 11 new avatar frames.
+- **Trophy room:** every frame, title and reward theme in one gallery, what you own and how to get the rest.
+- **Events calendar:** all events with their dates every year, rewards and your progress.
+- **Seasonal effects on your profile** (snow, embers, petals, sparkles) while an event is on. Switch them off in More settings.
+
+## Dashboard
+- **Widgets** above your dashboard: Continue playing, This week (hours per day), Daily goal (a ring you can set), Clock and Theme of the week. Switch each on or off in Tools & extras > Dashboard widgets.
+- **Weekly recap** (every Monday it offers itself) and a **Stats card**, both savable as pictures.
+
+## Profile
+- **Pinned achievements:** pin up to 3 achievements under your name (Edit Profile).
+- **Banner from a game screenshot:** pick one of your Steam screenshots in the banner editor.
+
+## Library
+- **Smart collections:** make collections from rules (installed, hours played, played recently, not played for a while, favorites, status, tag, name). They fill themselves and appear in the sidebar.
+- **Tags:** right-click a game > Tags. Filter the library by tag in the Filters menu.
+- **Links & folders** on every game page: guides, mod pages or your save folder.
+- **Wishlist price chart:** click a price graph for a bigger chart with the lowest and highest price seen.
+- **Pre-launch check:** a heads-up if Steam has an update waiting for a game or the drive is almost full.
+- **Hour milestones:** a toast at 10, 50, 100, 250, 500 and 1000 hours in a game.
+- **Notes after long sessions:** offers to write a journal note after 20+ minutes of play.
+- **Ignore time away (optional):** idle time is not counted as playing.
+
+## Social
+- **Friend challenge:** who played the most in the last 2 weeks (public profiles only).
+- **Post achievements to Discord:** paste a webhook and your unlocks (or only the big ones) appear in a server.
+- **Event on your Discord card:** for example "SteamLite Day: 3/5 quests" while you are browsing.
+- **What should we add next?** A list of ideas you can vote on (votes are counted on GitHub).
+
+## SteamLite Online (new)
+- **Live poll votes:** the "What should we add next?" list shows real vote counts and lets you change your vote.
+- **Global leaderboard:** the top players by level, hours, streak or achievements. You only appear if you switch it on and pick a name; only your name, level, hours, streak and counts are shared.
+- **Community themes:** browse, like and apply themes other players made, or share your own. Every shared theme is checked and reviewed before it appears.
+- **Live announcements and special gifts:** news from the SteamLite team shows up in your dashboard news, and a special gift can wait in Drops for a short time.
+- All of it needs the SteamLite server to be reachable. When it is not, nothing breaks: those windows just say so.
+
+## Everything else
+- **Search everywhere:** the command palette (Ctrl+K) also finds achievements, settings sections, themes, tags and smart collections.
+- **More languages:** Spanish, French, German, Portuguese and Italian join Bulgarian (main screens and menus).
+- **Accessibility:** high contrast, strong keyboard focus, larger click targets, spoken names for icon buttons, game cards usable with the keyboard.
+- **Notification rules:** mute kinds of pop-ups (sales, friends, rewards, updates) or snooze them all for 1, 8 or 24 hours.
+- **Theme by season:** pick a theme for winter, spring, summer and autumn.
+- **Restore points:** SteamLite saves your settings and progress once a day and right before the Updater opens, and you can restore one in More settings.
+- **Works offline:** the library, friends and news you saw last are kept and shown when the network is down.
+- **Couch mode:** a Drops panel (claim with a button, see event quests) and remappable controller buttons in Settings > Behaviour.
+
+---
+
+# SteamLite 9.0.4 Changelog
+
+## New: Drops
+- **Free XP, three times over.** There is a new gift icon in the header folder (it shows a red badge when something is ready). Open it to claim:
+  - an **hourly drop**, ready again 1 hour after you claim it,
+  - a **5-hour drop**, ready again 5 hours after you claim it,
+  - a **daily drop**, ready again every new day.
+- Every drop gives a random **5,000 - 10,000 XP**. The XP counts towards your level (and can level you up), is kept in your backups, and is not changed by the weekend or event boosts.
+- The drops window counts down to the next one, and the badge appears by itself the moment a drop is ready.
+
+---
+
 # SteamLite 9.0.3 Changelog
 
 **SteamLite Day** is here: a new limited-time event with quests, from October 7 to October 14.

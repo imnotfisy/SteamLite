@@ -10,6 +10,11 @@
     const E = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     const pref = (k, d) => { try { const v = localStorage.getItem('sl_couch_' + k); return v === null ? d : v === '1'; } catch (e) { return d; } };
     const setPref = (k, v) => { try { localStorage.setItem('sl_couch_' + k, v ? '1' : '0'); } catch (e) { } };
+    // which controller button does what (Settings > Behaviour > Couch mode). Numbers are the standard gamepad buttons.
+    const BTN_NAMES = ['A', 'B', 'X', 'Y', 'LB', 'RB', 'LT', 'RT', 'Back', 'Start', 'L3', 'R3'];
+    const MAP_DEFAULT = { a: 0, b: 1, x: 2, y: 3, lb: 4, rb: 5, drops: 8, start: 9 };
+    const getMap = () => { let m = {}; try { m = JSON.parse(localStorage.getItem('sl_couch_map') || '{}') || {}; } catch (e) { } const out = Object.assign({}, MAP_DEFAULT); Object.keys(out).forEach(k => { if (Number.isInteger(m[k]) && m[k] >= 0 && m[k] < 12) out[k] = m[k]; }); return out; };
+    const bn = (name) => BTN_NAMES[getMap()[name]] || '?';
 
     let mode = 'rows', page = null;
     let root = null, isOpen = false, rows = [], pos = { r: 0, c: 0 }, memCol = [], wasFullscreen = false, raf = 0, prevBtn = {}, nextAt = {}, heroTimer = 0, cursorTimer = 0, lastMove = 0, media = null;
@@ -39,12 +44,13 @@
         root = document.createElement('div');
         root.id = 'couch'; root.className = 'couch';
         root.innerHTML = '<div class="cc-bg" id="cc-bg"></div><div class="cc-shade"></div>' +
-            '<header class="cc-top"><div class="cc-user"><img id="cc-avatar" alt=""><span id="cc-name"></span></div><div class="cc-media" id="cc-media"></div><div class="cc-clock" id="cc-clock"></div></header>' +
+            '<header class="cc-top"><div class="cc-user"><img id="cc-avatar" alt=""><span id="cc-name"></span></div><div class="cc-media" id="cc-media"></div><button class="cc-dropchip" id="cc-dropchip" style="display:none"></button><div class="cc-clock" id="cc-clock"></div></header>' +
             '<section class="cc-hero" id="cc-hero"><div class="cc-hero-txt"><div class="cc-chip" id="cc-chip"></div><h1 id="cc-title"></h1><div class="cc-meta" id="cc-meta"></div><div class="cc-ach" id="cc-ach"></div></div><div class="cc-hero-art" id="cc-art"></div></section>' +
             '<div class="cc-rows" id="cc-rows"><div class="cc-rows-in" id="cc-rows-in"></div></div>' +
-            '<div class="cc-running" id="cc-running"></div><footer class="cc-hints" id="cc-hints"></footer><div class="cc-empty" id="cc-empty">Nothing here yet. Install a game in Steam and it shows up.</div>';
+            '<div class="cc-drops" id="cc-drops"></div><div class="cc-running" id="cc-running"></div><footer class="cc-hints" id="cc-hints"></footer><div class="cc-empty" id="cc-empty">Nothing here yet. Install a game in Steam and it shows up.</div>';
         document.body.appendChild(root);
         root.addEventListener('mousemove', () => { lastMove = Date.now(); root.classList.remove('nocursor'); });
+        $('cc-dropchip').addEventListener('click', () => { if (dropsOpen) closeDrops(); else openDrops(); });
         $('cc-rows-in').addEventListener('click', (e) => { const t = e.target.closest('.cc-tile'); if (!t) return; focusAt(+t.dataset.r, +t.dataset.c, true); act('a'); });
         $('cc-rows-in').addEventListener('mouseover', (e) => { const t = e.target.closest('.cc-tile'); if (t && Date.now() - lastMove < 1500) focusAt(+t.dataset.r, +t.dataset.c, false); });
     }
@@ -106,13 +112,13 @@
         if (page) {
             const hint2 = (btn, txt, cls) => '<span class="cc-hint ' + (cls || '') + '"><kbd>' + btn + '</kbd>' + txt + '</span>';
             const m2 = media && media.title;
-            $('cc-hints').innerHTML = hint2('A', page.zone === 'panel' ? 'Scroll with \u2191 \u2193' : 'Select', 'main') + hint2('B', 'Back') + hint2('LB / RB', 'Tab') + hint2('\u2192', 'Read') + hint2('X', favorites.includes(page.id) ? 'Unfavorite' : 'Favorite') + (m2 ? hint2('Y', media.status === 'Playing' ? 'Pause music' : 'Play music') : '') + hint2('Start', 'Exit');
+            $('cc-hints').innerHTML = hint2(bn('a'), page.zone === 'panel' ? 'Scroll with \u2191 \u2193' : 'Select', 'main') + hint2(bn('b'), 'Back') + hint2(bn('lb') + ' / ' + bn('rb'), 'Tab') + hint2('\u2192', 'Read') + hint2(bn('x'), favorites.includes(page.id) ? 'Unfavorite' : 'Favorite') + (m2 ? hint2(bn('y'), media.status === 'Playing' ? 'Pause music' : 'Play music') : '') + hint2('Start', 'Exit');
             return;
         }
         const g = cur(), run = g && String(currentRunningAppId) === gid(g), inst = g && isInstalled(g);
         const hint = (btn, txt, cls) => '<span class="cc-hint ' + (cls || '') + '"><kbd>' + btn + '</kbd>' + txt + '</span>';
         const m = media && media.title;
-        $('cc-hints').innerHTML = hint('A', 'Open', 'main') + hint('B', 'Back') + hint('X', g && favorites.includes(gid(g)) ? 'Unfavorite' : 'Favorite') + (m ? hint('Y', media.status === 'Playing' ? 'Pause music' : 'Play music') + hint('LB / RB', 'Track') : '') + hint('Start', 'Exit');
+        $('cc-hints').innerHTML = hint(bn('a'), 'Open', 'main') + hint(bn('b'), 'Back') + hint(bn('x'), g && favorites.includes(gid(g)) ? 'Unfavorite' : 'Favorite') + (m ? hint(bn('y'), media.status === 'Playing' ? 'Pause music' : 'Play music') + hint(bn('lb') + ' / ' + bn('rb'), 'Track') : '') + hint('Start', 'Exit') + hint(bn('drops'), 'Drops');
     }
 
     function paintRunning() {
@@ -164,8 +170,30 @@
         setBusy('Stopping...');
         try { await api.stopGame({ gameId: gid(g) }); } catch (e) { setBusy(''); }
     }
+    // ---------- drops and event quests, from the controller ----------
+    let dropsOpen = false;
+    async function paintDropsPanel() {
+        const D = window.SLDrops, box = $('cc-drops'); if (!D || !box) return;
+        await D.refresh(); const st = D.state(); if (!st) return;
+        const lft = (ms) => { const sx = Math.max(0, Math.ceil(ms / 1000)), h = Math.floor(sx / 3600), mi = Math.floor((sx % 3600) / 60); return h ? h + 'h ' + mi + 'm' : mi + 'm'; };
+        let quests = ''; try { const ev = ((await api.getEvents()) || []).filter(e => e.active && e.quest); quests = ev.map(e => '<div class="cc-dq"><b>' + E(e.name) + '</b><span>' + e.unlocked + ' / ' + e.total + ' quests' + (e.claimed ? ' \u00B7 rewards earned' : '') + '</span></div>').join(''); } catch (e) { }
+        const names = { hourly: 'Hourly drop', five: '5-hour drop', daily: 'Daily drop' }, n = Object.values(st.drops).filter(d => d.ready).length;
+        box.innerHTML = '<div class="cc-dcard"><h2>Drops</h2>' + ['hourly', 'five', 'daily'].map(id => '<div class="cc-dr' + (st.drops[id].ready ? ' ready' : '') + '"><span>' + names[id] + '</span><b>' + (st.drops[id].ready ? 'Ready' : lft(st.drops[id].nextAt - Date.now())) + '</b></div>').join('') +
+            '<div class="cc-dm">' + (st.streak && st.streak.days ? st.streak.days + '-day streak (+' + Math.round((st.streak.mult - 1) * 100) + '%) \u00B7 ' : '') + st.coins.toLocaleString() + ' coins' + (st.wheel && st.wheel.ready ? ' \u00B7 lucky wheel ready on the desktop' : '') + '</div>' + quests +
+            '<div class="cc-dh"><span class="cc-hint main"><kbd>' + bn('a') + '</kbd>' + (n ? 'Claim ' + n + ' ready' : 'Nothing ready') + '</span><span class="cc-hint"><kbd>' + bn('b') + '</kbd>Close</span></div></div>';
+    }
+    async function openDrops() { if (!window.SLDrops) return; dropsOpen = true; $('cc-drops').classList.add('on'); try { playSound('open'); } catch (e) { } paintDropsPanel(); }
+    function closeDrops() { dropsOpen = false; const b = $('cc-drops'); if (b) b.classList.remove('on'); try { playSound('close'); } catch (e) { } }
+    async function dropsAct(name) {
+        if (name === 'b' || name === 'drops' || name === 'start') { closeDrops(); return; }
+        if (name === 'a' && window.SLDrops) { const before = window.SLDrops.ready(); if (!before) return; const st = await window.SLDrops.claimAll(); try { playSound('achievement'); showToast('Drops claimed. Level ' + st.level.level + ' \u00B7 ' + st.coins.toLocaleString() + ' coins'); } catch (e) { } paintDropsPanel(); }
+    }
+    const dropChip = () => { const ch = $('cc-dropchip'), D = window.SLDrops; if (!ch) return; const n = D ? D.ready() : 0; ch.style.display = n ? '' : 'none'; ch.textContent = 'Drops \u00B7 ' + n + ' ready'; };
+    document.addEventListener('sl-drops', dropChip);
     async function act(name) {
         if (!isOpen) return;
+        if (dropsOpen) return dropsAct(name);
+        if (name === 'drops') { openDrops(); return; }
         if (mode === 'page') return pageAct(name);
         const g = cur();
         const moveR = (d) => { let r = Math.max(0, Math.min(rows.length - 1, pos.r + d)); if (r === pos.r) return; const c = Math.min(memCol[r] != null ? memCol[r] : pos.c, rows[r].games.length - 1); focusAt(r, c); try { playSound('click'); } catch (e) { } };
@@ -381,7 +409,7 @@
     }
 
     // ---------- input ----------
-    const KEYS = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down', Enter: 'a', ' ': 'a', Escape: 'b', Backspace: 'b', f: 'x', F: 'x', m: 'y', M: 'y', '[': 'lb', ']': 'rb' };
+    const KEYS = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down', Enter: 'a', ' ': 'a', Escape: 'b', Backspace: 'b', f: 'x', F: 'x', m: 'y', M: 'y', '[': 'lb', ']': 'rb', d: 'drops', D: 'drops' };
     function onKey(e) {
         if (!isOpen) return;
         const n = KEYS[e.key]; if (!n) return;
@@ -395,7 +423,7 @@
             const dirs = { up: b[12] || ax[1] < -0.55, down: b[13] || ax[1] > 0.55, left: b[14] || ax[0] < -0.55, right: b[15] || ax[0] > 0.55 };
             Object.keys(dirs).forEach(k => { if (dirs[k]) { if (!nextAt[k] || now >= nextAt[k]) { act(k); nextAt[k] = now + (nextAt[k] ? 125 : 340); } } else nextAt[k] = 0; });
             const edge = (i, n) => { if (b[i] && !prevBtn[i]) act(n); };
-            edge(0, 'a'); edge(1, 'b'); edge(2, 'x'); edge(3, 'y'); edge(4, 'lb'); edge(5, 'rb'); edge(9, 'start');
+            const M = getMap(); Object.keys(M).forEach(n => edge(M[n], n));
             prevBtn = b;
         }
         if (!root.classList.contains('nocursor') && Date.now() - lastMove > 2500) root.classList.add('nocursor');
@@ -413,7 +441,7 @@
         rows = buildRows(); memCol = [];
         isOpen = true; window.SLCouchOpen = true;
         $('cc-empty').style.display = rows.length ? 'none' : '';
-        paintRows(); paintTop();
+        paintRows(); paintTop(); dropChip();
         document.body.classList.remove('couch-leaving');
         document.body.classList.add('couch-entering');
         root.classList.remove('shown'); root.classList.add('on', 'entering'); void root.offsetWidth; root.classList.add('shown');
@@ -437,7 +465,7 @@
     }
     function close() {
         if (!isOpen) return;
-        closePage(true);
+        closePage(true); dropsOpen = false; const dp = $('cc-drops'); if (dp) dp.classList.remove('on');
         isOpen = false; window.SLCouchOpen = false; cancelAnimationFrame(raf); clearTimeout(enterTimer);
         // the app comes back from behind the fading couch screen
         document.body.classList.remove('couch-open', 'couch-entering'); document.body.classList.add('couch-leaving');
@@ -480,8 +508,15 @@
             '<div class="switch-row" data-instant="1"><span class="form-label">Start SteamLite in couch mode<span style="' + hint + '">Open straight into the fullscreen launcher</span></span><label class="switch-toggle"><input type="checkbox" id="cm-start" data-instant="1"><span class="switch-slider"></span></label></div>' +
             '<div class="switch-row" data-instant="1"><span class="form-label">Open couch mode when a controller connects<span style="' + hint + '">Plug in or switch on a gamepad and the launcher opens</span></span><label class="switch-toggle"><input type="checkbox" id="cm-pad" data-instant="1"><span class="switch-slider"></span></label></div>' +
             '<div class="switch-row" data-instant="1"><span class="form-label">Open couch mode now<span style="' + hint + '">Ctrl+Shift+G, or the controller button in the top bar. B or Start leaves.</span></span><button class="context-btn" id="cm-open" data-instant="1" style="min-width:90px">Open</button></div>';
+        const lbl = { a: 'Open / select', b: 'Back', x: 'Favorite', y: 'Play / pause music', lb: 'Previous (track or tab)', rb: 'Next (track or tab)', drops: 'Drops panel', start: 'Exit couch mode' };
+        box.insertAdjacentHTML('beforeend', '<div class="switch-row" data-instant="1" style="flex-direction:column;align-items:stretch;gap:6px"><span class="form-label">Controller buttons<span style="' + hint + '">Choose which button does what. The hints in couch mode follow your choice.</span></span>' +
+            Object.keys(lbl).map(k => '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font-size:12.5px">' + lbl[k] + '</span><select class="form-input cm-map" data-k="' + k + '" data-instant="1" style="width:auto;min-width:84px">' + BTN_NAMES.map((n, i) => '<option value="' + i + '">' + n + '</option>').join('') + '</select></div>').join('') +
+            '<button class="context-btn" id="cm-map-reset" data-instant="1" style="align-self:flex-start;margin-top:4px">Reset buttons</button></div>');
         anchor.insertAdjacentElement('afterend', box);
-        const load = () => { $('cm-start').checked = pref('start', false); $('cm-pad').checked = pref('pad', false); };
+        const loadMap = () => { const m = getMap(); box.querySelectorAll('.cm-map').forEach(sel => { sel.value = String(m[sel.dataset.k]); }); };
+        box.addEventListener('change', (e) => { const sel = e.target.closest('.cm-map'); if (!sel) return; const m = getMap(); m[sel.dataset.k] = Number(sel.value); try { localStorage.setItem('sl_couch_map', JSON.stringify(m)); } catch (er) { } });
+        box.querySelector('#cm-map-reset').addEventListener('click', () => { try { localStorage.removeItem('sl_couch_map'); } catch (e) { } loadMap(); });
+        const load = () => { loadMap(); $('cm-start').checked = pref('start', false); $('cm-pad').checked = pref('pad', false); };
         $('cm-start').addEventListener('change', (e) => setPref('start', e.target.checked));
         $('cm-pad').addEventListener('change', (e) => setPref('pad', e.target.checked));
         $('cm-open').addEventListener('click', () => open());

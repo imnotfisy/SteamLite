@@ -29,6 +29,15 @@ if (!process.env.SL_NO_USERDATA_PIN) {
 // Discord Rich Presence: the library is loaded here, the connection and the card live in discord_presence.js
 let DiscordRPC = null;
 let discordPresence = null;
+// "SteamLite Day: 3/5 quests" on the browsing card while an event is on (the event that ends first)
+function discordEventText() {
+    const ev = Object.keys(EVENTS).map(id => eventState(id)).filter(e => e.active).sort((a, b) => a.end - b.end)[0];
+    if (!ev) return '';
+    const qs = eventQuestState(ev.id);
+    if (qs) return ev.name + ': ' + Math.min(qs.doneCount, qs.need) + '/' + qs.need + ' quests';
+    const un = store.get('metaAchievements') || {}, ids = ACHIEVEMENT_DEFS.filter(d => d.event === ev.id);
+    return ev.name + ': ' + ids.filter(d => un[d.id]).length + '/' + ids.length;
+}
 const DISCORD_CLIENT_ID = '1517860638620127263';
 try { DiscordRPC = require('discord-rpc'); } catch (e) { console.log('discord-rpc module not installed. Skipping Discord RPC.'); }
 
@@ -171,7 +180,7 @@ function readEdition() {
 const EDITION = readEdition();
 
 try {
-    discordPresence = require('./discord_presence')({ DiscordRPC, store, clientId: DISCORD_CLIENT_ID, appVersion: APP_VERSION, log: (m) => console.log(m) });
+    discordPresence = require('./discord_presence')({ DiscordRPC, store, clientId: DISCORD_CLIENT_ID, appVersion: APP_VERSION, log: (m) => console.log(m), extra: discordEventText });
     app.whenReady().then(() => { try { discordPresence.start(); } catch (e) { } });
 } catch (e) { console.error('Discord presence could not start:', e && e.message); }
 
@@ -181,6 +190,7 @@ let mediaPlayer = null;
 let tray = null;
 let isQuiting = false;
 let features = { hooks: {} }; // filled in by features_main.js once the app is ready
+let extras = { hooks: {} }; // filled in by extras_main.js
 
 const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
@@ -403,6 +413,9 @@ function createWindow() {
             getMetaAchievements: (opts) => ipcRenderer.invoke('get-meta-achievements', opts),
             checkAchievements: (opts) => ipcRenderer.invoke('check-achievements', opts),
             onMetaAchievementUnlocked: (cb) => ipcRenderer.on('meta-achievement-unlocked', (e, d) => cb(d)),
+            getDrops: () => ipcRenderer.invoke('get-drops'),
+            claimDrop: (id) => ipcRenderer.invoke('claim-drop', id),
+            spinWheel: () => ipcRenderer.invoke('spin-wheel'),
             onEventQuest: (cb) => ipcRenderer.on('event-quest', (e, d) => cb(d)),
             onStreakUpdated: (cb) => ipcRenderer.on('streak-updated', (e, d) => cb(d)),
             getProfiles: () => ipcRenderer.invoke('get-profiles'),
@@ -649,6 +662,12 @@ app.whenReady().then(() => {
         });
         setTimeout(() => { try { features.hooks.applyIcons && features.hooks.applyIcons(); } catch (e) { } }, 800);
     } catch (e) { console.error('Could not start the extra features:', e && e.message); }
+    if (EDITION === 'full') try {
+        extras = require('./extras_main')({
+            app, ipcMain, store, fs, path, fetchApi, getMainWindow: () => mainWindow, BACKUP_KEYS, APP_VERSION, streakDayKey, mulberry32, seedFrom,
+            EVENTS, eventState, eventQuestState, QUEST_EVENTS, NO_PROGRESS, ACHIEVEMENT_DEFS, effectiveLevel, LEVEL_FRAMES, LEVEL_TITLES, readBundledThemes, getLocalGames, getSteamBasePath
+        });
+    } catch (e) { console.error('Could not start the extras:', e && e.message); }
 
     // achievements re-check every 5 minutes (covers playtime thresholds crossed mid-session)
     setInterval(() => { checkAchievements(); }, 5 * 60 * 1000);
@@ -771,7 +790,7 @@ ipcMain.handle('save-config', (event, config) => {
 const BACKUP_KEYS = ['accentColor', 'wideGrid', 'soundVolume', 'updateChannel', 'bgPath', 'bgBlur', 'bgOpacity', 'bgSpeed',
     'themeVars', 'discordRpcEnabled', 'launchToLibrary', 'hideOfflineFriends', 'reduceAnimations', 'notifSounds', 'notifDuration',
     'notifMaxStack', 'maxCommonFriends', 'widgetSizes', 'dashboardSectionOrder', 'profileBanners', 'friendPrefs', 'profileCustom',
-    'uiPrefs', 'startMinimized', 'potatoMode', 'closeToTray', 'autoUpdateCheck', 'hotkeys', 'themeUnlocks', 'achievementXp', 'boostLog', 'streakRestores', 'prestige', 'xpScale', 'eventQuests', 'cosmetics', 'seasonClaimed', 'journal', 'saveBackups', 'wishlistTargets', 'wishlistHistory', 'featSettings', 'autoBackup', 'challengeXp', 'challengesDone', 'levelRewardsClaimed', 'gameMeta', 'wishlistAlerts', 'breakReminderMin', 'dailyLimitHours', 'customThemes', 'customCovers', 'favorites', 'hiddenGames', 'collections', 'gameConfigs',
+    'uiPrefs', 'startMinimized', 'potatoMode', 'closeToTray', 'autoUpdateCheck', 'hotkeys', 'themeUnlocks', 'achievementXp', 'boostLog', 'streakRestores', 'prestige', 'xpScale', 'eventQuests', 'drops', 'dropXp', 'coins', 'dropStreak', 'wheelLast', 'cosmetics', 'seasonClaimed', 'journal', 'saveBackups', 'wishlistTargets', 'wishlistHistory', 'featSettings', 'autoBackup', 'challengeXp', 'challengesDone', 'levelRewardsClaimed', 'gameMeta', 'wishlistAlerts', 'breakReminderMin', 'dailyLimitHours', 'customThemes', 'customCovers', 'favorites', 'hiddenGames', 'collections', 'gameConfigs',
     'gameNotes', 'nonSteamGames', 'telemetry', 'sessionHistory', 'achievementCache', 'metaAchievements', 'streak'];
 
 ipcMain.handle('export-settings', async () => {
@@ -922,7 +941,36 @@ ipcMain.handle('discord-get-opts', () => discordPresence ? { opts: discordPresen
 ipcMain.handle('discord-set-opts', (e, p) => discordPresence ? discordPresence.setOpts(p || {}) : null);
 ipcMain.handle('discord-preview', () => discordPresence ? discordPresence.preview() : null);
 
+// Saved copies of the Steam answers (library, friends, news ...) so the app still shows data when the network is down.
+// The API key never ends up in a file name or a file: the key parameter is removed before the address is hashed.
+const CACHEABLE = /^https:\/\/(api\.steampowered\.com|store\.steampowered\.com|raw\.githubusercontent\.com\/imnotfisy\/SteamLite\/[^?]*\/(news|themes|polls))/;
+function apiCacheFile(url) {
+    const clean = url.replace(/([?&])key=[^&]*&?/g, '$1').replace(/[?&]t=\d+/g, '');
+    return path.join(app.getPath('userData'), 'apicache', require('crypto').createHash('sha1').update(clean).digest('hex') + '.json');
+}
+// keep the saved copies small: nothing older than 45 days, and no more than about 60 MB in total
+setTimeout(() => {
+    try {
+        const dir = path.join(app.getPath('userData'), 'apicache'); if (!fs.existsSync(dir)) return;
+        const files = fs.readdirSync(dir).map(f => { const st = fs.statSync(path.join(dir, f)); return { f: path.join(dir, f), t: st.mtimeMs, n: st.size }; }).sort((a, b) => a.t - b.t);
+        let total = files.reduce((x, y) => x + y.n, 0);
+        for (const x of files) { if (Date.now() - x.t > 45 * 86400000 || total > 60 * 1048576) { try { fs.unlinkSync(x.f); total -= x.n; } catch (e) { } } }
+    } catch (e) { }
+}, 90000);
 function fetchApi(url, headers = {}, timeout = 12000) {
+    const cacheable = CACHEABLE.test(url);
+    return rawFetchApi(url, headers, timeout).then((d) => {
+        if (cacheable) { try { const txt = JSON.stringify(d); if (txt.length < 3000000) { const f = apiCacheFile(url); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, txt); } } catch (e) { } }
+        return d;
+    }).catch((err) => {
+        const status = /HTTP Status (\d+)/.exec(err && err.message);
+        if (cacheable && (!status || Number(status[1]) >= 500)) { // offline, timed out or Steam is down: use the saved copy
+            try { const d = JSON.parse(fs.readFileSync(apiCacheFile(url), 'utf8')); try { extras.hooks.offlineServed && extras.hooks.offlineServed(); } catch (e) { } return d; } catch (e) { }
+        }
+        throw err;
+    });
+}
+function rawFetchApi(url, headers = {}, timeout = 12000) {
     return new Promise((resolve, reject) => {
         const mod = url.startsWith('http://') ? http : https;
         const req = mod.get(url, { headers, timeout }, (res) => {
@@ -1145,6 +1193,7 @@ ipcMain.handle('get-external-news', async () => {
             showChangelog = true;
         }
 
+        try { const ann = extras.hooks.announcements ? await extras.hooks.announcements() : []; if (ann.length && Array.isArray(data.news)) data = { ...data, news: [...ann, ...data.news] }; } catch (e) { } // live announcements from the SteamLite server come first
         return { ...data, showChangelog, currentVersion: APP_VERSION };
     } catch (err) {
         return null;
@@ -1741,7 +1790,8 @@ function rawXp(unlocked) {
     const log = getAchievementXp(unlocked);
     const fromAchievements = ACHIEVEMENT_DEFS.reduce((sum, d) => sum + (unlocked && unlocked[d.id] ? log[d.id] : 0), 0);
     const fromChallenges = Object.values(store.get('challengeXp') || {}).reduce((s, v) => s + (Number(v) || 0), 0);
-    return fromAchievements + fromChallenges;
+    const fromDrops = Number(store.get('dropXp')) || 0;
+    return fromAchievements + fromChallenges + fromDrops;
 }
 function totalXp(unlocked) { return Math.max(0, rawXp(unlocked) - ((store.get('prestige') || {}).baseXp || 0)); }
 // titles / frames / level rewards stay unlocked after a prestige
@@ -1822,6 +1872,7 @@ function checkAchievements(librarySize) {
     if (newly.length > 0) store.set('achievementXp', xpLog);
     let xpRunning = totalXp(unlocked) - newly.reduce((s, d) => s + rolls[d.id].xp, 0);
     for (const def of newly) {
+        try { extras.hooks.onAchievement && extras.hooks.onAchievement(def, rolls[def.id].xp); } catch (e) { }
         if (def.rewardRestores) addRestores(def.rewardRestores);
         maybeRenewStreak();
         const before = levelInfo(xpRunning).level;
@@ -1909,6 +1960,90 @@ function eventsSummary(unlocked) {
     });
 }
 ipcMain.handle('get-events', () => { checkAchievements(); return eventsSummary(); });
+
+// ===== Drops: free XP, one every hour, one every 5 hours and one every day =====
+// Each drop gives a random 5,000-10,000 XP (Common up to 7,000, Rare up to 9,000, Epic above). The hourly and 5-hour drops
+// are ready again that long after you claimed them; the daily drop is ready again every new day (local midnight).
+// Claiming the daily drop on consecutive days builds a streak: +10% XP on every drop per day, up to +70%. Every drop also
+// pays coins (1 per 100 XP) that can be spent in the shop, and there is one free spin of the lucky wheel every day.
+// The XP is kept in `dropXp` and counts towards the level.
+const DROP_TYPES = {
+    hourly: { label: 'Hourly drop', every: 'every hour', ms: 3600000 },
+    five: { label: '5-hour drop', every: 'every 5 hours', ms: 5 * 3600000 },
+    daily: { label: 'Daily drop', every: 'every day', daily: true }
+};
+const DROP_MIN = 5000, DROP_MAX = 10000, DROP_STREAK_STEP = 0.1, DROP_STREAK_MAX = 7;
+const WHEEL = [ // [label, weight, reward]
+    ['2,000 XP', 30, { xp: 2000 }], ['5,000 XP', 25, { xp: 5000 }], ['150 coins', 12, { coins: 150 }], ['8,000 XP', 15, { xp: 8000 }],
+    ['400 coins', 7, { coins: 400 }], ['12,000 XP', 8, { xp: 12000 }], ['Streak restore', 2, { restore: 1 }], ['25,000 XP', 1, { xp: 25000 }]
+];
+function dropNow() { return process.env.SL_FAKE_NOW ? (Number(process.env.SL_FAKE_NOW) || Date.now()) : Date.now(); }
+function dropRarity(base) { return base >= 9000 ? 'epic' : base >= 7000 ? 'rare' : 'common'; }
+function dayBefore(nowMs) { const d = new Date(nowMs); return streakDayKey(new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1).getTime()); }
+function dropStreak(nowMs) { // the streak that is alive right now
+    const st = store.get('dropStreak') || {};
+    const today = streakDayKey(nowMs);
+    const days = (st.lastDay === today || st.lastDay === dayBefore(nowMs)) ? (st.days || 0) : 0;
+    return { days, mult: 1 + DROP_STREAK_STEP * Math.min(days, DROP_STREAK_MAX), claimedToday: st.lastDay === today, best: st.best || 0 };
+}
+function dropsState(nowMs) {
+    nowMs = nowMs || dropNow();
+    const saved = store.get('drops') || {}, drops = {};
+    for (const id of Object.keys(DROP_TYPES)) {
+        const t = DROP_TYPES[id];
+        let last = Number(saved[id]) || 0;
+        if (last > nowMs + 60000) last = nowMs; // the clock was set back: do not lock the drop for days
+        let ready, next = 0;
+        if (t.daily) {
+            ready = !last || streakDayKey(last) !== streakDayKey(nowMs);
+            if (!ready) { const d = new Date(nowMs); next = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1).getTime(); }
+        } else { next = last + t.ms; ready = !last || nowMs >= next; if (ready) next = 0; }
+        drops[id] = { id, label: t.label, every: t.every, ready, nextAt: next, last };
+    }
+    const wl = store.get('wheelLast') || '', d0 = new Date(nowMs);
+    const wheel = { ready: wl !== streakDayKey(nowMs), nextAt: wl !== streakDayKey(nowMs) ? 0 : new Date(d0.getFullYear(), d0.getMonth(), d0.getDate() + 1).getTime(), segments: WHEEL.map(w => w[0]) };
+    const un = store.get('metaAchievements') || {};
+    return { drops, min: DROP_MIN, max: DROP_MAX, totalXp: Number(store.get('dropXp')) || 0, coins: Number(store.get('coins')) || 0, streak: dropStreak(nowMs), wheel, now: nowMs, level: levelInfo(totalXp(un)) };
+}
+ipcMain.handle('get-drops', () => dropsState());
+ipcMain.handle('claim-drop', (event, id) => {
+    if (NO_PROGRESS) return { ok: false, error: 'Drops are not available in this build.' };
+    if (typeof id !== 'string' || !DROP_TYPES[id]) return { ok: false, error: 'Unknown drop.' };
+    const now = dropNow(), st = dropsState(now);
+    if (!st.drops[id].ready) return { ok: false, error: 'This drop is not ready yet.', state: st };
+    const un = store.get('metaAchievements') || {};
+    const before = levelInfo(totalXp(un)).level;
+    const saved = store.get('drops') || {}; saved[id] = now; store.set('drops', saved);
+    if (id === 'daily') { // the daily drop keeps the streak going
+        const ss = store.get('dropStreak') || {}, today = streakDayKey(now);
+        const days = ss.lastDay === dayBefore(now) ? (ss.days || 0) + 1 : (ss.lastDay === today ? (ss.days || 1) : 1);
+        store.set('dropStreak', { days, lastDay: today, best: Math.max(ss.best || 0, days) });
+    }
+    const mult = dropStreak(now).mult;
+    const base = DROP_MIN + Math.floor(Math.random() * (DROP_MAX - DROP_MIN + 1));
+    const xp = Math.round(base * mult), coins = Math.round(xp / 100);
+    store.set('dropXp', (Number(store.get('dropXp')) || 0) + xp);
+    store.set('coins', (Number(store.get('coins')) || 0) + coins);
+    try { claimLevelRewards(); } catch (e) { }
+    const state = dropsState(now);
+    return { ok: true, id, xp, base, coins, mult, rarity: dropRarity(base), state, leveledUp: state.level.level > before, levelBefore: before };
+});
+ipcMain.handle('spin-wheel', () => {
+    if (NO_PROGRESS) return { ok: false, error: 'Not available in this build.' };
+    const now = dropNow(), st = dropsState(now);
+    if (!st.wheel.ready) return { ok: false, error: 'You already spun today.', state: st };
+    const total = WHEEL.reduce((s, w) => s + w[1], 0); let r = Math.random() * total, idx = 0;
+    for (let i = 0; i < WHEEL.length; i++) { r -= WHEEL[i][1]; if (r <= 0) { idx = i; break; } }
+    const rw = WHEEL[idx][2], out = { xp: 0, coins: 0, restore: 0 };
+    const before = levelInfo(totalXp(store.get('metaAchievements') || {})).level;
+    if (rw.xp) { out.xp = rw.xp; store.set('dropXp', (Number(store.get('dropXp')) || 0) + rw.xp); }
+    if (rw.coins) { out.coins = rw.coins; store.set('coins', (Number(store.get('coins')) || 0) + rw.coins); }
+    if (rw.restore) { const got = addRestores(1); if (got) out.restore = 1; else { out.coins = 300; store.set('coins', (Number(store.get('coins')) || 0) + 300); } }
+    store.set('wheelLast', streakDayKey(now));
+    try { claimLevelRewards(); } catch (e) { }
+    const state = dropsState(now);
+    return { ok: true, index: idx, label: WHEEL[idx][0], reward: out, state, leveledUp: state.level.level > before };
+});
 
 ipcMain.handle('check-achievements', (event, opts) => {
     const librarySize = opts && typeof opts.librarySize === 'number' ? opts.librarySize : (store.get('lastLibrarySize') || 0);
@@ -2480,11 +2615,14 @@ function finalizeSession(tracking, countLaunch = true) {
     }
     checkAchievements();
 
-    const sessionSeconds = tracking.sessionStart ? Math.floor((Date.now() - tracking.sessionStart) / 1000) : 0;
+    let sessionSeconds = tracking.sessionStart ? Math.floor((Date.now() - tracking.sessionStart) / 1000) : 0;
+    try { if (extras.hooks.adjustSeconds) sessionSeconds = extras.hooks.adjustSeconds(tracking, sessionSeconds); } catch (e) { }
     if (sessionSeconds > 0) {
         const telemetry = store.get('telemetry') || {};
         if (!telemetry[tracking.gameId]) telemetry[tracking.gameId] = { playtime: 0, launches: 0, lastPlayed: 0 };
+        const ptBefore = telemetry[tracking.gameId].playtime;
         telemetry[tracking.gameId].playtime += sessionSeconds;
+        try { extras.hooks.onPlaytime && extras.hooks.onPlaytime(tracking.gameId, tracking.name, ptBefore, telemetry[tracking.gameId].playtime); } catch (e) { }
         if (countLaunch) telemetry[tracking.gameId].launches += 1;
         telemetry[tracking.gameId].lastPlayed = Date.now();
         store.set('telemetry', telemetry);
@@ -2520,6 +2658,7 @@ function stopActiveGame() {
 
 async function executeLaunch({ gameId, installdir, commonPath, name }) {
     if (activeGameTracking) return false;
+    try { extras.hooks.preflightNotice && extras.hooks.preflightNotice(gameId); } catch (e) { }
 
     const configs = store.get('gameConfigs') || {};
     const config = configs[gameId] || {};
@@ -2579,6 +2718,7 @@ async function executeLaunch({ gameId, installdir, commonPath, name }) {
                 }
             });
             tracking.pids = foundPids;
+            if (tracking.sessionStart && foundPids.length > 0) { try { extras.hooks.noteIdle && extras.hooks.noteIdle(tracking, store.get('potatoMode') ? 5000 : 2000); } catch (e) { } }
             if (tracking.sessionStart && foundPids.length > 0) checkPlayReminders(tracking);
             if (foundPids.length > 0 && !tracking.sessionStart) {
                 tracking.sessionStart = Date.now();
@@ -2725,11 +2865,13 @@ function launchUpdater() {
 }
 
 ipcMain.handle('open-updater', () => {
+    try { extras.hooks.restorePoint && extras.hooks.restorePoint('pre-update'); } catch (e) { }
     return launchUpdater() ? { ok: true } : { ok: false, error: 'The updater is not installed. Install the latest SteamLite once to get it.' };
 });
 
 ipcMain.handle('install-update', async () => {
     if (!lastUpdateInfo) return { ok: false, error: 'No update available.' };
+    try { extras.hooks.restorePoint && extras.hooks.restorePoint('pre-update'); } catch (e) { }
     if (launchUpdater()) return { ok: true, updater: true };
     try {
         const assetUrl = deriveUpdateAssetUrl(lastUpdateInfo.version, lastUpdateInfo.url, lastUpdateInfo.channelUrl);

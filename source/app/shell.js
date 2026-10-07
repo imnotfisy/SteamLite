@@ -15,6 +15,10 @@
     const ITEMS = [
         { id: 'inventory-btn', label: 'Inventory', tint: '#fbbf24' },
         { id: 'achievements-toggle', label: 'Achievements', tint: '#f59e0b' },
+        { id: 'drops-btn', label: 'Drops', tint: '#f472b6' },
+        { id: 'shop-btn', label: 'Shop', tint: '#fb923c' },
+        { id: 'trophy-btn', label: 'Trophy room', tint: '#facc15' },
+        { id: 'events-btn', label: 'Events', tint: '#2dd4bf' },
         { id: 'wishlist-btn', label: 'Wishlist & sales', tint: '#34d399' },
         { id: 'notif-btn', label: 'Notifications', tint: '#60a5fa' },
         { id: 'hub-btn', label: 'Tools & extras', tint: '#a78bfa' }
@@ -22,7 +26,7 @@
     document.body.classList.add('af-on');
 
     const btn = document.createElement('button');
-    btn.id = 'apps-folder-btn'; btn.className = 'top-bar-icon-btn'; btn.title = 'More: inventory, achievements, wishlist, notifications and tools'; btn.setAttribute('aria-haspopup', 'true'); btn.setAttribute('aria-expanded', 'false');
+    btn.id = 'apps-folder-btn'; btn.className = 'top-bar-icon-btn'; btn.title = 'More: inventory, achievements, drops, wishlist, notifications and tools'; btn.setAttribute('aria-haspopup', 'true'); btn.setAttribute('aria-expanded', 'false');
     btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="6"/>' +
         '<rect x="6.5" y="6.5" width="4" height="4" rx="1.3" fill="currentColor" stroke="none"/><rect x="13.5" y="6.5" width="4" height="4" rx="1.3" fill="currentColor" stroke="none"/>' +
         '<rect x="6.5" y="13.5" width="4" height="4" rx="1.3" fill="currentColor" stroke="none"/><rect x="13.5" y="13.5" width="4" height="4" rx="1.3" fill="currentColor" stroke="none"/></svg><span class="af-dot" id="af-dot"></span>';
@@ -36,10 +40,12 @@
     let open = false;
     const unread = () => { const d = $('nb-dot'); return d && d.classList.contains('on') ? (d.textContent || '1') : ''; };
     const syncBadge = () => {
-        const u = unread(), dot = $('af-dot');
-        if (dot) dot.classList.toggle('on', !!u);
+        const u = unread(), dr = $('drops-btn') ? ($('drops-btn').dataset.count || '') : '', dot = $('af-dot');
+        if (dot) dot.classList.toggle('on', !!(u || dr));
         const t = pop.querySelector('[data-id="notif-btn"] .af-badge'); if (t) { t.textContent = u; t.classList.toggle('on', !!u); }
+        const g = pop.querySelector('[data-id="drops-btn"] .af-badge'); if (g) { g.textContent = dr; g.classList.toggle('on', !!dr); }
     };
+    document.addEventListener('sl-drops', syncBadge);
     const nb = $('nb-dot'); if (nb) new MutationObserver(syncBadge).observe(nb, { attributes: true, childList: true, characterData: true, subtree: true });
 
     const build = () => {

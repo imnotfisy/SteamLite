@@ -51,6 +51,7 @@
         if (!window.SLF) { body.closest('.sp-card').style.display = 'none'; return; }
         body.closest('.sp-card').style.display = '';
         [['🧰', 'Tools & extras', 'Every tool in one searchable window', () => SLF.openHub && SLF.openHub()],
+         ['🎛️', 'More settings', 'Notification rules, idle detection, Discord posts, accessibility, language, restore points', () => SLF.actions['More settings'] && SLF.actions['More settings']()],
          ['🎛️', 'Extras settings', 'Game mode, session widget, controller, day / night themes, language', () => SLF.actions['Extras settings'] && SLF.actions['Extras settings']()],
          ['🩺', 'Diagnostics', 'A page to copy when you report a problem', () => SLF.actions['Diagnostics'] && SLF.actions['Diagnostics']()],
          ['💾', 'Automatic backups', 'Scheduled backups of your settings to a folder', () => SLF.actions['Automatic backups'] && SLF.actions['Automatic backups']()]

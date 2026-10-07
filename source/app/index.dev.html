@@ -5922,7 +5922,7 @@
             const container = document.getElementById('toast-container');
             const maxStack = activeConfig && activeConfig.notifMaxStack ? activeConfig.notifMaxStack : 3;
             while (container.children.length >= maxStack) container.firstChild.remove();
-            const duration = Math.max((activeConfig && activeConfig.notifDuration ? activeConfig.notifDuration : 4) * 1000, opts && opts.action ? 8000 : 0);
+            const duration = Math.max((activeConfig && activeConfig.notifDuration ? activeConfig.notifDuration : 4) * 1000, opts && opts.action ? 8000 : 0, opts && opts.duration ? opts.duration : 0);
             const toast = document.createElement('div');
             toast.className = 'toast';
             if (opts && opts.icon) {
@@ -7333,7 +7333,7 @@
 
         // ===== Profile customisation (8.3.0): tagline, avatar frame, per-profile accent, game showcase =====
         // Stored per SteamID in config.profileCustom: { tagline, showcase: [appid x5], frame, accent }
-        const AVATAR_FRAMES = [['none', 'None'], ['glow', 'Glow'], ['ring', 'Ring'], ['pulse', 'Pulse'], ['rainbow', 'Rainbow'], ['flame', 'Flame'], ['aurora', 'Aurora'], ['gold', 'Gold'], ['galaxy', 'Galaxy'], ['legend', 'Legendary'], ['frost', 'Frost'], ['bloom', 'Bloom'], ['blaze', 'Blaze'], ['harvest', 'Harvest'], ['steamlite', 'SteamLite']]; // flame..legend are level rewards, the next four are season rewards, SteamLite is an event reward
+        const AVATAR_FRAMES = [['none', 'None'], ['glow', 'Glow'], ['ring', 'Ring'], ['pulse', 'Pulse'], ['rainbow', 'Rainbow'], ['flame', 'Flame'], ['aurora', 'Aurora'], ['gold', 'Gold'], ['galaxy', 'Galaxy'], ['legend', 'Legendary'], ['frost', 'Frost'], ['bloom', 'Bloom'], ['blaze', 'Blaze'], ['harvest', 'Harvest'], ['steamlite', 'SteamLite'], ['neon', 'Neon'], ['emerald', 'Emerald'], ['sunset', 'Sunset'], ['mono', 'Mono'], ['candy', 'Candy'], ['void', 'Void'], ['pumpkin', 'Pumpkin'], ['holly', 'Holly'], ['blossom', 'Blossom'], ['sunseeker', 'Sunseeker'], ['roots', 'Roots']]; // flame..legend are level rewards, the next four are season rewards, SteamLite is an event reward
         const SHOWCASE_MAX = 5;
 
         function getOwnCustom() {
@@ -7379,10 +7379,10 @@
                 const need = ((peMeta && peMeta.levelRewards) || []).find(r => r.type === 'frame' && r.id === k);
                 const isSeasonFrame = ['frost', 'bloom', 'blaze', 'harvest'].includes(k);
                 const seasonLocked = isSeasonFrame && !((((peMeta || {}).cosmetics || {}).frames || []).includes(k));
-                const eventLocked = k === 'steamlite' && !((((peMeta || {}).cosmetics || {}).frames || []).includes(k));
+                const eventLocked = ['steamlite', 'neon', 'emerald', 'sunset', 'mono', 'candy', 'void', 'pumpkin', 'holly', 'blossom', 'sunseeker', 'roots'].includes(k) && !((((peMeta || {}).cosmetics || {}).frames || []).includes(k));
                 const locked = !!(need && !need.unlocked) || seasonLocked || eventLocked;
                 const lockTxt = eventLocked ? 'event' : seasonLocked ? 'season' : (need ? need.level : '');
-                return '<button type="button" class="pe-frame-btn' + (k === peDraft.frame ? ' active' : '') + (locked ? ' locked' : '') + '" data-frame="' + k + '"' + (locked ? ' data-locked="' + lockTxt + '"' : '') + '>' + label + (locked ? (eventLocked ? ' 🔒 Event reward' : seasonLocked ? ' 🔒 Season reward' : ' 🔒 Lv ' + need.level) : '') + '</button>';
+                return '<button type="button" class="pe-frame-btn' + (k === peDraft.frame ? ' active' : '') + (locked ? ' locked' : '') + '" data-frame="' + k + '"' + (locked ? ' data-locked="' + lockTxt + '"' : '') + '>' + label + (locked ? (eventLocked ? (k === 'steamlite' ? ' 🔒 Event reward' : ' 🔒 Shop') : seasonLocked ? ' 🔒 Season reward' : ' 🔒 Lv ' + need.level) : '') + '</button>';
             }).join('');
         }
 
@@ -7422,7 +7422,7 @@
 
         document.getElementById('pe-frames').addEventListener('click', (e) => {
             const btn = e.target.closest('.pe-frame-btn'); if (!btn) return;
-            if (btn.dataset.locked) { playSound('click'); showToast(btn.dataset.locked === 'event' ? 'This frame is a limited-time event reward - complete the quests during SteamLite Day.' : btn.dataset.locked === 'season' ? 'This frame is a Season reward - earn it on the season track.' : 'This frame unlocks at SteamLite level ' + btn.dataset.locked + '.'); return; }
+            if (btn.dataset.locked) { playSound('click'); showToast(btn.dataset.locked === 'event' ? (btn.dataset.frame === 'steamlite' ? 'This frame is a limited-time event reward - complete the quests during SteamLite Day.' : 'Buy this frame in the Shop with coins from drops.') : btn.dataset.locked === 'season' ? 'This frame is a Season reward - earn it on the season track.' : 'This frame unlocks at SteamLite level ' + btn.dataset.locked + '.'); return; }
             playSound('click'); peDraft.frame = btn.dataset.frame; renderFrameButtons();
         });
         document.getElementById('pe-game-search').addEventListener('input', renderShowcasePicker);
@@ -7639,6 +7639,7 @@
             if (filterAchievements) { const checkAch = (g) => { const ach = achievementCache[String(g.appid)]; return ach && ach.total > 0; }; inst = inst.filter(checkAch); uninst = uninst.filter(checkAch); }
             const statusF = document.getElementById('filter-status').value;
             if (statusF) { const gmOf = (g) => gameMetaCache[gid(g)] || {}; const okStatus = (g) => statusF === 'rated' ? gmOf(g).rating > 0 : gmOf(g).status === statusF; inst = inst.filter(okStatus); uninst = uninst.filter(okStatus); }
+            if (window.SLX && SLX.activeTags) { const tagF = SLX.activeTags(); if (tagF.length) { const okTag = (g) => SLX.hasTags(g, tagF); inst = inst.filter(okTag); uninst = uninst.filter(okTag); } }
             const getPlaytime = (g) => getPlaytimeSeconds(g); const getLastPlayed = (g) => telemetryCache[String(g.appid)] ? (telemetryCache[String(g.appid)].lastPlayed || 0) : 0; const getAchPercent = (g) => { const ach = achievementCache[String(g.appid)]; if (ach && ach.total > 0) return (ach.achieved / ach.total); return -1; };
             if (sortBy === 'az') { inst.sort((a, b) => a.name.localeCompare(b.name)); uninst.sort((a, b) => a.name.localeCompare(b.name)); }
             else if (sortBy === 'za') { inst.sort((a, b) => b.name.localeCompare(a.name)); uninst.sort((a, b) => b.name.localeCompare(a.name)); }
@@ -10042,12 +10043,13 @@
         initApp();
     </script>
     <script src="perf.js"></script>
+    <script src="drops.js"></script>
     <script src="settings_page.js"></script>
     <script src="media_ui.js"></script>
     <script src="couch.js"></script>
     <script>/* Full edition only: the Tools & extras layer. The Lite edition never loads it. */
     if (!window.electronAPI || window.electronAPI.edition !== 'lite') {
-        ["features.js", "features_play.js", "features_progress.js"].forEach(function (f) { document.write('<script src="' + f + '"><\/script>'); });
+        ["features.js", "features_play.js", "features_progress.js", "x_shop.js", "x_events.js", "x_profile.js", "x_library.js", "x_lang.js", "x_social.js", "x_ui.js", "x_online.js"].forEach(function (f) { document.write('<script src="' + f + '"><\/script>'); });
     }
     </script>
     <script src="shell.js"></script>

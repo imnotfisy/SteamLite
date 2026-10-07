@@ -1,16 +1,22 @@
 {
   "changelog": {
-    "version": "9.0.3",
-    "title": "SteamLite 9.0.3 - SteamLite Day",
+    "version": "9.1.0",
+    "title": "SteamLite 9.1 - Drops, Shop and so much more",
     "items": [
-      "SteamLite Day (October 7 - 14): complete 5 quests to earn the SteamLite title, the SteamLite avatar frame and the Remembering the Roots theme",
-      "Events that are on at the same time are all shown on the dashboard, the one ending first on top",
-      "The achievements window only lists the events that are on while one is running",
-      "Season avatar frames can be picked now",
-      "The Compact List library view has a new, more modern look"
+      "Drops: free XP every hour, 5 hours and day, with a streak bonus, rarities, coins and a lucky wheel",
+      "A Shop for frames and titles, a Trophy room and an Events calendar",
+      "Dashboard widgets, a weekly recap and a stats card",
+      "Smart collections, game tags, links on every game and a pre-launch check",
+      "Pinned achievements, banners from your screenshots, a friend challenge and Discord posts",
+      "Search everywhere, 5 new languages, accessibility options, notification rules and restore points"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.1.0 Released - Drops, Shop and more",
+      "date": "October 7, 2026",
+      "content": "The big one is here: Drops with streaks, rarities and a lucky wheel, a Shop and Trophy room, dashboard widgets, smart collections and tags, a weekly recap, a friend challenge, search everywhere, five new languages, accessibility options and restore points. Open the folder button in the header to find them."
+    },
     {
       "title": "SteamLite Day - Oct 7 to Oct 14",
       "date": "October 7, 2026",
@@ -35,11 +41,6 @@
       "title": "SteamLite 9.0.0 Released - Glass, Couch mode and more",
       "date": "October 4, 2026",
       "content": "SteamLite 9.0.0 is here. A new floating glass interface (Classic is one switch away), a full-page Settings, couch mode for your sofa with a page for every game, Spotify now playing in the top bar, a much better Discord presence card and a redesigned Tools & extras. It uses less memory and no idle CPU, and the Updater can now switch between Stable and Beta."
-    },
-    {
-      "title": "SteamLite 8.7.4 Released - Setup Fix",
-      "date": "October 4, 2026",
-      "content": "SteamLite 8.7.4 fixes the restart prompt that appeared at the end of setup in 8.7.3, and adds a Stable / Beta switch to the SteamLite Updater."
     }
   ]
 }

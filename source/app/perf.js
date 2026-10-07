@@ -261,10 +261,11 @@
             opt('dc-browse', 'Show what I am browsing', 'Which page you are on and your library numbers while you are not in a game') +
             opt('dc-streak', 'Show my streak', 'Adds your play streak to the card') +
             opt('dc-buttons', 'Show buttons', '"View on Steam" and "Get SteamLite" under the card') +
+            opt('dc-events', 'Show the event I am in', 'For example "SteamLite Day: 3/5 quests" on the browsing card') +
             opt('dc-hide', 'Hide game names', 'Shows "Playing a game" without the name, art or Steam button') +
             '<div id="dc-status" style="margin-top:8px;font-size:12px;color:var(--text-secondary)"></div>';
         row.insertAdjacentElement('afterend', box);
-        const keys = { 'dc-game': 'game', 'dc-browse': 'browsing', 'dc-streak': 'streak', 'dc-buttons': 'buttons', 'dc-hide': 'hideNames' };
+        const keys = { 'dc-game': 'game', 'dc-browse': 'browsing', 'dc-streak': 'streak', 'dc-buttons': 'buttons', 'dc-hide': 'hideNames', 'dc-events': 'events' };
         const load = async () => {
             let r = null; try { r = await api.discordGetOpts(); } catch (e) { }
             if (!r) { box.style.display = 'none'; return; }

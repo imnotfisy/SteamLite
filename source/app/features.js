@@ -3,7 +3,8 @@
    Each feature is installed inside safe(), so a bug in one can never stop the rest of the app from working. */
 (function () {
     'use strict';
-    const SLF = window.SLF = { cmds: [], tiles: [], installed: [], version: '9.0.3', tourVersion: '9.0.1' };
+    const SLF = window.SLF = { cmds: [], tiles: [], installed: [], version: '9.1.0', tourVersion: '9.1.0', langNames: { en: 'English', bg: 'Български' } };
+    SLF.langOptions = () => Object.keys(SLF.langNames).map(k => '<option value="' + k + '">' + SLF.langNames[k] + '</option>').join('');
     const $ = (id) => document.getElementById(id);
     const feat = (name, payload) => window.electronAPI.feat(name, payload);
     const onFeat = (name, cb) => window.electronAPI.onFeat(name, cb);
@@ -300,7 +301,7 @@
                 + '<div class="fx-setting"><div><b>Per-game accent</b><span class="d">The app takes its colour from the cover of the game you open</span></div>' + sw('fs-acc', getUiPref('perGameAccent', false)) + '</div>'
                 + '<div class="fx-setting"><div><b>Day / night themes</b><span class="d">Switch theme automatically (only themes you own)</span></div>' + sw('fs-sch', sch.on) + '</div>'
                 + '<div class="fx-setting" style="flex-wrap:wrap"><div><span class="d">Day theme</span><select class="fx-select" id="fs-day">' + opts(sch.day) + '</select></div><div><span class="d">Night theme</span><select class="fx-select" id="fs-night">' + opts(sch.night) + '</select></div><div><span class="d">Mode</span><select class="fx-select" id="fs-mode"><option value="time">By time</option><option value="windows">Follow Windows</option></select></div><div><span class="d">Night from / to</span><input type="time" class="fx-input" id="fs-from" value="' + E(sch.from) + '"> <input type="time" class="fx-input" id="fs-to" value="' + E(sch.to) + '"></div></div>'
-                + '<div class="fx-setting"><div><b>Language</b><span class="d">Bulgarian covers the main screens (the rest stays in English)</span></div><select class="fx-select" id="fs-lang"><option value="en">English</option><option value="bg">Български</option></select></div>'
+                + '<div class="fx-setting"><div><b>Language</b><span class="d">The main screens and menus are translated (the rest stays in English)</span></div><select class="fx-select" id="fs-lang">' + SLF.langOptions() + '</select></div>'
                 + '<div class="fx-section">Input</div>'
                 + '<div class="fx-setting"><div><b>Controller navigation</b><span class="d">D-pad / stick to move, A = open, B = back, LB/RB = switch page, Y = tools</span></div>' + sw('fs-pad', getUiPref('controller', true)) + '</div>';
             $('fs-wc').value = fs.sessionWidgetCorner || 'tr'; $('fs-mode').value = sch.mode; $('fs-lang').value = getUiPref('lang', 'en');
@@ -316,7 +317,7 @@
             $('fs-wc').onchange = (e) => feat('settingsSet', { sessionWidgetCorner: e.target.value });
             const saveSch = async () => { const v = { on: $('fs-sch').checked, mode: $('fs-mode').value, day: $('fs-day').value, night: $('fs-night').value, from: $('fs-from').value || '19:00', to: $('fs-to').value || '07:00' }; await setUiPref({ themeSchedule: v, themeScheduleLast: '' }); SLF.runScheduler && SLF.runScheduler(); };
             ['fs-sch', 'fs-day', 'fs-night', 'fs-mode', 'fs-from', 'fs-to'].forEach(id => { $(id).onchange = saveSch; });
-            $('fs-lang').onchange = async (e) => { await setUiPref({ lang: e.target.value }); SLF.applyLang && SLF.applyLang(); showToast(e.target.value === 'bg' ? 'Езикът е променен.' : 'Language changed.'); };
+            $('fs-lang').onchange = async (e) => { await setUiPref({ lang: e.target.value }); SLF.applyLang && SLF.applyLang(); showToast('✓ ' + (SLF.langNames[e.target.value] || 'Language changed.')); };
             m.open();
         });
     });
@@ -471,10 +472,11 @@
     // ---------- welcome tour after an update ----------
     safe('update-tour', () => {
         SLF.tourSteps = () => [
-            { icon: '\uD83D\uDDC2\uFE0F', title: 'A tidier header', text: 'Inventory, achievements, wishlist, notifications and Tools & extras now live in one folder button at the top. The minimise and close buttons moved into the header too, and the Spotify player is a floating pill you can drag anywhere.', act: () => { if (window.SLShell) SLShell.openFolder(); }, label: 'Open the folder' },
-            { icon: '\uD83C\uDFC6', title: '15 new achievements', text: 'Hundred Days, Ultra Marathon, Archivist, Triple Crown and more. XP is bigger now: a level now takes 80,000 XP. Your current level did not change.', act: () => { const b = document.getElementById('achievements-toggle'); if (b) b.click(); }, label: 'See achievements' },
-            { icon: '\uD83C\uDFA8', title: '3 new themes', text: 'Royal Gold, Mocha Cream and Sakura Night are in the Theme Shop, free for everyone.', act: () => { const b = document.querySelector('.nav-btn[data-view="settings"]'); if (b) b.click(); setTimeout(() => { const t = document.getElementById('download-themes-btn'); if (t) t.click(); }, 500); }, label: 'Browse themes' },
-            { icon: '\uD83C\uDFB5', title: 'Now playing, your way', text: 'Start music in Spotify (turn it on in Settings > Behaviour > Now playing) and the player floats on screen. Drag it anywhere; double-click it to put it back.', act: () => { const b = document.querySelector('.nav-btn[data-view="settings"]'); if (b) b.click(); }, label: 'Open Settings' }
+            { icon: '\uD83C\uDF81', title: 'Drops, streaks and a lucky wheel', text: 'Free XP every hour, every 5 hours and every day. Claim the daily drop on consecutive days for up to +70% XP, earn coins from every drop and spin the lucky wheel once a day.', act: () => { if (window.SLDrops) SLDrops.open(); }, label: 'Open Drops' },
+            { icon: '\uD83C\uDFF7\uFE0F', title: 'Shop and Trophy room', text: 'Spend your coins on avatar frames and profile titles (daily picks plus limited-time event items), and see every frame, title and theme you can collect in the Trophy room.', act: () => { if (SLF.openShop) SLF.openShop(); }, label: 'Open the Shop' },
+            { icon: '\uD83E\uDDE9', title: 'Widgets, recap and search', text: 'Cards on your dashboard (continue playing, this week, daily goal, clock, theme of the week), a weekly recap you can save as a picture, and a command palette (Ctrl+K) that now finds achievements, settings and themes too.', act: () => { if (SLF.actions['Dashboard widgets']) SLF.actions['Dashboard widgets'](); }, label: 'Dashboard widgets' },
+            { icon: '\u2728', title: 'Smart collections, tags and links', text: 'Build collections from rules like "unplayed and under 5 hours", tag your games (right-click a game) and keep links or save folders on every game page.', act: () => { if (SLF.actions['Smart collections']) SLF.actions['Smart collections'](); }, label: 'Smart collections' },
+            { icon: '\uD83C\uDF9B\uFE0F', title: 'More settings', text: 'Mute kinds of notifications or snooze them, ignore time spent away from the PC, post achievements to Discord, accessibility options, more languages and restore points.', act: () => { if (SLF.openMore) SLF.openMore(); }, label: 'Open More settings' }
         ];
         SLF.openTour = () => {
             const steps = SLF.tourSteps(); let i = 0;
@@ -539,7 +541,7 @@
             'Go to Home': 'Към началото', 'Go to Library': 'Към библиотеката', 'Go to Favorites': 'Към любимите', 'Open Settings': 'Отвори настройките', 'Toggle Friends Panel': 'Покажи/скрий приятелите',
             'Play Random Game': 'Играй случайна игра', 'Free Up Space (disk cleanup)': 'Освобождаване на място', 'Import Games from Start Menu': 'Импорт на игри от менюто Старт'
         };
-        const DICTS = { bg: BG };
+        const DICTS = { bg: BG }; SLF.DICTS = DICTS;
         const skip = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'INPUT', 'CANVAS', 'PRE', 'CODE']);
         const origText = new WeakMap();
         function translateNode(n, dict) {

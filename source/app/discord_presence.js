@@ -5,7 +5,7 @@
 //  - Playing a game: the game's art, the real session start (so the timer is right), achievement progress, your streak and
 //    two buttons (View on Steam / Get SteamLite). Browsing: what you are looking at plus library numbers.
 //  - Privacy options: every part can be switched off, and game names can be hidden.
-const OPTS_DEFAULT = { game: true, browsing: true, streak: true, buttons: true, hideNames: false };
+const OPTS_DEFAULT = { game: true, browsing: true, streak: true, buttons: true, hideNames: false, events: true };
 const REPO_URL = 'https://github.com/imnotfisy/SteamLite';
 
 module.exports = function createPresence(ctx) {
@@ -61,6 +61,7 @@ module.exports = function createPresence(ctx) {
         const bits = [];
         if (current.state) bits.push(current.state);
         if (streakText) bits.push(streakText);
+        if (o.events && typeof ctx.extra === 'function') { let ex = ''; try { ex = ctx.extra(); } catch (e) { } if (ex) bits.push(ex); } // the event that is on, with your progress
         if (bits.length) a.state = clip(bits.join('  ·  '), 128);
         if (o.buttons) a.buttons = [{ label: 'Get SteamLite', url: REPO_URL }];
         return a;

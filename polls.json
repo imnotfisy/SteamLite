@@ -1,0 +1,11 @@
+{
+  "title": "What should we add next?",
+  "items": [
+    { "id": "game-rooms", "title": "Game rooms", "desc": "Little shared lobbies where friends can see who is playing what." },
+    { "id": "mobile-companion", "title": "Phone companion", "desc": "Check your library, drops and quests from your phone." },
+    { "id": "custom-themes-online", "title": "Share themes online", "desc": "Publish your own themes to the Theme Shop with one click." },
+    { "id": "more-events", "title": "More events", "desc": "Extra short events with their own quests and rewards." },
+    { "id": "mod-manager", "title": "Mod helper", "desc": "Open the mod folder and manage mods for supported games." },
+    { "id": "stats-year", "title": "Live year stats", "desc": "A year-in-review that updates all year round." }
+  ]
+}
