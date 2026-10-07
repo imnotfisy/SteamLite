@@ -2,7 +2,7 @@
 
 A modern, feature-rich Steam library client alternative built with Electron.
 
-![SteamLite Version](https://img.shields.io/badge/version-9.0.3-blue)
+![SteamLite Version](https://img.shields.io/badge/version-9.1.0-blue)
 ![Electron](https://img.shields.io/badge/Electron-42.0.1-9FE349)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/2VP6x6Rvak)
@@ -49,6 +49,10 @@ A modern, feature-rich Steam library client alternative built with Electron.
 - **Year in Review** - A shareable picture of your year in games
 - **Play-time Reminders** - Optional break reminders and a daily play limit
 - **Friend Activity** - See who started playing what and who came online
+- **Drops, Shop and Trophy room (9.1)** - Free XP every hour, 5 hours and day with streaks, rarities and a lucky wheel; spend coins on frames and titles; collect everything in the Trophy room
+- **Dashboard widgets and recap (9.1)** - Continue playing, weekly hours, daily goal, theme of the week, a weekly recap and a stats card
+- **Smart collections and tags (9.1)** - Collections that fill themselves from rules, game tags, links on every game and a pre-launch check
+- **Accessibility and languages (9.1)** - High contrast, strong focus, larger targets and Spanish, French, German, Portuguese and Italian
 - **Tidy header (9.0.1)** - Window buttons live in the header, the extras sit in one folder button, and the now-playing pill floats wherever you drag it
 - **Achievements and themes** - 88 SteamLite achievements, 60 themes, and icons instead of emojis everywhere
 - **Glass interface (9.0)** - A floating glass sidebar that opens when you point at it, one floating header, frosted-glass windows and a dashboard greeting. Classic is one switch away
