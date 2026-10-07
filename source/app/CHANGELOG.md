@@ -1,3 +1,13 @@
+# SteamLite 9.0.2 Changelog
+
+An emergency fix for 9.0.1.
+
+## Fixes
+- **Clicking a tab in Settings pushed the top bar half off the screen.** Settings now only scrolls its own list, and the header stays put.
+- The header's shadow still follows its rounded shape.
+
+---
+
 # SteamLite 9.0.1 Changelog
 
 A tidier header, a floating player you can move, 15 new achievements, 3 new themes, icons instead of emojis, a bigger XP scale and a more modern news widget.

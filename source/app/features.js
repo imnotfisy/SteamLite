@@ -3,7 +3,7 @@
    Each feature is installed inside safe(), so a bug in one can never stop the rest of the app from working. */
 (function () {
     'use strict';
-    const SLF = window.SLF = { cmds: [], tiles: [], installed: [], version: '9.0.1' };
+    const SLF = window.SLF = { cmds: [], tiles: [], installed: [], version: '9.0.2', tourVersion: '9.0.1' };
     const $ = (id) => document.getElementById(id);
     const feat = (name, payload) => window.electronAPI.feat(name, payload);
     const onFeat = (name, cb) => window.electronAPI.onFeat(name, cb);
@@ -478,7 +478,7 @@
         ];
         SLF.openTour = () => {
             const steps = SLF.tourSteps(); let i = 0;
-            const m = SLF.modal('tour-modal', 'What\'s new in ' + SLF.version, { cls: 'narrow' });
+            const m = SLF.modal('tour-modal', 'What\'s new in ' + SLF.tourVersion, { cls: 'narrow' });
             // every step is a slide on one track; Next / Back slide the track sideways
             m.body.innerHTML = '<div class="tour-view"><div class="tour-track" id="tour-track">' + steps.map((s, n) =>
                 '<div class="tour-slide' + (n === 0 ? ' on' : '') + '"><div class="tour-ico">' + s.icon + '</div><h3>' + E(s.title) + '</h3><p>' + E(s.text) + '</p></div>').join('') + '</div></div>'
@@ -506,8 +506,8 @@
         SLF.addCmd('What\'s new tour', '🎉', SLF.openTour);
         setTimeout(async () => {
             if (!activeConfig || !activeConfig.steamId) return;
-            if (getUiPref('tourSeen', '') === SLF.version) return;
-            await setUiPref({ tourSeen: SLF.version });
+            if (getUiPref('tourSeen', '') === SLF.tourVersion) return;
+            await setUiPref({ tourSeen: SLF.tourVersion });
             if (!document.querySelector('.modal-backdrop.active')) SLF.openTour();
         }, 6000);
     });

@@ -775,7 +775,7 @@ body.ui9 #ach-popup-container { top: 90px; }
 .sp-nav, #sp-links { overflow-x: hidden !important; }
 .sp-link { min-width: 0; max-width: 100%; }
 /* the header's shadow was cut off in a square by the page edge: let it breathe, and keep it close to the bar's rounded shape */
-body.ui9 #main-content { overflow: visible; }
+body.ui9 #main-content { overflow: clip; overflow-clip-margin: 30px; } /* clip (never scrollable) but lets shadows paint outside */
 body.ui9 #top-bar { box-shadow: var(--glass-edge), 0 10px 26px rgba(0, 0, 0, 0.26); }
 
 /* ---- the What's new tour: steps slide sideways ---- */

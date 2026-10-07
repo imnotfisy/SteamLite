@@ -38,7 +38,7 @@
     const links = $('sp-links'), secs = $('sp-sections');
     SECTIONS.forEach(s => {
         const a = document.createElement('button'); a.className = 'sp-link'; a.dataset.s = s.id; a.innerHTML = '<span class="sp-ico">' + s.icon + '</span><span>' + s.title + '</span>';
-        a.addEventListener('click', () => { const t = $('sp-sec-' + s.id); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+        a.addEventListener('click', () => { const t = $('sp-sec-' + s.id); if (t) { const m = $('sp-main'); m.scrollTo({ top: m.scrollTop + t.getBoundingClientRect().top - m.getBoundingClientRect().top - 2, behavior: 'smooth' }); } /* scroll only the settings column: scrollIntoView also moved the whole window and pushed the header off-screen */ });
         links.appendChild(a);
         const sec = document.createElement('section'); sec.className = 'sp-card'; sec.id = 'sp-sec-' + s.id; sec.dataset.s = s.id;
         sec.innerHTML = '<div class="sp-card-head"><span class="sp-ico big">' + s.icon + '</span><div><h2>' + s.title + '</h2><p>' + s.desc + '</p></div></div><div class="sp-card-body"></div>';
