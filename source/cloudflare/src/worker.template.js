@@ -63,7 +63,7 @@ function checkTheme(p) {
     if (/@import|@font-face|url\s*\(|expression|javascript:|behavior|binding|<|>|\\|image-set|\bsrc\s*:|content\s*:\s*attr/i.test(css)) return { error: 'The extra CSS uses something that is not allowed (no images, imports or scripts).' };
     return { theme: { name, desc, author, vars, css } };
 }
-const themeView = (t, full) => { const vars = typeof t.vars === 'string' ? JSON.parse(t.vars) : t.vars; const o = { id: t.id, name: t.name, desc: t.desc, author: t.author, likes: t.likes || 0, liked: !!t.liked, at: t.at, colors: ['--accent-color', '--bg-dark', '--accent-color-2'].map(k => vars[k]).filter(Boolean) }; if (full) { o.vars = vars; o.css = t.css; } return o; };
+const themeView = (t, full) => { const vars = typeof t.vars === 'string' ? JSON.parse(t.vars) : t.vars; const o = { id: t.id, name: t.name, desc: t.desc, author: t.author, likes: t.likes || 0, liked: !!t.liked, downloads: t.downloads || 0, at: t.at, colors: ['--accent-color', '--bg-dark', '--accent-color-2'].map(k => vars[k]).filter(Boolean), vars, hasCss: t.hasCss !== undefined ? !!t.hasCss : !!(t.css && String(t.css).trim()) }; if (full) { o.css = t.css; } return o; };
 
 // ---------- accounts ----------
 const STEAM_OPENID = 'https://steamcommunity.com/openid/login', SESSION_MS = 180 * 86400000;
@@ -111,6 +111,7 @@ async function route(req, env) {
         }
         if (p === '/admin/status' && m === 'PUT') { const b = await body(req, 60000); if (!b || typeof b !== 'object') return J(400, { error: 'Bad status' }); await kvSet(env, 'status', { motd: cleanText(b.motd, 200), announcements: (Array.isArray(b.announcements) ? b.announcements : []).slice(0, 10), gifts: (Array.isArray(b.gifts) ? b.gifts : []).slice(0, 10) }); return J(200, { ok: true }); }
         if (p === '/admin/polls' && m === 'PUT') { const b = await body(req, 60000); if (!b || !Array.isArray(b.polls)) return J(400, { error: 'Bad polls' }); await kvSet(env, 'polls', b); return J(200, { ok: true }); }
+        if (p === '/admin/themes' && m === 'GET') { const rows = (await env.DB.prepare("SELECT t.id, t.name, t.author, t.at, t.downloads, (SELECT COUNT(*) FROM theme_likes l WHERE l.theme_id = t.id) likes FROM themes t WHERE t.status = 'approved' ORDER BY t.at DESC LIMIT 60").all()).results; return J(200, { themes: rows }); }
         if (p === '/admin/reports' && m === 'GET') {
             const rows = (await env.DB.prepare("SELECT r.id, r.at, r.reason, r.snap, r.conv, r.target, t.name tname, rp.name rname, EXISTS(SELECT 1 FROM bans b WHERE b.uid = r.target AND b.until > ?) banned FROM reports r LEFT JOIN accounts t ON t.uid = r.target LEFT JOIN accounts rp ON rp.uid = r.reporter WHERE r.status = 'open' ORDER BY r.at DESC LIMIT 50").bind(Date.now()).all()).results;
             return J(200, { reports: rows.map(r => ({ id: r.id, at: r.at, reason: r.reason, text: r.snap, conv: r.conv, target: r.target, targetName: r.tname || '(deleted)', reporterName: r.rname || '(deleted)', banned: !!r.banned })) });
@@ -199,7 +200,7 @@ async function route(req, env) {
         const acctOf = (u) => first('SELECT uid, name, avatar FROM accounts WHERE uid = ?', u);
         const view = (a) => a ? { uid: a.uid, name: a.name, avatar: a.avatar || '' } : { uid: '', name: 'Deleted player', avatar: '' };
         const streakView = (s) => { if (!s) return { streak: 0, best: 0, atRisk: false, doneToday: false, mineToday: false, theirsToday: false }; const mine = s.a === me ? s.a_day : s.b_day, theirs = s.a === me ? s.b_day : s.a_day, cur = s.last_day >= today - 1 ? s.streak : 0; return { streak: cur, best: s.best, doneToday: s.last_day === today, mineToday: mine === today, theirsToday: theirs === today, atRisk: cur > 0 && s.last_day === today - 1 }; };
-        const inConv = (c) => first('SELECT m.role, c.kind, c.name, c.owner FROM members m JOIN convs c ON c.id = m.conv WHERE m.conv = ? AND m.uid = ?', c, me);
+        const inConv = (c) => first('SELECT m.role, m.last_read, c.kind, c.name, c.owner FROM members m JOIN convs c ON c.id = m.conv WHERE m.conv = ? AND m.uid = ?', c, me);
         const clean = (t) => String(t == null ? '' : t).replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, '').replace(/\r\n?/g, '\n').trim();
         const cid = (v) => /^[dg][a-f0-9]{16,40}$/.test(String(v || '')) ? String(v) : '';
         const code = (u) => 'SL-' + u.slice(0, 10).toUpperCase();
@@ -274,9 +275,16 @@ async function route(req, env) {
             const maxId = rows.length ? rows[rows.length - 1].id : 0;
             if (maxId) await env.DB.prepare('UPDATE members SET last_read = MAX(last_read, ?) WHERE conv = ? AND uid = ?').bind(maxId, id, me).run();
             const mems = await all('SELECT ac.uid, ac.name, ac.avatar, mm.role, mm.last_read FROM members mm LEFT JOIN accounts ac ON ac.uid = mm.uid WHERE mm.conv = ? ORDER BY mm.joined LIMIT 25', id);
-            const out = { id, kind: mem.kind, name: mem.name, owner: mem.owner === me, members: mems.map(x => Object.assign(view(x), { role: x.role })), messages: rows.map(x => ({ id: x.id, uid: x.uid, name: x.name || 'Deleted player', text: x.text, at: x.at, mine: x.uid === me })) };
+            const typing = (await all('SELECT ac.uid, ac.name FROM typing t JOIN accounts ac ON ac.uid = t.uid WHERE t.conv = ? AND t.uid != ? AND t.until > ?', id, me, Date.now())).map(x => ({ uid: x.uid, name: x.name }));
+            const out = { id, kind: mem.kind, name: mem.name, typing, myRead: mem.last_read || 0, owner: mem.owner === me, members: mems.map(x => Object.assign(view(x), { role: x.role })), messages: rows.map(x => ({ id: x.id, uid: x.uid, name: x.name || 'Deleted player', text: x.text, at: x.at, mine: x.uid === me })) };
             if (mem.kind === 'dm') { const other = mems.find(x => x.uid !== me); out.peerRead = other ? other.last_read : 0; if (other && other.uid) { const [a, c] = pair(me, other.uid); out.streak = streakView(await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c)); out.peerUid = other.uid; out.canSend = await friendsWith(me, other.uid) && !(await blockedEither(me, other.uid)); } else out.canSend = false; }
             return J(200, out);
+        }
+        if (p === '/social/typing' && m === 'POST') {
+            const b = await body(req, 300), id = cid(b.conv); if (!id || !(await inConv(id))) return J(404, { error: 'Not found' });
+            await env.DB.prepare('INSERT INTO typing(conv, uid, until) VALUES(?, ?, ?) ON CONFLICT(conv, uid) DO UPDATE SET until = excluded.until').bind(id, me, Date.now() + 6000).run();
+            if (Math.random() < 0.02) await env.DB.prepare('DELETE FROM typing WHERE until < ?').bind(Date.now() - 60000).run();
+            return J(200, { ok: true });
         }
         if (p === '/social/send' && m === 'POST') {
             const b = await body(req, 4000), id = cid(b.conv), text = clean(b.text).slice(0, 1000);
@@ -286,6 +294,7 @@ async function route(req, env) {
             let peer = '';
             if (mem.kind === 'dm') { const o = await first('SELECT uid FROM members WHERE conv = ? AND uid != ?', id, me); peer = o ? o.uid : ''; if (!peer || !(await friendsWith(me, peer)) || await blockedEither(me, peer)) return J(403, { error: 'You can only message friends.' }); }
             const now = Date.now(), r = await env.DB.prepare('INSERT INTO msgs(conv, uid, text, at) VALUES(?, ?, ?, ?) RETURNING id').bind(id, me, text, now).first();
+            await env.DB.prepare('DELETE FROM typing WHERE conv = ? AND uid = ?').bind(id, me).run();
             await env.DB.batch([env.DB.prepare('UPDATE convs SET last_at = ? WHERE id = ?').bind(now, id), env.DB.prepare('UPDATE members SET last_read = ? WHERE conv = ? AND uid = ?').bind(r.id, id, me)]);
             let sv = null;
             if (peer) {
@@ -387,15 +396,17 @@ async function route(req, env) {
 
     // ----- theme gallery -----
     if (p === '/themes' && m === 'GET') {
-        const order = q.get('sort') === 'new' ? 't.at DESC' : 'likes DESC, t.at DESC', u = uidOk(uid) ? uid : '';
-        const list = (await env.DB.prepare("SELECT t.id, t.name, t.blurb AS desc, t.author, t.at, t.vars, (SELECT COUNT(*) FROM theme_likes l WHERE l.theme_id = t.id) likes, EXISTS(SELECT 1 FROM theme_likes l WHERE l.theme_id = t.id AND l.uid = ?) liked FROM themes t WHERE t.status = 'approved' ORDER BY " + order + ' LIMIT 60').bind(u).all()).results;
-        const mine = u ? (await env.DB.prepare("SELECT id, name, status FROM themes WHERE uid = ? AND status != 'approved'").bind(u).all()).results : [];
+        const sort = q.get('sort'), order = sort === 'new' ? 't.at DESC' : sort === 'downloads' ? 't.downloads DESC, t.at DESC' : 'likes DESC, t.at DESC', u = uidOk(uid) ? uid : '';
+        const qs = cleanText(q.get('q') || '', 30).toLowerCase().replace(/[%_]/g, ''), like = '%' + qs + '%';
+        const list = (await env.DB.prepare("SELECT t.id, t.name, t.blurb AS desc, t.author, t.at, t.vars, t.downloads, (length(t.css) > 0) hasCss, (SELECT COUNT(*) FROM theme_likes l WHERE l.theme_id = t.id) likes, EXISTS(SELECT 1 FROM theme_likes l WHERE l.theme_id = t.id AND l.uid = ?1) liked FROM themes t WHERE t.status = 'approved' AND (?2 = '' OR lower(t.name) LIKE ?3 OR lower(t.author) LIKE ?3) ORDER BY " + order + ' LIMIT 60').bind(u, qs, like).all()).results;
+        const mine = u ? (await env.DB.prepare("SELECT t.id, t.name, t.status, t.downloads, (SELECT COUNT(*) FROM theme_likes l WHERE l.theme_id = t.id) likes FROM themes t WHERE t.uid = ? ORDER BY t.at DESC LIMIT 50").bind(u).all()).results : [];
         return J(200, { themes: list.map(t => themeView(t)), mine });
     }
     let mt;
     if ((mt = /^\/themes\/([a-f0-9]{16})$/.exec(p)) && m === 'GET') {
         const u = uidOk(uid) ? uid : '';
-        const t = await env.DB.prepare("SELECT t.id, t.name, t.blurb AS desc, t.author, t.at, t.vars, t.css, (SELECT COUNT(*) FROM theme_likes l WHERE l.theme_id = t.id) likes, EXISTS(SELECT 1 FROM theme_likes l WHERE l.theme_id = t.id AND l.uid = ?) liked FROM themes t WHERE t.id = ? AND t.status = 'approved'").bind(u, mt[1]).first();
+        if (q.get('dl') === '1' && !(await limited(env, 'dl' + addr, 120, 3600000))) await env.DB.prepare("UPDATE themes SET downloads = downloads + 1 WHERE id = ? AND status = 'approved'").bind(mt[1]).run();
+        const t = await env.DB.prepare("SELECT t.id, t.name, t.blurb AS desc, t.author, t.at, t.vars, t.css, t.downloads, (SELECT COUNT(*) FROM theme_likes l WHERE l.theme_id = t.id) likes, EXISTS(SELECT 1 FROM theme_likes l WHERE l.theme_id = t.id AND l.uid = ?) liked FROM themes t WHERE t.id = ? AND t.status = 'approved'").bind(u, mt[1]).first();
         return t ? J(200, themeView(t, true)) : J(404, { error: 'Not found' });
     }
     if ((mt = /^\/themes\/([a-f0-9]{16})\/like$/.exec(p)) && m === 'POST') {
@@ -407,14 +418,29 @@ async function route(req, env) {
         const likes = (await env.DB.prepare('SELECT COUNT(*) c FROM theme_likes WHERE theme_id = ?').bind(mt[1]).first()).c;
         return J(200, { ok: true, likes, liked: !had });
     }
+    if ((mt = /^\/themes\/([a-f0-9]{16})$/.exec(p)) && m === 'DELETE') {
+        if (!acct) return J(401, { error: 'Sign in first' });
+        const r = await env.DB.prepare('DELETE FROM themes WHERE id = ? AND uid = ?').bind(mt[1], acct.uid).run();
+        if (r.meta.changes) await env.DB.prepare('DELETE FROM theme_likes WHERE theme_id = ?').bind(mt[1]).run();
+        return r.meta.changes ? J(200, { ok: true }) : J(404, { error: 'That is not your theme.' });
+    }
+    if ((mt = /^\/themes\/([a-f0-9]{16})\/report$/.exec(p)) && m === 'POST') {
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (await limited(env, 'tr' + acct.uid, 10, 86400000)) return J(429, { error: 'You sent a lot of reports today.' });
+        const b = await body(req, 1000), reason = cleanText(b.reason, 300), t = await env.DB.prepare('SELECT uid, name, css FROM themes WHERE id = ?').bind(mt[1]).first();
+        if (!t) return J(404, { error: 'Not found' }); if (reason.length < 3) return J(400, { error: 'Tell us briefly what is wrong.' });
+        await env.DB.prepare('INSERT INTO reports(id, reporter, target, conv, snap, reason, at, status) VALUES(?, ?, ?, ?, ?, ?, ?, ?)').bind(HEX(6), acct.uid, t.uid, 'theme:' + mt[1], (t.name + ': ' + String(t.css || '').slice(0, 300)).slice(0, 500), reason, Date.now(), 'open').run();
+        return J(200, { ok: true });
+    }
     if (p === '/themes' && m === 'POST') {
         const b = await body(req, 40000); if (acct) { b.uid = acct.uid; b.author = b.author || acct.name; } if (!uidOk(b.uid)) return J(400, { error: 'Bad id' });
         if (await limited(env, 't' + b.uid, 3, 86400000) || await limited(env, 'ti' + addr, 6, 86400000)) return J(429, { error: 'You can share 3 themes a day.' });
-        if ((await env.DB.prepare("SELECT COUNT(*) c FROM themes WHERE uid = ? AND status = 'pending'").bind(b.uid).first()).c >= 2) return J(400, { error: 'You already have 2 themes waiting for review.' });
+        if (!acct && (await env.DB.prepare("SELECT COUNT(*) c FROM themes WHERE uid = ? AND status = 'pending'").bind(b.uid).first()).c >= 2) return J(400, { error: 'You already have 2 themes waiting for review.' });
         const r = checkTheme(b); if (r.error) return J(400, { error: r.error });
-        const id = HEX(8);
-        await env.DB.prepare("INSERT INTO themes(id, uid, status, at, name, blurb, author, vars, css) VALUES(?, ?, 'pending', ?, ?, ?, ?, ?, ?)").bind(id, b.uid, Date.now(), r.theme.name, r.theme.desc, r.theme.author, JSON.stringify(r.theme.vars), r.theme.css).run();
-        return J(200, { ok: true, id, status: 'pending' });
+        if (acct && await env.DB.prepare('SELECT 1 x FROM bans WHERE uid = ? AND until > ?').bind(b.uid, Date.now()).first()) return J(403, { error: 'Your sharing is turned off.' });
+        const id = HEX(8), status = acct ? 'approved' : 'pending';
+        await env.DB.prepare('INSERT INTO themes(id, uid, status, at, name, blurb, author, vars, css) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)').bind(id, b.uid, status, Date.now(), r.theme.name, r.theme.desc, r.theme.author, JSON.stringify(r.theme.vars), r.theme.css).run();
+        return J(200, { ok: true, id, status });
     }
     return J(404, { error: 'Not found' });
 }

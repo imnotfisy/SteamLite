@@ -94,6 +94,16 @@ module.exports = function initAccount(ctx) {
     setTimeout(autoBackup, 60000); setInterval(autoBackup, 3 * 3600000);
 
 
+    // ---------- the community theme gallery (both editions): browse, download, publish, delete, report ----------
+    const hexId = (v) => String(v || '').replace(/[^a-f0-9]/g, '').slice(0, 16);
+    const uidQ = () => '?uid=' + onlineId();
+    handle('srvThemes', (p) => srv('GET', '/themes' + uidQ() + '&sort=' + (['new', 'downloads'].includes(p.sort) ? p.sort : 'liked') + (p.q ? '&q=' + encodeURIComponent(String(p.q).slice(0, 30)) : ''), null, 9000));
+    handle('srvTheme', (p) => srv('GET', '/themes/' + hexId(p.id) + uidQ() + (p.dl ? '&dl=1' : ''), null, 9000));
+    handle('srvThemeLike', (p) => srv('POST', '/themes/' + hexId(p.id) + '/like', { uid: onlineId() }));
+    handle('srvThemeShare', (p) => srv('POST', '/themes', { uid: onlineId(), name: p.name, desc: p.desc, author: p.author, vars: p.vars, css: p.css }, 12000));
+    handle('srvThemeDelete', (p) => srv('DELETE', '/themes/' + hexId(p.id)));
+    handle('srvThemeReport', (p) => srv('POST', '/themes/' + hexId(p.id) + '/report', { reason: String(p.reason || '').slice(0, 300) }));
+
     // ---------- the sign-in requirement ----------
     // A saved sign-in keeps working when the server cannot be reached, so being offline never locks anyone out. Only someone who has
     // never signed in on this PC has to reach the server once. SL_NO_GATE=1 skips it (automatic tests only).

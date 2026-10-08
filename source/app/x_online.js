@@ -58,6 +58,7 @@
     const SAFE_CSS = (c) => !/@import|@font-face|url\s*\(|expression|javascript:|behavior|binding|<|>|\\|image-set/i.test(String(c || ''));
     const SAFE_VAR = (k, v) => /^--[a-z0-9-]{1,40}$/.test(k) && /^[#a-zA-Z0-9(),.%\s\/-]+$/.test(String(v)) && !/url|expression|javascript/i.test(String(v));
     async function openGallery(sort) {
+        if (window.SLThemes) { SLThemes.open('community'); return; } // the Themes window has the community gallery now
         sort = sort || 'liked';
         const m = SLF.modal('cg-modal', 'Community themes', { cls: 'wide', sub: 'Themes made by other SteamLite players. Every theme is reviewed before it shows up here.' });
         m.body.innerHTML = '<div class="fx-empty">Loading...</div>'; m.open();

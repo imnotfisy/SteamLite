@@ -1,4 +1,4 @@
-// SteamLite 9.2.1 - Messages: friends who also use SteamLite, private chats, group chats and friend streaks.
+// SteamLite 9.2.2 - Messages: friends who also use SteamLite, private chats, group chats and friend streaks.
 // Everything goes through the SteamLite server (accounts are required, so every player has one). Full edition only.
 (function () {
     'use strict';
@@ -42,12 +42,36 @@
     .cx-banner { display: flex; align-items: center; gap: 10px; padding: 8px 16px; font-size: 12px; color: var(--text-secondary); border-bottom: 1px solid var(--border-glass); background: color-mix(in srgb, #fb923c 8%, transparent); }
     .cx-panel { padding: 12px 16px; border-bottom: 1px solid var(--border-glass); max-height: 46%; overflow-y: auto; flex: 0 0 auto; }
     .cx-pick { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 10px; cursor: pointer; } .cx-pick:hover { background: var(--bg-glass); } .cx-pick input { accent-color: var(--accent-color); }
+
+    .cx-wrap { position: relative; flex: 1; min-height: 0; display: flex; } .cx-wrap .cx-msgs { flex: 1; }
+    .cx-msgs { scroll-behavior: auto; } .cx-msg { transition: opacity .2s; } .cx-msg.sp { margin-top: -2px; } .cx-msg.gi { margin-left: 38px; }
+    .cx-bub { border-radius: 18px; } .cx-msg:not(.mine).sp .cx-bub { border-top-left-radius: 6px; } .cx-msg:not(.mine).sn .cx-bub { border-bottom-left-radius: 6px; } .cx-msg.mine.sp .cx-bub { border-top-right-radius: 6px; } .cx-msg.mine.sn .cx-bub { border-bottom-right-radius: 6px; }
+    .cx-msg.pending .cx-bub { opacity: .62; } .cx-msg.failed .cx-bub { background: rgba(239, 68, 68, .2); border-color: #ef4444; color: var(--text-primary); }
+    .cx-fail { font-size: 11px; color: #f87171; margin: 3px 6px 0; text-align: right; } .cx-fail button { background: none; border: 0; color: #fca5a5; text-decoration: underline; cursor: pointer; font: inherit; padding: 0 2px; }
+    .cx-seen { color: var(--accent-color); font-weight: 700; animation: cxFade .4s ease both; } @keyframes cxFade { from { opacity: 0; } to { opacity: 1; } }
+    .cx-av.cx-sm { position: absolute; left: -38px; bottom: 0; width: 28px; height: 28px; flex: none; font-size: 12px; }
+    .cx-msg.in-l { animation: cxInL .42s cubic-bezier(.2, 1.25, .3, 1) both; transform-origin: left bottom; } .cx-msg.in-r { animation: cxInR .4s cubic-bezier(.2, 1.25, .3, 1) both; transform-origin: right bottom; }
+    @keyframes cxInL { from { opacity: 0; transform: translateX(-16px) scale(.9); } to { opacity: 1; transform: none; } } @keyframes cxInR { from { opacity: 0; transform: translateX(20px) translateY(8px) scale(.88); } to { opacity: 1; transform: none; } }
+    .cx-typing { display: flex; align-items: flex-end; gap: 8px; align-self: flex-start; max-height: 0; opacity: 0; overflow: hidden; transform: translateY(6px) scale(.9); transform-origin: left bottom; transition: max-height .28s ease, opacity .22s ease, transform .28s cubic-bezier(.2, 1.2, .3, 1), margin .28s; margin-top: 0; } .cx-typing.on { max-height: 64px; opacity: 1; transform: none; margin-top: 6px; }
+    .cx-typ-bub { display: inline-flex; padding: 12px 14px; border-radius: 18px 18px 18px 6px; background: var(--bg-glass); border: 1px solid var(--border-glass); } .cx-typ-who { font-size: 11px; color: var(--text-secondary); padding-bottom: 4px; }
+    .cx-dots { display: inline-flex; align-items: center; gap: 4px; } .cx-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--text-secondary); animation: cxDot 1.25s infinite ease-in-out; } .cx-dots i:nth-child(2) { animation-delay: .16s; } .cx-dots i:nth-child(3) { animation-delay: .32s; }
+    @keyframes cxDot { 0%, 60%, 100% { transform: translateY(0); opacity: .4; } 30% { transform: translateY(-5px); opacity: 1; } }
+    .cx-typ-sub { color: var(--accent-color); font-weight: 700; display: inline-flex; align-items: center; gap: 6px; } .cx-typ-sub .cx-dots i { width: 4px; height: 4px; background: var(--accent-color); }
+    .cx-unread { display: flex; align-items: center; gap: 10px; margin: 10px 0 6px; color: var(--accent-color); font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; } .cx-unread::before, .cx-unread::after { content: ''; flex: 1; height: 1px; background: color-mix(in srgb, var(--accent-color) 45%, transparent); }
+    .cx-pill { position: absolute; left: 50%; bottom: 12px; transform: translate(-50%, 14px) scale(.9); opacity: 0; pointer-events: none; padding: 7px 16px; border-radius: 999px; border: 0; background: var(--accent-color); color: #fff; font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 8px 24px rgba(0, 0, 0, .4); transition: opacity .2s, transform .28s cubic-bezier(.2, 1.3, .3, 1); } .cx-pill.on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+    .cx-count { align-self: center; font-size: 11px; color: var(--text-tertiary); min-width: 0; } .cx-count:empty { display: none; }
+    .cx-send { transition: transform .18s, filter .2s; } .cx-send:hover:not(:disabled) { filter: brightness(1.12); transform: translateY(-1px); } .cx-send:active { transform: scale(.92); } .cx-send.fly svg { animation: cxFly .5s ease; }
+    @keyframes cxFly { 0% { transform: none; opacity: 1; } 45% { transform: translate(14px, -14px) scale(.7); opacity: 0; } 55% { transform: translate(-12px, 12px) scale(.7); opacity: 0; } 100% { transform: none; opacity: 1; } }
+    .cx-msgs { animation: cxFade .25s ease both; }
+    body.reduce-animations .cx-msg, body.reduce-animations .cx-typing, body.reduce-animations .cx-pill, body.reduce-animations .cx-send svg, body.reduce-animations .cx-dots i { animation: none !important; transition: none !important; }
+    @media (prefers-reduced-motion: reduce) { .cx-msg, .cx-send svg, .cx-dots i { animation: none !important; } }
+    
     @media (max-width: 760px) { #chat-modal .fx-body { flex-direction: column; } .cx-left { width: auto; flex: 1; border-right: 0; } .cx-right { display: none; } #chat-modal.in-conv .cx-left { display: none; } #chat-modal.in-conv .cx-right { display: flex; } .cx-back { display: grid; } }
     `;
     document.head.appendChild(css);
 
     const soc = (op, p) => feat('soc', Object.assign({ op }, p || {}));
-    const S = { ov: null, tab: 'chats', conv: null, info: null, msgs: [], lastId: 0, polls: 0, members: false, grp: null, sf: null, busy: false, convTimer: null, ovTimer: null };
+    const S = { seen: new Set(), ready: false, unreadFrom: 0, pill: 0, lastPing: 0, ov: null, tab: 'chats', conv: null, info: null, msgs: [], lastId: 0, polls: 0, members: false, grp: null, sf: null, busy: false, convTimer: null, ovTimer: null };
     const open = () => !!($('chat-modal') && $('chat-modal').classList.contains('active'));
     const initial = (n) => (String(n || '?').trim()[0] || '?').toUpperCase();
     const av = (u, cls) => '<span class="cx-av' + (cls ? ' ' + cls : '') + '">' + E(initial(u.name)) + (u.avatar ? '<img src="' + E(u.avatar) + '" alt="" onerror="this.remove()">' : '') + '</span>';
@@ -101,7 +125,7 @@
         const left = $('cx-left'), right = $('cx-right');
         left.onclick = onLeft; right.onclick = onRight;
         right.onkeydown = (e) => { if (e.target.id === 'cx-text' && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendNow(); } };
-        right.oninput = (e) => { if (e.target.id === 'cx-text') { e.target.style.height = '40px'; e.target.style.height = Math.min(110, e.target.scrollHeight) + 'px'; } };
+        right.oninput = (e) => { if (e.target.id === 'cx-text') { const v = e.target.value; e.target.style.height = '40px'; e.target.style.height = Math.min(110, e.target.scrollHeight) + 'px'; const c = $('cx-count'); if (c) c.textContent = v.length > 700 ? String(1000 - v.length) : ''; if (v.trim() && S.conv && Date.now() - (S.lastPing || 0) > 2500) { S.lastPing = Date.now(); soc('typing', { conv: S.conv }); } } };
     }
 
     // ----- left column -----
@@ -152,73 +176,122 @@
     }
 
     // ----- conversation -----
+    const typingText = (list, isG) => { if (!list || !list.length) return ''; const n = list.map(x => x.name); return !isG ? 'typing' : n.length === 1 ? n[0] + ' is typing' : n.length === 2 ? n[0] + ' and ' + n[1] + ' are typing' : n.length + ' people are typing'; };
+    const dotsHtml = '<span class="cx-dots"><i></i><i></i><i></i></span>';
+    function schedule() {
+        clearTimeout(S.convTimer); if (!open() || !S.conv) return;
+        const d = document.hidden ? 8000 : (S.info && S.info.typing && S.info.typing.length ? 1100 : 2200);
+        S.convTimer = setTimeout(async () => { if (!open()) return stop(); if (!document.hidden) await pull(++S.polls % 6 === 0); schedule(); }, d);
+    }
     async function pick(id, refresh) {
-        S.conv = id; S.grp = null; S.members = false; S.lastId = 0; S.msgs = []; S.polls = 0; S.info = refresh && S.info && S.info.id === id ? S.info : null;
+        S.conv = id; S.grp = null; S.members = false; S.lastId = 0; S.msgs = []; S.polls = 0; S.seen = new Set(); S.ready = false; S.unreadFrom = 0; S.pill = 0; S.lastPing = 0; S.info = refresh && S.info && S.info.id === id ? S.info : null;
         const ch = $('chat-modal'); if (ch) ch.classList.add('in-conv'); renderLeft(true); renderRight();
-        await pull(true); clearInterval(S.convTimer);
-        S.convTimer = setInterval(() => { if (!open()) return stop(); if (!document.hidden) pull(++S.polls % 5 === 0); }, 3500);
+        await pull(true); clearTimeout(S.convTimer); schedule();
     }
     async function pull(full) {
         if (!S.conv) return; const id = S.conv, r = await soc('conv', { id, after: full ? 0 : S.lastId });
         if (S.conv !== id) return; if (!r || !r.ok) { if (!S.info) { const rt = $('cx-right'); if (rt) rt.innerHTML = '<div class="cx-empty"><b>Could not open this chat</b>' + E(err(r)) + '</div>'; } return; }
-        const was = S.msgs.length, lastBefore = S.lastId; S.info = r;
-        if (full) S.msgs = r.messages; else if (r.messages.length) S.msgs = S.msgs.concat(r.messages.filter(m => !S.msgs.some(x => x.id === m.id)));
-        S.lastId = S.msgs.length ? S.msgs[S.msgs.length - 1].id : 0;
-        if (!$('cx-msgs') || full === true && !was && !S.msgs.length) { renderRight(); return; }
-        if (full || S.lastId !== lastBefore || !$('cx-head')) renderRight(true);
-        if (r.messages.length) loadOv(true).then(() => renderLeft(true));
+        const first = !S.ready, hadInfo = !!S.info, pend = S.msgs.filter(m => m.pending || m.failed);
+        S.info = r;
+        if (first) { S.unreadFrom = (r.messages.find(m => !m.mine && m.id > (r.myRead || 0)) || {}).id || 0; }
+        if (full) S.msgs = r.messages.concat(pend.filter(p => !r.messages.some(x => x.mine && x.text === p.text && Math.abs(x.at - p.at) < 20000 && false))); else if (r.messages.length) S.msgs = S.msgs.filter(m => !m.pending && !m.failed).concat(r.messages.filter(m => !S.msgs.some(x => x.id === m.id))).concat(pend);
+        const real = S.msgs.filter(m => typeof m.id === 'number'); S.lastId = real.length ? real[real.length - 1].id : 0;
+        if (first) { S.msgs.forEach(m => S.seen.add(m.id)); S.ready = true; }
+        if (!$('cx-msgs') || !$('cx-head') || !hadInfo) { renderRight(true); return; }
+        renderMsgs(); updateMeta();
+        if (r.messages.length && !full) loadOv(true).then(() => renderLeft(true));
     }
+    function updateMeta() {
+        const i = S.info; if (!i) return; const isG = i.kind === 'group', t = typingText(i.typing, isG), sub = $('cx-sub'), ty = $('cx-typing');
+        if (sub) sub.innerHTML = t ? '<span class="cx-typ-sub">' + E(t) + dotsHtml + '</span>' : (isG ? i.members.length + ' members' : 'Private chat');
+        if (ty) { const was = ty.classList.contains('on'); ty.classList.toggle('on', !!t); const lab = ty.querySelector('.cx-typ-who'); if (lab) lab.textContent = isG ? t : ''; if (t && !was) { const ms = $('cx-msgs'); if (ms && ms.scrollHeight - ms.scrollTop - ms.clientHeight < 140) setTimeout(() => ms.scrollTo({ top: ms.scrollHeight, behavior: 'smooth' }), 30); } }
+    }
+    const avSm = (u) => '<span class="cx-av cx-sm">' + E(initial(u.name)) + (u.avatar ? '<img src="' + E(u.avatar) + '" alt="" onerror="this.remove()">' : '') + '</span>';
+    function renderMsgs() {
+        const ms = $('cx-msgs'), i = S.info; if (!ms || !i) return;
+        const isG = i.kind === 'group', near = ms.scrollHeight - ms.scrollTop - ms.clientHeight < 90, prevTop = ms.scrollTop, avatars = {}; i.members.forEach(m => { avatars[m.uid] = m; });
+        let lastMine = 0; S.msgs.forEach(m => { if (m.mine && typeof m.id === 'number') lastMine = m.id; });
+        let html = '', lastDay = '', added = 0, addedOther = 0, divDone = false;
+        S.msgs.forEach((m, k) => {
+            const d = dayLabel(m.at), prev = S.msgs[k - 1], next = S.msgs[k + 1], same = (a, b) => a && b && a.uid === b.uid && dayLabel(a.at) === dayLabel(b.at) && Math.abs(b.at - a.at) < 240000;
+            const sp = same(prev, m), sn = same(m, next);
+            if (d !== lastDay) { html += '<div class="cx-day">' + E(d) + '</div>'; lastDay = d; }
+            if (!divDone && S.unreadFrom && m.id === S.unreadFrom) { html += '<div class="cx-unread"><span>New messages</span></div>'; divDone = true; }
+            const isNew = S.ready && !S.seen.has(m.id); if (isNew) { added++; if (!m.mine) addedOther++; }
+            const cls = 'cx-msg' + (m.mine ? ' mine' : '') + (sp ? ' sp' : '') + (sn ? ' sn' : '') + (isNew ? (m.mine ? ' in-r' : ' in-l') : '') + (m.pending ? ' pending' : '') + (m.failed ? ' failed' : '') + (isG && !m.mine ? ' gi' : '');
+            const showWho = isG && !m.mine && !sp, who = avatars[m.uid];
+            html += (showWho ? '<div class="cx-who">' + E(m.name) + '</div>' : '') + '<div class="' + cls + '">' + (isG && !m.mine && !sn ? avSm(who || { name: m.name }) : '') +
+                '<div class="cx-act">' + (!m.pending && !m.failed && (m.mine || i.owner) ? '<button data-d="' + m.id + '" title="Delete">' + ICO.x + '</button>' : '') + (!m.mine ? '<button data-r="' + m.id + '" data-u="' + E(m.uid) + '" title="Report" style="font-weight:800">!</button>' : '') + '</div>' +
+                '<div class="cx-bub" data-no-icons>' + E(m.text) + '</div>' +
+                (m.failed ? '<div class="cx-fail">Not sent. <button data-retry="' + E(m.id) + '">Try again</button> <button data-drop="' + E(m.id) + '">Delete</button></div>' : (!sn ? '<div class="cx-time">' + (m.pending ? 'Sending' : clock(m.at)) + (!isG && m.mine && m.id === lastMine && i.peerRead >= m.id ? ' &middot; <span class="cx-seen">Seen</span>' : '') + '</div>' : '')) + '</div>';
+        });
+        const typ = '<div class="cx-typing' + (i.typing && i.typing.length ? ' on' : '') + '" id="cx-typing"><span class="cx-typ-bub">' + dotsHtml + '</span><span class="cx-typ-who">' + E(isG ? typingText(i.typing, true) : '') + '</span></div>';
+        ms.innerHTML = (html || '<div class="cx-empty"><b>No messages yet</b>' + (isG || i.canSend ? 'Say hello!' : '') + '</div>') + typ;
+        const sendMine = S.msgs.length && S.msgs[S.msgs.length - 1].mine && added;
+        if (near || sendMine || !S.ready) { ms.scrollTo({ top: ms.scrollHeight, behavior: S.ready && added ? 'smooth' : 'auto' }); S.pill = 0; }
+        else { ms.scrollTop = prevTop; if (addedOther) S.pill += addedOther; }
+        S.msgs.forEach(m => S.seen.add(m.id)); paintPill();
+    }
+    function paintPill() { const p = $('cx-pill'); if (!p) return; p.classList.toggle('on', S.pill > 0); p.textContent = S.pill > 0 ? (S.pill === 1 ? '1 new message' : S.pill + ' new messages') : ''; }
     function renderRight(keepInput) {
         const right = $('cx-right'); if (!right) return;
         if (S.grp) { renderGroupForm(right); return; }
         right.onclick = onRight;
         if (!S.conv || !S.info) { right.innerHTML = S.conv ? '<div class="cx-empty">Opening...</div>' : '<div class="cx-empty"><div style="width:54px;height:54px;margin:0 auto 12px;color:var(--accent-color)">' + SV('<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 20l1.2-4.6A8.4 8.4 0 1 1 21 11.5z"/>', 54) + '</div><b>Messages</b>Chat with friends who use SteamLite, make group chats and keep a daily streak going. Pick a chat on the left, or add a friend.</div>'; return; }
         const i = S.info, isG = i.kind === 'group', old = $('cx-text'), draft = keepInput && old ? old.value : '', keepFocus = old && document.activeElement === old;
-        const peer = !isG ? i.members.find(m => m.uid === i.peerUid) || i.members.find(m => !i.messages.some(x => x.mine && x.uid === m.uid)) : null;
-        const title = isG ? i.name : (peer ? peer.name : 'Chat'); const st = i.streak;
-        let body = '', lastDay = '', lastMine = 0; S.msgs.forEach(m => { if (m.mine) lastMine = m.id; });
-        S.msgs.forEach((m, k) => {
-            const d = dayLabel(m.at); if (d !== lastDay) { body += '<div class="cx-day">' + E(d) + '</div>'; lastDay = d; }
-            const prev = S.msgs[k - 1], showWho = isG && !m.mine && (!prev || prev.uid !== m.uid || dayLabel(prev.at) !== d);
-            body += (showWho ? '<div class="cx-who">' + E(m.name) + '</div>' : '') + '<div class="cx-msg' + (m.mine ? ' mine' : '') + '"><div class="cx-act">' + (m.mine || i.owner ? '<button data-d="' + m.id + '" title="Delete">' + ICO.x + '</button>' : '') + (!m.mine ? '<button data-r="' + m.id + '" data-u="' + E(m.uid) + '" title="Report" style="font-weight:800">!</button>' : '') + '</div><div class="cx-bub">' + E(m.text) + '</div><div class="cx-time">' + clock(m.at) + (!isG && m.mine && m.id === lastMine && i.peerRead >= m.id ? ' · Seen' : '') + '</div></div>';
-        });
+        const peer = !isG ? i.members.find(m => m.uid === i.peerUid) || i.members.find(m => m.uid !== (S.ov && S.ov.me.uid)) : null;
+        const title = isG ? i.name : (peer ? peer.name : 'Chat'), st = i.streak;
         const banner = !isG && st ? (st.doneToday ? '<div class="cx-banner">' + ICO.flame + ' <b>' + st.streak + '-day streak</b> kept for today. See you tomorrow!</div>' : st.atRisk || st.streak ? '<div class="cx-banner">' + ICO.flame + ' <b>' + st.streak + '-day streak.</b> ' + (st.mineToday ? 'You sent yours. Waiting for ' + E(title) + '.' : 'Both of you message today to keep it going.') + '</div>' : (st.theirsToday || st.mineToday ? '<div class="cx-banner">' + ICO.flame + ' A streak starts when you both send a message on the same day.</div>' : '')) : '';
         const panel = isG && S.members ? '<div class="cx-panel"><div class="cx-sec" style="margin-top:0">Members (' + i.members.length + ')</div>' + i.members.map(m => '<div class="cx-row" style="cursor:default">' + av(m) + '<div class="cx-main"><div class="cx-name">' + E(m.name) + (m.role === 'owner' ? ' <span class="cx-sub" style="display:inline">owner</span>' : '') + '</div></div>' + (i.owner && m.role !== 'owner' ? '<button class="cx-mini bad" data-k="' + E(m.uid) + '">Remove</button>' : '') + '</div>').join('') + '<div class="cx-btns">' + (i.owner ? '<button class="cx-mini" data-a="addmember">Add a friend</button><button class="cx-mini" data-a="rename">Rename</button>' : '') + '<button class="cx-mini bad" data-a="leave">Leave group</button></div></div>' : '';
         const canSend = isG || i.canSend;
-        right.innerHTML = '<div class="cx-head" id="cx-head"><button class="cx-mini cx-back" data-a="back" style="padding:6px 9px">' + ICO.back + '</button>' + (isG ? grpAv(title) : av(peer || { name: title })) + '<div class="cx-main"><div class="cx-name">' + E(title) + '</div><div class="cx-sub">' + (isG ? i.members.length + ' members' : 'Private chat') + '</div></div>' + (!isG ? streakChip(st) : '') +
+        right.innerHTML = '<div class="cx-head" id="cx-head"><button class="cx-mini cx-back" data-a="back" style="padding:6px 9px">' + ICO.back + '</button>' + (isG ? grpAv(title) : av(peer || { name: title })) + '<div class="cx-main"><div class="cx-name">' + E(title) + '</div><div class="cx-sub" id="cx-sub"></div></div>' + (!isG ? streakChip(st) : '') +
             (isG ? '<button class="cx-mini" data-a="members">' + ICO.users + ' Members</button>' : '<button class="cx-mini" data-a="unfriend" title="Remove from friends">Unfriend</button><button class="cx-mini bad" data-a="block">Block</button>') + '</div>' + banner + panel +
-            '<div class="cx-msgs" id="cx-msgs">' + (body || '<div class="cx-empty"><b>No messages yet</b>' + (canSend ? 'Say hello!' : '') + '</div>') + '</div>' +
-            (canSend ? '<div class="cx-compose"><textarea id="cx-text" placeholder="Write a message..." maxlength="1000" rows="1"></textarea><button class="cx-send" data-a="send" title="Send">' + ICO.send + '</button></div>' : '<div class="cx-compose"><div class="cx-note" style="flex:1">You can not message this player any more. They may have removed you.</div></div>');
-        const ms = $('cx-msgs'); if (ms) ms.scrollTop = ms.scrollHeight; const ta = $('cx-text'); if (ta) { ta.value = draft; if (draft) ta.style.height = Math.min(110, ta.scrollHeight) + 'px'; if (keepFocus || !keepInput) ta.focus(); }
+            '<div class="cx-wrap"><div class="cx-msgs" id="cx-msgs"></div><button class="cx-pill" id="cx-pill" data-a="pill"></button></div>' +
+            (canSend ? '<div class="cx-compose"><textarea id="cx-text" placeholder="Write a message..." maxlength="1000" rows="1"></textarea><span class="cx-count" id="cx-count"></span><button class="cx-send" data-a="send" id="cx-sendbtn" title="Send">' + ICO.send + '</button></div>' : '<div class="cx-compose"><div class="cx-note" style="flex:1">You can not message this player any more. They may have removed you.</div></div>');
+        S.seen = S.seen || new Set(); const wasReady = S.ready; renderMsgs(); updateMeta(); S.ready = wasReady || S.ready;
+        const ta = $('cx-text'); if (ta) { ta.value = draft; if (draft) ta.style.height = Math.min(110, ta.scrollHeight) + 'px'; if (keepFocus || !keepInput) ta.focus(); }
     }
-    async function sendNow() {
-        const ta = $('cx-text'); if (!ta || S.busy) return; const text = ta.value.trim(); if (!text || !S.conv) return;
-        S.busy = true; ta.disabled = true; const r = await soc('send', { conv: S.conv, text }); S.busy = false; ta.disabled = false;
-        if (!r || !r.ok) { toast(err(r)); ta.focus(); return; }
-        ta.value = ''; ta.style.height = '40px';
-        const was = S.info && S.info.streak ? S.info.streak.streak : 0; await pull(true);
-        if (r.streak && r.streak.streak > was && r.streak.doneToday) { toast('Streak: ' + r.streak.streak + ' day' + (r.streak.streak === 1 ? '' : 's') + '! Keep it going tomorrow.'); }
-        loadOv(true).then(() => renderLeft(true)); const t2 = $('cx-text'); if (t2) t2.focus();
+    let sendQ = Promise.resolve();
+    async function sendNow(retry) {
+        const ta = $('cx-text'); if (!S.conv) return; let text, tmp;
+        if (retry) { tmp = S.msgs.find(m => String(m.id) === String(retry)); if (!tmp) return; text = tmp.text; tmp.failed = false; tmp.pending = true; tmp.at = Date.now(); }
+        else { if (!ta) return; text = ta.value.trim(); if (!text) return; tmp = { id: 'p' + (++S.tmp), uid: S.ov ? S.ov.me.uid : '', name: 'You', text, at: Date.now(), mine: true, pending: true }; S.msgs.push(tmp); ta.value = ''; ta.style.height = '40px'; const c = $('cx-count'); if (c) c.textContent = ''; ta.focus(); }
+        const sb = $('cx-sendbtn'); if (sb) { sb.classList.remove('fly'); void sb.offsetWidth; sb.classList.add('fly'); }
+        renderMsgs(); const conv = S.conv;
+        sendQ = sendQ.then(async () => {
+            const r = await soc('send', { conv, text });
+            if (!r || !r.ok) { tmp.pending = false; tmp.failed = true; toast(err(r)); if (S.conv === conv) renderMsgs(); return; }
+            tmp.pending = false; tmp.id = r.id; tmp.at = r.at; S.seen.add(r.id); S.lastId = Math.max(S.lastId, r.id);
+            if (S.conv === conv) { renderMsgs(); if (S.info) { if (r.streak) S.info.streak = r.streak; } }
+            const was = S.info && S.info.streak ? S.info.streak.streak : 0;
+            if (r.streak && r.streak.streak > was && r.streak.doneToday) toast('Streak: ' + r.streak.streak + ' day' + (r.streak.streak === 1 ? '' : 's') + '! Keep it going tomorrow.');
+            if (S.conv === conv && r.streak) { renderRight(true); }
+            loadOv(true).then(() => renderLeft(true));
+        });
     }
+    S.tmp = 0;
     async function onRight(e) {
-        const a = e.target.closest('[data-a]'), d = e.target.closest('[data-d]'), rp = e.target.closest('[data-r]'), k = e.target.closest('[data-k]'), pk = e.target.closest('[data-g]');
+        const a = e.target.closest('[data-a]'), d = e.target.closest('[data-d]'), rp = e.target.closest('[data-r]'), k = e.target.closest('[data-k]'), pk = e.target.closest('[data-g]'), rt = e.target.closest('[data-retry]'), dr = e.target.closest('[data-drop]');
+        if (rt) { sendNow(rt.dataset.retry); return; }
+        if (dr) { S.msgs = S.msgs.filter(m => String(m.id) !== dr.dataset.drop); renderMsgs(); return; }
         if (d) { if (!await showConfirm('Delete this message?', 'It is removed for everyone in the chat.')) return; const r = await soc('del', { id: Number(d.dataset.d) }); if (!r || !r.ok) return toast(err(r)); await pull(true); return; }
         if (rp) { const why = await promptText('Report this message', 'What is wrong with it? A moderator will take a look.'); if (!why) return; const r = await soc('report', { uid: rp.dataset.u, conv: S.conv, msgId: Number(rp.dataset.r), reason: why }); toast(r && r.ok ? 'Thanks, your report was sent.' : err(r)); return; }
         if (k) { if (!await showConfirm('Remove from the group?', '')) return; const r = await soc('groupRemove', { conv: S.conv, uid: k.dataset.k }); if (!r || !r.ok) return toast(err(r)); await pull(true); return; }
         if (pk) return;
         if (!a) return; const op = a.dataset.a, i = S.info;
         if (op === 'send') sendNow();
-        else if (op === 'back') { const ch = $('chat-modal'); if (ch) ch.classList.remove('in-conv'); S.conv = null; S.grp = null; clearInterval(S.convTimer); renderLeft(true); renderRight(); }
+        else if (op === 'pill') { const ms = $('cx-msgs'); if (ms) ms.scrollTo({ top: ms.scrollHeight, behavior: 'smooth' }); S.pill = 0; paintPill(); }
+        else if (op === 'back') { const ch = $('chat-modal'); if (ch) ch.classList.remove('in-conv'); S.conv = null; S.grp = null; clearTimeout(S.convTimer); renderLeft(true); renderRight(); }
         else if (op === 'members') { S.members = !S.members; renderRight(true); }
-        else if (op === 'leave') { if (!await showConfirm('Leave this group?', 'You will not see its messages any more.')) return; const r = await soc('groupRemove', { conv: S.conv, uid: S.ov.me.uid }); if (!r || !r.ok) return toast(err(r)); S.conv = null; S.info = null; clearInterval(S.convTimer); await loadOv(true); renderLeft(); renderRight(); }
-        else if (op === 'rename') { const nm = await promptText('Rename the group', 'New name', i.name); if (!nm) return; const r = await soc('groupRename', { conv: S.conv, name: nm }); if (!r || !r.ok) return toast(err(r)); await pull(true); loadOv(true).then(() => renderLeft(true)); }
+        else if (op === 'leave') { if (!await showConfirm('Leave this group?', 'You will not see its messages any more.')) return; const r = await soc('groupRemove', { conv: S.conv, uid: S.ov.me.uid }); if (!r || !r.ok) return toast(err(r)); S.conv = null; S.info = null; clearTimeout(S.convTimer); await loadOv(true); renderLeft(); renderRight(); }
+        else if (op === 'rename') { const nm = await promptText('Rename the group', 'New name', i.name); if (!nm) return; const r = await soc('groupRename', { conv: S.conv, name: nm }); if (!r || !r.ok) return toast(err(r)); await pull(true); renderRight(true); loadOv(true).then(() => renderLeft(true)); }
         else if (op === 'addmember') {
             const inG = new Set(i.members.map(m => m.uid)), cand = S.ov.friends.filter(f => !inG.has(f.uid)); if (!cand.length) return toast('All your friends are already in this group.');
             const pickd = await promptChoice('Add a friend to the group', cand.map(f => ({ id: f.uid, name: f.name }))); if (!pickd) return;
-            const r = await soc('groupAdd', { conv: S.conv, uid: pickd }); toast(r && r.ok ? 'Added.' : err(r)); await pull(true);
+            const r = await soc('groupAdd', { conv: S.conv, uid: pickd }); toast(r && r.ok ? 'Added.' : err(r)); await pull(true); renderRight(true);
         }
-        else if (op === 'unfriend') { if (!await showConfirm('Remove this friend?', 'You can not message each other and the streak ends.')) return; const r = await soc('unfriend', { uid: i.peerUid }); if (!r || !r.ok) return toast(err(r)); await loadOv(true); await pull(true); renderLeft(true); }
-        else if (op === 'block') { if (!await showConfirm('Block this player?', 'They are removed from your friends and can not message you or add you again. You can unblock them later.')) return; const r = await soc('block', { uid: i.peerUid }); if (!r || !r.ok) return toast(err(r)); S.conv = null; S.info = null; clearInterval(S.convTimer); await loadOv(true); renderLeft(); renderRight(); toast('Blocked.'); }
+        else if (op === 'unfriend') { if (!await showConfirm('Remove this friend?', 'You can not message each other and the streak ends.')) return; const r = await soc('unfriend', { uid: i.peerUid }); if (!r || !r.ok) return toast(err(r)); await loadOv(true); await pull(true); renderRight(true); renderLeft(true); }
+        else if (op === 'block') { if (!await showConfirm('Block this player?', 'They are removed from your friends and can not message you or add you again. You can unblock them later.')) return; const r = await soc('block', { uid: i.peerUid }); if (!r || !r.ok) return toast(err(r)); S.conv = null; S.info = null; clearTimeout(S.convTimer); await loadOv(true); renderLeft(); renderRight(); toast('Blocked.'); }
     }
 
     // ----- new group form -----

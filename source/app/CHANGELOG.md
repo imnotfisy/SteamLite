@@ -1,3 +1,27 @@
+# SteamLite 9.2.2 Changelog
+
+Themes rebuilt, theme publishing, and a much nicer chat.
+
+## Themes (rebuilt)
+- **One new Themes window** (Official, Community and My library) with a live mini preview of every theme, so you see the colours before you apply them. It replaces the old Theme Shop.
+- **Community tab:** themes made by SteamLite players. Search, sort by most liked, newest or most downloaded, like a theme, preview it on the whole app, then apply it. Applying downloads it and saves it in My library so it works offline.
+- **My library:** everything you made or downloaded, with Apply, Preview, Edit, Export and Delete, and Publish or Unpublish for your own.
+- Themes you download are kept separately, so they no longer count towards the Theme Author achievements.
+- Fixed: themes you created could disappear from the list after a restart.
+
+## Theme Maker (new)
+- Pick a starting palette (Midnight, Ocean, Sunset, Forest, Mono, Candy, Paper), your current look, or press Surprise me.
+- A big live preview updates as you change colours, with a readability check on the text. You can also try it on the whole app while you edit.
+- **Publish to SteamLite:** one button shares your theme with everyone. It goes live straight away (colours are always fine; the extra CSS can not use images, imports, scripts or url(...)). You can unpublish it any time, and anyone can report a theme. Moderators can remove themes from the server admin page.
+
+## Chat
+- **Typing indicators:** a friend typing shows the animated three-dot bubble in the chat and "typing" under their name. In groups it says who is typing.
+- **Animated messages:** new messages slide and pop in, your own messages appear at once as sending and settle when delivered, and a failed message can be retried.
+- Messages are grouped in neat stacks, there is a New messages marker, a new-messages pill when you have scrolled up, and a character counter near the limit.
+- Emoji you type in a message stay emoji.
+
+---
+
 # SteamLite 9.2.1 Changelog
 
 Messages: chat with friends, group chats and friend streaks, all through your SteamLite account.

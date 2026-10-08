@@ -268,12 +268,8 @@ module.exports = function initExtras(ctx) {
     handle('srvLbSubmit', (p) => { store.set('lbName', String(p.name || '').slice(0, 24)); return srv('POST', '/lb/submit', { uid: onlineId(), name: p.name, level: p.level, hours: p.hours, streak: p.streak, achievements: p.achievements, games: p.games }); });
     handle('srvLbRemove', () => srv('POST', '/lb/remove', { uid: onlineId() }));
     handle('srvLbName', () => store.get('lbName') || '');
-    handle('srvThemes', (p) => srv('GET', '/themes' + uidQ() + '&sort=' + (p.sort === 'new' ? 'new' : 'liked')));
-    handle('srvTheme', (p) => srv('GET', '/themes/' + String(p.id || '').replace(/[^a-f0-9]/g, '') + uidQ()));
-    handle('srvThemeLike', (p) => srv('POST', '/themes/' + String(p.id || '').replace(/[^a-f0-9]/g, '') + '/like', { uid: onlineId() }));
-    handle('srvThemeShare', (p) => srv('POST', '/themes', { uid: onlineId(), name: p.name, desc: p.desc, author: p.author, vars: p.vars, css: p.css }));
     // ---------- messages, groups and friend streaks: the window asks for these by name and the server does the checking ----------
-    const SOC = { blocks: ['GET', '/social/blocks'], find: ['POST', '/social/find'], friend: ['POST', '/social/friend'], respond: ['POST', '/social/respond'], unfriend: ['POST', '/social/unfriend'], block: ['POST', '/social/block'],
+    const SOC = { typing: ['POST', '/social/typing'], blocks: ['GET', '/social/blocks'], find: ['POST', '/social/find'], friend: ['POST', '/social/friend'], respond: ['POST', '/social/respond'], unfriend: ['POST', '/social/unfriend'], block: ['POST', '/social/block'],
         dm: ['POST', '/social/dm'], send: ['POST', '/social/send'], del: ['POST', '/social/delete'], group: ['POST', '/social/group'], groupAdd: ['POST', '/social/group/add'], groupRemove: ['POST', '/social/group/remove'], groupRename: ['POST', '/social/group/rename'], report: ['POST', '/social/report'] };
     handle('soc', async (p) => {
         const op = String(p.op || '');

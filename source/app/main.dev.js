@@ -742,6 +742,8 @@ ipcMain.handle('get-config', () => {
         bgOpacity: store.get('bgOpacity'),
         bgSpeed: store.get('bgSpeed'),
         themeVars: store.get('themeVars') || {},
+        savedThemes: store.get('savedThemes') || [],
+        customThemes: store.get('customThemes') || [],
         discordRpcEnabled: store.get('discordRpcEnabled'),
         launchToLibrary: store.get('launchToLibrary') || false,
         hideOfflineFriends: store.get('hideOfflineFriends') || false,
@@ -780,7 +782,7 @@ ipcMain.handle('save-config', (event, config) => {
         'bgPath', 'bgBlur', 'bgOpacity', 'bgSpeed', 'discordRpcEnabled', 'appVersion',
         'launchToLibrary', 'hideOfflineFriends', 'reduceAnimations', 'notifSounds', 'notifDuration', 'notifMaxStack',
         'maxCommonFriends', 'widgetSizes', 'dashboardSectionOrder', 'profileBanners', 'friendPrefs', 'profileCustom', 'uiPrefs',
-        'startMinimized', 'potatoMode', 'closeToTray', 'autoUpdateCheck', 'skippedUpdateVersion', 'themeVars', 'customCovers', 'customThemes',
+        'startMinimized', 'potatoMode', 'closeToTray', 'autoUpdateCheck', 'skippedUpdateVersion', 'themeVars', 'customCovers', 'customThemes', 'savedThemes',
         'wishlistAlerts', 'breakReminderMin', 'dailyLimitHours'];
     for (const k of keys) {
         if (config[k] !== undefined) store.set(k, config[k]);
@@ -797,7 +799,7 @@ ipcMain.handle('save-config', (event, config) => {
 const BACKUP_KEYS = ['accentColor', 'wideGrid', 'soundVolume', 'updateChannel', 'bgPath', 'bgBlur', 'bgOpacity', 'bgSpeed',
     'themeVars', 'discordRpcEnabled', 'launchToLibrary', 'hideOfflineFriends', 'reduceAnimations', 'notifSounds', 'notifDuration',
     'notifMaxStack', 'maxCommonFriends', 'widgetSizes', 'dashboardSectionOrder', 'profileBanners', 'friendPrefs', 'profileCustom',
-    'uiPrefs', 'startMinimized', 'potatoMode', 'closeToTray', 'autoUpdateCheck', 'hotkeys', 'themeUnlocks', 'achievementXp', 'boostLog', 'streakRestores', 'prestige', 'xpScale', 'eventQuests', 'drops', 'dropXp', 'coins', 'dropStreak', 'wheelLast', 'cosmetics', 'seasonClaimed', 'journal', 'saveBackups', 'wishlistTargets', 'wishlistHistory', 'featSettings', 'autoBackup', 'challengeXp', 'challengesDone', 'levelRewardsClaimed', 'gameMeta', 'wishlistAlerts', 'breakReminderMin', 'dailyLimitHours', 'customThemes', 'customCovers', 'favorites', 'hiddenGames', 'collections', 'gameConfigs',
+    'uiPrefs', 'startMinimized', 'potatoMode', 'closeToTray', 'autoUpdateCheck', 'hotkeys', 'themeUnlocks', 'achievementXp', 'boostLog', 'streakRestores', 'prestige', 'xpScale', 'eventQuests', 'drops', 'dropXp', 'coins', 'dropStreak', 'wheelLast', 'cosmetics', 'seasonClaimed', 'journal', 'saveBackups', 'wishlistTargets', 'wishlistHistory', 'featSettings', 'autoBackup', 'challengeXp', 'challengesDone', 'levelRewardsClaimed', 'gameMeta', 'wishlistAlerts', 'breakReminderMin', 'dailyLimitHours', 'customThemes', 'savedThemes', 'customCovers', 'favorites', 'hiddenGames', 'collections', 'gameConfigs',
     'gameNotes', 'nonSteamGames', 'telemetry', 'sessionHistory', 'achievementCache', 'metaAchievements', 'streak'];
 
 ipcMain.handle('export-settings', async () => {
