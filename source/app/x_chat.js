@@ -185,7 +185,7 @@
         let list = '';
         if (!ov) list = '<div class="cx-note">Loading... If this stays empty, SteamLite Online may be unreachable. Messages need a connection.</div>';
         else if (S.tab === 'chats') {
-            list = '<div class="cx-btns"><button class="cx-mini pri" data-a="newgroup">New group chat</button><button class="cx-mini cx-chbtn" data-a="challenges">' + ICO.trophy + ' Challenges</button></div>' + (ov.convs.length ? pinSort(ov.convs).map(c => { const fp = c.kind === 'group' ? null : ov.friends.find(x => x.uid === c.peer); return '<div class="cx-row' + (S.conv === c.id ? ' on' : '') + '" data-c="' + E(c.id) + '">' + (c.kind === 'group' ? grpAv(c.name) : av({ name: c.name, avatar: c.avatar, uid: c.peer, online: !!(fp && fp.online) })) + '<div class="cx-main"><div class="cx-name">' + E(c.name) + (c.kind === 'group' ? '' : vt(c)) + (c.muted ? '<span class="cx-mute" title="Muted">' + ICO.bell + '</span>' : '') + (c.kind === 'group' ? ' <span class="cx-sub" style="display:inline">(' + c.members + ')</span>' : '') + '</div><div class="cx-sub' + (c.unread ? ' unread' : '') + '">' + (c.last ? (c.last.mine ? 'You: ' : (c.kind === 'group' && c.last.from ? E(c.last.from) + ': ' : '')) + E(c.last.text) : 'No messages yet') + '</div></div>' + (c.unread ? '<span class="cx-dot">' + c.unread + '</span>' : '') + '<button class="cx-pinc' + (pinnedChats().includes(c.id) ? ' on' : '') + '" data-pinc="' + E(c.id) + '" title="' + (pinnedChats().includes(c.id) ? 'Unpin this chat' : 'Pin this chat to the top') + '">' + ICO.pin + '</button></div>'; }).join('') : '<div class="cx-note">No chats yet. Add a friend in the Friends tab, then press Message.</div>');
+            list = mobCard() + '<div class="cx-btns"><button class="cx-mini pri" data-a="newgroup">New group chat</button><button class="cx-mini cx-chbtn" data-a="challenges">' + ICO.trophy + ' Challenges</button></div>' + (ov.convs.length ? pinSort(ov.convs).map(c => { const fp = c.kind === 'group' ? null : ov.friends.find(x => x.uid === c.peer); return '<div class="cx-row' + (S.conv === c.id ? ' on' : '') + '" data-c="' + E(c.id) + '">' + (c.kind === 'group' ? grpAv(c.name) : av({ name: c.name, avatar: c.avatar, uid: c.peer, online: !!(fp && fp.online) })) + '<div class="cx-main"><div class="cx-name">' + E(c.name) + (c.kind === 'group' ? '' : vt(c)) + (c.muted ? '<span class="cx-mute" title="Muted">' + ICO.bell + '</span>' : '') + (c.kind === 'group' ? ' <span class="cx-sub" style="display:inline">(' + c.members + ')</span>' : '') + '</div><div class="cx-sub' + (c.unread ? ' unread' : '') + '">' + (c.last ? (c.last.mine ? 'You: ' : (c.kind === 'group' && c.last.from ? E(c.last.from) + ': ' : '')) + E(c.last.text) : 'No messages yet') + '</div></div>' + (c.unread ? '<span class="cx-dot">' + c.unread + '</span>' : '') + '<button class="cx-pinc' + (pinnedChats().includes(c.id) ? ' on' : '') + '" data-pinc="' + E(c.id) + '" title="' + (pinnedChats().includes(c.id) ? 'Unpin this chat' : 'Pin this chat to the top') + '">' + ICO.pin + '</button></div>'; }).join('') : '<div class="cx-note">No chats yet. Add a friend in the Friends tab, then press Message.</div>');
         } else {
             const myCode = ov.me.code;
             list = '<div class="cx-sec">Add a friend</div><div class="cx-add"><input id="cx-code" placeholder="Friend code (SL-XXXXXXXXXX)" maxlength="40"><button class="cx-mini pri" data-a="addcode">Add</button></div>' +
@@ -203,6 +203,7 @@
     async function friendAction(fn, ok) { if (S.busy) return; S.busy = true; try { const r = await fn(); if (r && r.ok) { if (ok) toast(ok); } else toast(err(r)); } finally { S.busy = false; } await loadOv(true); renderLeft(true); }
 
     async function onLeft(e) {
+        const mg = e.target.closest('[data-a=mobget]'), mh = e.target.closest('[data-a=mobhide]'); if (mg) { try { api.openExternal(MOB_URL); } catch (er) { } return; } if (mh) { try { localStorage.setItem(MOB_KEY, '1'); } catch (er) { } renderLeft(true); return; }
         const pc = e.target.closest('[data-pinc]'); if (pc) { e.stopPropagation(); togglePin(pc.dataset.pinc); return; }
         const t = e.target.closest('[data-t]'), c = e.target.closest('[data-c]'), a = e.target.closest('[data-a]'), f = e.target.closest('[data-f]'), pf = e.target.closest('[data-prof]');
         if (pf && pf.dataset.prof && window.SLPeople) { SLPeople.openProfile(pf.dataset.prof); return; }
@@ -488,6 +489,16 @@
         });
     }
     // link previews (the server fetches the page title and picture)
+    // SteamLite Mobile: a small dismissible card above the chat list, and a tile with the download link
+    const MOB_URL = 'https://github.com/imnotfisy/SteamLite-Mobile/releases/latest', MOB_KEY = 'sl_mobile_promo';
+    (function () { const st = document.createElement('style'); st.textContent = '.cx-mob{position:relative;margin:0 0 10px;padding:12px 38px 12px 12px;border-radius:14px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent-color) 38%,transparent),rgba(255,255,255,.05));border:1px solid color-mix(in srgb,var(--accent-color) 45%,transparent)}.cx-mob b{display:block;font-size:13px}.cx-mob span{display:block;font-size:12px;opacity:.8;margin:2px 0 8px}.cx-mob .x{position:absolute;right:6px;top:6px;background:transparent;border:0;color:inherit;opacity:.6;cursor:pointer;padding:4px;border-radius:6px}.cx-mob .x:hover{opacity:1;background:rgba(255,255,255,.1)}'; document.head.appendChild(st); })();
+    const mobHidden = () => { try { return localStorage.getItem(MOB_KEY) === '1'; } catch (e) { return false; } };
+    const mobCard = () => mobHidden() ? '' : '<div class="cx-mob"><button class="x" data-a="mobhide" title="Hide this">' + ICO.x + '</button><b>SteamLite Mobile is here</b><span>Your chats, friends, library and themes on your Android phone, with notifications.</span><button class="cx-mini pri" data-a="mobget">Get the app</button></div>';
+    function mobOpen() {
+        dialog('SteamLite Mobile for Android', '<div style="text-align:center;padding:4px 0 10px"><div style="font-size:42px;line-height:1">\ud83d\udcf1</div></div><div class="cx-note" style="padding:0 0 10px;line-height:1.5">Take SteamLite with you. Sign in with the same Steam account and you get:<br>\u2022 Your messages, with photos and voice, and notifications<br>\u2022 Friends, challenges and "what should we play?"<br>\u2022 Your library and wishlist<br>\u2022 Browse and publish themes</div><div class="cx-btns" style="padding:6px 0 0;justify-content:flex-end"><button class="cx-mini" id="mb-no">Not now</button><button class="cx-mini pri" id="mb-go">Download for Android</button></div>', (ov, done) => {
+            ov.querySelector('#mb-go').onclick = () => { try { api.openExternal(MOB_URL); } catch (e) { } done(null); }; ov.querySelector('#mb-no').onclick = () => done(null);
+        });
+    }
     const UF = {};
     const firstUrl = (t) => { const m = /https:\/\/[^\s<]{3,220}/.exec(String(t || '')); return m ? m[0].replace(/[.,!?)]+$/, '') : ''; };
     function previewHtml(text) {
@@ -580,5 +591,6 @@
         ov.onclick = (e) => { const r = e.target.closest('[data-v]'); if (r) done(r.dataset.v); else if (e.target.id === 'pc-no' || e.target === ov) done(null); };
     });
 
+    SLF.safe && SLF.safe('mobile', () => SLF.addTile('Social', '\ud83d\udcf1', 'SteamLite Mobile', 'Get SteamLite on your Android phone: messages, friends, library and themes.', () => mobOpen()));
     SLF.safe && SLF.safe('chat', () => SLF.addTile('Social', '💬', 'Messages', 'Chat with friends who use SteamLite, make group chats and keep friend streaks going.', () => openChat()));
 })();

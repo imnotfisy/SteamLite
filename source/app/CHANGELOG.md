@@ -10,6 +10,7 @@ Photos, voice messages and more in Messages, matching the new SteamLite Mobile a
 - **What should we play?:** + > **What should we play?** compares your library with everyone in the chat and lists the games you all own, each with a Suggest button that posts it as a game card. Friends with private game details are skipped.
 - **Pinned chats:** pin up to 5 chats to the top of your list (hover a chat and press the pin).
 - Messages from SteamLite Mobile (photos, voice messages) now show up here.
+- **SteamLite Mobile:** a card above your chats (and a tile in More) links to the new Android app. Hide the card with the cross.
 
 ## Behind the scenes
 - Problems inside the app are sent, a few per session, to the SteamLite admin Activity log so they can be fixed quickly. No messages or personal files are sent.
