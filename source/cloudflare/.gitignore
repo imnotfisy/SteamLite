@@ -3,3 +3,4 @@ node_modules
 .dev.vars
 admin-token.txt
 src/worker.js
+key-secret.txt

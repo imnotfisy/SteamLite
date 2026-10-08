@@ -50,7 +50,8 @@ module.exports = function initExtras(ctx) {
             items.push({ id: 'frame:' + L.frame[0], type: 'frame', key: L.frame[0], name: L.frame[1], price: L.frame[2], limited: st.name, endsAt: st.end });
             items.push({ id: 'title:' + L.title[0], type: 'title', key: L.title[0], name: L.title[0], price: L.title[1], limited: st.name, endsAt: st.end });
         });
-        items.forEach(i => { i.owned = i.type === 'frame' ? c.frames.includes(i.key) : c.titles.includes(i.key); });
+        const own = ctx.isOwner && ctx.isOwner(); // owners already have everything
+        items.forEach(i => { i.owned = own || (i.type === 'frame' ? c.frames.includes(i.key) : c.titles.includes(i.key)); });
         return items;
     }
     const nextMidnight = () => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1).getTime(); };
@@ -90,9 +91,14 @@ module.exports = function initExtras(ctx) {
             const how = req.startsWith('event:') ? 'Event reward: ' + ((ctx.EVENTS[req.slice(6)] || {}).name || 'an event') : req.startsWith('season:') ? 'Season reward: finish the ' + req.slice(7) + ' track' : def ? 'Achievement: ' + def.name : 'Locked';
             return { id: t.id, name: t.name, colors: t.colors || [], how, owned: !!granted[t.id] || !!un[req] };
         });
+        if (ctx.isOwner && ctx.isOwner()) [...frames, ...titles, ...themes].forEach(x => { x.owned = true; }); // owners have everything
         const all = [...frames, ...titles, ...themes];
         return { frames, titles, themes, owned: all.filter(x => x.owned).length, total: all.length };
     });
+
+    // everything an owner is given (see isOwner in main.dev.js): add new frames and titles here when you add them
+    hooks.allFrames = () => [...['frost', 'bloom', 'blaze', 'harvest', 'steamlite'], ...SHOP_FRAMES.map(f => f[0]), ...Object.keys(LIMITED).map(e => LIMITED[e].frame[0])];
+    hooks.allTitles = () => ['SteamLite', ...SHOP_TITLES.map(t => t[0]), ...Object.keys(LIMITED).map(e => LIMITED[e].title[0])];
 
     // ---------- the events calendar ----------
     function nextWindow(id, nowMs) {
@@ -268,17 +274,6 @@ module.exports = function initExtras(ctx) {
     handle('srvLbSubmit', (p) => { store.set('lbName', String(p.name || '').slice(0, 24)); return srv('POST', '/lb/submit', { uid: onlineId(), name: p.name, level: p.level, hours: p.hours, streak: p.streak, achievements: p.achievements, games: p.games }); });
     handle('srvLbRemove', () => srv('POST', '/lb/remove', { uid: onlineId() }));
     handle('srvLbName', () => store.get('lbName') || '');
-    // ---------- messages, groups and friend streaks: the window asks for these by name and the server does the checking ----------
-    const SOC = { typing: ['POST', '/social/typing'], blocks: ['GET', '/social/blocks'], find: ['POST', '/social/find'], friend: ['POST', '/social/friend'], respond: ['POST', '/social/respond'], unfriend: ['POST', '/social/unfriend'], block: ['POST', '/social/block'],
-        dm: ['POST', '/social/dm'], send: ['POST', '/social/send'], del: ['POST', '/social/delete'], group: ['POST', '/social/group'], groupAdd: ['POST', '/social/group/add'], groupRemove: ['POST', '/social/group/remove'], groupRename: ['POST', '/social/group/rename'], report: ['POST', '/social/report'] };
-    handle('soc', async (p) => {
-        const op = String(p.op || '');
-        if (op === 'overview') return srv('GET', '/social/overview');
-        if (op === 'conv') return srv('GET', '/social/conv?id=' + String(p.id || '').replace(/[^a-z0-9]/g, '').slice(0, 40) + '&after=' + (Math.floor(Number(p.after)) || 0));
-        const e = SOC[op]; if (!e) return { ok: false, error: 'Unknown request.' };
-        const body = Object.assign({}, p); delete body.op; return srv(e[0], e[1], e[0] === 'GET' ? undefined : body, 10000);
-    });
-
     // special gifts from the server: a one-off amount of XP (never more than 100,000), once per gift, only while it is on
     handle('giftClaim', async (p) => {
         if (ctx.NO_PROGRESS) return { ok: false, error: 'Not available in this build.' };

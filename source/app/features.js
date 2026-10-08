@@ -3,7 +3,7 @@
    Each feature is installed inside safe(), so a bug in one can never stop the rest of the app from working. */
 (function () {
     'use strict';
-    const SLF = window.SLF = { cmds: [], tiles: [], installed: [], version: '9.2.2', tourVersion: '9.1.0', langNames: { en: 'English', bg: 'Български' } };
+    const SLF = window.SLF = { cmds: [], tiles: [], installed: [], version: '9.2.3', tourVersion: '9.1.0', langNames: { en: 'English', bg: 'Български' } };
     SLF.langOptions = () => Object.keys(SLF.langNames).map(k => '<option value="' + k + '">' + SLF.langNames[k] + '</option>').join('');
     const $ = (id) => document.getElementById(id);
     const feat = (name, payload) => window.electronAPI.feat(name, payload);
@@ -474,7 +474,7 @@
         SLF.tourSteps = () => [
             { icon: '\uD83C\uDF81', title: 'Drops, streaks and a lucky wheel', text: 'Free XP every hour, every 5 hours and every day. Claim the daily drop on consecutive days for up to +70% XP, earn coins from every drop and spin the lucky wheel once a day.', act: () => { if (window.SLDrops) SLDrops.open(); }, label: 'Open Drops' },
             { icon: '\uD83C\uDFF7\uFE0F', title: 'Shop and Trophy room', text: 'Spend your coins on avatar frames and profile titles (daily picks plus limited-time event items), and see every frame, title and theme you can collect in the Trophy room.', act: () => { if (SLF.openShop) SLF.openShop(); }, label: 'Open the Shop' },
-            { icon: '\uD83E\uDDE9', title: 'Widgets, recap and search', text: 'Cards on your dashboard (continue playing, this week, daily goal, clock, theme of the week), a weekly recap you can save as a picture, and a command palette (Ctrl+K) that now finds achievements, settings and themes too.', act: () => { if (SLF.actions['Dashboard widgets']) SLF.actions['Dashboard widgets'](); }, label: 'Dashboard widgets' },
+            { icon: '\uD83E\uDDE9', title: 'Recap and search', text: 'A weekly recap you can save as a picture, and a command palette (Ctrl+K) that finds games, achievements, settings and themes.', act: () => { if (SLF.actions['Weekly recap']) SLF.actions['Weekly recap'](); }, label: 'Weekly recap' },
             { icon: '\u2728', title: 'Smart collections, tags and links', text: 'Build collections from rules like "unplayed and under 5 hours", tag your games (right-click a game) and keep links or save folders on every game page.', act: () => { if (SLF.actions['Smart collections']) SLF.actions['Smart collections'](); }, label: 'Smart collections' },
             { icon: '\uD83C\uDF9B\uFE0F', title: 'More settings', text: 'Mute kinds of notifications or snooze them, ignore time spent away from the PC, post achievements to Discord, accessibility options, more languages and restore points.', act: () => { if (SLF.openMore) SLF.openMore(); }, label: 'Open More settings' }
         ];

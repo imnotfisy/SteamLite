@@ -340,6 +340,10 @@
                 filter: drop-shadow(0 0 8px var(--accent-color));
             }
 
+            .app-logo-sq { display: inline-grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 40%, #000)); box-shadow: 0 6px 18px color-mix(in srgb, var(--accent-color) 45%, transparent); }
+            .app-logo-sq svg { width: 62%; height: 62%; fill: #fff; filter: none; display: block; }
+            .app-logo-sq.big { width: 64px; height: 64px; border-radius: 20px; margin: 0 auto 6px; box-shadow: 0 10px 30px color-mix(in srgb, var(--accent-color) 45%, transparent); }
+
         .sidebar-nav {
             display: flex;
             flex-direction: column;
@@ -4876,11 +4880,7 @@
 
         <div id="sidebar">
             <div class="sidebar-logo">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                    <polyline points="2 17 12 22 22 17"></polyline>
-                    <polyline points="2 12 12 17 22 12"></polyline>
-                </svg>
+                <div class="app-logo-sq" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-9.96 9.04l5.35 2.21a2.83 2.83 0 0 1 1.6-.49h.15l2.38-3.45v-.05a3.78 3.78 0 1 1 3.78 3.78h-.09l-3.4 2.43v.12a2.84 2.84 0 0 1-5.62.6l-3.83-1.58A10 10 0 1 0 12 2zM7.54 17.3l-1.23-.51a2.13 2.13 0 0 0 4.07-.47 2.13 2.13 0 0 0-2.84-2.02l1.27.52a1.57 1.57 0 1 1-1.27 2.48zm8.4-5.9a2.52 2.52 0 1 1 2.52-2.52 2.52 2.52 0 0 1-2.52 2.52zm0-.94a1.58 1.58 0 1 0-1.58-1.58 1.58 1.58 0 0 0 1.58 1.58z"/></svg></div>
                 <span>SteamLite</span>
             </div>
             <nav class="sidebar-nav">
@@ -5494,11 +5494,7 @@
     <div id="settings-modal" class="modal-backdrop">
         <div class="settings-wrap">
             <div class="settings-logo">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                    <polyline points="2 17 12 22 22 17"></polyline>
-                    <polyline points="2 12 12 17 22 12"></polyline>
-                </svg>
+                <div class="app-logo-sq big" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-9.96 9.04l5.35 2.21a2.83 2.83 0 0 1 1.6-.49h.15l2.38-3.45v-.05a3.78 3.78 0 1 1 3.78 3.78h-.09l-3.4 2.43v.12a2.84 2.84 0 0 1-5.62.6l-3.83-1.58A10 10 0 1 0 12 2zM7.54 17.3l-1.23-.51a2.13 2.13 0 0 0 4.07-.47 2.13 2.13 0 0 0-2.84-2.02l1.27.52a1.57 1.57 0 1 1-1.27 2.48zm8.4-5.9a2.52 2.52 0 1 1 2.52-2.52 2.52 2.52 0 0 1-2.52 2.52zm0-.94a1.58 1.58 0 1 0-1.58-1.58 1.58 1.58 0 0 0 1.58 1.58z"/></svg></div>
                 <h2 id="settings-title-text">Welcome to SteamLite</h2>
                 <p id="settings-subtitle">Please enter your credentials to continue</p>
             </div>
@@ -6324,7 +6320,7 @@
             applyCustomBg(activeConfig);
             if (window.electronAPI.updateDiscordRpc) window.electronAPI.updateDiscordRpc({ enabled: patch.discordRpcEnabled });
             document.getElementById('advanced-modal').classList.remove('active');
-            showToast('Advanced settings saved.');
+            showToast('Settings saved.');
         });
 
         document.getElementById('friends-toggle').addEventListener('click', (e) => { if (document.body.classList.contains('sue-editing')) return; playSound('click'); document.getElementById('friends-panel').classList.toggle('active'); });
@@ -7381,7 +7377,7 @@
                 const isSeasonFrame = ['frost', 'bloom', 'blaze', 'harvest'].includes(k);
                 const seasonLocked = isSeasonFrame && !((((peMeta || {}).cosmetics || {}).frames || []).includes(k));
                 const eventLocked = ['steamlite', 'neon', 'emerald', 'sunset', 'mono', 'candy', 'void', 'pumpkin', 'holly', 'blossom', 'sunseeker', 'roots'].includes(k) && !((((peMeta || {}).cosmetics || {}).frames || []).includes(k));
-                const locked = !!(need && !need.unlocked) || seasonLocked || eventLocked;
+                const locked = !(peMeta && peMeta.owner) && (!!(need && !need.unlocked) || seasonLocked || eventLocked); // owners have every frame
                 const lockTxt = eventLocked ? 'event' : seasonLocked ? 'season' : (need ? need.level : '');
                 return '<button type="button" class="pe-frame-btn' + (k === peDraft.frame ? ' active' : '') + (locked ? ' locked' : '') + '" data-frame="' + k + '"' + (locked ? ' data-locked="' + lockTxt + '"' : '') + '>' + label + (locked ? (eventLocked ? (k === 'steamlite' ? ' 🔒 Event reward' : ' 🔒 Shop') : seasonLocked ? ' 🔒 Season reward' : ' 🔒 Lv ' + need.level) : '') + '</button>';
             }).join('');
@@ -10051,7 +10047,7 @@
     <script src="couch.js"></script>
     <script>/* Full edition only: the Tools & extras layer. The Lite edition never loads it. */
     if (!window.electronAPI || window.electronAPI.edition !== 'lite') {
-        ["features.js", "features_play.js", "features_progress.js", "x_shop.js", "x_events.js", "x_profile.js", "x_library.js", "x_lang.js", "x_social.js", "x_ui.js", "x_online.js", "x_chat.js"].forEach(function (f) { document.write('<script src="' + f + '"><\/script>'); });
+        ["features.js", "features_play.js", "features_progress.js", "x_shop.js", "x_events.js", "x_profile.js", "x_library.js", "x_lang.js", "x_social.js", "x_ui.js", "x_online.js", "chat_emoji.js", "x_people.js", "x_chat.js"].forEach(function (f) { document.write('<script src="' + f + '"><\/script>'); });
     }
     </script>
     <script src="shell.js"></script>

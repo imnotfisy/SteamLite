@@ -52,9 +52,9 @@ module.exports = function initAccount(ctx) {
     handle('acctStatus', async () => {
         if (!acctTok()) return { signedIn: false };
         const r = await srv('GET', '/me');
-        if (r.ok) { store.set('acctInfo', { name: r.name, steamid: r.steamid }); return { signedIn: true, name: r.name, idTail: String(r.steamid).slice(-4), backupAt: r.backupAt || 0, prevAt: r.prevAt || 0, localBackupAt: store.get('cloudBackupAt') || 0 }; }
+        if (r.ok) { store.set('acctInfo', { name: r.name, steamid: r.steamid, avatar: r.avatar || '', verified: !!r.verified, owner: !!r.owner, created: r.created || 0, code: r.code || '' }); return { signedIn: true, name: r.name, avatar: r.avatar || '', verified: !!r.verified, owner: !!r.owner, created: r.created || 0, code: r.code || '', hasKey: !!r.hasKey, idTail: String(r.steamid).slice(-4), backupAt: r.backupAt || 0, prevAt: r.prevAt || 0, localBackupAt: store.get('cloudBackupAt') || 0 }; }
         if (r.code === 401) { acctTokSet(''); store.delete('acctInfo'); return { signedIn: false, expired: true }; }
-        const i = acctInfo(); return { signedIn: true, offline: true, name: i ? i.name : '', idTail: i ? String(i.steamid).slice(-4) : '', backupAt: 0, localBackupAt: store.get('cloudBackupAt') || 0 };
+        const i = acctInfo(); return { signedIn: true, offline: true, name: i ? i.name : '', avatar: i ? (i.avatar || '') : '', verified: !!(i && i.verified), owner: !!(i && i.owner), created: i ? (i.created || 0) : 0, code: i ? (i.code || '') : '', hasKey: !!store.get('apiKey'), idTail: i ? String(i.steamid).slice(-4) : '', backupAt: 0, localBackupAt: store.get('cloudBackupAt') || 0 };
     });
     handle('acctLogin', async () => {
         const base = await onlineBase(); if (!base) return { ok: false, error: 'SteamLite Online is not available right now.' };
@@ -71,7 +71,7 @@ module.exports = function initAccount(ctx) {
     });
     handle('acctLoginCancel', () => { loginTry = null; return true; });
     handle('acctLogout', async () => { try { await srv('POST', '/logout'); } catch (e) { } acctTokSet(''); store.delete('acctInfo'); return { ok: true }; });
-    handle('acctDelete', async () => { const r = await srv('DELETE', '/account'); if (r.ok) { acctTokSet(''); store.delete('acctInfo'); store.set('lbOptIn', false); } return r.ok ? { ok: true } : { ok: false, error: r.error === 'offline' ? 'Could not reach the server. Try again in a moment.' : r.error }; });
+    handle('acctDelete', async () => { const r = await srv('DELETE', '/account'); if (r.ok) { acctTokSet(''); store.delete('acctInfo'); store.set('lbOptIn', false); store.set('apiKey', ''); store.set('steamId', ''); } return r.ok ? { ok: true } : { ok: false, error: r.error === 'offline' ? 'Could not reach the server. Try again in a moment.' : r.error }; });
     async function cloudBackup() {
         if (!acctTok()) return { ok: false, error: 'Sign in first.' };
         const data = {}; for (const k of ctx.BACKUP_KEYS) { const v = store.get(k); if (v !== undefined) data[k] = v; }
@@ -94,15 +94,67 @@ module.exports = function initAccount(ctx) {
     setTimeout(autoBackup, 60000); setInterval(autoBackup, 3 * 3600000);
 
 
+    // ---------- messages, groups, friends, profiles, lists and challenges: the windows ask by name and the server does the checking ----------
+    const idq = (v) => String(v || '').replace(/[^a-z0-9]/g, '').slice(0, 40);
+    const SOC = { typing: ['POST', '/social/typing'], blocks: ['GET', '/social/blocks'], find: ['POST', '/social/find'], friend: ['POST', '/social/friend'], respond: ['POST', '/social/respond'], unfriend: ['POST', '/social/unfriend'], block: ['POST', '/social/block'],
+        dm: ['POST', '/social/dm'], send: ['POST', '/social/send'], del: ['POST', '/social/delete'], group: ['POST', '/social/group'], groupAdd: ['POST', '/social/group/add'], groupRemove: ['POST', '/social/group/remove'], groupRename: ['POST', '/social/group/rename'], report: ['POST', '/social/report'],
+        react: ['POST', '/social/react'], edit: ['POST', '/social/edit'], pin: ['POST', '/social/pin'], mute: ['POST', '/social/mute'], presence: ['POST', '/social/presence'], stats: ['POST', '/social/stats'], bio: ['POST', '/social/bio'], listCreate: ['POST', '/social/lists'], challengeStart: ['POST', '/social/challenge'] };
+    handle('soc', async (p) => {
+        const op = String(p.op || '');
+        if (op === 'overview') return srv('GET', '/social/overview');
+        if (op === 'conv') return srv('GET', '/social/conv?id=' + idq(p.id) + '&after=' + (Math.floor(Number(p.after)) || 0) + '&before=' + (Math.floor(Number(p.before)) || 0));
+        if (op === 'search') return srv('GET', '/social/search?conv=' + idq(p.conv) + '&q=' + encodeURIComponent(String(p.q || '').slice(0, 40)));
+        if (op === 'profile') return srv('GET', '/social/profile?uid=' + idq(p.uid));
+        if (op === 'listGet') return srv('GET', '/social/lists/' + idq(p.id));
+        if (op === 'listsMine') return srv('GET', '/social/lists');
+        if (op === 'listDelete') return srv('DELETE', '/social/lists/' + idq(p.id));
+        if (op === 'challenges') return srv('GET', '/social/challenges');
+        if (op === 'challengeEnd') return srv('DELETE', '/social/challenge/' + idq(p.id));
+        const e = SOC[op]; if (!e) return { ok: false, error: 'Unknown request.' };
+        const body = Object.assign({}, p); delete body.op; return srv(e[0], e[1], body, 10000);
+    });
+
     // ---------- the community theme gallery (both editions): browse, download, publish, delete, report ----------
     const hexId = (v) => String(v || '').replace(/[^a-f0-9]/g, '').slice(0, 16);
     const uidQ = () => '?uid=' + onlineId();
-    handle('srvThemes', (p) => srv('GET', '/themes' + uidQ() + '&sort=' + (['new', 'downloads'].includes(p.sort) ? p.sort : 'liked') + (p.q ? '&q=' + encodeURIComponent(String(p.q).slice(0, 30)) : ''), null, 9000));
+    handle('srvThemes', (p) => srv('GET', '/themes' + uidQ() + '&sort=' + (['new', 'downloads'].includes(p.sort) ? p.sort : 'liked') + (p.q ? '&q=' + encodeURIComponent(String(p.q).slice(0, 30)) : '') + (p.featured ? '&featured=1' : ''), null, 9000));
     handle('srvTheme', (p) => srv('GET', '/themes/' + hexId(p.id) + uidQ() + (p.dl ? '&dl=1' : ''), null, 9000));
     handle('srvThemeLike', (p) => srv('POST', '/themes/' + hexId(p.id) + '/like', { uid: onlineId() }));
     handle('srvThemeShare', (p) => srv('POST', '/themes', { uid: onlineId(), name: p.name, desc: p.desc, author: p.author, vars: p.vars, css: p.css }, 12000));
     handle('srvThemeDelete', (p) => srv('DELETE', '/themes/' + hexId(p.id)));
     handle('srvThemeReport', (p) => srv('POST', '/themes/' + hexId(p.id) + '/report', { reason: String(p.reason || '').slice(0, 300) }));
+
+    // ---------- the Steam library connection: the Steam ID is the account's, the Web API key is entered once and kept on the server ----------
+    const acctSteamId = () => { const i = store.get('acctInfo'); return i && i.steamid ? String(i.steamid) : ''; };
+    // 'have': this PC is ready. 'fetched': this PC just got the saved key and needs a reload. 'need': nobody has entered a key yet.
+    async function ensureKey() {
+        let sid = acctSteamId();
+        if (!sid && acctTok()) { const me = await srv('GET', '/me'); if (me.ok) { store.set('acctInfo', { name: me.name, steamid: me.steamid, avatar: me.avatar || '', verified: !!me.verified, owner: !!me.owner, created: me.created || 0, code: me.code || '' }); sid = String(me.steamid); } }
+        if (!sid) return { state: 'need', offline: true };
+        const local = String(store.get('apiKey') || '');
+        if (local && String(store.get('steamId') || '') === sid) { srv('GET', '/me').then((r) => { if (r.ok && !r.hasKey) srv('PUT', '/me/key', { key: local }); }).catch(() => { }); return { state: 'have' }; }
+        if (local && ctx.addProfile) { const r = await ctx.addProfile(sid, local); if (r.ok) { srv('PUT', '/me/key', { key: local }).catch(() => { }); return { state: 'fetched' }; } }
+        const k = await srv('GET', '/me/key');
+        if (k.ok && k.key && ctx.addProfile) { const r = await ctx.addProfile(sid, k.key); if (r.ok) return { state: 'fetched' }; }
+        return { state: 'need', offline: !k.ok && k.error === 'offline' };
+    }
+    // the SteamLite account uses the same picture as the Steam account: read it from Steam and tell the server
+    async function syncAvatar() {
+        try {
+            const key = String(store.get('apiKey') || ''), sid = acctSteamId(); if (!key || !sid || !acctTok()) return;
+            const d = await fetchApi('https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=' + key + '&steamids=' + sid, {}, 7000);
+            const u = d && d.response && d.response.players && d.response.players[0];
+            if (u && u.avatarfull) { const r = await srv('POST', '/me/avatar', { avatar: u.avatarfull }); if (r.ok) { const i = store.get('acctInfo') || {}; store.set('acctInfo', Object.assign({}, i, { avatar: u.avatarfull })); } }
+        } catch (e) { }
+    }
+    setTimeout(syncAvatar, 25000); setInterval(syncAvatar, 6 * 3600000);
+    handle('acctKeyEnsure', () => ensureKey());
+    handle('acctKeySave', async (p) => {
+        const key = String(p.key || '').trim(); if (!/^[A-Fa-f0-9]{32}$/.test(key)) return { ok: false, error: 'That does not look like a Steam Web API key. It is 32 letters and numbers.' };
+        let sid = acctSteamId(); if (!sid) { await ensureKey(); sid = acctSteamId(); } if (!sid) return { ok: false, error: 'Sign in first.' };
+        const r = await srv('PUT', '/me/key', { key }, 15000); if (!r.ok) return { ok: false, error: r.error === 'offline' ? 'Could not reach SteamLite Online. Check your connection.' : r.error };
+        if (!ctx.addProfile) return { ok: true }; const a = await ctx.addProfile(sid, key.toUpperCase()); if (a.ok) setTimeout(syncAvatar, 1500); return a.ok ? { ok: true } : { ok: false, error: a.error };
+    });
 
     // ---------- the sign-in requirement ----------
     // A saved sign-in keeps working when the server cannot be reached, so being offline never locks anyone out. Only someone who has
@@ -111,14 +163,19 @@ module.exports = function initAccount(ctx) {
         if (process.env.SL_NO_GATE === '1') return { required: false };
         if (acctTok()) {
             const r = await srv('GET', '/me');
-            if (r.ok) { store.set('acctInfo', { name: r.name, steamid: r.steamid }); return { required: false }; }
+            if (r.ok) { store.set('acctInfo', { name: r.name, steamid: r.steamid, avatar: r.avatar || '', verified: !!r.verified, owner: !!r.owner, created: r.created || 0, code: r.code || '' }); const k = await ensureKey(); return { required: false, reload: k.state === 'fetched', needKey: k.state === 'need', offline: !!k.offline }; }
             if (r.code === 401) { acctTokSet(''); store.delete('acctInfo'); return { required: true, expired: true, reachable: true }; }
-            return { required: false, offline: true };
+            return { required: false, offline: true, needKey: !store.get('apiKey') };
         }
         const h = await srv('GET', '/health');
         return { required: true, reachable: !!h.ok };
     });
     handle('acctRestart', () => { try { app.relaunch(); } catch (e) { } if (ctx.quitApp) ctx.quitApp(); else app.quit(); return true; });
 
-    return { srv, onlineBase, onlineId, resetBase, acctTok, cloudBackup };
+    // true for an account the admin made an owner: SteamLite then unlocks everything for it, kept on the account so it follows you to any PC
+    // keep the cached account info (name, picture, verified or owner) fresh, so a change the admin makes reaches the app within minutes
+    async function refreshInfo() { try { if (!acctTok()) return; const r = await srv('GET', '/me'); if (r.ok) store.set('acctInfo', { name: r.name, steamid: r.steamid, avatar: r.avatar || '', verified: !!r.verified, owner: !!r.owner, created: r.created || 0, code: r.code || '' }); else if (r.code === 401) { acctTokSet(''); store.delete('acctInfo'); } } catch (e) { } }
+    setTimeout(refreshInfo, 2500); setInterval(refreshInfo, 600000);
+    const isOwner = () => { const i = store.get('acctInfo'); return !!(i && i.owner); };
+    return { srv, onlineBase, onlineId, resetBase, acctTok, cloudBackup, ensureKey, isOwner };
 };

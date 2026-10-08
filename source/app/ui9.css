@@ -74,8 +74,8 @@ body.ui9 #sidebar:hover, body.ui9 #sidebar:has(:focus-visible) {
     box-shadow: var(--glass-edge), 0 24px 70px rgba(0, 0, 0, 0.5);
 }
 body.ui9 .sidebar-logo {
-    padding: 22px 0 16px; gap: 12px; border-bottom: 0; font-size: 18px; letter-spacing: 2px; white-space: nowrap;
-    padding-left: 24px;
+    padding: 18px 0 12px; gap: 14px; border-bottom: 0; font-size: 18px; letter-spacing: 2px; white-space: nowrap;
+    padding-left: calc((var(--rail-w) - 2px - 44px) / 2); /* centres the 44px logo in the closed rail */
 }
 body.ui9 .sidebar-logo span { opacity: 0; transition: opacity var(--dur-base) var(--ease-out); }
 body.ui9 #sidebar:hover .sidebar-logo span, body.ui9 #sidebar:has(:focus-visible) .sidebar-logo span { opacity: 1; }
@@ -425,7 +425,9 @@ body.settings-open #view-container, body.settings-open #library-controls { displ
 .sp-ico.big { width: 44px; height: 44px; display: grid; place-items: center; font-size: 22px; border-radius: 14px;
     background: linear-gradient(145deg, color-mix(in srgb, var(--accent-color) 36%, transparent), color-mix(in srgb, var(--accent-color) 8%, transparent)); border: 1px solid color-mix(in srgb, var(--accent-color) 38%, transparent); }
 
-.sp-main { flex: 1; min-width: 0; overflow-y: auto; padding: 0 8px 90px 2px; scroll-behavior: smooth; }
+.sp-main { flex: 1; min-width: 0; overflow-y: auto; padding: 22px 26px 100px 18px; margin: -22px -26px 0 -18px; scroll-behavior: smooth;
+    /* soft fade at the top and bottom instead of a hard cut, and room so the card shadows are not clipped into squares */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 26px, #000 calc(100% - 30px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 26px, #000 calc(100% - 30px), transparent 100%); }
 .sp-head { padding: 4px 4px 16px; }
 .sp-head h1 { font-size: 30px; font-weight: 800; letter-spacing: 0.2px; }
 .sp-head p { margin-top: 4px; font-size: 13px; color: var(--text-secondary); }

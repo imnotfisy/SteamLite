@@ -1,8 +1,14 @@
 {
   "changelog": {
-    "version": "9.2.2",
-    "title": "SteamLite 9.2.2 - Themes rebuilt, publish your own, nicer chat",
+    "version": "9.2.3",
+    "title": "SteamLite 9.2.3 - Account page, verified players and a much richer Messages",
     "items": [
+      "Emoji picker, reactions, replies, edits, pins and search in Messages",
+      "Share a game with a Buy on Steam button, or share a whole game list",
+      "Profiles, online status with what friends are playing, and friend challenges",
+      "Connect your Steam library once: your API key is saved to your account, so new PCs connect on their own",
+      "A rebuilt Account page in Settings, with your profile, backup and data",
+      "Verified players get a blue tick, shown in chat, friends, themes and the leaderboard",
       "A new Themes window with live previews, a Community tab and My library",
       "The Theme Maker can publish your theme to SteamLite so other players can preview and download it",
       "Chat now shows when a friend is typing, with animated messages and a new-messages pill",
@@ -21,6 +27,11 @@
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.2.3 Released - Account page, verified players and a richer Messages",
+      "date": "October 8, 2026",
+      "content": "Connect your Steam library once and every PC connects by itself, and Settings > Account is rebuilt. Messages got a big upgrade: an emoji picker, reactions, replies, edits, pins and search. You can share a game with a Buy on Steam button or a whole game list, see who is online and what they are playing, open profiles, and start friend challenges. Trusted players can carry a blue verified tick."
+    },
     {
       "title": "SteamLite 9.2.2 Released - Themes rebuilt and chat polish",
       "date": "October 7, 2026",

@@ -192,6 +192,10 @@ let isQuiting = false;
 let features = { hooks: {} }; // filled in by features_main.js once the app is ready
 let extras = { hooks: {} }; // filled in by extras_main.js
 let account = null; // filled in by account_main.js (both editions)
+// OWNER MODE. The admin can make a SteamLite account an "owner" on the server. For that account everything is unlocked, and because
+// every lock below asks this one function, anything added in a future update is unlocked too: when you add something the player has to
+// earn or buy, check isOwner() where you decide whether it is unlocked (here in the main process, or peMeta.owner / meta.owner in the window).
+function isOwner() { try { return !!(account && account.isOwner && account.isOwner()); } catch (e) { return false; } }
 
 const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
@@ -665,13 +669,13 @@ app.whenReady().then(() => {
     } catch (e) { console.error('Could not start the extra features:', e && e.message); }
     try { // the account and the connection to SteamLite Online: both editions
         account = require('./account_main')({
-            app, ipcMain, store, fetchApi, BACKUP_KEYS, APP_VERSION,
+            app, ipcMain, store, fetchApi, BACKUP_KEYS, APP_VERSION, addProfile: addProfileCore,
             restorePoint: (why) => extras.hooks.restorePoint && extras.hooks.restorePoint(why), quitApp: () => { isQuiting = true; app.quit(); }
         });
     } catch (e) { console.error('Could not start the account module:', e && e.message); }
     if (EDITION === 'full') try {
         extras = require('./extras_main')({
-            account, app, ipcMain, store, fs, path, fetchApi, getMainWindow: () => mainWindow, BACKUP_KEYS, APP_VERSION, streakDayKey, mulberry32, seedFrom,
+            account, isOwner, app, ipcMain, store, fs, path, fetchApi, getMainWindow: () => mainWindow, BACKUP_KEYS, APP_VERSION, streakDayKey, mulberry32, seedFrom,
             EVENTS, eventState, eventQuestState, QUEST_EVENTS, NO_PROGRESS, ACHIEVEMENT_DEFS, effectiveLevel, LEVEL_FRAMES, LEVEL_TITLES, readBundledThemes, getLocalGames, getSteamBasePath
         });
     } catch (e) { console.error('Could not start the extras:', e && e.message); }
@@ -1429,7 +1433,7 @@ ipcMain.handle('download-theme', async (event, fileName) => {
         requires = entry && entry.requires ? entry.requires : null;
         themeId = entry ? entry.id : null;
     } catch (err) { }
-    if (requires) {
+    if (requires && !isOwner()) {
         const unlocked = store.get('metaAchievements') || {};
         const granted = themeId && (store.get('themeUnlocks') || {})[themeId];
         if (!unlocked[requires] && !granted) return { locked: true, requires };
@@ -1953,9 +1957,9 @@ ipcMain.handle('get-meta-achievements', (event, opts) => {
     checkAchievements(librarySize);
     const stats = collectStats(librarySize);
     const unlocked = store.get('metaAchievements') || {};
-    return { achievements: buildAchievementList(stats, unlocked), streak: expireStreakRecoveryIfPast(getStreakState()), stats, events: eventsSummary(unlocked), unlockedThemes: Object.keys(store.get('themeUnlocks') || {}), level: levelInfo(totalXp(unlocked)), xpBoost: currentBoost(), restores: store.get('streakRestores') || 0, restoreCap: RESTORE_CAP,
+    return { achievements: buildAchievementList(stats, unlocked), streak: expireStreakRecoveryIfPast(getStreakState()), stats, events: eventsSummary(unlocked), unlockedThemes: isOwner() ? readBundledThemes().map(t => t.id) : Object.keys(store.get('themeUnlocks') || {}), owner: isOwner(), level: levelInfo(totalXp(unlocked)), xpBoost: currentBoost(), restores: store.get('streakRestores') || 0, restoreCap: RESTORE_CAP,
         challenges: getChallenges(), titles: buildTitles(unlocked), levelRewards: levelRewardsList(),
-        prestige: store.get('prestige') || { count: 0 }, cosmetics: { frames: (store.get('cosmetics') || {}).frames || [] } };
+        prestige: store.get('prestige') || { count: 0 }, cosmetics: { frames: isOwner() ? allFrameIds() : ((store.get('cosmetics') || {}).frames || []) } };
 });
 
 // Seasonal events with how far along the user is, for the dashboard banner and the achievements window
@@ -2158,8 +2162,10 @@ const LEVEL_TITLES = [
 const LEVEL_FRAMES = [[12, 'flame', 'Flame'], [22, 'aurora', 'Aurora'], [35, 'gold', 'Gold'], [55, 'galaxy', 'Galaxy'], [75, 'legend', 'Legendary']];
 const LEVEL_RESTORES = { 25: 1, 50: 1, 75: 2, 100: 3 };
 
+// every avatar frame the app knows about (owners have them all)
+function allFrameIds() { const ids = ['glow', 'ring', 'pulse', 'rainbow'].concat(LEVEL_FRAMES.map(f => f[1])); try { (extras.hooks.allFrames ? extras.hooks.allFrames() : []).forEach(f => ids.push(f)); } catch (e) { } return [...new Set(ids)]; }
 function levelRewardsList() {
-    const lv = effectiveLevel(store.get('metaAchievements') || {});
+    const own = isOwner(), lv = own ? 999 : effectiveLevel(store.get('metaAchievements') || {});
     const out = [];
     LEVEL_TITLES.forEach(([level, id, name]) => out.push({ level, type: 'title', id, name, unlocked: lv >= level }));
     LEVEL_FRAMES.forEach(([level, id, name]) => out.push({ level, type: 'frame', id, name, unlocked: lv >= level }));
@@ -2168,10 +2174,14 @@ function levelRewardsList() {
 }
 // everything the player may pick as a profile title: titles earned by level, plus the name of any unlocked achievement
 function buildTitles(unlocked) {
-    const lv = effectiveLevel(unlocked);
+    const own = isOwner(), lv = own ? 999 : effectiveLevel(unlocked);
     const list = LEVEL_TITLES.filter(t => lv >= t[0]).map(t => ({ id: 'lv:' + t[1], text: t[2], source: 'level', level: t[0] }));
     ACHIEVEMENT_DEFS.forEach(d => { if (unlocked[d.id]) list.push({ id: 'ach:' + d.id, text: d.name, source: 'achievement', icon: d.icon }); });
     ((store.get('cosmetics') || {}).titles || []).forEach(t => list.push({ id: 'cos:' + t, text: t, source: 'season', icon: '🏅' }));
+    if (own) { // owners can wear every title, including the shop, event and season ones
+        ACHIEVEMENT_DEFS.forEach(d => { if (!unlocked[d.id]) list.push({ id: 'ach:' + d.id, text: d.name, source: 'achievement', icon: d.icon }); });
+        const have = new Set(list.map(t => t.text)); try { (extras.hooks.allTitles ? extras.hooks.allTitles() : []).forEach(t => { if (!have.has(t)) { have.add(t); list.push({ id: 'cos:' + t, text: t, source: 'owner', icon: '👑' }); } }); } catch (e) { }
+    }
     return list;
 }
 // bonus streak restores are given once, the first time a level is reached
@@ -2493,10 +2503,10 @@ ipcMain.handle('get-profiles', async () => {
     return { profiles: p.list, activeId: p.activeId };
 });
 
-ipcMain.handle('add-profile', async (event, { steamId, apiKey }) => {
+async function addProfileCore(steamId, apiKey) {
     if (!steamId || !apiKey) return { ok: false, error: 'SteamID64 and API key are required.' };
     try {
-        const data = await fetchApi(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamId}`, {}, 8000);
+        const data = process.env.SL_TEST_STEAM_STUB === '1' ? { response: { players: [{ steamid: steamId, personaname: 'Test ' + String(steamId).slice(-4), avatarfull: '' }] } } : await fetchApi(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${apiKey}&steamids=${steamId}`, {}, 8000); // the stub is for automatic tests only
         const u = normalizeKnownPlayer(data.response.players[0]);
         if (!u) return { ok: false, error: 'Login failed. Check the SteamID64 and API key.' };
         const p = getProfiles();
@@ -2516,7 +2526,8 @@ ipcMain.handle('add-profile', async (event, { steamId, apiKey }) => {
     } catch (err) {
         return { ok: false, error: 'Login failed. Check the SteamID64 and API key.' };
     }
-});
+}
+ipcMain.handle('add-profile', (event, { steamId, apiKey }) => addProfileCore(steamId, apiKey));
 
 ipcMain.handle('switch-profile', (event, steamId) => {
     const p = getProfiles();

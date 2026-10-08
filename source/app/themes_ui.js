@@ -42,6 +42,7 @@
     .thx-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.8em; } .thx-hint { font-size: 11.5px; color: var(--warning); display: flex; align-items: center; gap: 6px; line-height: 1.35; }
     .thx-badge { font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: color-mix(in srgb, var(--accent-color) 22%, transparent); color: var(--text-primary); border: 1px solid color-mix(in srgb, var(--accent-color) 55%, transparent); } .thx-badge.ok { background: rgba(34, 197, 94, .18); border-color: rgba(34, 197, 94, .55); } .thx-badge.warn { background: rgba(245, 158, 11, .16); border-color: rgba(245, 158, 11, .5); }
     .thx-stats { display: flex; gap: 12px; font-size: 11.5px; color: var(--text-secondary); align-items: center; } .thx-stats span { display: inline-flex; align-items: center; gap: 4px; } .thx-act { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px 14px; } .thx-act .thx-btn { flex: 0 0 auto; }
+    .thx-link { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; } .thx-link:hover { color: var(--text-primary); }
     .thx-like.on { color: #f472b6; border-color: #f472b6; } .thx-like.on svg { fill: #f472b6; }
     .thx-empty { text-align: center; padding: 60px 20px; color: var(--text-secondary); font-size: 14px; line-height: 1.6; } .thx-empty b { display: block; color: var(--text-primary); font-size: 17px; margin-bottom: 6px; }
     .thx-skel { height: 270px; border-radius: 20px; background: linear-gradient(100deg, var(--bg-glass) 30%, color-mix(in srgb, var(--bg-glass-light) 90%, #fff 6%) 50%, var(--bg-glass) 70%); background-size: 220% 100%; border: 1px solid var(--border-glass); animation: thxSkel 1.2s linear infinite; } @keyframes thxSkel { to { background-position: -220% 0; } }
@@ -144,7 +145,7 @@
         T.lock = info;
     }
     function cardHtml(key, i, t, o) {
-        const by = t.author ? '<div class="thx-by">' + avatar(t.authorAvatar, t.author) + '<span>' + E(t.author) + '</span></div>' : '';
+        const by = t.author ? '<div class="thx-by">' + avatar(t.authorAvatar, t.author) + '<span' + (t.authorUid ? ' class="thx-link" data-prof="' + E(t.authorUid) + '" title="See their profile"' : '') + '>' + E(t.author) + '</span>' + (t.verified && window.SLVerified ? window.SLVerified(13, t.owner) : '') + (t.creator ? '<span class="thx-badge warn" title="Their themes have been downloaded a lot">Top creator</span>' : '') + '</div>' : '';
         return '<div class="thx-card' + (o.locked ? ' locked' : '') + (o.on ? ' on' : '') + '" data-k="' + E(key) + '" style="--i:' + i + '">' + mock(t) + '<div class="thx-info"><div class="thx-name">' + E(t.name || t.id) + (o.on ? '<span class="thx-badge ok">Applied</span>' : '') + (o.badge || '') + '</div>' + by + '<div class="thx-desc">' + E(t.description || t.desc || '') + '</div>' + (o.hint ? '<div class="thx-hint">' + ICO.lock + '<span>' + E(o.hint) + '</span></div>' : '') + (o.stats || '') + '</div><div class="thx-act">' + (o.actions || '') + '</div></div>';
     }
 
@@ -160,13 +161,14 @@
     async function loadCommunity() {
         const body = $('thx-body'); if (T.tab !== 'community') return; const mySeq = T.seq = (T.seq || 0) + 1;
         if (!T.official) { const res = await api.getThemeShop().catch(() => null); T.official = res && res.ok ? (res.themes || []) : []; }
-        const r = await feat('srvThemes', { sort: T.sort, q: T.q }); if (mySeq !== T.seq || T.tab !== 'community') return;
+        const r = await feat('srvThemes', { sort: T.sort, q: T.q, featured: !T.q }); if (mySeq !== T.seq || T.tab !== 'community') return;
         if (!r || !r.ok) { body.innerHTML = emptyBox('SteamLite Online is not reachable', 'The community gallery needs a connection. Everything else still works.', true); $('thx-count').textContent = ''; return; }
         T.server = r.themes || []; T.mine = r.mine || []; T.items = {};
         const exist = new Set(saved().map((x) => x.remoteId).filter(Boolean)); const pubIds = new Set(Object.values(published()).map((x) => x && x.id));
         $('thx-count').textContent = fmt(T.server.length) + (T.server.length === 1 ? ' theme' : ' themes');
         let html = '';
         if (!T.q) { const gh = (T.official || []).filter((t) => t.source === 'community'); if (gh.length) html += '<div class="thx-sec" style="margin-top:6px">Picked by the SteamLite team</div><div class="thx-grid">' + gh.map((t, i) => cardHtml(reg('g:' + t.id, t, 'official'), i, t, { actions: '<button class="thx-btn pri sm" data-act="apply">Apply</button><button class="thx-btn sm" data-act="preview">Preview</button>' })).join('') + '</div>'; }
+        if (!T.q && r.featured && r.featured.length) html += '<div class="thx-sec">Featured this month</div><div class="thx-grid">' + r.featured.map((t, i) => cardHtml(reg('f:' + t.id, t, 'server'), i, t, { on: applied(t), badge: '<span class="thx-badge">Featured</span>', stats: statsHtml(t), actions: '<button class="thx-btn pri sm" data-act="apply">Apply</button><button class="thx-btn sm" data-act="preview">Preview</button><button class="thx-btn sm thx-like' + (t.liked ? ' on' : '') + '" data-act="like" title="Like">' + ICO.heart + '</button>' })).join('') + '</div>';
         html += T.server.length ? (T.q ? '' : '<div class="thx-sec">From players</div>') + '<div class="thx-grid">' + T.server.map((t, i) => { const mine = pubIds.has(t.id); return cardHtml(reg('s:' + t.id, t, 'server'), i, t, { on: applied(t), badge: (mine ? '<span class="thx-badge">Yours</span>' : '') + (exist.has(t.id) ? '<span class="thx-badge ok">Saved</span>' : ''), stats: statsHtml(t), actions: '<button class="thx-btn pri sm" data-act="apply">Apply</button><button class="thx-btn sm" data-act="preview">Preview</button><button class="thx-btn sm thx-like' + (t.liked ? ' on' : '') + '" data-act="like" title="Like">' + ICO.heart + '</button>' + (exist.has(t.id) ? '' : '<button class="thx-btn sm" data-act="save" title="Save to My library">' + ICO.down + '</button>') + (mine ? '' : '<button class="thx-btn sm" data-act="report" title="Report this theme">' + ICO.flag + '</button>') }); }).join('') + '</div>'
             : (html ? '' : emptyBox(T.q ? 'No themes found' : 'No community themes yet', T.q ? 'Try another word.' : 'Be the first: press Create theme, design one and publish it.'));
         body.innerHTML = html;
@@ -189,6 +191,7 @@
 
     // ----- clicks on cards -----
     async function onBody(e) {
+        const pr = e.target.closest('[data-prof]'); if (pr && window.SLPeople) { SLPeople.openProfile(pr.dataset.prof); return; }
         const act = e.target.closest('[data-act]'); if (!act) return; const a = act.dataset.act;
         if (a === 'retry') { go(T.tab); return; }
         const cardEl = act.closest('[data-k]'); const it = cardEl && T.items[cardEl.dataset.k]; if (!it) return; const t = it.t, kind = it.kind;
@@ -341,6 +344,8 @@
     }
 
     // ---------- take over the old Theme Shop ----------
-    window.SLThemes = { open, openMaker };
+    // used by profiles: download a player's theme, keep it in My library and apply it
+    async function getRemote(t) { const have = saved().find((x) => x.remoteId === t.id); let th = have ? { vars: have.vars, css: have.css } : await fetchServer(t, true); if (!th) return false; if (!have) await keep(t, th); applyThemeObject(th); toast('Applied. It is saved in My library.'); return true; }
+    window.SLThemes = { open, openMaker, getRemote };
     window.openThemeShop = function (tab) { return open(typeof tab === 'string' ? tab : undefined); };
 })();

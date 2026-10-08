@@ -1,3 +1,50 @@
+# SteamLite 9.2.3 Changelog
+
+A one-time library connection, a rebuilt Account page, verified players and a far richer Messages.
+
+## Connect your Steam library once
+- **No more Steam ID.** Your Steam ID is the account you signed in with, so you never type it and there are no profiles to manage.
+- **One popup for the Steam Web API key.** After your first sign-in SteamLite asks for your key once, checks it with Steam and saves it, encrypted, to your SteamLite account. On any other PC you sign in on, it connects by itself, with no popup.
+- If you already had a key set up, it is saved to your account quietly the first time you open this version.
+
+## Account page (rebuilt)
+- **Settings > Account** is a new profile card: your Steam picture and name, the verified tick if you have one, member since, your friend code with a Copy button, and a Sign out button.
+- Cards for your Steam library connection, cloud backup (back up, restore, restore the one before) and your data (delete your account). The old Change Profile and Logout buttons are gone, and More settings now points here.
+
+## Look
+- The sidebar logo (and the welcome window) now use the same Steam icon as the sign-in screen, instead of the old layers symbol.
+
+## Messages (much better)
+- **Emoji:** an emoji picker with categories and your recent ones, :shortcodes: like :fire: and faces like :) turn into emoji as you type, and a message of just 1 to 3 emoji is shown big.
+- **Reactions:** hover a message and pick a reaction (16 quick ones and a full set of 32). Click a reaction chip to add or remove yours.
+- **Replies and edits:** reply to a message with a quote that jumps to the original, press the up arrow to edit your last message (for 15 minutes), and see "edited" on changed messages.
+- **Share games:** the + button shares a game as a card with its picture and your hours. The people you send it to see a green **Buy on Steam** button, or "In your library" if they already own it.
+- **Share game lists:** make a list (pick games, or add your favourites, a collection or your wishlist) and share it. Anyone can open it, see which games they own and buy the rest.
+- **Pin, search, mute:** pin up to 5 messages, search a chat, mute a chat's pop-ups, load earlier messages, copy text and keep unfinished messages as drafts. Links in messages open in your browser.
+- **Presence:** friends show as online with a green dot and what they are playing. In a group chat a strip shows who is playing what right now. You can turn this off in More settings > Privacy.
+
+## Profiles and challenges
+- **Profiles:** click anyone's picture (in chat, the friends list, theme authors or the leaderboard) to see their level, hours, streak, achievements, bio, game lists and published themes, with a Get theme button. Stats are shown to friends. Write your own bio from Settings > Account > View my profile.
+- **Friend challenges:** start a challenge with friends (most hours, achievements, streak or level over 3 to 30 days). Everyone gets a live scoreboard and a group chat, and the winner is announced when it ends.
+- **Themes:** a Featured row in the Community tab, a Top creator badge for popular theme makers, and theme authors link to their profile.
+
+## Safety
+- Flooding messages now mutes the sender for 15 minutes automatically. The admin page can search all messages, shows an activity log of admin actions, and flags players whose stats jump in a way that is not possible.
+
+## Fixes and clean-up
+- **Dashboard widgets are removed.** The row of cards above the dashboard (continue playing, this week, daily goal, clock, theme of the week) and its switch in Tools are gone.
+- **Your SteamLite account now uses your Steam profile picture** (Settings > Account, chat, friends and profiles), kept up to date automatically.
+- **Chat no longer blinks:** the Seen label and reaction chips only animate when they first appear, not every few seconds.
+- **Settings page:** the cards' shadows are no longer cut off into squares, and the page fades softly at the top and bottom instead of a hard line.
+- Saving settings now says "Settings saved." instead of "Advanced settings saved.".
+
+## Verified players
+- Trusted players can be given a blue verified tick by an admin. It shows next to their name in chat, the friends list, group members, theme authors, the leaderboard and their own Account page.
+- **Owner tier:** the admin page now offers **Verify** (blue tick), **Make owner** (a gold crown badge) and **Remove tick**. An owner has everything in SteamLite unlocked: every theme (event ones too), avatar frame, title, shop and trophy-room item and level reward, with nothing to buy. It is tied to the SteamLite account, so it follows the owner to any PC, and new things added in later updates are unlocked automatically.
+- The server admin page has a new **Players** section: search by name, Steam ID or friend code, then Verify, remove the tick, or mute someone.
+
+---
+
 # SteamLite 9.2.2 Changelog
 
 Themes rebuilt, theme publishing, and a much nicer chat.
