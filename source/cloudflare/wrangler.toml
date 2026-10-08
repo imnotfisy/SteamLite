@@ -10,3 +10,6 @@ database_name = "steamlite-online"
 # deploy.ps1 fills this in after the database is created
 database_id = "96c44286-19fd-4bd7-91b0-697d6f3e728d"
 
+[triggers]
+# every day at 17:00 UTC: remind people whose friend streak is about to end
+crons = ["0 17 * * *"]

@@ -4,3 +4,4 @@ node_modules
 admin-token.txt
 src/worker.js
 key-secret.txt
+firebase-service-account.json

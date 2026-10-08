@@ -98,6 +98,34 @@ const REACT_OK = new Set(["👍","❤️","😂","😮","😢","🔥","🎉","�
 async function auditLog(env, action, target, detail) { try { await env.DB.prepare('INSERT INTO audit(at, action, target, detail) VALUES(?, ?, ?, ?)').bind(Date.now(), String(action).slice(0, 30), String(target || '').slice(0, 64), String(detail || '').slice(0, 200)).run(); if (Math.random() < 0.02) await env.DB.prepare('DELETE FROM audit WHERE at < ?').bind(Date.now() - 90 * 86400000).run(); } catch (e) { } }
 
 // ---------- routes ----------
+// ---------- push notifications through Firebase Cloud Messaging (the phone app) ----------
+let CTX = null, fcmTok = { v: '', exp: 0 };
+const b64u = (buf) => { const u = new Uint8Array(buf); let s = ''; for (let i = 0; i < u.length; i++) s += String.fromCharCode(u[i]); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+async function fcmAccess(env) {
+    if (fcmTok.v && fcmTok.exp > Date.now() + 60000) return fcmTok.v;
+    const sa = JSON.parse(env.FCM_SA), now = Math.floor(Date.now() / 1000), enc = new TextEncoder();
+    const head = b64u(enc.encode(JSON.stringify({ alg: 'RS256', typ: 'JWT' }))), claim = b64u(enc.encode(JSON.stringify({ iss: sa.client_email, scope: 'https://www.googleapis.com/auth/firebase.messaging', aud: 'https://oauth2.googleapis.com/token', iat: now, exp: now + 3600 })));
+    const der = Uint8Array.from(atob(sa.private_key.replace(/-----[^-]+-----/g, '').replace(/\s+/g, '')), (c) => c.charCodeAt(0));
+    const key = await crypto.subtle.importKey('pkcs8', der, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['sign']);
+    const sig = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', key, enc.encode(head + '.' + claim));
+    const r = await fetch('https://oauth2.googleapis.com/token', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'grant_type=' + encodeURIComponent('urn:ietf:params:oauth:grant-type:jwt-bearer') + '&assertion=' + head + '.' + claim + '.' + b64u(sig) });
+    const j = await r.json().catch(() => ({})); if (!j.access_token) throw new Error('push sign-in failed ' + r.status);
+    fcmTok = { v: j.access_token, exp: Date.now() + (j.expires_in || 3600) * 1000 }; return fcmTok.v;
+}
+async function fcmSendOne(env, token, data) {
+    const sa = JSON.parse(env.FCM_SA), at = await fcmAccess(env), d = {}; for (const k of Object.keys(data)) d[k] = String(data[k]).slice(0, 300);
+    const r = await fetch('https://fcm.googleapis.com/v1/projects/' + sa.project_id + '/messages:send', { method: 'POST', headers: { Authorization: 'Bearer ' + at, 'Content-Type': 'application/json' }, body: JSON.stringify({ message: { token, data: d, android: { priority: 'HIGH', ttl: '3600s' } } }) });
+    return { status: r.status, body: (await r.text()).slice(0, 300) };
+}
+async function pushTo(env, uids, data) {
+    if (!env.FCM_SA || !uids.length) return;
+    try {
+        const list = [...new Set(uids)].slice(0, 25), rows = (await env.DB.prepare('SELECT token FROM devices WHERE uid IN (' + list.map(() => '?').join(',') + ') LIMIT 60').bind(...list).all()).results;
+        for (const r of rows) { const res = await fcmSendOne(env, r.token, data).catch(() => null); if (res && (res.status === 404 || (res.status === 400 && /INVALID_ARGUMENT|UNREGISTERED/.test(res.body)))) await env.DB.prepare('DELETE FROM devices WHERE token = ?').bind(r.token).run(); }
+    } catch (e) { }
+}
+const push = (env, uids, data) => { const p = pushTo(env, uids, data); if (CTX && CTX.waitUntil) CTX.waitUntil(p); return p; };
+
 async function route(req, env) {
     const url = new URL(req.url), p = url.pathname, m = req.method, q = url.searchParams, addr = ip(req);
     if (p === '/' || p === '/health') return J(200, { ok: true, name: 'SteamLite Online', time: Date.now() });
@@ -147,6 +175,7 @@ async function route(req, env) {
         }
         if ((mm = /^\/admin\/report\/([a-f0-9]{12})\/resolve$/.exec(p)) && m === 'POST') { await env.DB.prepare("UPDATE reports SET status = 'done' WHERE id = ?").bind(mm[1]).run(); return J(200, { ok: true }); }
         if (p === '/admin/ban' && m === 'POST') { const b = await body(req, 1000); if (!uidOk(b.uid)) return J(400, { error: 'Bad uid' }); const hours = clamp(b.hours || 24, 1, 24 * 3650); await env.DB.prepare('INSERT INTO bans(uid, until, reason) VALUES(?, ?, ?) ON CONFLICT(uid) DO UPDATE SET until = excluded.until, reason = excluded.reason').bind(b.uid, Date.now() + hours * 3600000, cleanText(b.reason, 200)).run(); await auditLog(env, 'mute', b.uid, hours + 'h ' + cleanText(b.reason, 100)); return J(200, { ok: true }); }
+        if (p === '/admin/push-test' && m === 'POST') { const b = await body(req, 600); if (!env.FCM_SA) return J(200, { ok: false, error: 'FCM_SA secret is not set' }); try { const r = await fcmSendOne(env, String(b.token || 'x'.repeat(100)), { t: 'test', title: 'SteamLite', body: 'Test notification' }); return J(200, { ok: true, status: r.status, body: r.body }); } catch (e) { return J(200, { ok: false, error: String(e.message) }); } }
         if (p === '/admin/unban' && m === 'POST') { const b = await body(req, 500); if (!uidOk(b.uid)) return J(400, { error: 'Bad uid' }); await env.DB.prepare('DELETE FROM bans WHERE uid = ?').bind(b.uid).run(); await auditLog(env, 'unmute', b.uid, ''); return J(200, { ok: true }); }
         return J(404, { error: 'Not found' });
     }
@@ -225,7 +254,7 @@ async function route(req, env) {
         const id = acct.steamid, u = acct.uid;
         await env.DB.batch([env.DB.prepare('DELETE FROM sessions WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM backups WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM lb WHERE uid = ?').bind(u),
             env.DB.prepare('DELETE FROM theme_likes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM votes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM themes WHERE uid = ?').bind(u),
-            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM media WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
+            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM media WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM devices WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
         return J(200, { ok: true });
     }
     if (p === '/backup') {
@@ -245,6 +274,15 @@ async function route(req, env) {
         }
     }
 
+    if (p === '/push/register' && m === 'POST') {
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (await limited(env, 'pu' + acct.uid, 30, 3600000)) return J(200, { ok: true });
+        const b = await body(req, 600), t = String(b.token || ''); if (!/^[\w:.\-]{80,400}$/.test(t)) return J(400, { error: 'Bad token' });
+        await env.DB.prepare('INSERT INTO devices(token, uid, at) VALUES(?, ?, ?) ON CONFLICT(token) DO UPDATE SET uid = excluded.uid, at = excluded.at').bind(t, acct.uid, Date.now()).run();
+        await env.DB.prepare('DELETE FROM devices WHERE uid = ? AND token NOT IN (SELECT token FROM devices WHERE uid = ? ORDER BY at DESC LIMIT 5)').bind(acct.uid, acct.uid).run();
+        return J(200, { ok: true, enabled: !!env.FCM_SA });
+    }
+    if (p === '/push/unregister' && m === 'POST') { if (!acct) return J(401, { error: 'Sign in first' }); const b = await body(req, 600); await env.DB.prepare('DELETE FROM devices WHERE token = ? AND uid = ?').bind(String(b.token || ''), acct.uid).run(); return J(200, { ok: true }); }
     // ----- error reports from the apps (shown in the admin Activity log) -----
     if (p === '/client-error' && m === 'POST') {
         if (await limited(env, 'ce' + addr, 12, 3600000)) return J(200, { ok: true });
@@ -331,12 +369,14 @@ async function route(req, env) {
             if ((await first("SELECT COUNT(*) c FROM friends WHERE req_by = ? AND status = 'pending'", me)).c >= 50) return J(400, { error: 'You have 50 requests waiting. Wait for answers first.' });
             if ((await first("SELECT COUNT(*) c FROM friends WHERE (a = ?1 OR b = ?1) AND status = 'accepted'", me)).c >= 200) return J(400, { error: 'Your friends list is full (200).' });
             await env.DB.prepare("INSERT INTO friends(a, b, status, req_by, at) VALUES(?, ?, 'pending', ?, ?)").bind(a, c, me, Date.now()).run();
+            push(env, [t], { t: 'friend', title: 'Friend request', body: acct.name + ' wants to be your friend' });
             return J(200, { ok: true, status: 'pending' });
         }
         if (p === '/social/respond' && m === 'POST') {
             const b = await body(req, 500); if (!uidOk(b.uid)) return J(400, { error: 'Bad request' }); const [a, c] = pair(me, b.uid);
             const row = await first("SELECT req_by FROM friends WHERE a = ? AND b = ? AND status = 'pending'", a, c); if (!row || row.req_by === me) return J(404, { error: 'No such request' });
             if (b.accept) await env.DB.prepare("UPDATE friends SET status = 'accepted', at = ? WHERE a = ? AND b = ?").bind(Date.now(), a, c).run(); else await env.DB.prepare('DELETE FROM friends WHERE a = ? AND b = ?').bind(a, c).run();
+            if (b.accept) push(env, [b.uid], { t: 'friend', title: 'Friend request accepted', body: acct.name + ' is now your friend' });
             return J(200, { ok: true });
         }
         if (p === '/social/unfriend' && m === 'POST') {
@@ -386,7 +426,7 @@ async function route(req, env) {
             const b = await body(req, 400), msg = await first('SELECT conv FROM msgs WHERE id = ?', clamp(b.msg, 1, 1e12)); if (!msg || !(await inConv(msg.conv))) return J(404, { error: 'Not found' });
             const e = String(b.emoji || ''); if (!REACT_OK.has(e)) return J(400, { error: 'That reaction is not available.' }); const mid = clamp(b.msg, 1, 1e12);
             if (b.on === false) await env.DB.prepare('DELETE FROM reactions WHERE msg_id = ? AND uid = ? AND emoji = ?').bind(mid, me, e).run();
-            else { if ((await first('SELECT COUNT(*) c FROM reactions WHERE msg_id = ? AND uid = ?', mid, me)).c >= 4) return J(400, { error: 'You can add up to 4 reactions to a message.' }); await env.DB.prepare('INSERT OR IGNORE INTO reactions(msg_id, uid, emoji) VALUES(?, ?, ?)').bind(mid, me, e).run(); }
+            else { if ((await first('SELECT COUNT(*) c FROM reactions WHERE msg_id = ? AND uid = ?', mid, me)).c >= 4) return J(400, { error: 'You can add up to 4 reactions to a message.' }); await env.DB.prepare('INSERT OR IGNORE INTO reactions(msg_id, uid, emoji) VALUES(?, ?, ?)').bind(mid, me, e).run(); const au = await first('SELECT uid, conv FROM msgs WHERE id = ?', mid); if (au && au.uid !== me) push(env, [au.uid], { t: 'react', conv: au.conv, title: acct.name, body: 'reacted ' + e + ' to your message' }); }
             return J(200, { ok: true });
         }
         if (p === '/social/edit' && m === 'POST') {
@@ -482,6 +522,14 @@ async function route(req, env) {
         let mc;
         if ((mc = /^\/social\/challenge\/([a-f0-9]{12})$/.exec(p)) && m === 'DELETE') { const r = await env.DB.prepare('UPDATE challenges SET endsat = ? WHERE id = ? AND owner = ? AND endsat > ?').bind(Date.now(), mc[1], me, Date.now()).run(); return r.meta.changes ? J(200, { ok: true }) : J(404, { error: 'Only the person who started it can end a challenge.' }); }
 
+        if (p === '/social/gif' && isGet) {
+            if (!env.TENOR_KEY) return J(200, { ok: false, disabled: true });
+            const qs = cleanText(q.get('q') || '', 40); if (await limited(env, 'gf' + me, 60, 600000)) return J(429, { error: 'Slow down' });
+            try {
+                const r = await fetch('https://tenor.googleapis.com/v2/' + (qs ? 'search?q=' + encodeURIComponent(qs) + '&' : 'featured?') + 'key=' + encodeURIComponent(env.TENOR_KEY) + '&client_key=steamlite&limit=24&media_filter=tinygif', { signal: AbortSignal.timeout(5000) });
+                const j = await r.json(); return J(200, { ok: true, gifs: (j.results || []).map((x) => { const f = x.media_formats && x.media_formats.tinygif; return f && /^https:\/\/media[0-9]?\.tenor\.com\//.test(f.url) ? { url: f.url, w: (f.dims || [])[0] || 0, h: (f.dims || [])[1] || 0 } : null; }).filter(Boolean) });
+            } catch (e) { return J(200, { ok: false }); }
+        }
         if (p === '/social/unfurl' && isGet) {
             let u; try { u = new URL(q.get('u') || ''); } catch (e) { return J(400, { error: 'Bad link' }); }
             if (u.protocol !== 'https:' || u.port || /^(localhost|\d+\.\d+\.\d+\.\d+|\[.*\])$/i.test(u.hostname) || !u.hostname.includes('.')) return J(400, { error: 'Bad link' });
@@ -502,10 +550,11 @@ async function route(req, env) {
             return J(200, { ok: true });
         }
         if (p === '/social/send' && m === 'POST') {
-            const b = await body(req, 6000), id = cid(b.conv), kind = ['text', 'game', 'list', 'image', 'voice'].includes(b.kind) ? b.kind : 'text';
+            const b = await body(req, 6000), id = cid(b.conv), kind = ['text', 'game', 'list', 'image', 'voice', 'gif'].includes(b.kind) ? b.kind : 'text';
             let text = clean(b.text).slice(0, 1000), data = '';
             if (kind === 'game') { const d = b.data || {}, appid = appId(d.appid); if (!appid) return J(400, { error: 'Pick a game to share.' }); const name = cleanText(d.name, 80) || ('App ' + appid); data = JSON.stringify({ appid, name, hours: clamp(d.hours, 0, 200000) }); text = 'Shared a game: ' + name; }
             else if (kind === 'list') { const lid = String((b.data || {}).id || ''); if (!/^[a-f0-9]{12}$/.test(lid)) return J(400, { error: 'Pick a list to share.' }); const l = await first('SELECT id, title FROM lists WHERE id = ?', lid); if (!l) return J(404, { error: 'That list was not found.' }); data = JSON.stringify({ id: l.id, title: l.title }); text = 'Shared a list: ' + l.title; }
+            else if (kind === 'gif') { const d = b.data || {}, u = String(d.url || ''); if (!/^https:\/\/media[0-9]?\.tenor\.com\/[\w\-./]{3,200}$/.test(u)) return J(400, { error: 'That GIF is not allowed.' }); data = JSON.stringify({ url: u, w: clamp(d.w, 0, 2000), h: clamp(d.h, 0, 2000) }); text = 'GIF'; }
             else if (kind === 'image' || kind === 'voice') {
                 const d = b.data || {}, mid = String(d.id || ''); if (!/^[a-f0-9]{24}$/.test(mid)) return J(400, { error: 'Send a file first.' });
                 const f = await first('SELECT mime FROM media WHERE id = ? AND uid = ?', mid, me); if (!f) return J(404, { error: 'That file was not found.' });
@@ -532,6 +581,11 @@ async function route(req, env) {
                 sv = streakView(s);
             }
             if (Math.random() < 0.01) { await env.DB.prepare('DELETE FROM msgs WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM reactions WHERE msg_id NOT IN (SELECT id FROM msgs)').run(); await env.DB.prepare('DELETE FROM media WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM convs WHERE id NOT IN (SELECT DISTINCT conv FROM msgs) AND last_at < ? AND id NOT IN (SELECT conv FROM challenges)').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM members WHERE conv NOT IN (SELECT id FROM convs)').run(); }
+            { // tell the other people in the chat (not muted ones) with a push
+                const to = (await all('SELECT uid FROM members WHERE conv = ? AND uid != ? AND muted = 0', id, me)).map((x) => x.uid);
+                const what = kind === 'image' ? 'Sent a photo' : kind === 'voice' ? 'Sent a voice message' : kind === 'gif' ? 'Sent a GIF' : kind === 'game' ? 'Shared a game' : kind === 'list' ? 'Shared a game list' : text;
+                push(env, to, { t: 'msg', conv: id, title: mem.kind === 'dm' ? acct.name : (mem.name || 'Group chat'), body: (mem.kind === 'dm' ? '' : acct.name + ': ') + what.slice(0, 160), from: acct.name, kind });
+            }
             return J(200, { ok: true, id: r.id, at: now, streak: sv });
         }
         if (p === '/social/delete' && m === 'POST') {
@@ -674,7 +728,21 @@ async function route(req, env) {
 }
 
 export default {
-    async fetch(req, env) {
+    async scheduled(event, env, ctx) { // once a day: remind people whose friend streak is about to end, and tidy up old push tokens
+        CTX = ctx; const today = Math.floor(Date.now() / 86400000);
+        try {
+            const rows = (await env.DB.prepare('SELECT a, b, streak, a_day, b_day FROM streaks WHERE streak > 0 AND last_day = ? LIMIT 800').bind(today - 1).all()).results;
+            for (const s of rows) {
+                for (const [me, other, mine] of [[s.a, s.b, s.a_day], [s.b, s.a, s.b_day]]) {
+                    if (mine === today) continue; const o = await env.DB.prepare('SELECT name FROM accounts WHERE uid = ?').bind(other).first(); if (!o) continue;
+                    await pushTo(env, [me], { t: 'streak', title: 'Your streak is about to end', body: 'Message ' + o.name + ' today to keep your ' + s.streak + '-day streak.', peer: other });
+                }
+            }
+            await env.DB.prepare('DELETE FROM devices WHERE at < ?').bind(Date.now() - 60 * 86400000).run();
+        } catch (e) { }
+    },
+    async fetch(req, env, ctx) {
+        CTX = ctx;
         try { return await route(req, env); }
         catch (e) { const code = e && (e.code === 413 || e.code === 400) ? e.code : 500; return J(code, { error: code === 413 ? 'Too big' : code === 400 ? 'Bad request' : 'Server error' }); }
     }
