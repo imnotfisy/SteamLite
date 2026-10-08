@@ -113,7 +113,7 @@ async function fcmAccess(env) {
     fcmTok = { v: j.access_token, exp: Date.now() + (j.expires_in || 3600) * 1000 }; return fcmTok.v;
 }
 async function fcmSendOne(env, token, data) {
-    const sa = JSON.parse(env.FCM_SA), at = await fcmAccess(env), d = {}; for (const k of Object.keys(data)) d[k] = String(data[k]).slice(0, 300);
+    const sa = JSON.parse(env.FCM_SA), at = await fcmAccess(env), d = {}; for (const k of Object.keys(data)) d[/^(from|message_type|notification|google|gcm)/i.test(k) ? 'x_' + k : k] = String(data[k]).slice(0, 300);   // Firebase refuses the whole message if a key uses one of its reserved names
     const r = await fetch('https://fcm.googleapis.com/v1/projects/' + sa.project_id + '/messages:send', { method: 'POST', headers: { Authorization: 'Bearer ' + at, 'Content-Type': 'application/json' }, body: JSON.stringify({ message: { token, data: d, android: { priority: 'HIGH', ttl: '3600s' } } }) });
     return { status: r.status, body: (await r.text()).slice(0, 300) };
 }
@@ -121,7 +121,7 @@ async function pushTo(env, uids, data) {
     if (!env.FCM_SA || !uids.length) return;
     try {
         const list = [...new Set(uids)].slice(0, 25), rows = (await env.DB.prepare('SELECT token FROM devices WHERE uid IN (' + list.map(() => '?').join(',') + ') LIMIT 60').bind(...list).all()).results;
-        for (const r of rows) { const res = await fcmSendOne(env, r.token, data).catch(() => null); if (res && (res.status === 404 || (res.status === 400 && /INVALID_ARGUMENT|UNREGISTERED/.test(res.body)))) await env.DB.prepare('DELETE FROM devices WHERE token = ?').bind(r.token).run(); }
+        for (const r of rows) { const res = await fcmSendOne(env, r.token, data).catch(() => null); if (res && (res.status === 404 || (res.status === 400 && /registration token is not a valid/i.test(res.body)))) await env.DB.prepare('DELETE FROM devices WHERE token = ?').bind(r.token).run(); }
     } catch (e) { }
 }
 const push = (env, uids, data) => { const p = pushTo(env, uids, data); if (CTX && CTX.waitUntil) CTX.waitUntil(p); return p; };
@@ -202,7 +202,7 @@ async function route(req, env) {
         if ((mm = /^\/admin\/report\/([a-f0-9]{12})\/resolve$/.exec(p)) && m === 'POST') { await env.DB.prepare("UPDATE reports SET status = 'done' WHERE id = ?").bind(mm[1]).run(); return J(200, { ok: true }); }
         if (p === '/admin/ban' && m === 'POST') { const b = await body(req, 1000); if (!uidOk(b.uid)) return J(400, { error: 'Bad uid' }); const hours = clamp(b.hours || 24, 1, 24 * 3650); await env.DB.prepare('INSERT INTO bans(uid, until, reason) VALUES(?, ?, ?) ON CONFLICT(uid) DO UPDATE SET until = excluded.until, reason = excluded.reason').bind(b.uid, Date.now() + hours * 3600000, cleanText(b.reason, 200)).run(); await auditLog(env, 'mute', b.uid, hours + 'h ' + cleanText(b.reason, 100)); return J(200, { ok: true }); }
         if (p === '/admin/deals-run' && m === 'POST') { try { const b = await body(req, 300); return J(200, { ok: true, result: await dealsRun(env, b.refresh !== false) }); } catch (e) { return J(200, { ok: false, error: String(e.message) }); } }
-        if (p === '/admin/push-test' && m === 'POST') { const b = await body(req, 600); if (!env.FCM_SA) return J(200, { ok: false, error: 'FCM_SA secret is not set' }); try { const r = await fcmSendOne(env, String(b.token || 'x'.repeat(100)), { t: 'test', title: 'SteamLite', body: 'Test notification' }); return J(200, { ok: true, status: r.status, body: r.body }); } catch (e) { return J(200, { ok: false, error: String(e.message) }); } }
+        if (p === '/admin/push-test' && m === 'POST') { const b = await body(req, 2000); if (!env.FCM_SA) return J(200, { ok: false, error: 'FCM_SA secret is not set' }); try { const r = await fcmSendOne(env, String(b.token || 'x'.repeat(100)), Object.assign({ t: 'test', title: 'SteamLite', body: 'Test notification' }, b.data && typeof b.data === 'object' ? b.data : {})); return J(200, { ok: true, status: r.status, body: r.body }); } catch (e) { return J(200, { ok: false, error: String(e.message) }); } }
         if (p === '/admin/unban' && m === 'POST') { const b = await body(req, 500); if (!uidOk(b.uid)) return J(400, { error: 'Bad uid' }); await env.DB.prepare('DELETE FROM bans WHERE uid = ?').bind(b.uid).run(); await auditLog(env, 'unmute', b.uid, ''); return J(200, { ok: true }); }
         return J(404, { error: 'Not found' });
     }
@@ -649,7 +649,7 @@ async function route(req, env) {
             { // tell the other people in the chat (not muted ones) with a push
                 const to = (await all('SELECT uid FROM members WHERE conv = ? AND uid != ? AND muted = 0', id, me)).map((x) => x.uid);
                 const what = kind === 'image' ? 'Sent a photo' : kind === 'voice' ? 'Sent a voice message' : kind === 'gif' ? 'Sent a GIF' : kind === 'game' ? 'Shared a game' : kind === 'list' ? 'Shared a game list' : text;
-                push(env, to, { t: 'msg', conv: id, title: mem.kind === 'dm' ? acct.name : (mem.name || 'Group chat'), body: (mem.kind === 'dm' ? '' : acct.name + ': ') + what.slice(0, 160), from: acct.name, kind });
+                push(env, to, { t: 'msg', conv: id, title: mem.kind === 'dm' ? acct.name : (mem.name || 'Group chat'), body: (mem.kind === 'dm' ? '' : acct.name + ': ') + what.slice(0, 160), sender: acct.name, kind });   // not "from": Firebase reserves that name and refuses the whole message
             }
             return J(200, { ok: true, id: r.id, at: now, streak: sv });
         }
