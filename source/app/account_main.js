@@ -110,8 +110,31 @@ module.exports = function initAccount(ctx) {
         if (op === 'listDelete') return srv('DELETE', '/social/lists/' + idq(p.id));
         if (op === 'challenges') return srv('GET', '/social/challenges');
         if (op === 'challengeEnd') return srv('DELETE', '/social/challenge/' + idq(p.id));
+        if (op === 'unfurl') return srv('GET', '/social/unfurl?u=' + encodeURIComponent(String(p.u || '').slice(0, 400)));
+        if (op === 'media') { const mime = String(p.mime || ''), data = String(p.data || ''); if (data.length > 1400000) return { ok: false, error: 'That file is too big (1 MB max).' }; return srv('POST', '/media', { mime, data }, 40000); }
+        if (op === 'clientError') return srv('POST', '/client-error', { app: 'desktop', v: ctx.APP_VERSION, msg: String(p.msg || '').slice(0, 180) });
         const e = SOC[op]; if (!e) return { ok: false, error: 'Unknown request.' };
         const body = Object.assign({}, p); delete body.op; return srv(e[0], e[1], body, 10000);
+    });
+
+    // ---------- "what should we play?": the games you and the people in a chat all own ----------
+    handle('socNight', async (p) => {
+        const key = String(store.get('apiKey') || ''), sid = acctSteamId(); if (!key || !sid) return { ok: false, error: 'Add your Steam Web API key in Settings first.' };
+        const crypto = require('crypto'), uids = (Array.isArray(p.uids) ? p.uids : []).map(idq).filter(Boolean).slice(0, 12), names = p.names && typeof p.names === 'object' ? p.names : {};
+        if (!uids.length) return { ok: false, error: 'Nobody to compare with.' };
+        const owned = async (id) => { try { const d = await ctx.fetchApi('https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=' + key + '&steamid=' + id + '&include_appinfo=1&include_played_free_games=1&format=json', {}, 15000); return (d.response && d.response.games) || null; } catch (e) { return null; } };
+        let friends = []; try { const d = await ctx.fetchApi('https://api.steampowered.com/ISteamUser/GetFriendList/v1/?key=' + key + '&steamid=' + sid + '&relationship=friend', {}, 12000); friends = (d.friendslist && d.friendslist.friends) || []; } catch (e) { }
+        const idOf = {}; friends.forEach((f) => { idOf[crypto.createHash('sha256').update('steamlite-account:' + f.steamid).digest('hex').slice(0, 32)] = f.steamid; });
+        const mine = await owned(sid); if (!mine) return { ok: false, error: 'Steam did not return your games. Your profile "Game details" must be public.' };
+        const map = {}; mine.forEach((g) => { map[g.appid] = { appid: g.appid, name: g.name, n: 1, who: ['You'], hrs: g.playtime_forever || 0 }; });
+        const skipped = []; let total = 1;
+        for (const u of uids) {
+            const nm = String(names[u] || 'A friend').slice(0, 32); const id = idOf[u]; if (!id) { skipped.push(nm); continue; }
+            const g = await owned(id); if (!g || !g.length) { skipped.push(nm); continue; } total++;
+            g.forEach((x) => { const e = map[x.appid] || (map[x.appid] = { appid: x.appid, name: x.name, n: 0, who: [], hrs: 0 }); if (!e.who.includes(nm)) { e.n++; e.who.push(nm); } e.hrs += x.playtime_forever || 0; });
+        }
+        const games = Object.values(map).filter((e) => e.n >= 2 && e.name).sort((a, b) => b.n - a.n || b.hrs - a.hrs).slice(0, 30).map((e) => ({ appid: e.appid, name: e.name, n: e.n, hours: Math.round(e.hrs / 60) }));
+        return { ok: true, total, everyone: games.filter((e) => e.n === total).length, games, skipped };
     });
 
     // ---------- the community theme gallery (both editions): browse, download, publish, delete, report ----------

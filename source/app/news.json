@@ -1,8 +1,13 @@
 {
   "changelog": {
-    "version": "9.2.3",
-    "title": "SteamLite 9.2.3 - Account page, verified players and a much richer Messages",
+    "version": "9.2.4",
+    "title": "SteamLite 9.2.4 - Photos, voice messages and more in Messages",
     "items": [
+      "Send photos and GIFs in Messages: pick, paste or drop one into the chat",
+      "Record voice messages up to 60 seconds, with a player for your friends",
+      "Link previews, one-click quick replies and pinned chats",
+      "What should we play? finds the games everyone in a chat owns",
+      "Works with the new SteamLite Mobile app for Android",
       "Emoji picker, reactions, replies, edits, pins and search in Messages",
       "Share a game with a Buy on Steam button, or share a whole game list",
       "Profiles, online status with what friends are playing, and friend challenges",
@@ -20,13 +25,15 @@
       "Always-on SteamLite Online on Cloudflare, so the leaderboard, themes and votes are there around the clock",
       "Drops: free XP every hour, 5 hours and day, with a streak bonus, rarities, coins and a lucky wheel",
       "A Shop for frames and titles, a Trophy room and an Events calendar",
-      "Dashboard widgets, a weekly recap and a stats card",
-      "Smart collections, game tags, links on every game and a pre-launch check",
-      "Pinned achievements, banners from your screenshots, a friend challenge and Discord posts",
-      "Search everywhere, 5 new languages, accessibility options, notification rules and restore points"
+      "Dashboard widgets, a weekly recap and a stats card"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.2.4 Released - Photos, voice messages and more",
+      "date": "October 8, 2026",
+      "content": "Messages now supports photos and GIFs (pick, paste or drop), voice messages, link previews, quick replies and pinned chats, and a What should we play? button that finds games everyone in the chat owns. It also works with the new SteamLite Mobile app, so friends on their phones can send and see the same things."
+    },
     {
       "title": "SteamLite 9.2.3 Released - Account page, verified players and a richer Messages",
       "date": "October 8, 2026",

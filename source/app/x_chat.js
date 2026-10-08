@@ -1,4 +1,4 @@
-// SteamLite 9.2.2 - Messages: friends who also use SteamLite, private chats, group chats and friend streaks.
+// SteamLite 9.2.4 - Messages: friends who also use SteamLite, private chats, group chats and friend streaks.
 // Everything goes through the SteamLite server (accounts are required, so every player has one). Full edition only.
 (function () {
     'use strict';
@@ -185,7 +185,7 @@
         let list = '';
         if (!ov) list = '<div class="cx-note">Loading... If this stays empty, SteamLite Online may be unreachable. Messages need a connection.</div>';
         else if (S.tab === 'chats') {
-            list = '<div class="cx-btns"><button class="cx-mini pri" data-a="newgroup">New group chat</button><button class="cx-mini cx-chbtn" data-a="challenges">' + ICO.trophy + ' Challenges</button></div>' + (ov.convs.length ? ov.convs.map(c => { const fp = c.kind === 'group' ? null : ov.friends.find(x => x.uid === c.peer); return '<div class="cx-row' + (S.conv === c.id ? ' on' : '') + '" data-c="' + E(c.id) + '">' + (c.kind === 'group' ? grpAv(c.name) : av({ name: c.name, avatar: c.avatar, uid: c.peer, online: !!(fp && fp.online) })) + '<div class="cx-main"><div class="cx-name">' + E(c.name) + (c.kind === 'group' ? '' : vt(c)) + (c.muted ? '<span class="cx-mute" title="Muted">' + ICO.bell + '</span>' : '') + (c.kind === 'group' ? ' <span class="cx-sub" style="display:inline">(' + c.members + ')</span>' : '') + '</div><div class="cx-sub' + (c.unread ? ' unread' : '') + '">' + (c.last ? (c.last.mine ? 'You: ' : (c.kind === 'group' && c.last.from ? E(c.last.from) + ': ' : '')) + E(c.last.text) : 'No messages yet') + '</div></div>' + (c.unread ? '<span class="cx-dot">' + c.unread + '</span>' : '') + '</div>'; }).join('') : '<div class="cx-note">No chats yet. Add a friend in the Friends tab, then press Message.</div>');
+            list = '<div class="cx-btns"><button class="cx-mini pri" data-a="newgroup">New group chat</button><button class="cx-mini cx-chbtn" data-a="challenges">' + ICO.trophy + ' Challenges</button></div>' + (ov.convs.length ? pinSort(ov.convs).map(c => { const fp = c.kind === 'group' ? null : ov.friends.find(x => x.uid === c.peer); return '<div class="cx-row' + (S.conv === c.id ? ' on' : '') + '" data-c="' + E(c.id) + '">' + (c.kind === 'group' ? grpAv(c.name) : av({ name: c.name, avatar: c.avatar, uid: c.peer, online: !!(fp && fp.online) })) + '<div class="cx-main"><div class="cx-name">' + E(c.name) + (c.kind === 'group' ? '' : vt(c)) + (c.muted ? '<span class="cx-mute" title="Muted">' + ICO.bell + '</span>' : '') + (c.kind === 'group' ? ' <span class="cx-sub" style="display:inline">(' + c.members + ')</span>' : '') + '</div><div class="cx-sub' + (c.unread ? ' unread' : '') + '">' + (c.last ? (c.last.mine ? 'You: ' : (c.kind === 'group' && c.last.from ? E(c.last.from) + ': ' : '')) + E(c.last.text) : 'No messages yet') + '</div></div>' + (c.unread ? '<span class="cx-dot">' + c.unread + '</span>' : '') + '<button class="cx-pinc' + (pinnedChats().includes(c.id) ? ' on' : '') + '" data-pinc="' + E(c.id) + '" title="' + (pinnedChats().includes(c.id) ? 'Unpin this chat' : 'Pin this chat to the top') + '">' + ICO.pin + '</button></div>'; }).join('') : '<div class="cx-note">No chats yet. Add a friend in the Friends tab, then press Message.</div>');
         } else {
             const myCode = ov.me.code;
             list = '<div class="cx-sec">Add a friend</div><div class="cx-add"><input id="cx-code" placeholder="Friend code (SL-XXXXXXXXXX)" maxlength="40"><button class="cx-mini pri" data-a="addcode">Add</button></div>' +
@@ -203,6 +203,7 @@
     async function friendAction(fn, ok) { if (S.busy) return; S.busy = true; try { const r = await fn(); if (r && r.ok) { if (ok) toast(ok); } else toast(err(r)); } finally { S.busy = false; } await loadOv(true); renderLeft(true); }
 
     async function onLeft(e) {
+        const pc = e.target.closest('[data-pinc]'); if (pc) { e.stopPropagation(); togglePin(pc.dataset.pinc); return; }
         const t = e.target.closest('[data-t]'), c = e.target.closest('[data-c]'), a = e.target.closest('[data-a]'), f = e.target.closest('[data-f]'), pf = e.target.closest('[data-prof]');
         if (pf && pf.dataset.prof && window.SLPeople) { SLPeople.openProfile(pf.dataset.prof); return; }
         if (a && a.dataset.a === 'challenges') { if (window.SLPeople) SLPeople.openChallenges(); return; }
@@ -277,6 +278,15 @@
         const bell = $('cx-bell'); if (bell) { bell.classList.toggle('on', !!i.muted); bell.title = i.muted ? 'Notifications are off for this chat. Click to turn them on.' : 'Turn notifications off for this chat'; }
     }
     const cover = (id) => 'steamlite://cache/' + String(id).replace(/[^0-9]/g, '');
+    // photos and voice messages sent from SteamLite Mobile
+    const MEDIA_BASE = 'https://steamlite-online.bayxturtle.workers.dev/media/';
+    (function () { const st = document.createElement('style'); st.textContent = '.cx-lp{display:block;margin-top:6px;border-radius:12px;overflow:hidden;background:rgba(255,255,255,.06);max-width:320px;text-decoration:none;color:inherit}.cx-lp img{width:100%;max-height:150px;object-fit:cover;display:block}.cx-lp div{padding:8px 11px}.cx-lp b{display:block;font-size:13px}.cx-lp span{display:block;font-size:12px;opacity:.7;margin-top:2px}.cx-row{position:relative}.cx-pinc{position:absolute;right:8px;top:8px;opacity:0;background:transparent;border:0;color:var(--text-secondary);cursor:pointer;padding:4px;border-radius:6px;transition:opacity .15s}.cx-row:hover .cx-pinc,.cx-pinc.on{opacity:1}.cx-pinc.on{color:var(--accent-color)}.cx-pinc:hover{background:rgba(255,255,255,.1)}.cx-replybar.rec b{color:#ff6b6b}.cx-photo{display:block;max-width:min(320px,100%);max-height:360px;border-radius:14px;cursor:zoom-in;background:rgba(255,255,255,.05)}.cx-photo-cap{margin-top:6px}.cx-voice{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:16px;background:rgba(255,255,255,.07)}.cx-voice audio{height:34px;max-width:240px}'; document.head.appendChild(st); })();
+    function mediaBody(m) {
+        const d = m.data || {}, id = String(d.id || '').replace(/[^a-f0-9]/g, '');
+        if (m.kind === 'image') return '<img class="cx-photo" src="' + (m.localSrc ? E(m.localSrc) : MEDIA_BASE + id) + '" alt="Photo" onclick="window.open(this.src)" onerror="this.style.display=\'none\'">' + (m.text && m.text !== '\ud83d\udcf7 Photo' ? '<div class="cx-bub cx-photo-cap" data-no-icons>' + linkify(m.text) + '</div>' : '');
+        if (!id) return '<div class="cx-voice">\ud83c\udfa4 Sending voice message...</div>';
+        return '<div class="cx-voice">\ud83c\udfa4<audio controls preload="none" src="' + MEDIA_BASE + id + '"></audio></div>';
+    }
     const avSm = (u) => '<span class="cx-av cx-sm" data-prof="' + E(u.uid || '') + '">' + E(initial(u.name)) + (u.avatar ? '<img src="' + E(u.avatar) + '" alt="" onerror="this.remove()">' : '') + '</span>';
     const ownedGame = (appid) => (window.SLPeople ? SLPeople.owned(appid) : null);
     const installed = (appid) => { try { return installedGames.some(g => String(g.appid || g.id) === String(appid)); } catch (e) { return false; } };
@@ -287,9 +297,9 @@
     const fmtn = (n) => Number(n || 0).toLocaleString('en-US');
     function listCard(m) { const d = m.data || {}; return '<div class="cx-lcard" data-list="' + E(d.id || '') + '"><div class="cx-lic">' + SV('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>', 20) + '</div><div class="cx-gbody"><div class="cx-gname">' + E(d.title || 'Game list') + '</div><div class="cx-gsub">' + (m.mine ? 'You shared a game list' : E(m.name) + ' shared a game list') + '</div></div><button class="cx-mini pri" data-list="' + E(d.id || '') + '">Open list</button></div>'; }
     function msgBody(m) {
-        if (m.kind === 'game') return gameCard(m); if (m.kind === 'list') return listCard(m);
+        if (m.kind === 'game') return gameCard(m); if (m.kind === 'list') return listCard(m); if (m.kind === 'image' || m.kind === 'voice') return mediaBody(m);
         const jumbo = window.SLEmoji && SLEmoji.isJumbo(m.text);
-        return jumbo ? '<div class="cx-jumbo" data-no-icons>' + E(m.text) + '</div>' : '<div class="cx-bub" data-no-icons>' + linkify(m.text) + '</div>';
+        return jumbo ? '<div class="cx-jumbo" data-no-icons>' + E(m.text) + '</div>' : '<div class="cx-bub" data-no-icons>' + linkify(m.text) + '</div>' + previewHtml(m.text);
     }
     const canEdit = (m) => m.mine && m.kind === 'text' && typeof m.id === 'number' && Date.now() - m.at < 900000;
     function renderMsgs(keep) {
@@ -304,7 +314,7 @@
             const sp = same(prev, m), sn = same(m, next);
             if (!divDone && S.unreadFrom && m.id === S.unreadFrom) { html += '<div class="cx-unread"><span>New messages</span></div>'; divDone = true; }
             const isNew = S.ready && !S.seen.has(m.id); if (isNew) { added++; if (!m.mine) addedOther++; }
-            const card = m.kind === 'game' || m.kind === 'list', jumbo = m.kind === 'text' && window.SLEmoji && SLEmoji.isJumbo(m.text), real = typeof m.id === 'number';
+            const card = m.kind === 'game' || m.kind === 'list' || m.kind === 'image' || m.kind === 'voice', jumbo = m.kind === 'text' && window.SLEmoji && SLEmoji.isJumbo(m.text), real = typeof m.id === 'number';
             const cls = 'cx-msg' + (m.mine ? ' mine' : '') + (sp ? ' sp' : '') + (sn ? ' sn' : '') + (isNew ? (m.mine ? ' in-r' : ' in-l') : '') + (m.pending ? ' pending' : '') + (m.failed ? ' failed' : '') + (isG && !m.mine ? ' gi' : '') + (card ? ' card' : '') + (jumbo ? ' jumbo' : '') + (m.pinned ? ' pinned' : '') + (S.flash === m.id ? ' flash' : '');
             const showWho = isG && !m.mine && !sp, who = avatars[m.uid];
             const quote = m.replyTo ? '<div class="cx-quote" data-q="' + m.replyTo.id + '"><b>' + E(m.replyTo.name || 'Message') + '</b><span data-no-icons>' + E(m.replyTo.kind === 'game' || m.replyTo.kind === 'list' ? m.replyTo.text : m.replyTo.text) + '</span></div>' : '';
@@ -335,7 +345,8 @@
     }
     function renderBars() {
         const host = $('cx-barhost'); if (!host) return; let h = '';
-        if (S.editing) h = '<div class="cx-replybar edit"><div><b>Editing your message</b><span data-no-icons>' + E(S.editing.text) + '</span></div><button data-a="cancelbar" title="Cancel">' + ICO.x + '</button></div>';
+        if (S.rec) h = '<div class="cx-replybar rec"><div><b>Recording...</b><span id="cx-rt">0:00</span></div><button class="cx-mini pri" data-a="recsend">Send</button><button class="cx-mini" data-a="reccancel">Cancel</button></div>';
+        else if (S.editing) h = '<div class="cx-replybar edit"><div><b>Editing your message</b><span data-no-icons>' + E(S.editing.text) + '</span></div><button data-a="cancelbar" title="Cancel">' + ICO.x + '</button></div>';
         else if (S.reply) h = '<div class="cx-replybar"><div><b>Replying to ' + E(S.reply.name) + '</b><span data-no-icons>' + E(S.reply.text) + '</span></div><button data-a="cancelbar" title="Cancel">' + ICO.x + '</button></div>';
         host.innerHTML = h;
     }
@@ -353,9 +364,10 @@
             '<button class="cx-ibtn' + (S.panel === 'search' ? ' on' : '') + '" data-a="search" title="Search this chat">' + ICO.search + '</button><button class="cx-ibtn" id="cx-bell" data-a="mute">' + ICO.bell + '</button>' + (isG ? '<button class="cx-mini" data-a="members">' + ICO.users + ' Members</button>' : '<button class="cx-ibtn" data-a="peermenu" title="More">' + ICO.more + '</button>') + '</div>' + banner +
             '<div class="cx-room" id="cx-room" style="display:none"></div><div class="cx-pinbar" id="cx-pinbar" style="display:none"></div><div id="cx-panelhost"></div>' +
             '<div class="cx-wrap"><div class="cx-msgs" id="cx-msgs"></div><button class="cx-pill" id="cx-pill" data-a="pill"></button></div><div id="cx-barhost"></div>' +
-            (canSend ? '<div class="cx-compose"><button class="cx-ibtn" data-a="plus" title="Share a game or list">' + ICO.plus + '</button><button class="cx-ibtn" data-a="emoji" title="Emoji">' + ICO.smile + '</button><textarea id="cx-text" placeholder="Write a message..." maxlength="1000" rows="1"></textarea><span class="cx-count" id="cx-count"></span><button class="cx-send" data-a="send" id="cx-sendbtn" title="Send">' + ICO.send + '</button></div>' : '<div class="cx-compose"><div class="cx-note" style="flex:1">You can not message this player any more. They may have removed you.</div></div>');
+            (canSend ? '<div class="cx-compose"><button class="cx-ibtn" data-a="plus" title="Photo, voice message, quick replies or share a game">' + ICO.plus + '</button><button class="cx-ibtn" data-a="emoji" title="Emoji">' + ICO.smile + '</button><textarea id="cx-text" placeholder="Write a message..." maxlength="1000" rows="1"></textarea><span class="cx-count" id="cx-count"></span><button class="cx-send" data-a="send" id="cx-sendbtn" title="Send">' + ICO.send + '</button></div>' : '<div class="cx-compose"><div class="cx-note" style="flex:1">You can not message this player any more. They may have removed you.</div></div>');
         S.seen = S.seen || new Set(); const wasReady = S.ready; renderMsgs(); updateMeta(); renderPins(); renderPanel(); renderBars(); S.ready = wasReady || S.ready;
-        const ta = $('cx-text'); if (ta) { ta.value = draft; if (draft) ta.style.height = Math.min(110, ta.scrollHeight) + 'px'; if (keepFocus || !keepInput) ta.focus(); }
+        right.ondragover = (e) => { if (e.dataTransfer && [...e.dataTransfer.types].includes('Files')) e.preventDefault(); }; right.ondrop = (e) => { const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f && /^image\//.test(f.type)) { e.preventDefault(); sendPhoto(f); } };
+        const ta = $('cx-text'); if (ta) { ta.onpaste = (e) => { const it = [...((e.clipboardData && e.clipboardData.items) || [])].find((x) => x.type.indexOf('image/') === 0); if (it) { e.preventDefault(); sendPhoto(it.getAsFile()); } }; ta.value = draft; if (draft) ta.style.height = Math.min(110, ta.scrollHeight) + 'px'; if (keepFocus || !keepInput) ta.focus(); }
     }
     let sendQ = Promise.resolve();
     async function sendNow(retry, extra) {
@@ -375,6 +387,11 @@
         const sb = $('cx-sendbtn'); if (sb) { sb.classList.remove('fly'); void sb.offsetWidth; sb.classList.add('fly'); }
         renderMsgs(); const conv = S.conv;
         sendQ = sendQ.then(async () => {
+            if (tmp.upload) {
+                const u = await soc('media', { mime: tmp.upload.mime, data: tmp.upload.data });
+                if (!u || !u.ok) { tmp.pending = false; tmp.failed = true; toast(err(u)); if (S.conv === conv) renderMsgs(); return; }
+                tmp.data = Object.assign({}, tmp.data, { id: u.id }); tmp.upload = null;
+            }
             const payload = { conv, text: tmp.text, kind: tmp.kind || 'text', data: tmp.data, reply: tmp.replyId || 0 };
             const r = await soc('send', payload);
             if (!r || !r.ok) { tmp.pending = false; tmp.failed = true; toast(err(r)); if (S.conv === conv) renderMsgs(); return; }
@@ -420,6 +437,68 @@
         if (!m.mine) items.push({ label: 'Report', bad: true, ico: ICO.flag, run: async () => { const why = await promptText('Report this message', 'What is wrong with it? A moderator will take a look.'); if (!why) return; const r = await soc('report', { uid: m.uid, conv: S.conv, msgId: m.id, reason: why }); toast(r && r.ok ? 'Thanks, your report was sent.' : err(r)); } });
         showMenu(anchor, items);
     }
+    // photos and GIFs: pick, paste or drop one. Pictures are shrunk first so they send fast.
+    const b64 = (blob) => new Promise((res) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = () => res(''); r.readAsDataURL(blob); });
+    async function shrinkImage(file) {
+        if (file.type === 'image/gif') { if (file.size > 950000) return null; return { mime: 'image/gif', data: await b64(file), w: 0, h: 0, local: URL.createObjectURL(file) }; }
+        const bmp = await createImageBitmap(file), sc = Math.min(1, 1280 / Math.max(bmp.width, bmp.height)), cv = document.createElement('canvas'); cv.width = Math.max(1, Math.round(bmp.width * sc)); cv.height = Math.max(1, Math.round(bmp.height * sc));
+        const cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height); cx.drawImage(bmp, 0, 0, cv.width, cv.height);
+        let q = 0.86, blob; do { blob = await new Promise((r) => cv.toBlob(r, 'image/jpeg', q)); q -= 0.12; } while (blob && blob.size > 900000 && q > 0.3);
+        return blob ? { mime: 'image/jpeg', data: await b64(blob), w: cv.width, h: cv.height, local: URL.createObjectURL(blob) } : null;
+    }
+    async function sendPhoto(file) {
+        if (!S.conv || !file) return; if (!/^image\/(jpeg|png|gif|webp)$/.test(file.type)) return toast('Pick a JPG, PNG, GIF or WebP picture.');
+        let f = null; try { f = await shrinkImage(file); } catch (e) { }
+        if (!f || !f.data) return toast('That picture could not be sent. GIFs can be up to 1 MB.');
+        const ta = $('cx-text'), cap = ta ? ta.value.trim() : ''; if (ta && cap) { ta.value = ''; ta.style.height = '40px'; delete drafts[S.conv]; }
+        sendNow(null, { kind: 'image', text: cap || '\ud83d\udcf7 Photo', data: { w: f.w, h: f.h }, upload: { mime: f.mime, data: f.data }, localSrc: f.local });
+    }
+    function pickPhoto() { let inp = document.getElementById('cx-file'); if (!inp) { inp = document.createElement('input'); inp.type = 'file'; inp.id = 'cx-file'; inp.accept = 'image/png,image/jpeg,image/gif,image/webp'; inp.style.display = 'none'; inp.onchange = () => { const f = inp.files && inp.files[0]; inp.value = ''; if (f) sendPhoto(f); }; document.body.appendChild(inp); } inp.click(); }
+    // voice messages: record, then send or cancel (up to 60 seconds)
+    async function startVoice() {
+        if (S.rec || !S.conv) return; let stream;
+        try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch (e) { return toast('SteamLite could not use a microphone. Check that one is plugged in and allowed in Windows privacy settings.'); }
+        const type = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : 'audio/webm', mr = new MediaRecorder(stream, { mimeType: type, audioBitsPerSecond: 32000 }), chunks = [];
+        const rec = S.rec = { mr, t0: Date.now(), cancel: false, conv: S.conv };
+        mr.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+        mr.onstop = async () => {
+            clearInterval(rec.iv); stream.getTracks().forEach((t) => t.stop()); if (S.rec === rec) S.rec = null; renderBars();
+            const ms = Date.now() - rec.t0; if (rec.cancel) return; if (ms < 700) return toast('That was too short.');
+            const blob = new Blob(chunks, { type: 'audio/webm' }); if (blob.size > 900000) return toast('That recording is too long.');
+            if (S.conv !== rec.conv) return toast('You left the chat, so the voice message was not sent.');
+            sendNow(null, { kind: 'voice', text: '\ud83c\udfa4 Voice message', data: { ms }, upload: { mime: 'audio/webm', data: await b64(blob) } });
+        };
+        mr.start(); rec.iv = setInterval(() => { const e = $('cx-rt'); if (e) e.textContent = fmtDur(Date.now() - rec.t0); if (Date.now() - rec.t0 >= 60000) mr.state !== 'inactive' && mr.stop(); }, 250); renderBars();
+    }
+    const fmtDur = (ms) => { const s = Math.round(ms / 1000); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); };
+    // quick replies: one click sends a saved phrase
+    const QR_KEY = 'sl_chat_qr', QR_DEFAULT = ['On my way \ud83c\udfc3', 'Give me 5 minutes', 'Sounds good \ud83d\udc4d', "Let's play! \ud83c\udfae", "Can't right now, later?", 'GG \ud83c\udf89'];
+    const quickReplies = () => { try { const q = JSON.parse(localStorage.getItem(QR_KEY) || 'null'); return q && q.length ? q : QR_DEFAULT; } catch (e) { return QR_DEFAULT; } };
+    function quickMenu(anchor) {
+        const q = quickReplies(); showMenu(anchor, q.map((t) => ({ label: t, run: () => sendNow(null, { kind: 'text', text: t }) })).concat([{ sep: true }, { label: 'Add your own...', run: async () => { const t = await promptText('New quick reply', 'A short message you can send with one click.'); if (!t) return; try { localStorage.setItem(QR_KEY, JSON.stringify(q.concat([t.slice(0, 60)]).slice(-12))); } catch (e) { } toast('Saved.'); } }, { label: 'Reset to the defaults', run: () => { try { localStorage.removeItem(QR_KEY); } catch (e) { } toast('Quick replies reset.'); } }]));
+    }
+    // "what should we play?": the games everyone in this chat owns
+    async function gameNight() {
+        const i = S.info; if (!i) return; const me = S.ov && S.ov.me.uid, ms = (i.members || []).filter((m) => m.uid && m.uid !== me), names = {}; ms.forEach((m) => { names[m.uid] = m.name; });
+        if (!ms.length) return toast('Nobody to compare with.'); toast('Comparing libraries...');
+        const r = await feat('socNight', { uids: ms.map((m) => m.uid), names }); if (!r || !r.ok) return toast(err(r));
+        if (!r.games.length) return toast('No shared games found.' + (r.skipped.length ? ' Skipped: ' + r.skipped.join(', ') + ' (private or not linked).' : ''));
+        dialog('What should we play?', '<div class="cx-note" style="padding:0 0 8px">' + (r.everyone ? r.everyone + ' game' + (r.everyone === 1 ? '' : 's') + ' everyone owns.' : 'Nothing everyone owns, so these are games most of you own.') + (r.skipped.length ? ' Skipped (private or not linked): ' + E(r.skipped.join(', ')) + '.' : '') + '</div><div style="max-height:360px;overflow-y:auto">' + r.games.map((g) => '<div class="cx-row" style="cursor:default"><img src="' + cover(g.appid) + '" style="width:92px;height:43px;border-radius:6px;object-fit:cover;flex:none" onerror="this.style.visibility=\'hidden\'" alt=""><div class="cx-main"><div class="cx-name">' + E(g.name) + '</div><div class="cx-sub">' + (g.n === r.total ? 'Everyone owns it' : g.n + ' of ' + r.total + ' own it') + '</div></div><button class="cx-mini pri" data-sug="' + g.appid + '">Suggest</button></div>').join('') + '</div><div class="cx-btns" style="padding:12px 0 0;justify-content:flex-end"><button class="cx-mini" id="gn-no">Close</button></div>', (ov, done) => {
+            ov.onclick = (e) => { const b = e.target.closest('[data-sug]'); if (b) { const g = r.games.find((x) => String(x.appid) === b.dataset.sug); done(null); if (g) sendNow(null, { kind: 'game', text: 'Shared a game: ' + g.name, data: { appid: g.appid, name: g.name, hours: g.hours } }); } else if (e.target.id === 'gn-no' || e.target === ov) done(null); };
+        });
+    }
+    // link previews (the server fetches the page title and picture)
+    const UF = {};
+    const firstUrl = (t) => { const m = /https:\/\/[^\s<]{3,220}/.exec(String(t || '')); return m ? m[0].replace(/[.,!?)]+$/, '') : ''; };
+    function previewHtml(text) {
+        const u = firstUrl(text); if (!u) return ''; const p = UF[u];
+        if (p === undefined) { UF[u] = null; soc('unfurl', { u }).then((r) => { UF[u] = r && r.ok ? r : false; if (S.conv) renderMsgs(true); }).catch(() => { UF[u] = false; }); return ''; }
+        return p ? '<a href="#" class="cx-link cx-lp" data-url="' + E(u) + '">' + (p.image ? '<img src="' + E(p.image) + '" alt="" onerror="this.remove()">' : '') + '<div><b>' + E(p.title) + '</b>' + (p.desc ? '<span>' + E(p.desc.slice(0, 120)) + '</span>' : '') + '<span>' + E(p.host) + '</span></div></a>' : '';
+    }
+    // pinned chats stay at the top of the list
+    const PIN_KEY = 'sl_chat_pins', pinnedChats = () => { try { return JSON.parse(localStorage.getItem(PIN_KEY) || '[]'); } catch (e) { return []; } };
+    const pinSort = (arr) => { const p = pinnedChats(); return arr.slice().sort((a, b) => (p.includes(b.id) ? 1 : 0) - (p.includes(a.id) ? 1 : 0)); };
+    function togglePin(id) { let p = pinnedChats(); p = p.includes(id) ? p.filter((x) => x !== id) : p.concat([id]).slice(-5); try { localStorage.setItem(PIN_KEY, JSON.stringify(p)); } catch (e) { } renderLeft(true); }
     async function shareGame() { if (!window.SLPeople) return; const g = await SLPeople.pickGame(); if (!g) return; sendNow(null, { kind: 'game', text: 'Shared a game: ' + g.name, data: { appid: g.appid, name: g.name, hours: g.hours } }); }
     async function shareList() { if (!window.SLPeople) return; const l = await SLPeople.chooseList(); if (!l) return; sendNow(null, { kind: 'list', text: 'Shared a list: ' + l.title, data: { id: l.id, title: l.title } }); }
     async function onRight(e) {
@@ -452,7 +531,9 @@
         else if (op === 'pins') { S.panel = S.panel === 'pins' ? '' : 'pins'; renderPanel(); }
         else if (op === 'mute') { const on = !i.muted; i.muted = on; updateMeta(); const r = await soc('mute', { conv: S.conv, on }); if (!r || !r.ok) { i.muted = !on; updateMeta(); return toast(err(r)); } toast(on ? 'Notifications are off for this chat.' : 'Notifications are on for this chat.'); loadOv(true).then(() => renderLeft(true)); }
         else if (op === 'peermenu') showMenu(a, [{ label: 'View profile', ico: ICO.user, run: () => window.SLPeople && SLPeople.openProfile(i.peerUid) }, { sep: true }, { label: 'Unfriend', run: async () => { if (!await showConfirm('Remove this friend?', 'You can not message each other and the streak ends.')) return; const r = await soc('unfriend', { uid: i.peerUid }); if (!r || !r.ok) return toast(err(r)); await loadOv(true); await pull(true); renderRight(true); renderLeft(true); } }, { label: 'Block', bad: true, run: async () => { if (!await showConfirm('Block this player?', 'They are removed from your friends and can not message you or add you again. You can unblock them later.')) return; const r = await soc('block', { uid: i.peerUid }); if (!r || !r.ok) return toast(err(r)); S.conv = null; S.info = null; clearTimeout(S.convTimer); await loadOv(true); renderLeft(); renderRight(); toast('Blocked.'); } }]);
-        else if (op === 'plus') showMenu(a, [{ label: 'Share a game', ico: ICO.game, run: shareGame }, { label: 'Share a game list', ico: ICO.list, run: shareList }]);
+        else if (op === 'plus') showMenu(a, [{ label: 'Photo or GIF', ico: ICO.plus, run: pickPhoto }, { label: 'Voice message', ico: ICO.bell, run: startVoice }, { label: 'Quick replies', ico: ICO.send, run: () => quickMenu($('cx-right').querySelector('[data-a=plus]')) }, { sep: true }, { label: 'What should we play?', ico: ICO.game, run: gameNight }, { label: 'Share a game', ico: ICO.game, run: shareGame }, { label: 'Share a game list', ico: ICO.list, run: shareList }]);
+        else if (op === 'recsend') { if (S.rec && S.rec.mr.state !== 'inactive') S.rec.mr.stop(); }
+        else if (op === 'reccancel') { if (S.rec) { S.rec.cancel = true; if (S.rec.mr.state !== 'inactive') S.rec.mr.stop(); } }
         else if (op === 'emoji') { const ta = $('cx-text'); const host = $('cx-right').querySelector('.cx-compose').parentNode; if (window.SLEmoji) SLEmoji.toggle($('cx-right'), (em) => { if (!ta) return; const s0 = ta.selectionStart || ta.value.length, s1 = ta.selectionEnd || s0; ta.value = ta.value.slice(0, s0) + em + ta.value.slice(s1); const p = s0 + em.length; ta.focus(); ta.setSelectionRange(p, p); ta.dispatchEvent(new Event('input', { bubbles: true })); }); }
         else if (op === 'cancelbar') { S.reply = null; S.editing = null; const ta = $('cx-text'); if (ta && S.editing === null) { /* keep what was typed */ } renderBars(); }
         else if (op === 'leave') { if (!await showConfirm('Leave this group?', 'You will not see its messages any more.')) return; const r = await soc('groupRemove', { conv: S.conv, uid: S.ov.me.uid }); if (!r || !r.ok) return toast(err(r)); S.conv = null; S.info = null; clearTimeout(S.convTimer); await loadOv(true); renderLeft(); renderRight(); }

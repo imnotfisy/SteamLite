@@ -38,7 +38,7 @@ npx wrangler secret put KEY_SECRET            # a long random string; keep a cop
 If KEY_SECRET is lost, saved keys can not be read and players are asked for their key once more. Never set `DEV_SKIP_KEY_CHECK` in production: it is only for local tests.
 
 ## Migrations for an existing database
-Add these once, in order, if your database is older: `migrate_avatar.sql`, `migrate_themes.sql`, `migrate_verified.sql`, `migrate_social2.sql`, then run `schema.sql` again.
+Add these once, in order, if your database is older: `migrate_avatar.sql`, `migrate_themes.sql`, `migrate_verified.sql`, `migrate_social2.sql`, `migrate_mobile.sql` (photos and voice messages from SteamLite Mobile), then run `schema.sql` again.
 
 ## Local testing
 `npx wrangler dev --local --port 8788` (put `ADMIN_TOKEN=...` in `.dev.vars`).

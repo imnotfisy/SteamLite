@@ -1,3 +1,21 @@
+# SteamLite 9.2.4 Changelog
+
+Photos, voice messages and more in Messages, matching the new SteamLite Mobile app.
+
+## Messages
+- **Photos and GIFs:** the + button now has **Photo or GIF**. You can also paste a picture (Ctrl+V) or drop one into the chat. Pictures are shrunk before they send, GIFs can be up to 1 MB, and your friends see the picture right in the chat.
+- **Voice messages:** + > **Voice message** records up to 60 seconds. Press Send or Cancel. Friends get a small player, on the PC and on their phone.
+- **Link previews:** a link in a message shows the page's title, picture and site under the message.
+- **Quick replies:** + > **Quick replies** sends a saved phrase with one click. Add your own or reset them.
+- **What should we play?:** + > **What should we play?** compares your library with everyone in the chat and lists the games you all own, each with a Suggest button that posts it as a game card. Friends with private game details are skipped.
+- **Pinned chats:** pin up to 5 chats to the top of your list (hover a chat and press the pin).
+- Messages from SteamLite Mobile (photos, voice messages) now show up here.
+
+## Behind the scenes
+- Problems inside the app are sent, a few per session, to the SteamLite admin Activity log so they can be fixed quickly. No messages or personal files are sent.
+
+---
+
 # SteamLite 9.2.3 Changelog
 
 A one-time library connection, a rebuilt Account page, verified players and a far richer Messages.

@@ -225,7 +225,7 @@ async function route(req, env) {
         const id = acct.steamid, u = acct.uid;
         await env.DB.batch([env.DB.prepare('DELETE FROM sessions WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM backups WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM lb WHERE uid = ?').bind(u),
             env.DB.prepare('DELETE FROM theme_likes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM votes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM themes WHERE uid = ?').bind(u),
-            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
+            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM media WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
         return J(200, { ok: true });
     }
     if (p === '/backup') {
@@ -243,6 +243,35 @@ async function route(req, env) {
             const txt = r && (old ? r.prev : r.data); if (!txt) return J(404, { error: 'No backup yet' });
             return J(200, { at: old ? r.prev_at : r.at, backup: JSON.parse(txt) });
         }
+    }
+
+    // ----- error reports from the apps (shown in the admin Activity log) -----
+    if (p === '/client-error' && m === 'POST') {
+        if (await limited(env, 'ce' + addr, 12, 3600000)) return J(200, { ok: true });
+        const b = await body(req, 3000); await auditLog(env, 'app-error', acct ? acct.uid : addr, cleanText((b.app || 'app') + ' ' + (b.v || '') + ': ' + (b.msg || ''), 190)); return J(200, { ok: true });
+    }
+
+    // ----- photos and voice messages: small files kept for 30 days, served by an unguessable address -----
+    const MEDIA_MIME = { 'image/jpeg': 'img', 'image/png': 'img', 'image/gif': 'img', 'image/webp': 'img', 'audio/mp4': 'aud', 'audio/aac': 'aud', 'audio/mpeg': 'aud', 'audio/webm': 'aud', 'audio/ogg': 'aud' };
+    let mm;
+    if ((mm = /^\/media\/([a-f0-9]{24})$/.exec(p)) && m === 'GET') {
+        const r = await env.DB.prepare('SELECT mime, data FROM media WHERE id = ?').bind(mm[1]).first(); if (!r) return J(404, { error: 'Not found' });
+        const bin = atob(r.data), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+        return new Response(u8, { headers: { 'Content-Type': r.mime, 'Cache-Control': 'public, max-age=31536000, immutable', 'X-Content-Type-Options': 'nosniff', 'Content-Security-Policy': "default-src 'none'; sandbox", 'Accept-Ranges': 'none' } });
+    }
+    if (p === '/media' && m === 'POST') {
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (await env.DB.prepare('SELECT 1 x FROM bans WHERE uid = ? AND until > ?').bind(acct.uid, Date.now()).first()) return J(403, { error: 'Your messaging is turned off.' });
+        if (await limited(env, 'md' + acct.uid, 40, 3600000)) return J(429, { error: 'You sent a lot of files. Try again in a while.' });
+        const b = await body(req, 1500000), mime = String(b.mime || ''), data = String(b.data || '');
+        if (!MEDIA_MIME[mime] || !/^[A-Za-z0-9+/]+=*$/.test(data) || data.length < 100) return J(400, { error: 'That file type is not allowed.' });
+        const size = Math.floor(data.length * 3 / 4); if (size > 1000000) return J(413, { error: 'That file is too big (1 MB max).' });
+        let head = ''; try { head = atob(data.slice(0, 24)); } catch (e) { return J(400, { error: 'Bad file.' }); }
+        const okMagic = MEDIA_MIME[mime] === 'img' ? (head.startsWith('\xff\xd8') || head.startsWith('\x89PNG') || head.startsWith('GIF8') || (head.startsWith('RIFF') && head.slice(8, 12) === 'WEBP')) : (head.slice(4, 8) === 'ftyp' || head.startsWith('ID3') || head.startsWith('\xff\xf1') || head.startsWith('\xff\xf9') || head.startsWith('\xff\xfb') || head.startsWith('\x1aE\xdf\xa3') || head.startsWith('OggS'));
+        if (!okMagic) return J(400, { error: 'That does not look like a real file.' });
+        const day = (await env.DB.prepare('SELECT COUNT(*) c FROM media WHERE uid = ? AND at > ?').bind(acct.uid, Date.now() - 86400000).first()).c; if (day >= 80) return J(429, { error: 'Daily file limit reached.' });
+        const id = HEX(12); await env.DB.prepare('INSERT INTO media(id, uid, mime, data, at) VALUES(?, ?, ?, ?, ?)').bind(id, acct.uid, mime, data, Date.now()).run();
+        return J(200, { ok: true, id });
     }
 
     // ----- friends, messages, group chats and friend streaks (signed-in players only) -----
@@ -453,6 +482,19 @@ async function route(req, env) {
         let mc;
         if ((mc = /^\/social\/challenge\/([a-f0-9]{12})$/.exec(p)) && m === 'DELETE') { const r = await env.DB.prepare('UPDATE challenges SET endsat = ? WHERE id = ? AND owner = ? AND endsat > ?').bind(Date.now(), mc[1], me, Date.now()).run(); return r.meta.changes ? J(200, { ok: true }) : J(404, { error: 'Only the person who started it can end a challenge.' }); }
 
+        if (p === '/social/unfurl' && isGet) {
+            let u; try { u = new URL(q.get('u') || ''); } catch (e) { return J(400, { error: 'Bad link' }); }
+            if (u.protocol !== 'https:' || u.port || /^(localhost|\d+\.\d+\.\d+\.\d+|\[.*\])$/i.test(u.hostname) || !u.hostname.includes('.')) return J(400, { error: 'Bad link' });
+            if (await limited(env, 'uf' + me, 40, 600000)) return J(429, { error: 'Slow down' });
+            try {
+                const r = await fetch(u.href, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; SteamLiteBot/1.0)', Accept: 'text/html' }, redirect: 'follow', signal: AbortSignal.timeout(4000) });
+                if (!r.ok || !/text\/html/i.test(r.headers.get('content-type') || '')) return J(200, { ok: false });
+                const html = (await r.text()).slice(0, 200000), meta = (n) => { const a = new RegExp('<meta[^>]+(?:property|name)=["\']' + n + '["\'][^>]*content=["\']([^"\']*)["\']', 'i').exec(html) || new RegExp('<meta[^>]+content=["\']([^"\']*)["\'][^>]*(?:property|name)=["\']' + n + '["\']', 'i').exec(html); return a ? a[1] : ''; };
+                const dec = (s) => s.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+                const t = meta('og:title') || ((/<title[^>]*>([^<]*)<\/title>/i.exec(html) || [])[1] || ''), img = meta('og:image');
+                return J(200, { ok: !!t, title: cleanText(dec(t), 120), desc: cleanText(dec(meta('og:description') || meta('description')), 200), image: /^https:\/\//.test(img) ? img.slice(0, 400) : '', host: u.hostname });
+            } catch (e) { return J(200, { ok: false }); }
+        }
         if (p === '/social/typing' && m === 'POST') {
             const b = await body(req, 300), id = cid(b.conv); if (!id || !(await inConv(id))) return J(404, { error: 'Not found' });
             await env.DB.prepare('INSERT INTO typing(conv, uid, until) VALUES(?, ?, ?) ON CONFLICT(conv, uid) DO UPDATE SET until = excluded.until').bind(id, me, Date.now() + 6000).run();
@@ -460,10 +502,17 @@ async function route(req, env) {
             return J(200, { ok: true });
         }
         if (p === '/social/send' && m === 'POST') {
-            const b = await body(req, 6000), id = cid(b.conv), kind = ['text', 'game', 'list'].includes(b.kind) ? b.kind : 'text';
+            const b = await body(req, 6000), id = cid(b.conv), kind = ['text', 'game', 'list', 'image', 'voice'].includes(b.kind) ? b.kind : 'text';
             let text = clean(b.text).slice(0, 1000), data = '';
             if (kind === 'game') { const d = b.data || {}, appid = appId(d.appid); if (!appid) return J(400, { error: 'Pick a game to share.' }); const name = cleanText(d.name, 80) || ('App ' + appid); data = JSON.stringify({ appid, name, hours: clamp(d.hours, 0, 200000) }); text = 'Shared a game: ' + name; }
             else if (kind === 'list') { const lid = String((b.data || {}).id || ''); if (!/^[a-f0-9]{12}$/.test(lid)) return J(400, { error: 'Pick a list to share.' }); const l = await first('SELECT id, title FROM lists WHERE id = ?', lid); if (!l) return J(404, { error: 'That list was not found.' }); data = JSON.stringify({ id: l.id, title: l.title }); text = 'Shared a list: ' + l.title; }
+            else if (kind === 'image' || kind === 'voice') {
+                const d = b.data || {}, mid = String(d.id || ''); if (!/^[a-f0-9]{24}$/.test(mid)) return J(400, { error: 'Send a file first.' });
+                const f = await first('SELECT mime FROM media WHERE id = ? AND uid = ?', mid, me); if (!f) return J(404, { error: 'That file was not found.' });
+                if ((kind === 'image') !== (MEDIA_MIME[f.mime] === 'img')) return J(400, { error: 'Wrong file type.' });
+                data = JSON.stringify({ id: mid, mime: f.mime, w: clamp(d.w, 0, 4000), h: clamp(d.h, 0, 4000), ms: kind === 'voice' ? clamp(d.ms, 0, 300000) : 0 });
+                text = kind === 'voice' ? '🎤 Voice message' : (text.slice(0, 200) || '📷 Photo');
+            }
             if (!id || !text) return J(400, { error: 'Write something first.' });
             if (await limited(env, 'sm' + me, 40, 60000)) { if (await limited(env, 'spam' + me, 3, 600000)) { await env.DB.prepare('INSERT INTO bans(uid, until, reason) VALUES(?, ?, ?) ON CONFLICT(uid) DO UPDATE SET until = excluded.until, reason = excluded.reason').bind(me, Date.now() + 900000, 'Sending messages too fast').run(); await auditLog(env, 'auto-mute', me, 'spam: 15 minutes'); return J(429, { error: 'You were muted for 15 minutes for sending messages too fast.' }); } return J(429, { error: 'You are sending messages too fast.' }); }
             const mem = await inConv(id); if (!mem) return J(404, { error: 'Not found' });
@@ -482,7 +531,7 @@ async function route(req, env) {
                 if (s.a_day === today && s.b_day === today && s.last_day !== today) { const n = s.last_day === today - 1 ? s.streak + 1 : 1; await env.DB.prepare('UPDATE streaks SET streak = ?, best = MAX(best, ?), last_day = ? WHERE a = ? AND b = ?').bind(n, n, today, a, c).run(); s = await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c); }
                 sv = streakView(s);
             }
-            if (Math.random() < 0.01) { await env.DB.prepare('DELETE FROM msgs WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM reactions WHERE msg_id NOT IN (SELECT id FROM msgs)').run(); await env.DB.prepare('DELETE FROM convs WHERE id NOT IN (SELECT DISTINCT conv FROM msgs) AND last_at < ? AND id NOT IN (SELECT conv FROM challenges)').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM members WHERE conv NOT IN (SELECT id FROM convs)').run(); }
+            if (Math.random() < 0.01) { await env.DB.prepare('DELETE FROM msgs WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM reactions WHERE msg_id NOT IN (SELECT id FROM msgs)').run(); await env.DB.prepare('DELETE FROM media WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM convs WHERE id NOT IN (SELECT DISTINCT conv FROM msgs) AND last_at < ? AND id NOT IN (SELECT conv FROM challenges)').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM members WHERE conv NOT IN (SELECT id FROM convs)').run(); }
             return J(200, { ok: true, id: r.id, at: now, streak: sv });
         }
         if (p === '/social/delete' && m === 'POST') {
