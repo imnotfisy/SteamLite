@@ -7,7 +7,7 @@
       "Record voice messages up to 60 seconds, with a player for your friends",
       "Link previews, one-click quick replies and pinned chats",
       "What should we play? finds the games everyone in a chat owns",
-      "Works with the new SteamLite Mobile app for Android",
+      "Works with the new SteamLite Mobile app for Android, with a card in Messages to get it",
       "Emoji picker, reactions, replies, edits, pins and search in Messages",
       "Share a game with a Buy on Steam button, or share a whole game list",
       "Profiles, online status with what friends are playing, and friend challenges",
@@ -32,7 +32,7 @@
     {
       "title": "SteamLite 9.2.4 Released - Photos, voice messages and more",
       "date": "October 8, 2026",
-      "content": "Messages now supports photos and GIFs (pick, paste or drop), voice messages, link previews, quick replies and pinned chats, and a What should we play? button that finds games everyone in the chat owns. It also works with the new SteamLite Mobile app, so friends on their phones can send and see the same things."
+      "content": "Messages now supports photos and GIFs (pick, paste or drop), voice messages, link previews, quick replies and pinned chats, and a What should we play? button that finds games everyone in the chat owns. It also works with the new SteamLite Mobile app, so friends on their phones can send and see the same things. Look out for the card in Messages that links to the app."
     },
     {
       "title": "SteamLite 9.2.3 Released - Account page, verified players and a richer Messages",
