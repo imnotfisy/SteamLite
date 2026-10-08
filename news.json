@@ -1,8 +1,11 @@
 {
   "changelog": {
-    "version": "9.2.1",
-    "title": "SteamLite 9.2.1 - Messages, group chats and friend streaks",
+    "version": "9.2.2",
+    "title": "SteamLite 9.2.2 - Themes rebuilt, publish your own, nicer chat",
     "items": [
+      "A new Themes window with live previews, a Community tab and My library",
+      "The Theme Maker can publish your theme to SteamLite so other players can preview and download it",
+      "Chat now shows when a friend is typing, with animated messages and a new-messages pill",
       "Messages: chat with friends who use SteamLite, in private chats or group chats of up to 20",
       "Friend streaks: message each other every day to grow a streak, with a reminder if one is about to end",
       "Add friends with a code, or find your Steam friends who already use SteamLite",
@@ -18,6 +21,11 @@
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.2.2 Released - Themes rebuilt and chat polish",
+      "date": "October 7, 2026",
+      "content": "Themes have a brand new window with live previews of every theme, a Community tab to find and download themes other players made, and a My library tab for yours. The new Theme Maker has presets, a live preview and a Publish button that shares your theme with everyone. Chat also got a big polish: typing indicators with the three-dot bubble, animated sending and receiving, message grouping and a new-messages pill."
+    },
     {
       "title": "SteamLite 9.2.1 Released - Messages, group chats and friend streaks",
       "date": "October 7, 2026",
