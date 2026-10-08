@@ -1,3 +1,12 @@
+# SteamLite 9.2.5 Changelog
+
+Start games from your phone.
+
+## Privacy
+- **Let my phone launch games** (Settings > More settings > Privacy, off by default): when it is on and SteamLite is open, the **Play on my PC** button in SteamLite Mobile starts that game on this PC. It checks in every 25 seconds, so it can take up to half a minute to start. Only your own signed-in account can send these.
+
+---
+
 # SteamLite 9.2.4 Changelog
 
 Photos, voice messages and more in Messages, matching the new SteamLite Mobile app.

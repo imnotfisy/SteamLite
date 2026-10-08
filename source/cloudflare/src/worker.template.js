@@ -126,6 +126,32 @@ async function pushTo(env, uids, data) {
 }
 const push = (env, uids, data) => { const p = pushTo(env, uids, data); if (CTX && CTX.waitUntil) CTX.waitUntil(p); return p; };
 
+// ---------- sale alerts for wishlist games (players opt in from the phone app) ----------
+async function dealsRun(env, refresh) {
+    let checked = 0, found = 0, pushed = 0;
+    if (refresh) {
+        const ids = (await env.DB.prepare('SELECT DISTINCT appid FROM wish LIMIT 300').all()).results.map((r) => r.appid);
+        for (let i = 0; i < ids.length; i += 50) {
+            const chunk = ids.slice(i, i + 50);
+            try {
+                const r = await fetch('https://store.steampowered.com/api/appdetails?appids=' + chunk.join(',') + '&filters=price_overview&cc=us', { signal: AbortSignal.timeout(8000) }); if (!r.ok) continue;
+                const j = await r.json(), st = [];
+                for (const id of chunk) { const e = j[id], po = e && e.success && e.data && e.data.price_overview, pct = po ? (po.discount_percent | 0) : 0; st.push(env.DB.prepare('INSERT INTO deals(appid, pct, price, at) VALUES(?, ?, ?, ?) ON CONFLICT(appid) DO UPDATE SET pct = excluded.pct, price = excluded.price, at = excluded.at').bind(id, pct, po ? String(po.final_formatted || '') : '', Date.now())); if (pct >= 20) found++; checked++; }
+                await env.DB.batch(st);
+            } catch (e) { }
+        }
+        await env.DB.prepare('UPDATE wish SET notified = 0 WHERE notified > 0 AND appid IN (SELECT appid FROM deals WHERE pct < 10)').run(); // once a sale is over, the next one tells you again
+    }
+    const rows = (await env.DB.prepare('SELECT w.uid, w.appid, w.name, d.pct, d.price FROM wish w JOIN deals d ON d.appid = w.appid WHERE d.pct >= 20 AND w.notified < d.pct ORDER BY w.uid LIMIT 60').all()).results, by = {};
+    rows.forEach((r) => { (by[r.uid] = by[r.uid] || []).push(r); });
+    for (const uid of Object.keys(by).slice(0, 8)) { // a few people per run, the rest next hour
+        const list = by[uid].sort((a, b) => b.pct - a.pct), top = list[0];
+        await pushTo(env, [uid], { t: 'deal', title: 'On sale', body: list.length === 1 ? top.name + ' is ' + top.pct + '% off (' + top.price + ')' : top.name + ' is ' + top.pct + '% off, and ' + (list.length - 1) + ' more on your wishlist', appid: top.appid });
+        await env.DB.batch(list.map((r) => env.DB.prepare('UPDATE wish SET notified = ? WHERE uid = ? AND appid = ?').bind(r.pct, uid, r.appid))); pushed++;
+    }
+    return { checked, found, pushed };
+}
+
 async function route(req, env) {
     const url = new URL(req.url), p = url.pathname, m = req.method, q = url.searchParams, addr = ip(req);
     if (p === '/' || p === '/health') return J(200, { ok: true, name: 'SteamLite Online', time: Date.now() });
@@ -175,6 +201,7 @@ async function route(req, env) {
         }
         if ((mm = /^\/admin\/report\/([a-f0-9]{12})\/resolve$/.exec(p)) && m === 'POST') { await env.DB.prepare("UPDATE reports SET status = 'done' WHERE id = ?").bind(mm[1]).run(); return J(200, { ok: true }); }
         if (p === '/admin/ban' && m === 'POST') { const b = await body(req, 1000); if (!uidOk(b.uid)) return J(400, { error: 'Bad uid' }); const hours = clamp(b.hours || 24, 1, 24 * 3650); await env.DB.prepare('INSERT INTO bans(uid, until, reason) VALUES(?, ?, ?) ON CONFLICT(uid) DO UPDATE SET until = excluded.until, reason = excluded.reason').bind(b.uid, Date.now() + hours * 3600000, cleanText(b.reason, 200)).run(); await auditLog(env, 'mute', b.uid, hours + 'h ' + cleanText(b.reason, 100)); return J(200, { ok: true }); }
+        if (p === '/admin/deals-run' && m === 'POST') { try { const b = await body(req, 300); return J(200, { ok: true, result: await dealsRun(env, b.refresh !== false) }); } catch (e) { return J(200, { ok: false, error: String(e.message) }); } }
         if (p === '/admin/push-test' && m === 'POST') { const b = await body(req, 600); if (!env.FCM_SA) return J(200, { ok: false, error: 'FCM_SA secret is not set' }); try { const r = await fcmSendOne(env, String(b.token || 'x'.repeat(100)), { t: 'test', title: 'SteamLite', body: 'Test notification' }); return J(200, { ok: true, status: r.status, body: r.body }); } catch (e) { return J(200, { ok: false, error: String(e.message) }); } }
         if (p === '/admin/unban' && m === 'POST') { const b = await body(req, 500); if (!uidOk(b.uid)) return J(400, { error: 'Bad uid' }); await env.DB.prepare('DELETE FROM bans WHERE uid = ?').bind(b.uid).run(); await auditLog(env, 'unmute', b.uid, ''); return J(200, { ok: true }); }
         return J(404, { error: 'Not found' });
@@ -254,7 +281,7 @@ async function route(req, env) {
         const id = acct.steamid, u = acct.uid;
         await env.DB.batch([env.DB.prepare('DELETE FROM sessions WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM backups WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM lb WHERE uid = ?').bind(u),
             env.DB.prepare('DELETE FROM theme_likes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM votes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM themes WHERE uid = ?').bind(u),
-            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM media WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM devices WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
+            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM media WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM devices WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM wish WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM pcs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM cmds WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
         return J(200, { ok: true });
     }
     if (p === '/backup') {
@@ -282,7 +309,45 @@ async function route(req, env) {
         await env.DB.prepare('DELETE FROM devices WHERE uid = ? AND token NOT IN (SELECT token FROM devices WHERE uid = ? ORDER BY at DESC LIMIT 5)').bind(acct.uid, acct.uid).run();
         return J(200, { ok: true, enabled: !!env.FCM_SA });
     }
+    if (p === '/push/test' && m === 'POST') { // "send me a test notification": says what Firebase answered for each of your phones
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (await limited(env, 'ptt' + acct.uid, 8, 3600000)) return J(429, { error: 'You tried a lot of times. Wait a little.' });
+        if (!env.FCM_SA) return J(200, { ok: false, error: 'Push is not set up on the server yet.' });
+        const rows = (await env.DB.prepare('SELECT token FROM devices WHERE uid = ? ORDER BY at DESC LIMIT 5').bind(acct.uid).all()).results, results = [];
+        for (const r of rows) { try { const x = await fcmSendOne(env, r.token, { t: 'test', title: 'SteamLite', body: 'It works! This is a test notification.' }); results.push({ status: x.status, gone: x.status === 404 }); if (x.status === 404) await env.DB.prepare('DELETE FROM devices WHERE token = ?').bind(r.token).run(); } catch (e) { results.push({ status: 0, error: String(e.message).slice(0, 80) }); } }
+        return J(200, { ok: true, devices: rows.length, results });
+    }
     if (p === '/push/unregister' && m === 'POST') { if (!acct) return J(401, { error: 'Sign in first' }); const b = await body(req, 600); await env.DB.prepare('DELETE FROM devices WHERE token = ? AND uid = ?').bind(String(b.token || ''), acct.uid).run(); return J(200, { ok: true }); }
+    if (p === '/me/wishlist') { // the phone app sends your wishlist so the server can tell you when something goes on sale
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (m === 'DELETE') { await env.DB.prepare('DELETE FROM wish WHERE uid = ?').bind(acct.uid).run(); return J(200, { ok: true }); }
+        if (m === 'POST') {
+            if (await limited(env, 'wl' + acct.uid, 24, 3600000)) return J(200, { ok: true });
+            const b = await body(req, 20000), items = []; const seen = new Set();
+            for (const it of (Array.isArray(b.items) ? b.items : [])) { const id = appId(it && it.appid); if (!id || seen.has(id)) continue; seen.add(id); items.push({ id, name: cleanText(it.name, 80) || ('App ' + id) }); if (items.length >= 150) break; }
+            const old = new Map((await env.DB.prepare('SELECT appid, notified FROM wish WHERE uid = ?').bind(acct.uid).all()).results.map((r) => [r.appid, r.notified]));
+            await env.DB.batch([env.DB.prepare('DELETE FROM wish WHERE uid = ?').bind(acct.uid)].concat(items.map((x) => env.DB.prepare('INSERT INTO wish(uid, appid, name, notified) VALUES(?, ?, ?, ?)').bind(acct.uid, x.id, x.name, old.get(x.id) || 0))));
+            return J(200, { ok: true, n: items.length });
+        }
+    }
+    // ----- "Launch on my PC": the phone asks, the PC app (when the player allows it) starts the game -----
+    if (p === '/pc/pending' && (m === 'GET' || m === 'POST')) { // the PC app checks in here; this also tells the phone the PC is online
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (await limited(env, 'pcp' + acct.uid, 400, 3600000)) return J(200, { ok: true, cmds: [] });
+        const now = Date.now(); await env.DB.prepare('INSERT INTO pcs(uid, at) VALUES(?, ?) ON CONFLICT(uid) DO UPDATE SET at = excluded.at').bind(acct.uid, now).run();
+        const rows = (await env.DB.prepare('UPDATE cmds SET taken = 1 WHERE uid = ? AND taken = 0 AND at > ? RETURNING id, appid, name').bind(acct.uid, now - 120000).all()).results;
+        if (Math.random() < 0.05) await env.DB.prepare('DELETE FROM cmds WHERE at < ?').bind(now - 3600000).run();
+        return J(200, { ok: true, cmds: rows });
+    }
+    if (p === '/pc/status' && m === 'GET') { if (!acct) return J(401, { error: 'Sign in first' }); const r = await env.DB.prepare('SELECT at FROM pcs WHERE uid = ?').bind(acct.uid).first(); return J(200, { ok: true, online: !!(r && r.at > Date.now() - 90000) }); }
+    if (p === '/pc/launch' && m === 'POST') {
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (await limited(env, 'pcl' + acct.uid, 20, 3600000)) return J(429, { error: 'You asked a lot of times. Try again in a while.' });
+        const b = await body(req, 600), id = appId(b.appid); if (!id) return J(400, { error: 'Pick a game.' });
+        const r = await env.DB.prepare('SELECT at FROM pcs WHERE uid = ?').bind(acct.uid).first(); if (!r || r.at < Date.now() - 90000) return J(409, { error: 'Your PC is not online. Open SteamLite on it and turn on "Let my phone launch games".' });
+        await env.DB.prepare('INSERT INTO cmds(id, uid, appid, name, at, taken) VALUES(?, ?, ?, ?, ?, 0)').bind(HEX(8), acct.uid, id, cleanText(b.name, 80), Date.now()).run();
+        return J(200, { ok: true });
+    }
     // ----- error reports from the apps (shown in the admin Activity log) -----
     if (p === '/client-error' && m === 'POST') {
         if (await limited(env, 'ce' + addr, 12, 3600000)) return J(200, { ok: true });
@@ -728,10 +793,12 @@ async function route(req, env) {
 }
 
 export default {
-    async scheduled(event, env, ctx) { // once a day: remind people whose friend streak is about to end, and tidy up old push tokens
-        CTX = ctx; const today = Math.floor(Date.now() / 86400000);
+    async scheduled(event, env, ctx) { // every hour: sale alerts. At 17:00 UTC: remind people whose friend streak is about to end, and tidy up old push tokens
+        CTX = ctx; const today = Math.floor(Date.now() / 86400000), hr = new Date(event.scheduledTime || Date.now()).getUTCHours();
+        try { await dealsRun(env, [4, 10, 16, 22].includes(hr)); } catch (e) { }
+        if (hr !== 17) return;
         try {
-            const rows = (await env.DB.prepare('SELECT a, b, streak, a_day, b_day FROM streaks WHERE streak > 0 AND last_day = ? LIMIT 800').bind(today - 1).all()).results;
+            const rows = (await env.DB.prepare('SELECT a, b, streak, a_day, b_day FROM streaks WHERE streak > 0 AND last_day = ? LIMIT 40').bind(today - 1).all()).results;
             for (const s of rows) {
                 for (const [me, other, mine] of [[s.a, s.b, s.a_day], [s.b, s.a, s.b_day]]) {
                     if (mine === today) continue; const o = await env.DB.prepare('SELECT name FROM accounts WHERE uid = ?').bind(other).first(); if (!o) continue;
@@ -747,3 +814,4 @@ export default {
         catch (e) { const code = e && (e.code === 413 || e.code === 400) ? e.code : 500; return J(code, { error: code === 413 ? 'Too big' : code === 400 ? 'Bad request' : 'Server error' }); }
     }
 };
+

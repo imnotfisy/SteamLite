@@ -11,5 +11,5 @@ database_name = "steamlite-online"
 database_id = "96c44286-19fd-4bd7-91b0-697d6f3e728d"
 
 [triggers]
-# every day at 17:00 UTC: remind people whose friend streak is about to end
-crons = ["0 17 * * *"]
+# every hour: sale alerts for wishlist games (prices are re-checked 4 times a day). At 17:00 UTC: friend streak reminders
+crons = ["0 * * * *"]

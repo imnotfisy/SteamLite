@@ -27,6 +27,9 @@ npx wrangler deploy
 ```
 Then put the address in `online.json` at the root of the repository; the apps read it from there.
 
+## Push notifications (Firebase) and sale alerts
+Push needs a Firebase project: save its service-account JSON as the secret `FCM_SA` (`wrangler secret put FCM_SA < firebase-service-account.json`, never commit that file). Without it everything else works and the phone app checks for messages every 15 minutes instead. GIF search needs a Tenor key as the secret `TENOR_KEY` (optional). A cron trigger runs every hour: it checks wishlist prices (four times a day) and sends sale alerts, and at 17:00 UTC it sends friend-streak reminders.
+
 ## Verified and owner ticks
 On the admin page, Players: **Verify** gives the blue tick, **Make owner** gives the gold crown, **Remove tick** takes it away. An owner account has everything unlocked in the app (themes, frames, titles, shop and trophy items, level rewards). The app checks one function, `isOwner()` in `main.dev.js`, wherever something is locked, so anything added in a future update should check it too.
 
@@ -38,7 +41,7 @@ npx wrangler secret put KEY_SECRET            # a long random string; keep a cop
 If KEY_SECRET is lost, saved keys can not be read and players are asked for their key once more. Never set `DEV_SKIP_KEY_CHECK` in production: it is only for local tests.
 
 ## Migrations for an existing database
-Add these once, in order, if your database is older: `migrate_avatar.sql`, `migrate_themes.sql`, `migrate_verified.sql`, `migrate_social2.sql`, `migrate_mobile.sql` (photos and voice messages from SteamLite Mobile), then run `schema.sql` again.
+Add these once, in order, if your database is older: `migrate_avatar.sql`, `migrate_themes.sql`, `migrate_verified.sql`, `migrate_social2.sql`, `migrate_mobile.sql` (photos and voice messages from SteamLite Mobile), `migrate_push.sql` (push notifications), `migrate_phone2.sql` (sale alerts and Launch on my PC), then run `schema.sql` again.
 
 ## Local testing
 `npx wrangler dev --local --port 8788` (put `ADMIN_TOKEN=...` in `.dev.vars`).

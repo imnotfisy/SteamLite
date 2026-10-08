@@ -1,6 +1,6 @@
 ﻿{
   "name": "SteamLite",
-  "version": "9.2.4",
+  "version": "9.2.5",
   "description": "A custom Steam library client",
   "main": "main.dev.js",
   "author": "",

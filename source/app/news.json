@@ -1,8 +1,9 @@
 {
   "changelog": {
-    "version": "9.2.4",
-    "title": "SteamLite 9.2.4 - Photos, voice messages and more in Messages",
+    "version": "9.2.5",
+    "title": "SteamLite 9.2.5 - Start games from your phone",
     "items": [
+      "Let my phone launch games (off by default): the Play on my PC button in SteamLite Mobile starts a game on this PC",
       "Send photos and GIFs in Messages: pick, paste or drop one into the chat",
       "Record voice messages up to 60 seconds, with a player for your friends",
       "Link previews, one-click quick replies and pinned chats",
@@ -21,14 +22,15 @@
       "Friend streaks: message each other every day to grow a streak, with a reminder if one is about to end",
       "Add friends with a code, or find your Steam friends who already use SteamLite",
       "Block, report and delete messages, with a moderator view for reports",
-      "Sign in with Steam is now required: one quick sign-in, then cloud backup of your progress, the same leaderboard name on every PC and a tick next to verified names",
-      "Always-on SteamLite Online on Cloudflare, so the leaderboard, themes and votes are there around the clock",
-      "Drops: free XP every hour, 5 hours and day, with a streak bonus, rarities, coins and a lucky wheel",
-      "A Shop for frames and titles, a Trophy room and an Events calendar",
-      "Dashboard widgets, a weekly recap and a stats card"
+      "Sign in with Steam is now required: one quick sign-in, then cloud backup of your progress, the same leaderboard name on every PC and a tick next to verified names"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.2.5 Released - Start games from your phone",
+      "date": "October 9, 2026",
+      "content": "A small update for SteamLite Mobile: turn on \"Let my phone launch games\" in Settings > More settings > Privacy and the Play on my PC button on a game page in the phone app starts that game on this computer."
+    },
     {
       "title": "SteamLite 9.2.4 Released - Photos, voice messages and more",
       "date": "October 8, 2026",

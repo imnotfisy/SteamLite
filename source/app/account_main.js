@@ -117,6 +117,23 @@ module.exports = function initAccount(ctx) {
         const body = Object.assign({}, p); delete body.op; return srv(e[0], e[1], body, 10000);
     });
 
+    // ---------- "Launch on my PC": the phone app asks, and this starts the game (only if the player turned it on in Privacy) ----------
+    const { shell, Notification } = require('electron'); let phoneBusy = false;
+    async function checkPhone() {
+        if (phoneBusy || !acctTok()) return; const ui = store.get('uiPrefs') || {}; if (ui.remoteLaunch !== true) return;
+        phoneBusy = true;
+        try {
+            const r = await srv('GET', '/pc/pending');
+            if (r && r.ok && Array.isArray(r.cmds)) for (const c of r.cmds.slice(0, 3)) {
+                const id = String(c.appid || '').replace(/[^0-9]/g, ''); if (!/^\d{1,10}$/.test(id)) continue;
+                if (process.env.SL_TEST_NO_LAUNCH) { store.set('testLaunch', id); continue; }   // used by the automatic tests only
+                shell.openExternal('steam://rungameid/' + id);
+                try { new Notification({ title: 'SteamLite', body: 'Starting ' + String(c.name || 'a game').slice(0, 60) + ' from your phone' }).show(); } catch (e) { }
+            }
+        } catch (e) { } finally { phoneBusy = false; }
+    }
+    setInterval(checkPhone, 25000); setTimeout(checkPhone, 15000);
+
     // ---------- "what should we play?": the games you and the people in a chat all own ----------
     handle('socNight', async (p) => {
         const key = String(store.get('apiKey') || ''), sid = acctSteamId(); if (!key || !sid) return { ok: false, error: 'Add your Steam Web API key in Settings first.' };
