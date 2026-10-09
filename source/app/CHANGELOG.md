@@ -1,3 +1,17 @@
+# SteamLite 9.3.0 Changelog
+
+Your profile look follows you to your phone and to your friends.
+
+## Profiles
+- **Your profile look is shared:** your banner, avatar frame, title, accent colour, tagline and 5-game showcase are now published to SteamLite Online (a minute or so after you change them), so friends see them when they open your profile on the PC or in SteamLite Mobile. Your prestige is shared too.
+- **Friends' looks show up here:** when you open someone's profile on the PC you now see their banner, title, tagline, accent colour and showcase games.
+- Nothing new to switch on: it uses the profile settings you already have. A banner picture is shrunk to fit and uploaded; gradient and solid banners are just colours.
+
+## SteamLite Mobile
+- Works with SteamLite Mobile 1.2.0 (Home page, profile pages with all your customisations, Settings page, polls in group chats and more).
+
+---
+
 # SteamLite 9.2.5 Changelog
 
 Start games from your phone.

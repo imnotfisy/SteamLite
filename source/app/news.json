@@ -1,8 +1,11 @@
 {
   "changelog": {
-    "version": "9.2.5",
-    "title": "SteamLite 9.2.5 - Start games from your phone",
+    "version": "9.3.0",
+    "title": "SteamLite 9.3.0 - Your profile look follows you",
     "items": [
+      "Your banner, frame, title, accent, tagline and showcase are shared, so friends see them on PC and phone",
+      "Open a friend's profile to see their banner, title, tagline and showcase",
+      "Works with SteamLite Mobile 1.2.0",
       "Let my phone launch games (off by default): the Play on my PC button in SteamLite Mobile starts a game on this PC",
       "Send photos and GIFs in Messages: pick, paste or drop one into the chat",
       "Record voice messages up to 60 seconds, with a player for your friends",
@@ -20,12 +23,15 @@
       "Chat now shows when a friend is typing, with animated messages and a new-messages pill",
       "Messages: chat with friends who use SteamLite, in private chats or group chats of up to 20",
       "Friend streaks: message each other every day to grow a streak, with a reminder if one is about to end",
-      "Add friends with a code, or find your Steam friends who already use SteamLite",
-      "Block, report and delete messages, with a moderator view for reports",
-      "Sign in with Steam is now required: one quick sign-in, then cloud backup of your progress, the same leaderboard name on every PC and a tick next to verified names"
+      "Add friends with a code, or find your Steam friends who already use SteamLite"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.3.0 Released - Your profile look follows you",
+      "date": "October 9, 2026",
+      "content": "The look you give your profile (banner, avatar frame, title, accent colour, tagline and showcase) is now shared with your friends and with SteamLite Mobile. Open a friend's profile on the PC to see theirs too. Pairs with the big SteamLite Mobile 1.2.0 update."
+    },
     {
       "title": "SteamLite 9.2.5 Released - Start games from your phone",
       "date": "October 9, 2026",

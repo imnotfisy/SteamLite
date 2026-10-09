@@ -117,6 +117,31 @@ module.exports = function initAccount(ctx) {
         const body = Object.assign({}, p); delete body.op; return srv(e[0], e[1], body, 10000);
     });
 
+    // ---------- your profile look (banner, frame, title, showcase, accent, tagline) is published, so friends see it in both apps ----------
+    const { nativeImage } = require('electron'); let lastProfileSig = '', bannerCache = { key: '', id: '' }, profileBusy = false;
+    async function bannerPayload(b) {
+        if (!b || b.mode === 'default') return null;
+        const o = { mode: b.mode, blur: b.blur || 0, dim: b.dim || 0, x: b.x === undefined ? 50 : b.x, y: b.y === undefined ? 50 : b.y, zoom: b.zoom || 100, c1: b.c1, c2: b.c2, angle: b.angle === undefined ? 135 : b.angle };
+        if (b.mode !== 'image') return o;
+        const fs = require('fs'); let st; try { st = fs.statSync(b.image); } catch (e) { return null; }
+        const key = b.image + '|' + st.mtimeMs; if (bannerCache.key === key && bannerCache.id) { o.id = bannerCache.id; return o; }
+        let img = nativeImage.createFromPath(b.image); if (img.isEmpty()) return null; const sz = img.getSize(); if (sz.width > 1280) img = img.resize({ width: 1280 });
+        let q = 82, buf = img.toJPEG(q); while (buf.length > 900000 && q > 30) { q -= 15; buf = img.toJPEG(q); } if (buf.length > 950000) return null;
+        const r = await srv('POST', '/media', { mime: 'image/jpeg', data: buf.toString('base64') }, 40000); if (!r || !r.ok) return null;
+        bannerCache = { key, id: r.id }; o.id = r.id; return o;
+    }
+    async function syncProfile() {
+        if (profileBusy || !acctTok()) return; const sid = acctSteamId(); if (!sid) return; profileBusy = true;
+        try {
+            const c = (store.get('profileCustom') || {})[sid] || {}, bn = (store.get('profileBanners') || {})[sid] || null, pre = (store.get('prestige') || {}).count || 0;
+            const banner = await bannerPayload(bn);
+            const body = { tagline: String(c.tagline || ''), accent: /^#[0-9a-f]{6}$/i.test(c.accent || '') ? c.accent : '', frame: c.frame && c.frame !== 'none' ? String(c.frame) : '', title: String(c.title || ''), hideBadges: !!c.hideBadges, showcase: (Array.isArray(c.showcase) ? c.showcase : []).map(Number).filter(Boolean).slice(0, 5), banner: banner, prestige: pre };
+            const sig = JSON.stringify(body); if (sig === lastProfileSig) return;
+            const r = await srv('POST', '/social/customize', body, 20000); if (r && r.ok) lastProfileSig = sig;
+        } catch (e) { } finally { profileBusy = false; }
+    }
+    setInterval(syncProfile, 90000); setTimeout(syncProfile, 25000);
+
     // ---------- "Launch on my PC": the phone app asks, and this starts the game (only if the player turned it on in Privacy) ----------
     const { shell, Notification } = require('electron'); let phoneBusy = false;
     async function checkPhone() {

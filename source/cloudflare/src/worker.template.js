@@ -152,6 +152,8 @@ async function dealsRun(env, refresh) {
     return { checked, found, pushed };
 }
 
+const profileView = (pr) => { let sc = []; try { sc = JSON.parse((pr && pr.showcase) || '[]'); } catch (e) { } let bn = null; try { bn = pr && pr.banner ? JSON.parse(pr.banner) : null; } catch (e) { } return { tagline: (pr && pr.tagline) || '', accent: (pr && pr.accent) || '', frame: (pr && pr.frame) || '', title: (pr && pr.title) || '', showcase: sc, banner: bn, hideBadges: !!(pr && pr.hide_badges), prestige: (pr && pr.prestige) || 0 }; };
+
 async function route(req, env) {
     const url = new URL(req.url), p = url.pathname, m = req.method, q = url.searchParams, addr = ip(req);
     if (p === '/' || p === '/health') return J(200, { ok: true, name: 'SteamLite Online', time: Date.now() });
@@ -281,7 +283,7 @@ async function route(req, env) {
         const id = acct.steamid, u = acct.uid;
         await env.DB.batch([env.DB.prepare('DELETE FROM sessions WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM backups WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM lb WHERE uid = ?').bind(u),
             env.DB.prepare('DELETE FROM theme_likes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM votes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM themes WHERE uid = ?').bind(u),
-            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM media WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM devices WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM wish WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM pcs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM cmds WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
+            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM media WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM devices WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM wish WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM profiles WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM activity WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM gvotes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM pcs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM cmds WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
         return J(200, { ok: true });
     }
     if (p === '/backup') {
@@ -318,6 +320,11 @@ async function route(req, env) {
         return J(200, { ok: true, devices: rows.length, results });
     }
     if (p === '/push/unregister' && m === 'POST') { if (!acct) return J(401, { error: 'Sign in first' }); const b = await body(req, 600); await env.DB.prepare('DELETE FROM devices WHERE token = ? AND uid = ?').bind(String(b.token || ''), acct.uid).run(); return J(200, { ok: true }); }
+    if (p === '/me/deals' && m === 'GET') { // your wishlist games that are on sale right now
+        if (!acct) return J(401, { error: 'Sign in first' });
+        const rows = (await env.DB.prepare('SELECT w.appid, w.name, d.pct, d.price FROM wish w JOIN deals d ON d.appid = w.appid WHERE w.uid = ? AND d.pct >= 10 ORDER BY d.pct DESC LIMIT 20').bind(acct.uid).all()).results;
+        return J(200, { ok: true, deals: rows });
+    }
     if (p === '/me/wishlist') { // the phone app sends your wishlist so the server can tell you when something goes on sale
         if (!acct) return J(401, { error: 'Sign in first' });
         if (m === 'DELETE') { await env.DB.prepare('DELETE FROM wish WHERE uid = ?').bind(acct.uid).run(); return J(200, { ok: true }); }
@@ -391,7 +398,7 @@ async function route(req, env) {
         const acctOf = (u) => first('SELECT uid, name, avatar, verified FROM accounts WHERE uid = ?', u);
         const view = (a) => a ? { uid: a.uid, name: a.name, avatar: a.avatar || '', verified: !!a.verified, owner: a.verified === 2 } : { uid: '', name: 'Deleted player', avatar: '', verified: false, owner: false };
         const streakView = (s) => { if (!s) return { streak: 0, best: 0, atRisk: false, doneToday: false, mineToday: false, theirsToday: false }; const mine = s.a === me ? s.a_day : s.b_day, theirs = s.a === me ? s.b_day : s.a_day, cur = s.last_day >= today - 1 ? s.streak : 0; return { streak: cur, best: s.best, doneToday: s.last_day === today, mineToday: mine === today, theirsToday: theirs === today, atRisk: cur > 0 && s.last_day === today - 1 }; };
-        const inConv = (c) => first('SELECT m.role, m.last_read, m.muted, c.kind, c.name, c.owner FROM members m JOIN convs c ON c.id = m.conv WHERE m.conv = ? AND m.uid = ?', c, me);
+        const inConv = (c) => first('SELECT m.role, m.last_read, m.muted, m.muted_until, c.kind, c.name, c.owner FROM members m JOIN convs c ON c.id = m.conv WHERE m.conv = ? AND m.uid = ?', c, me);
         const presenceOf = async (uids) => { const out = {}; if (!uids.length) return out; const now = Date.now(); for (let i = 0; i < uids.length; i += 50) { const ch = uids.slice(i, i + 50); (await all('SELECT uid, game_id, game_name, at FROM presence WHERE uid IN (' + ch.map(() => '?').join(',') + ')', ...ch)).forEach(r => { const on = r.at > now - 150000; out[r.uid] = { online: on, playing: on && r.game_id ? { appid: r.game_id, name: r.game_name } : null, lastSeen: r.at }; }); } return out; };
         const clean = (t) => String(t == null ? '' : t).replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g, '').replace(/\r\n?/g, '\n').trim();
         const cid = (v) => /^[dg][a-f0-9]{16,40}$/.test(String(v || '')) ? String(v) : '';
@@ -403,7 +410,7 @@ async function route(req, env) {
             const pres = await presenceOf(fr.filter(f => f.status === 'accepted').map(f => f.fuid));
             const friends = fr.filter(f => f.status === 'accepted').map(f => Object.assign(view({ uid: f.fuid, name: f.name, avatar: f.avatar, verified: f.verified }), streakView(stMap[f.fuid]), pres[f.fuid] || { online: false, playing: null })).sort((x, y) => y.streak - x.streak || x.name.localeCompare(y.name));
             const incoming = fr.filter(f => f.status === 'pending' && f.req_by !== me).map(f => view({ uid: f.fuid, name: f.name, avatar: f.avatar, verified: f.verified })), outgoing = fr.filter(f => f.status === 'pending' && f.req_by === me).map(f => view({ uid: f.fuid, name: f.name, avatar: f.avatar, verified: f.verified }));
-            const cv = await all('SELECT c.id, c.kind, c.name, c.last_at, mm.muted, (SELECT COUNT(*) FROM msgs x WHERE x.conv = c.id AND x.id > mm.last_read AND x.uid != ?1) unread, (SELECT text FROM msgs x WHERE x.conv = c.id ORDER BY x.id DESC LIMIT 1) ltext, (SELECT uid FROM msgs x WHERE x.conv = c.id ORDER BY x.id DESC LIMIT 1) luid, (SELECT COUNT(*) FROM members z WHERE z.conv = c.id) n FROM members mm JOIN convs c ON c.id = mm.conv WHERE mm.uid = ?1 ORDER BY c.last_at DESC LIMIT 60', me);
+            const cv = await all('SELECT c.id, c.kind, c.name, c.last_at, CASE WHEN mm.muted = 1 OR mm.muted_until > ?2 THEN 1 ELSE 0 END AS muted, (SELECT COUNT(*) FROM msgs x WHERE x.conv = c.id AND x.id > mm.last_read AND x.uid != ?1) unread, (SELECT text FROM msgs x WHERE x.conv = c.id ORDER BY x.id DESC LIMIT 1) ltext, (SELECT uid FROM msgs x WHERE x.conv = c.id ORDER BY x.id DESC LIMIT 1) luid, (SELECT COUNT(*) FROM members z WHERE z.conv = c.id) n FROM members mm JOIN convs c ON c.id = mm.conv WHERE mm.uid = ?1 ORDER BY c.last_at DESC LIMIT 60', me, Date.now());
             const peers = await all("SELECT m1.conv, ac.uid, ac.name, ac.avatar, ac.verified FROM members m1 JOIN convs c ON c.id = m1.conv AND c.kind = 'dm' JOIN members m2 ON m2.conv = m1.conv AND m2.uid != m1.uid JOIN accounts ac ON ac.uid = m2.uid WHERE m1.uid = ?", me), peerOf = {}; peers.forEach(x => { peerOf[x.conv] = x; });
             const names = {}; fr.forEach(f => { names[f.fuid] = f.name; }); names[me] = acct.name;
             const convs = cv.map(c => { const pr = peerOf[c.id]; return { id: c.id, kind: c.kind, name: c.kind === 'dm' ? (pr ? pr.name : 'Deleted player') : c.name, avatar: pr ? (pr.avatar || '') : '', verified: pr ? !!pr.verified : false, owner: pr ? pr.verified === 2 : false, peer: pr ? pr.uid : '', members: c.n, unread: c.unread, muted: !!c.muted, at: c.last_at, last: c.ltext ? { text: String(c.ltext).slice(0, 120), mine: c.luid === me, from: names[c.luid] || '' } : null }; });
@@ -481,9 +488,10 @@ async function route(req, env) {
             }
             const pins = after || before ? undefined : (await all('SELECT x.id, x.text, x.kind, a.name FROM msgs x LEFT JOIN accounts a ON a.uid = x.uid WHERE x.conv = ? AND x.pinned = 1 ORDER BY x.id DESC LIMIT 5', id)).map(r => ({ id: r.id, name: r.name || 'Deleted player', text: String(r.text).slice(0, 140), kind: r.kind }));
             const pres = await presenceOf(mems.map(x => x.uid).filter(Boolean));
-            const out = { id, kind: mem.kind, name: mem.name, hasMore: before ? rows.length >= 40 : (!after && rows.length >= 60), typing, muted: !!mem.muted, myRead: mem.last_read || 0, owner: mem.owner === me, members: mems.map(x => Object.assign(view(x), { role: x.role }, pres[x.uid] || { online: false, playing: null })), pins,
-                messages: rows.map(x => { let d = null; if (x.data) { try { d = JSON.parse(x.data); } catch (e) { d = null; } } return { id: x.id, uid: x.uid, name: x.name || 'Deleted player', verified: !!x.av, owner: x.av === 2, text: x.text, kind: x.kind || 'text', data: d, replyTo: x.reply_to ? (quoted[x.reply_to] || { id: x.reply_to, name: '', text: 'Message deleted', kind: 'text' }) : null, edited: !!x.edited, pinned: !!x.pinned, reactions: reacts[x.id] || [], at: x.at, mine: x.uid === me }; }) };
-            if (mem.kind === 'dm') { const other = mems.find(x => x.uid !== me); out.peerRead = other ? other.last_read : 0; if (other && other.uid) { const [a, c] = pair(me, other.uid); out.streak = streakView(await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c)); out.peerUid = other.uid; out.canSend = await friendsWith(me, other.uid) && !(await blockedEither(me, other.uid)); } else out.canSend = false; }
+            const polls = {}; { const pids = rows.filter(r => r.kind === 'poll').map(r => r.id); if (pids.length) { (await all('SELECT msg, opt, COUNT(*) n, SUM(uid = ?) me FROM gvotes WHERE msg IN (' + pids.map(() => '?').join(',') + ') GROUP BY msg, opt', me, ...pids)).forEach(r => { const p0 = polls[r.msg] = polls[r.msg] || { counts: {}, mine: null, total: 0 }; p0.counts[r.opt] = r.n; p0.total += r.n; if (r.me) p0.mine = r.opt; }); pids.forEach(id => { polls[id] = polls[id] || { counts: {}, mine: null, total: 0 }; }); } }
+            const out = { id, kind: mem.kind, name: mem.name, hasMore: before ? rows.length >= 40 : (!after && rows.length >= 60), typing, muted: !!mem.muted || mem.muted_until > Date.now(), myRead: mem.last_read || 0, owner: mem.owner === me, members: mems.map(x => Object.assign(view(x), { role: x.role }, pres[x.uid] || { online: false, playing: null })), pins,
+                messages: rows.map(x => { let d = null; if (x.data) { try { d = JSON.parse(x.data); } catch (e) { d = null; } } return { id: x.id, uid: x.uid, name: x.name || 'Deleted player', verified: !!x.av, owner: x.av === 2, text: x.text, kind: x.kind || 'text', data: d, replyTo: x.reply_to ? (quoted[x.reply_to] || { id: x.reply_to, name: '', text: 'Message deleted', kind: 'text' }) : null, edited: !!x.edited, pinned: !!x.pinned, reactions: reacts[x.id] || [], poll: polls[x.id], at: x.at, mine: x.uid === me }; }) };
+            if (mem.kind === 'dm') { const other = mems.find(x => x.uid !== me); const hidR = other && other.uid ? await first('SELECT hide_read h FROM profiles WHERE uid = ?', other.uid) : null; out.peerRead = other && !(hidR && hidR.h) ? other.last_read : 0; if (other && other.uid) { const pa = await first('SELECT last FROM accounts WHERE uid = ?', other.uid); out.peerLast = pa ? pa.last || 0 : 0; } if (other && other.uid) { const [a, c] = pair(me, other.uid); out.streak = streakView(await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c)); out.peerUid = other.uid; out.canSend = await friendsWith(me, other.uid) && !(await blockedEither(me, other.uid)); } else out.canSend = false; }
             return J(200, out);
         }
         // ----- reactions, edit, pin, mute, search -----
@@ -506,7 +514,7 @@ async function route(req, env) {
             if (b.on !== false && (await first('SELECT COUNT(*) c FROM msgs WHERE conv = ? AND pinned = 1', msg.conv)).c >= 5) return J(400, { error: 'You can pin up to 5 messages. Unpin one first.' });
             await env.DB.prepare('UPDATE msgs SET pinned = ? WHERE id = ?').bind(b.on === false ? 0 : 1, mid).run(); return J(200, { ok: true });
         }
-        if (p === '/social/mute' && m === 'POST') { const b = await body(req, 300), id = cid(b.conv); if (!id || !(await inConv(id))) return J(404, { error: 'Not found' }); await env.DB.prepare('UPDATE members SET muted = ? WHERE conv = ? AND uid = ?').bind(b.on === false ? 0 : 1, id, me).run(); return J(200, { ok: true }); }
+        if (p === '/social/mute' && m === 'POST') { const b = await body(req, 300), id = cid(b.conv); if (!id || !(await inConv(id))) return J(404, { error: 'Not found' }); const hrs = clamp(b.hours, 0, 720); await env.DB.prepare('UPDATE members SET muted = ?, muted_until = ? WHERE conv = ? AND uid = ?').bind(b.on === false || hrs > 0 ? 0 : 1, b.on === false ? 0 : hrs > 0 ? Date.now() + hrs * 3600000 : 0, id, me).run(); return J(200, { ok: true }); }
         if (p === '/social/search' && isGet) {
             const id = cid(q.get('conv')), qs = cleanText(q.get('q') || '', 40).toLowerCase().replace(/[%_]/g, ''); if (!id || qs.length < 2 || !(await inConv(id))) return J(200, { results: [] });
             const rows = await all("SELECT x.id, x.uid, x.text, x.at, a.name FROM msgs x LEFT JOIN accounts a ON a.uid = x.uid WHERE x.conv = ? AND x.kind IN ('text', 'game', 'list') AND lower(x.text) LIKE ? ORDER BY x.id DESC LIMIT 30", id, '%' + qs + '%');
@@ -517,6 +525,7 @@ async function route(req, env) {
         if (p === '/social/presence' && m === 'POST') {
             if (await limited(env, 'pr' + me, 40, 600000)) return J(200, { ok: true });
             const b = await body(req, 500), g = b.game && typeof b.game === 'object' ? b.game : null, appid = g ? clamp(g.appid, 0, 4294967295) : 0, gname = g ? cleanText(g.name, 80) : '';
+            { const prevP = await first('SELECT game_id g FROM presence WHERE uid = ?', me); if (appid && (!prevP || prevP.g !== appid)) { const recent = await first("SELECT 1 x FROM activity WHERE uid = ? AND kind = 'play' AND appid = ? AND at > ?", me, appid, Date.now() - 6 * 3600000); if (!recent) await env.DB.prepare("INSERT INTO activity(uid, kind, text, appid, at) VALUES(?, 'play', ?, ?, ?)").bind(me, 'started playing ' + (gname || 'a game'), appid, Date.now()).run(); } }
             await env.DB.prepare('INSERT INTO presence(uid, game_id, game_name, at) VALUES(?, ?, ?, ?) ON CONFLICT(uid) DO UPDATE SET game_id = excluded.game_id, game_name = excluded.game_name, at = excluded.at').bind(me, appid, appid ? gname : '', Date.now()).run();
             return J(200, { ok: true });
         }
@@ -528,6 +537,8 @@ async function route(req, env) {
             const prev = await first('SELECT * FROM stats WHERE uid = ?', me); let flags = prev ? prev.flags : 0;
             if (prev) { const hrs = (now - prev.at) / 3600000; if (n.hours - prev.hours > Math.max(3, hrs * 1.2 + 2) || n.level - prev.level > 6) { flags += 1; await env.DB.prepare('UPDATE stats SET flags = ? WHERE uid = ?').bind(flags, me).run(); return J(200, { ok: true, held: true }); } }
             await env.DB.prepare('INSERT INTO stats(uid, level, hours, streak, achievements, games, at, flags) VALUES(?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(uid) DO UPDATE SET level = excluded.level, hours = excluded.hours, streak = excluded.streak, achievements = excluded.achievements, games = excluded.games, at = excluded.at').bind(me, n.level, n.hours, n.streak, n.achievements, n.games, now, flags).run();
+            if (prev && n.level > prev.level) await env.DB.prepare("INSERT INTO activity(uid, kind, text, appid, at) VALUES(?, 'level', ?, 0, ?)").bind(me, 'reached level ' + n.level, now).run();
+            if (b.prestige !== undefined) await env.DB.prepare('INSERT INTO profiles(uid, prestige, at) VALUES(?, ?, ?) ON CONFLICT(uid) DO UPDATE SET prestige = excluded.prestige').bind(me, clamp(b.prestige, 0, 100), now).run();
             for (const cm of await all("SELECT cm.cid, c.metric FROM challenge_members cm JOIN challenges c ON c.id = cm.cid WHERE cm.uid = ? AND cm.baseline IS NULL AND c.endsat > ?", me, now)) await env.DB.prepare('UPDATE challenge_members SET baseline = ? WHERE cid = ? AND uid = ?').bind(n[cm.metric] || 0, cm.cid, me).run();
             return J(200, { ok: true });
         }
@@ -541,7 +552,8 @@ async function route(req, env) {
             const pres = (await presenceOf([u]))[u] || { online: false, playing: null }, themes = (await all("SELECT t.id, t.name, t.vars, (SELECT COUNT(*) FROM theme_likes l WHERE l.theme_id = t.id) likes, t.downloads FROM themes t WHERE t.uid = ? AND t.status = 'approved' ORDER BY t.at DESC LIMIT 6", u)).map(t => ({ id: t.id, name: t.name, vars: JSON.parse(t.vars), likes: t.likes, downloads: t.downloads }));
             const lists = (await all('SELECT id, title, items FROM lists WHERE uid = ? ORDER BY at DESC LIMIT 6', u)).map(l => { let n = 0; try { n = JSON.parse(l.items).length; } catch (e) { } return { id: l.id, title: l.title, count: n }; });
             const dls = (await first("SELECT COALESCE(SUM(downloads), 0) d FROM themes WHERE uid = ? AND status = 'approved'", u)).d;
-            return J(200, { uid: a.uid, name: a.name, avatar: a.avatar || '', verified: !!a.verified, owner: a.verified === 2, created: a.created, bio: a.bio || '', relation: rel, stats: st, online: pres.online, playing: pres.playing, lastSeen: pres.lastSeen || 0, themes, lists, creator: dls >= 25, code: code(a.uid) });
+            const cust = profileView(await first('SELECT * FROM profiles WHERE uid = ?', u));
+            return J(200, { uid: a.uid, name: a.name, avatar: a.avatar || '', verified: !!a.verified, owner: a.verified === 2, created: a.created, bio: a.bio || '', relation: rel, stats: st, online: pres.online, playing: pres.playing, lastSeen: pres.lastSeen || 0, themes, lists, creator: dls >= 25, code: code(a.uid), custom: cust, prestige: cust.prestige });
         }
 
         // ----- shared game lists -----
@@ -595,6 +607,66 @@ async function route(req, env) {
                 const j = await r.json(); return J(200, { ok: true, gifs: (j.results || []).map((x) => { const f = x.media_formats && x.media_formats.tinygif; return f && /^https:\/\/media[0-9]?\.tenor\.com\//.test(f.url) ? { url: f.url, w: (f.dims || [])[0] || 0, h: (f.dims || [])[1] || 0 } : null; }).filter(Boolean) });
             } catch (e) { return J(200, { ok: false }); }
         }
+        if (p === '/social/customize' && m === 'POST') { // your public profile: tagline, accent, frame, title, banner, showcase (both apps send these)
+            if (await limited(env, 'cz' + me, 60, 3600000)) return J(429, { error: 'You changed your profile a lot. Try again later.' });
+            const b = await body(req, 6000), sets = {}, hexOk = (v) => /^#[0-9a-f]{6}$/i.test(String(v || ''));
+            if (b.tagline !== undefined) sets.tagline = cleanText(b.tagline, 60);
+            if (b.accent !== undefined) { if (b.accent && !hexOk(b.accent)) return J(400, { error: 'That colour is not valid.' }); sets.accent = b.accent ? String(b.accent).toLowerCase() : ''; }
+            if (b.frame !== undefined) { const fr = String(b.frame || ''); if (fr && !/^[a-z]{2,20}$/.test(fr)) return J(400, { error: 'That frame is not valid.' }); sets.frame = fr === 'none' ? '' : fr; }
+            if (b.title !== undefined) sets.title = cleanText(b.title, 40);
+            if (b.hideBadges !== undefined) sets.hide_badges = b.hideBadges ? 1 : 0;
+            if (b.prestige !== undefined) sets.prestige = clamp(b.prestige, 0, 100);
+            if (b.showcase !== undefined) { const ids = []; for (const x of (Array.isArray(b.showcase) ? b.showcase : [])) { const id = appId(x && typeof x === 'object' ? x.appid : x); if (id && !ids.includes(id)) ids.push(id); if (ids.length >= 5) break; } sets.showcase = JSON.stringify(ids); }
+            if (b.banner !== undefined) {
+                if (!b.banner) sets.banner = ''; else {
+                    const bn = b.banner, mode = ['default', 'image', 'gradient', 'solid'].includes(bn.mode) ? bn.mode : 'default';
+                    const o = { mode, blur: clamp(bn.blur, 0, 20), dim: clamp(bn.dim, 0, 80), x: clamp(bn.x === undefined ? 50 : bn.x, 0, 100), y: clamp(bn.y === undefined ? 50 : bn.y, 0, 100), zoom: clamp(bn.zoom === undefined ? 100 : bn.zoom, 100, 300), angle: clamp(bn.angle === undefined ? 135 : bn.angle, 0, 360), c1: hexOk(bn.c1) ? bn.c1 : '#7c5cff', c2: hexOk(bn.c2) ? bn.c2 : '#1b1233' };
+                    if (mode === 'image') { const mid = String(bn.id || ''); if (!/^[a-f0-9]{24}$/.test(mid) || !(await first('SELECT 1 x FROM media WHERE id = ? AND uid = ?', mid, me))) return J(400, { error: 'Upload the banner picture first.' }); o.id = mid; }
+                    sets.banner = JSON.stringify(o);
+                }
+            }
+            const keys = Object.keys(sets); if (!keys.length) return J(200, { ok: true });
+            await env.DB.prepare('INSERT INTO profiles(uid, at) VALUES(?, ?) ON CONFLICT(uid) DO NOTHING').bind(me, Date.now()).run();
+            await env.DB.prepare('UPDATE profiles SET ' + keys.map(k => k + ' = ?').join(', ') + ', at = ? WHERE uid = ?').bind(...keys.map(k => sets[k]), Date.now(), me).run();
+            return J(200, { ok: true });
+        }
+        if (p === '/social/prefs') { // privacy switches: read receipts and typing indicator
+            if (isGet) { const r = await first('SELECT hide_read, hide_typing FROM profiles WHERE uid = ?', me); return J(200, { ok: true, readReceipts: !(r && r.hide_read), typing: !(r && r.hide_typing) }); }
+            if (m === 'POST') { const b = await body(req, 300); await env.DB.prepare('INSERT INTO profiles(uid, at) VALUES(?, ?) ON CONFLICT(uid) DO NOTHING').bind(me, Date.now()).run(); if (b.readReceipts !== undefined) await env.DB.prepare('UPDATE profiles SET hide_read = ? WHERE uid = ?').bind(b.readReceipts ? 0 : 1, me).run(); if (b.typing !== undefined) await env.DB.prepare('UPDATE profiles SET hide_typing = ? WHERE uid = ?').bind(b.typing ? 0 : 1, me).run(); return J(200, { ok: true }); }
+        }
+        if (p === '/social/gallery' && isGet) {
+            const id = cid(q.get('conv')); if (!id || !(await inConv(id))) return J(200, { items: [] });
+            const rows = await all("SELECT x.id, x.at, x.kind, x.data, a.name FROM msgs x LEFT JOIN accounts a ON a.uid = x.uid WHERE x.conv = ? AND x.kind IN ('image', 'gif') ORDER BY x.id DESC LIMIT 80", id);
+            return J(200, { items: rows.map(r => { let d = null; try { d = JSON.parse(r.data); } catch (e) { } return { id: r.id, at: r.at, kind: r.kind, data: d, name: r.name || 'Deleted player' }; }) });
+        }
+        if (p === '/social/searchall' && isGet) { // search every chat you are in (the last 30 days)
+            const qs = cleanText(q.get('q') || '', 40).toLowerCase().replace(/[%_]/g, ''); if (qs.length < 2) return J(200, { results: [] });
+            if (await limited(env, 'sa' + me, 60, 600000)) return J(429, { error: 'Slow down' });
+            const rows = await all("SELECT x.id, x.conv, x.text, x.at, a.name, c.kind ck, c.name cname FROM msgs x JOIN members mm ON mm.conv = x.conv AND mm.uid = ? JOIN convs c ON c.id = x.conv LEFT JOIN accounts a ON a.uid = x.uid WHERE x.kind IN ('text', 'game', 'list') AND lower(x.text) LIKE ? ORDER BY x.id DESC LIMIT 25", me, '%' + qs + '%');
+            const dmIds = [...new Set(rows.filter(r => r.ck === 'dm').map(r => r.conv))], peer = {};
+            for (const cv of dmIds) { const o = await first("SELECT ac.name FROM members m2 JOIN accounts ac ON ac.uid = m2.uid WHERE m2.conv = ? AND m2.uid != ?", cv, me); peer[cv] = o ? o.name : 'Deleted player'; }
+            return J(200, { results: rows.map(r => ({ id: r.id, conv: r.conv, convName: r.ck === 'dm' ? peer[r.conv] : r.cname, name: r.name || 'Deleted player', text: String(r.text).slice(0, 160), at: r.at })) });
+        }
+        if (p === '/social/feed' && isGet) { // what your friends have been up to
+            const rows = await all("SELECT a.id, a.uid, a.kind, a.text, a.appid, a.at, ac.name, ac.avatar, ac.verified FROM activity a JOIN accounts ac ON ac.uid = a.uid WHERE a.at > ?2 AND a.uid IN (SELECT CASE WHEN f.a = ?1 THEN f.b ELSE f.a END FROM friends f WHERE (f.a = ?1 OR f.b = ?1) AND f.status = 'accepted') ORDER BY a.at DESC LIMIT 40", me, Date.now() - 14 * 86400000);
+            return J(200, { items: rows.map(r => ({ id: r.id, uid: r.uid, kind: r.kind, text: r.text, appid: r.appid, at: r.at, name: r.name, avatar: r.avatar || '', verified: !!r.verified, owner: r.verified === 2 })) });
+        }
+        if (p === '/social/gpoll' && m === 'POST') { // a poll in a chat: "what are we playing tonight?"
+            const b = await body(req, 2500), id = cid(b.conv), mem = id ? await inConv(id) : null; if (!mem) return J(404, { error: 'Not found' });
+            if (await limited(env, 'gp' + me, 10, 86400000)) return J(429, { error: 'You made a lot of polls today.' });
+            const qq = cleanText(b.q, 100), opts = (Array.isArray(b.options) ? b.options : []).map(o => cleanText(o, 40)).filter(Boolean).slice(0, 6);
+            if (qq.length < 2 || opts.length < 2) return J(400, { error: 'A poll needs a question and at least two options.' });
+            const now = Date.now(), r = await env.DB.prepare("INSERT INTO msgs(conv, uid, text, at, kind, data) VALUES(?, ?, ?, ?, 'poll', ?) RETURNING id").bind(id, me, 'Poll: ' + qq, now, JSON.stringify({ q: qq, options: opts })).first();
+            await env.DB.batch([env.DB.prepare('UPDATE convs SET last_at = ? WHERE id = ?').bind(now, id), env.DB.prepare('UPDATE members SET last_read = ? WHERE conv = ? AND uid = ?').bind(r.id, id, me)]);
+            const to = (await all('SELECT uid FROM members WHERE conv = ? AND uid != ? AND muted = 0 AND muted_until < ?', id, me, now)).map(x => x.uid); push(env, to, { t: 'msg', conv: id, title: mem.kind === 'dm' ? acct.name : (mem.name || 'Group chat'), body: acct.name + ' started a poll: ' + qq, sender: acct.name, kind: 'poll' });
+            return J(200, { ok: true, id: r.id });
+        }
+        if (p === '/social/gvote' && m === 'POST') {
+            const b = await body(req, 300), mid = clamp(b.msg, 1, 1e12), msg = await first("SELECT conv, data FROM msgs WHERE id = ? AND kind = 'poll'", mid); if (!msg || !(await inConv(msg.conv))) return J(404, { error: 'Not found' });
+            let d = {}; try { d = JSON.parse(msg.data); } catch (e) { } const opt = clamp(b.opt, 0, 5); if (!d.options || opt >= d.options.length) return J(400, { error: 'Pick one of the options.' });
+            await env.DB.prepare('INSERT INTO gvotes(msg, uid, opt) VALUES(?, ?, ?) ON CONFLICT(msg, uid) DO UPDATE SET opt = excluded.opt').bind(mid, me, opt).run();
+            return J(200, { ok: true });
+        }
         if (p === '/social/unfurl' && isGet) {
             let u; try { u = new URL(q.get('u') || ''); } catch (e) { return J(400, { error: 'Bad link' }); }
             if (u.protocol !== 'https:' || u.port || /^(localhost|\d+\.\d+\.\d+\.\d+|\[.*\])$/i.test(u.hostname) || !u.hostname.includes('.')) return J(400, { error: 'Bad link' });
@@ -610,6 +682,7 @@ async function route(req, env) {
         }
         if (p === '/social/typing' && m === 'POST') {
             const b = await body(req, 300), id = cid(b.conv); if (!id || !(await inConv(id))) return J(404, { error: 'Not found' });
+            const hidT = await first('SELECT hide_typing h FROM profiles WHERE uid = ?', me); if (hidT && hidT.h) return J(200, { ok: true });
             await env.DB.prepare('INSERT INTO typing(conv, uid, until) VALUES(?, ?, ?) ON CONFLICT(conv, uid) DO UPDATE SET until = excluded.until').bind(id, me, Date.now() + 6000).run();
             if (Math.random() < 0.02) await env.DB.prepare('DELETE FROM typing WHERE until < ?').bind(Date.now() - 60000).run();
             return J(200, { ok: true });
@@ -622,7 +695,7 @@ async function route(req, env) {
             else if (kind === 'gif') { const d = b.data || {}, u = String(d.url || ''); if (!/^https:\/\/media[0-9]?\.tenor\.com\/[\w\-./]{3,200}$/.test(u)) return J(400, { error: 'That GIF is not allowed.' }); data = JSON.stringify({ url: u, w: clamp(d.w, 0, 2000), h: clamp(d.h, 0, 2000) }); text = 'GIF'; }
             else if (kind === 'image' || kind === 'voice') {
                 const d = b.data || {}, mid = String(d.id || ''); if (!/^[a-f0-9]{24}$/.test(mid)) return J(400, { error: 'Send a file first.' });
-                const f = await first('SELECT mime FROM media WHERE id = ? AND uid = ?', mid, me); if (!f) return J(404, { error: 'That file was not found.' });
+                let f = await first('SELECT mime FROM media WHERE id = ? AND uid = ?', mid, me); if (!f) f = await first("SELECT md.mime FROM media md WHERE md.id = ?1 AND EXISTS (SELECT 1 FROM msgs x JOIN members mm ON mm.conv = x.conv AND mm.uid = ?2 WHERE x.data LIKE '%' || ?1 || '%')", mid, me); if (!f) return J(404, { error: 'That file was not found.' });
                 if ((kind === 'image') !== (MEDIA_MIME[f.mime] === 'img')) return J(400, { error: 'Wrong file type.' });
                 data = JSON.stringify({ id: mid, mime: f.mime, w: clamp(d.w, 0, 4000), h: clamp(d.h, 0, 4000), ms: kind === 'voice' ? clamp(d.ms, 0, 300000) : 0 });
                 text = kind === 'voice' ? '🎤 Voice message' : (text.slice(0, 200) || '📷 Photo');
@@ -642,12 +715,12 @@ async function route(req, env) {
                 await env.DB.prepare('INSERT OR IGNORE INTO streaks(a, b, streak, best, last_day, a_day, b_day) VALUES(?, ?, 0, 0, 0, 0, 0)').bind(a, c).run();
                 await env.DB.prepare('UPDATE streaks SET ' + col + ' = ? WHERE a = ? AND b = ?').bind(today, a, c).run();
                 let s = await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c);
-                if (s.a_day === today && s.b_day === today && s.last_day !== today) { const n = s.last_day === today - 1 ? s.streak + 1 : 1; await env.DB.prepare('UPDATE streaks SET streak = ?, best = MAX(best, ?), last_day = ? WHERE a = ? AND b = ?').bind(n, n, today, a, c).run(); s = await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c); }
+                if (s.a_day === today && s.b_day === today && s.last_day !== today) { const n = s.last_day === today - 1 ? s.streak + 1 : 1; await env.DB.prepare('UPDATE streaks SET streak = ?, best = MAX(best, ?), last_day = ? WHERE a = ? AND b = ?').bind(n, n, today, a, c).run(); s = await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c); if ([3, 7, 14, 30, 50, 100, 200, 365].includes(n)) await env.DB.batch([me, peer].map((u) => env.DB.prepare("INSERT INTO activity(uid, kind, text, appid, at) VALUES(?, 'streak', ?, 0, ?)").bind(u, 'reached a ' + n + '-day friend streak', Date.now()))); }
                 sv = streakView(s);
             }
-            if (Math.random() < 0.01) { await env.DB.prepare('DELETE FROM msgs WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM reactions WHERE msg_id NOT IN (SELECT id FROM msgs)').run(); await env.DB.prepare('DELETE FROM media WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM convs WHERE id NOT IN (SELECT DISTINCT conv FROM msgs) AND last_at < ? AND id NOT IN (SELECT conv FROM challenges)').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM members WHERE conv NOT IN (SELECT id FROM convs)').run(); }
+            if (Math.random() < 0.01) { await env.DB.prepare('DELETE FROM msgs WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM reactions WHERE msg_id NOT IN (SELECT id FROM msgs)').run(); await env.DB.prepare('DELETE FROM media WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM activity WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM convs WHERE id NOT IN (SELECT DISTINCT conv FROM msgs) AND last_at < ? AND id NOT IN (SELECT conv FROM challenges)').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM members WHERE conv NOT IN (SELECT id FROM convs)').run(); }
             { // tell the other people in the chat (not muted ones) with a push
-                const to = (await all('SELECT uid FROM members WHERE conv = ? AND uid != ? AND muted = 0', id, me)).map((x) => x.uid);
+                const to = (await all('SELECT uid FROM members WHERE conv = ? AND uid != ? AND muted = 0 AND muted_until < ?', id, me, Date.now())).map((x) => x.uid);
                 const what = kind === 'image' ? 'Sent a photo' : kind === 'voice' ? 'Sent a voice message' : kind === 'gif' ? 'Sent a GIF' : kind === 'game' ? 'Shared a game' : kind === 'list' ? 'Shared a game list' : text;
                 push(env, to, { t: 'msg', conv: id, title: mem.kind === 'dm' ? acct.name : (mem.name || 'Group chat'), body: (mem.kind === 'dm' ? '' : acct.name + ': ') + what.slice(0, 160), sender: acct.name, kind });   // not "from": Firebase reserves that name and refuses the whole message
             }
@@ -787,6 +860,7 @@ async function route(req, env) {
         if (acct && await env.DB.prepare('SELECT 1 x FROM bans WHERE uid = ? AND until > ?').bind(b.uid, Date.now()).first()) return J(403, { error: 'Your sharing is turned off.' });
         const id = HEX(8), status = acct ? 'approved' : 'pending';
         await env.DB.prepare('INSERT INTO themes(id, uid, status, at, name, blurb, author, vars, css) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)').bind(id, b.uid, status, Date.now(), r.theme.name, r.theme.desc, r.theme.author, JSON.stringify(r.theme.vars), r.theme.css).run();
+        if (acct) await env.DB.prepare("INSERT INTO activity(uid, kind, text, appid, at) VALUES(?, 'theme', ?, 0, ?)").bind(acct.uid, 'published the theme ' + r.theme.name, Date.now()).run();
         return J(200, { ok: true, id, status });
     }
     return J(404, { error: 'Not found' });

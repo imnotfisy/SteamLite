@@ -148,6 +148,19 @@
             (st ? '<label class="xp-lab">Stats</label><div class="xp-stats"><div class="xp-stat"><b>' + fmt(st.level) + '</b><span>Level</span></div><div class="xp-stat"><b>' + fmt(st.hours) + '</b><span>Hours</span></div><div class="xp-stat"><b>' + fmt(st.streak) + '</b><span>Best streak</span></div><div class="xp-stat"><b>' + fmt(st.achievements) + '</b><span>Achievements</span></div><div class="xp-stat"><b>' + fmt(st.games) + '</b><span>Games</span></div></div>' : '<div class="xp-pf-sub" style="margin-top:8px">Stats are shown to friends.</div>') +
             (r.lists.length ? '<label class="xp-lab">Game lists</label>' + r.lists.map(l => '<div class="xp-game" data-list="' + E(l.id) + '"><div class="n">' + E(l.title) + '<div class="s">' + l.count + ' game' + (l.count === 1 ? '' : 's') + '</div></div><button class="xp-btn sm">Open</button></div>').join('') : '') +
             (r.themes.length ? '<label class="xp-lab">Themes by ' + E(r.name) + '</label><div class="xp-tgrid">' + r.themes.map(t => { const v = t.vars || {}; return '<div class="xp-th"><div class="sw"><i style="background:' + E(v['--bg-dark'] || '#111') + '"></i><i style="background:' + E(v['--accent-color'] || '#8b5cf6') + '"></i><i style="background:' + E(v['--success'] || '#6ee7a0') + '"></i></div><b>' + E(t.name) + '</b><button class="xp-btn sm" data-theme="' + E(t.id) + '">Get theme</button></div>'; }).join('') + '</div>' : '') + '</div>';
+        try { // the person's own look: banner, title, tagline, accent and showcase
+            const c = r.custom || {}, top = w.body.querySelector('.xp-pf-top');
+            if (c.accent) w.card.style.setProperty('--accent-color', c.accent);
+            if (top && c.banner) {
+                const b = c.banner, ban = document.createElement('div'); ban.style.cssText = 'height:120px;position:relative;overflow:hidden;background:#1b1233';
+                const bg = b.mode === 'image' && b.id ? 'background:url(https://steamlite-online.bayxturtle.workers.dev/media/' + E(b.id) + ') ' + (b.x || 50) + '% ' + (b.y || 50) + '%/cover;transform:scale(' + ((b.zoom || 100) / 100) + ');transform-origin:' + (b.x || 50) + '% ' + (b.y || 50) + '%;filter:blur(' + (b.blur || 0) + 'px)' : b.mode === 'gradient' ? 'background:linear-gradient(' + (b.angle || 135) + 'deg,' + (b.c1 || '#7c5cff') + ',' + (b.c2 || '#1b1233') + ')' : 'background:' + (b.c1 || '#7c5cff');
+                ban.innerHTML = '<div style="position:absolute;inset:0;' + bg + '"></div>' + (b.dim ? '<div style="position:absolute;inset:0;background:#000;opacity:' + (b.dim / 100) + '"></div>' : ''); w.body.insertBefore(ban, w.body.firstChild);
+            }
+            const nm = w.body.querySelector('.xp-pf-name'); if (nm && c.title) { const t = document.createElement('div'); t.className = 'xp-pf-sub'; t.style.cssText = 'font-weight:600;color:var(--accent-color)'; t.textContent = c.title; nm.insertAdjacentElement('afterend', t); }
+            if (top && (c.tagline || (c.showcase && c.showcase.length))) {
+                const x = document.createElement('div'); x.style.cssText = 'padding:0 20px'; x.innerHTML = (c.tagline ? '<div style="font-style:italic;color:var(--accent-color);margin:6px 0 10px">' + E(c.tagline) + '</div>' : '') + (c.showcase && c.showcase.length ? '<div style="display:flex;gap:8px;margin:6px 0 10px">' + c.showcase.map(id => '<img src="' + cover(id) + '" alt="" style="height:64px;border-radius:8px" onerror="this.style.visibility=\'hidden\'">').join('') + '</div>' : ''); top.insertAdjacentElement('afterend', x);
+            }
+        } catch (er) { }
         w.body.onclick = async (e) => {
             const a = e.target.closest('[data-a]'), l = e.target.closest('[data-list]'), t = e.target.closest('[data-theme]');
             if (l) { openList(l.dataset.list); return; }
