@@ -2145,6 +2145,7 @@ ipcMain.handle('use-streak-restore', () => {
     if (!(s.recovery && s.recovery.activeUntil && streakDayKey() <= s.recovery.activeUntil)) return { ok: false, error: 'There is no broken streak to restore right now.' };
     if (restores < 1) return { ok: false, error: 'You have no streak restores left.' };
     store.set('streakRestores', restores - 1);
+    try { account && account.syncStreak && account.syncStreak(); } catch (e) { }
     s.current = Math.max(s.current, s.recovery.previousStreak);
     if (s.current > s.best) s.best = s.current;
     s.recovery = { activeUntil: null, previousStreak: 0 };
@@ -2751,6 +2752,7 @@ async function executeLaunch({ gameId, installdir, commonPath, name }) {
                 if (streakEvt && streakEvt.current >= 1 && mainWindow && !mainWindow.isDestroyed()) {
                     mainWindow.webContents.send('streak-updated', streakEvt);
                 }
+                try { account && account.syncStreak && account.syncStreak(); } catch (e) { }   // tell the phone right away
                 checkAchievements();
 
                 // baseline for detecting Steam achievements earned during this session (streak renewal)

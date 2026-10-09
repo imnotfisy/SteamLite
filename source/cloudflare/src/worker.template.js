@@ -379,14 +379,14 @@ async function route(req, env) {
     if (p === '/me/streak') { // GET: your play streak and the phone days the PC has not folded in yet. POST (PC): the real numbers
         if (!acct) return J(401, { error: 'Sign in first' });
         if (m === 'POST') {
-            const b = await body(req, 400), cur = clamp(b.current, 0, 9999), best = clamp(b.best, 0, 9999), last = /^\d{4}-\d{2}-\d{2}$/.test(String(b.lastPlayDay || '')) ? String(b.lastPlayDay) : '';
+            const b = await body(req, 400), cur = clamp(b.current, 0, 9999), best = clamp(b.best, 0, 9999), last = /^\d{4}-\d{2}-\d{2}$/.test(String(b.lastPlayDay || '')) ? String(b.lastPlayDay) : '', rest = clamp(b.restores, 0, 99), recU = /^\d{4}-\d{2}-\d{2}$/.test(String(b.recoveryUntil || '')) ? String(b.recoveryUntil) : '', recP = clamp(b.previous, 0, 9999);
             const prev = await env.DB.prepare('SELECT phone_days FROM daystreak WHERE uid = ?').bind(acct.uid).first(); let days = []; try { days = JSON.parse(prev && prev.phone_days || '[]'); } catch (e) { }
             days = days.filter((d) => d > last);   // days the PC has already counted are done
-            await env.DB.prepare('INSERT INTO daystreak(uid, cur, best, last_day, phone_days, at) VALUES(?, ?, ?, ?, ?, ?) ON CONFLICT(uid) DO UPDATE SET cur = excluded.cur, best = excluded.best, last_day = excluded.last_day, phone_days = excluded.phone_days, at = excluded.at').bind(acct.uid, cur, best, last, JSON.stringify(days), Date.now()).run();
+            await env.DB.prepare('INSERT INTO daystreak(uid, cur, best, last_day, phone_days, at, restores, rec_until, rec_prev) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(uid) DO UPDATE SET cur = excluded.cur, best = excluded.best, last_day = excluded.last_day, phone_days = excluded.phone_days, at = excluded.at, restores = excluded.restores, rec_until = excluded.rec_until, rec_prev = excluded.rec_prev').bind(acct.uid, cur, best, last, JSON.stringify(days), Date.now(), rest, recU, recP).run();
             return J(200, { ok: true });
         }
-        const r = await env.DB.prepare('SELECT cur, best, last_day, phone_days FROM daystreak WHERE uid = ?').bind(acct.uid).first(); let days = []; try { days = JSON.parse(r && r.phone_days || '[]'); } catch (e) { }
-        return J(200, { ok: true, current: r ? r.cur : 0, best: r ? r.best : 0, lastPlayDay: r ? r.last_day : '', phoneDays: days });
+        const r = await env.DB.prepare('SELECT cur, best, last_day, phone_days, restores, rec_until, rec_prev, at FROM daystreak WHERE uid = ?').bind(acct.uid).first(); let days = []; try { days = JSON.parse(r && r.phone_days || '[]'); } catch (e) { }
+        return J(200, { ok: true, current: r ? r.cur : 0, best: r ? r.best : 0, lastPlayDay: r ? r.last_day : '', phoneDays: days, restores: r ? r.restores : 0, recoveryUntil: r ? r.rec_until : '', previous: r ? r.rec_prev : 0, at: r ? r.at : 0 });
     }
     if (p === '/me/deals' && m === 'GET') { // your wishlist games that are on sale right now
         if (!acct) return J(401, { error: 'Sign in first' });

@@ -1,8 +1,11 @@
 {
   "changelog": {
-    "version": "9.3.1",
-    "title": "SteamLite 9.3.1 - Keep your streak from your phone",
+    "version": "9.3.2",
+    "title": "SteamLite 9.3.2 - Streak sync with your phone",
     "items": [
+      "Your play streak syncs with SteamLite Mobile right away",
+      "Streak restores and recovery are shown on the phone",
+      "Works with SteamLite Mobile 1.2.2",
       "Message anyone on SteamLite Mobile to count as a play day and keep your streak",
       "Works with SteamLite Mobile 1.2.1",
       "Your banner, frame, title, accent, tagline and showcase are shared, so friends see them on PC and phone",
@@ -19,13 +22,15 @@
       "Profiles, online status with what friends are playing, and friend challenges",
       "Connect your Steam library once: your API key is saved to your account, so new PCs connect on their own",
       "A rebuilt Account page in Settings, with your profile, backup and data",
-      "Verified players get a blue tick, shown in chat, friends, themes and the leaderboard",
-      "A new Themes window with live previews, a Community tab and My library",
-      "The Theme Maker can publish your theme to SteamLite so other players can preview and download it",
-      "Chat now shows when a friend is typing, with animated messages and a new-messages pill"
+      "Verified players get a blue tick, shown in chat, friends, themes and the leaderboard"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.3.2 Released - Streak sync",
+      "date": "October 9, 2026",
+      "content": "Your daily play streak now stays in step between your PC and SteamLite Mobile: launching a game updates the phone straight away, and a message sent from the phone counts as a play day on the PC."
+    },
     {
       "title": "SteamLite 9.3.1 Released - Keep your streak from your phone",
       "date": "October 9, 2026",

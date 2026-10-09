@@ -152,11 +152,11 @@ module.exports = function initAccount(ctx) {
                 let last = null; for (const d of r.phoneDays.filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(x)).sort()) { const e = ctx.updateStreakOnPlay(d); if (e) last = e; }
                 if (last) ctx.tellStreak(last);
             }
-            const s = ctx.getStreakState(), body = { current: s.current || 0, best: s.best || 0, lastPlayDay: s.lastPlayDay || '' }, sig = JSON.stringify(body);
+            const s = ctx.getStreakState(), rec = s.recovery || {}, body = { current: s.current || 0, best: s.best || 0, lastPlayDay: s.lastPlayDay || '', restores: store.get('streakRestores') || 0, recoveryUntil: rec.activeUntil || '', previous: rec.previousStreak || 0 }, sig = JSON.stringify(body);
             if (sig !== lastStreakSig) { const w = await srv('POST', '/me/streak', body, 15000); if (w && w.ok) lastStreakSig = sig; }
         } catch (e) { } finally { streakBusy = false; }
     }
-    setInterval(syncStreak, 120000); setTimeout(syncStreak, 30000);
+    setInterval(syncStreak, 45000); setTimeout(syncStreak, 20000);
 
     // ---------- "Launch on my PC": the phone app asks, and this starts the game (only if the player turned it on in Privacy) ----------
     const { shell, Notification } = require('electron'); let phoneBusy = false;
@@ -258,5 +258,5 @@ module.exports = function initAccount(ctx) {
     async function refreshInfo() { try { if (!acctTok()) return; const r = await srv('GET', '/me'); if (r.ok) store.set('acctInfo', { name: r.name, steamid: r.steamid, avatar: r.avatar || '', verified: !!r.verified, owner: !!r.owner, created: r.created || 0, code: r.code || '' }); else if (r.code === 401) { acctTokSet(''); store.delete('acctInfo'); } } catch (e) { } }
     setTimeout(refreshInfo, 2500); setInterval(refreshInfo, 600000);
     const isOwner = () => { const i = store.get('acctInfo'); return !!(i && i.owner); };
-    return { srv, onlineBase, onlineId, resetBase, acctTok, cloudBackup, ensureKey, isOwner };
+    return { srv, onlineBase, onlineId, resetBase, acctTok, cloudBackup, ensureKey, isOwner, syncStreak: () => setTimeout(syncStreak, 1500) };
 };

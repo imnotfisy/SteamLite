@@ -1,3 +1,13 @@
+# SteamLite 9.3.2 Changelog
+
+Your play streak is now the same on your PC and your phone.
+
+## Streak
+- **Instant sync:** when your streak goes up (a game launch, a restore, or a day counted from a message on your phone), the PC tells SteamLite Online right away instead of minutes later. It also checks for days counted from your phone every 45 seconds.
+- **Restores and recovery are shared:** the phone now shows how many streak restores you have and whether a broken streak can still be restored on the PC.
+
+---
+
 # SteamLite 9.3.1 Changelog
 
 Keep your play streak going from your phone.
