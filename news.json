@@ -1,8 +1,11 @@
 {
   "changelog": {
-    "version": "9.3.2",
-    "title": "SteamLite 9.3.2 - Streak sync with your phone",
+    "version": "9.4.0",
+    "title": "SteamLite 9.4.0 - Control your PC from your phone",
     "items": [
+      "New switch: let your phone lock this PC, put it to sleep or close a game (off by default)",
+      "Your phone can see what game is running on the PC",
+      "Works with SteamLite Mobile 1.4.0",
       "Your play streak syncs with SteamLite Mobile right away",
       "Streak restores and recovery are shown on the phone",
       "Works with SteamLite Mobile 1.2.2",
@@ -19,13 +22,15 @@
       "Works with the new SteamLite Mobile app for Android, with a card in Messages to get it",
       "Emoji picker, reactions, replies, edits, pins and search in Messages",
       "Share a game with a Buy on Steam button, or share a whole game list",
-      "Profiles, online status with what friends are playing, and friend challenges",
-      "Connect your Steam library once: your API key is saved to your account, so new PCs connect on their own",
-      "A rebuilt Account page in Settings, with your profile, backup and data",
-      "Verified players get a blue tick, shown in chat, friends, themes and the leaderboard"
+      "Profiles, online status with what friends are playing, and friend challenges"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.4.0 Released - Control your PC from your phone",
+      "date": "October 10, 2026",
+      "content": "SteamLite Mobile can now show what you are playing on your PC and, if you turn on the new switch in Settings, Privacy, lock it, put it to sleep or close the game. Pairs with SteamLite Mobile 1.4.0."
+    },
     {
       "title": "SteamLite 9.3.2 Released - Streak sync",
       "date": "October 9, 2026",
