@@ -1,8 +1,10 @@
 {
   "changelog": {
-    "version": "9.3.0",
-    "title": "SteamLite 9.3.0 - Your profile look follows you",
+    "version": "9.3.1",
+    "title": "SteamLite 9.3.1 - Keep your streak from your phone",
     "items": [
+      "Message anyone on SteamLite Mobile to count as a play day and keep your streak",
+      "Works with SteamLite Mobile 1.2.1",
       "Your banner, frame, title, accent, tagline and showcase are shared, so friends see them on PC and phone",
       "Open a friend's profile to see their banner, title, tagline and showcase",
       "Works with SteamLite Mobile 1.2.0",
@@ -20,13 +22,15 @@
       "Verified players get a blue tick, shown in chat, friends, themes and the leaderboard",
       "A new Themes window with live previews, a Community tab and My library",
       "The Theme Maker can publish your theme to SteamLite so other players can preview and download it",
-      "Chat now shows when a friend is typing, with animated messages and a new-messages pill",
-      "Messages: chat with friends who use SteamLite, in private chats or group chats of up to 20",
-      "Friend streaks: message each other every day to grow a streak, with a reminder if one is about to end",
-      "Add friends with a code, or find your Steam friends who already use SteamLite"
+      "Chat now shows when a friend is typing, with animated messages and a new-messages pill"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.3.1 Released - Keep your streak from your phone",
+      "date": "October 9, 2026",
+      "content": "Away from your PC? Sending a message in SteamLite Mobile now counts as a play day, so your streak keeps going. Pairs with SteamLite Mobile 1.2.1."
+    },
     {
       "title": "SteamLite 9.3.0 Released - Your profile look follows you",
       "date": "October 9, 2026",
