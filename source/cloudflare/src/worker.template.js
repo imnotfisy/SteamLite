@@ -185,7 +185,7 @@ const push = (env, uids, data) => { const p = pushTo(env, uids, data); if (CTX &
 async function dealsRun(env, refresh) {
     let checked = 0, found = 0, pushed = 0;
     if (refresh) {
-        const ids = (await env.DB.prepare('SELECT DISTINCT appid FROM wish LIMIT 300').all()).results.map((r) => r.appid);
+        const ids = (await env.DB.prepare('SELECT appid FROM wish UNION SELECT appid FROM track LIMIT 300').all()).results.map((r) => r.appid);
         for (let i = 0; i < ids.length; i += 50) {
             const chunk = ids.slice(i, i + 50);
             try {
@@ -196,6 +196,7 @@ async function dealsRun(env, refresh) {
             } catch (e) { }
         }
         await env.DB.prepare('UPDATE wish SET notified = 0 WHERE notified > 0 AND appid IN (SELECT appid FROM deals WHERE pct < 10)').run(); // once a sale is over, the next one tells you again
+        await env.DB.prepare('UPDATE track SET notified = 0 WHERE notified > 0 AND appid IN (SELECT appid FROM deals WHERE pct < 5)').run();
     }
     const rows = (await env.DB.prepare('SELECT w.uid, w.appid, w.name, d.pct, d.price FROM wish w JOIN deals d ON d.appid = w.appid WHERE d.pct >= 20 AND w.notified < d.pct ORDER BY w.uid LIMIT 60').all()).results, by = {};
     rows.forEach((r) => { (by[r.uid] = by[r.uid] || []).push(r); });
@@ -203,6 +204,13 @@ async function dealsRun(env, refresh) {
         const list = by[uid].sort((a, b) => b.pct - a.pct), top = list[0];
         await pushTo(env, [uid], { t: 'deal', title: 'On sale', body: list.length === 1 ? top.name + ' is ' + top.pct + '% off (' + top.price + ')' : top.name + ' is ' + top.pct + '% off, and ' + (list.length - 1) + ' more on your wishlist', appid: top.appid });
         await env.DB.batch(list.map((r) => env.DB.prepare('UPDATE wish SET notified = ? WHERE uid = ? AND appid = ?').bind(r.pct, uid, r.appid))); pushed++;
+    }
+    const trows = (await env.DB.prepare('SELECT t.uid, t.appid, t.name, d.pct, d.price FROM track t JOIN deals d ON d.appid = t.appid WHERE d.pct >= t.pct AND t.notified < d.pct ORDER BY t.uid LIMIT 60').all()).results, tby = {};
+    trows.forEach((r) => { (tby[r.uid] = tby[r.uid] || []).push(r); });
+    for (const uid of Object.keys(tby).slice(0, 8)) {
+        const list = tby[uid].sort((a, b) => b.pct - a.pct), top = list[0];
+        await pushTo(env, [uid], { t: 'deal', title: 'Price drop', body: list.length === 1 ? top.name + ' is ' + top.pct + '% off (' + top.price + ')' : top.name + ' is ' + top.pct + '% off, and ' + (list.length - 1) + ' more you are tracking', appid: String(top.appid) });
+        await env.DB.batch(list.map((r) => env.DB.prepare('UPDATE track SET notified = ? WHERE uid = ? AND appid = ?').bind(r.pct, uid, r.appid))); pushed++;
     }
     return { checked, found, pushed };
 }
@@ -339,7 +347,7 @@ async function route(req, env) {
         const id = acct.steamid, u = acct.uid;
         await env.DB.batch([env.DB.prepare('DELETE FROM sessions WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM backups WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM lb WHERE uid = ?').bind(u),
             env.DB.prepare('DELETE FROM theme_likes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM votes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM themes WHERE uid = ?').bind(u),
-            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM daystreak WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM sched WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM wishshare WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM media WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM devices WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM wish WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM profiles WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM activity WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM gvotes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM pcs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM cmds WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
+            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM daystreak WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM sched WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM userdata WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM track WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM sfold_m WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM sfold WHERE owner = ?').bind(u), env.DB.prepare('DELETE FROM wishshare WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM media WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM devices WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM wish WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM profiles WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM activity WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM gvotes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM pcs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM cmds WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
         return J(200, { ok: true });
     }
     if (p === '/backup') {
@@ -393,6 +401,40 @@ async function route(req, env) {
         const rows = (await env.DB.prepare('SELECT w.appid, w.name, d.pct, d.price FROM wish w JOIN deals d ON d.appid = w.appid WHERE w.uid = ? AND d.pct >= 10 ORDER BY d.pct DESC LIMIT 20').bind(acct.uid).all()).results;
         return J(200, { ok: true, deals: rows });
     }
+    if (p === '/me/track') { // games you want a price alert for (any game on Steam, not only your Steam wishlist)
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (m === 'DELETE') { await env.DB.prepare('DELETE FROM track WHERE uid = ? AND appid = ?').bind(acct.uid, appId(q.get('appid'))).run(); return J(200, { ok: true }); }
+        if (m === 'POST') {
+            const b = await body(req, 400), id = appId(b.appid); if (!id) return J(400, { error: 'Pick a game.' });
+            if ((await env.DB.prepare('SELECT COUNT(*) c FROM track WHERE uid = ?').bind(acct.uid).first()).c >= 100 && !(await env.DB.prepare('SELECT 1 x FROM track WHERE uid = ? AND appid = ?').bind(acct.uid, id).first())) return J(400, { error: 'You can track up to 100 games.' });
+            await env.DB.prepare('INSERT INTO track(uid, appid, name, pct, notified) VALUES(?, ?, ?, ?, 0) ON CONFLICT(uid, appid) DO UPDATE SET name = excluded.name, pct = excluded.pct, notified = 0').bind(acct.uid, id, cleanText(b.name, 80) || ('App ' + id), clamp(b.pct || 20, 5, 90)).run();
+            return J(200, { ok: true });
+        }
+        return J(200, { ok: true, items: (await env.DB.prepare('SELECT t.appid, t.name, t.pct, COALESCE(d.pct, 0) now, COALESCE(d.price, \'\') price FROM track t LEFT JOIN deals d ON d.appid = t.appid WHERE t.uid = ? ORDER BY t.name').bind(acct.uid).all()).results });
+    }
+    if (p === '/me/phone') { // a copy of the phone's own settings (nicknames, stars, notes...) so a new phone can get them back
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (m === 'PUT' || m === 'POST') {
+            const b = await body(req, 90000), d = b.data && typeof b.data === 'object' ? b.data : null; if (!d) return J(400, { error: 'Bad request' });
+            const s = JSON.stringify(d); if (s.length > 80000) return J(400, { error: 'Too much data to back up.' });
+            const at = Date.now(); await env.DB.prepare('INSERT INTO userdata(uid, phone, phone_at) VALUES(?, ?, ?) ON CONFLICT(uid) DO UPDATE SET phone = excluded.phone, phone_at = excluded.phone_at').bind(acct.uid, s, at).run();
+            return J(200, { ok: true, at });
+        }
+        const r = await env.DB.prepare('SELECT phone, phone_at FROM userdata WHERE uid = ?').bind(acct.uid).first(); let d = {}; try { d = JSON.parse(r && r.phone || '{}'); } catch (e) { }
+        return J(200, { ok: true, data: d, at: r ? r.phone_at : 0 });
+    }
+    if (p === '/me/folders') { // your library folders, kept on your account so a new phone has them too
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (m === 'PUT' || m === 'POST') {
+            const b = await body(req, 60000), src = b.folders && typeof b.folders === 'object' ? b.folders : null; if (!src) return J(400, { error: 'Bad request' });
+            const out = {}; let n = 0;
+            for (const k of Object.keys(src)) { if (n >= 30) break; if (!/^f[a-f0-9]{4,12}$/.test(k)) continue; const f = src[k] || {}, name = cleanText(f.n, 30); if (!name) continue; const ids = []; for (const a of (Array.isArray(f.g) ? f.g : [])) { const id = appId(a); if (id && !ids.includes(id)) ids.push(id); if (ids.length >= 500) break; } out[k] = { n: name, g: ids, t: clamp(f.t, 0, 4e12) }; n++; }
+            const at = Date.now(); await env.DB.prepare('INSERT INTO userdata(uid, folders, at) VALUES(?, ?, ?) ON CONFLICT(uid) DO UPDATE SET folders = excluded.folders, at = excluded.at').bind(acct.uid, JSON.stringify(out), at).run();
+            return J(200, { ok: true, at });
+        }
+        const r = await env.DB.prepare('SELECT folders, at FROM userdata WHERE uid = ?').bind(acct.uid).first(); let f = {}; try { f = JSON.parse(r && r.folders || '{}'); } catch (e) { }
+        return J(200, { ok: true, folders: f, at: r ? r.at : 0 });
+    }
     if (p === '/me/wishshare') { // a public page with your wishlist (you can switch it off again)
         if (!acct) return J(401, { error: 'Sign in first' });
         if (m === 'DELETE') { await env.DB.prepare('DELETE FROM wishshare WHERE uid = ?').bind(acct.uid).run(); return J(200, { ok: true }); }
@@ -422,11 +464,20 @@ async function route(req, env) {
         if (!acct) return J(401, { error: 'Sign in first' });
         if (await limited(env, 'pcp' + acct.uid, 400, 3600000)) return J(200, { ok: true, cmds: [] });
         const now = Date.now(); await env.DB.prepare('INSERT INTO pcs(uid, at) VALUES(?, ?) ON CONFLICT(uid) DO UPDATE SET at = excluded.at').bind(acct.uid, now).run();
+        if (m === 'POST') { const pb = await body(req, 600), run = pb.running && typeof pb.running === 'object' ? pb.running : null; await env.DB.prepare('UPDATE pcs SET game_id = ?, game_name = ?, since = ? WHERE uid = ?').bind(run ? appId(run.appid) : 0, run ? cleanText(run.name, 80) : '', run ? clamp(run.since, 0, 4e12) : 0, acct.uid).run(); }
         const rows = (await env.DB.prepare('UPDATE cmds SET taken = 1 WHERE uid = ? AND taken = 0 AND at > ? RETURNING id, appid, name').bind(acct.uid, now - 120000).all()).results;
         if (Math.random() < 0.05) await env.DB.prepare('DELETE FROM cmds WHERE at < ?').bind(now - 3600000).run();
         return J(200, { ok: true, cmds: rows });
     }
-    if (p === '/pc/status' && m === 'GET') { if (!acct) return J(401, { error: 'Sign in first' }); const r = await env.DB.prepare('SELECT at FROM pcs WHERE uid = ?').bind(acct.uid).first(); return J(200, { ok: true, online: !!(r && r.at > Date.now() - 90000) }); }
+    if (p === '/pc/status' && m === 'GET') { if (!acct) return J(401, { error: 'Sign in first' }); const r = await env.DB.prepare('SELECT at, game_id, game_name, since FROM pcs WHERE uid = ?').bind(acct.uid).first(), on = !!(r && r.at > Date.now() - 90000); return J(200, { ok: true, online: on, running: on && r.game_id ? { appid: r.game_id, name: r.game_name, since: r.since } : null }); }
+    if (p === '/pc/control' && m === 'POST') { // lock, sleep or close the running game on the PC (the PC only obeys if you allowed it there)
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (await limited(env, 'pcc' + acct.uid, 30, 3600000)) return J(429, { error: 'You asked a lot of times. Try again in a while.' });
+        const b = await body(req, 300), act = ['lock', 'sleep', 'close'].includes(b.action) ? b.action : ''; if (!act) return J(400, { error: 'Unknown action.' });
+        const r = await env.DB.prepare('SELECT at FROM pcs WHERE uid = ?').bind(acct.uid).first(); if (!r || r.at < Date.now() - 90000) return J(409, { error: 'Your PC is not online. Open SteamLite on it and allow remote control in Settings, Privacy.' });
+        await env.DB.prepare("INSERT INTO cmds(id, uid, appid, name, at, taken) VALUES(?, ?, 0, ?, ?, 0)").bind(HEX(8), acct.uid, 'ctl:' + act, Date.now()).run();
+        return J(200, { ok: true });
+    }
     if (p === '/pc/launch' && m === 'POST') {
         if (!acct) return J(401, { error: 'Sign in first' });
         if (await limited(env, 'pcl' + acct.uid, 20, 3600000)) return J(429, { error: 'You asked a lot of times. Try again in a while.' });
@@ -824,6 +875,38 @@ async function route(req, env) {
             return J(200, { ok: true, id });
         }
         let gm;
+        if (p === '/social/sfolds' && isGet) { // folders you own or were invited to
+            const rows = await all('SELECT f.id, f.owner, f.name, f.items FROM sfold f WHERE f.owner = ?1 OR f.id IN (SELECT id FROM sfold_m WHERE uid = ?1) ORDER BY f.at DESC LIMIT 40', me), out = [];
+            for (const f of rows) { const mem = await all('SELECT ac.uid, ac.name, ac.avatar FROM (SELECT ?1 u UNION SELECT uid FROM sfold_m WHERE id = ?2) x JOIN accounts ac ON ac.uid = x.u', f.owner, f.id); let it = []; try { it = JSON.parse(f.items); } catch (e) { } out.push({ id: f.id, name: f.name, mine: f.owner === me, owner: f.owner, items: it, members: mem.map((x) => ({ uid: x.uid, name: x.name, avatar: x.avatar || '' })) }); }
+            return J(200, { ok: true, folders: out });
+        }
+        if (p === '/social/sfold' && m === 'POST') {
+            const b = await body(req, 600), op = String(b.op || 'create');
+            if (op === 'create') { if ((await first('SELECT COUNT(*) c FROM sfold WHERE owner = ?', me)).c >= 15) return J(400, { error: 'You can own up to 15 shared folders.' }); const nm = cleanText(b.name, 30); if (nm.length < 2) return J(400, { error: 'Pick a name.' }); const id = 's' + HEX(6); await env.DB.prepare('INSERT INTO sfold(id, owner, name, items, at) VALUES(?, ?, ?, \'[]\', ?)').bind(id, me, nm, Date.now()).run(); return J(200, { ok: true, id }); }
+            const id = /^s[a-f0-9]{12}$/.test(String(b.id || '')) ? String(b.id) : '', f = id ? await first('SELECT id, owner, name, items FROM sfold WHERE id = ?', id) : null; if (!f) return J(404, { error: 'Not found' });
+            const isMem = f.owner === me || !!(await first('SELECT 1 x FROM sfold_m WHERE id = ? AND uid = ?', id, me)); if (!isMem) return J(404, { error: 'Not found' });
+            if (op === 'add' || op === 'remove') {
+                let it = []; try { it = JSON.parse(f.items); } catch (e) { } const a = appId(b.appid); if (!a) return J(400, { error: 'Pick a game.' });
+                if (op === 'add') { if (it.some((x) => x.a === a)) return J(200, { ok: true }); if (it.length >= 200) return J(400, { error: 'That folder is full (200).' }); it.push({ a, n: cleanText(b.name, 80) || ('App ' + a), by: me }); } else it = it.filter((x) => x.a !== a);
+                await env.DB.prepare('UPDATE sfold SET items = ?, at = ? WHERE id = ?').bind(JSON.stringify(it), Date.now(), id).run();
+                if (op === 'add') { const who = await first('SELECT name FROM accounts WHERE uid = ?', me), others = (await all('SELECT uid FROM sfold_m WHERE id = ?1 UNION SELECT owner FROM sfold WHERE id = ?1', id)).map((x) => x.uid).filter((u) => u !== me); push(env, others, { t: 'friend', title: f.name, body: (who ? who.name : 'Someone') + ' added ' + (cleanText(b.name, 60) || 'a game') }); }
+                return J(200, { ok: true });
+            }
+            if (op === 'leave') { if (f.owner === me) return J(400, { error: 'Delete the folder instead.' }); await env.DB.prepare('DELETE FROM sfold_m WHERE id = ? AND uid = ?').bind(id, me).run(); return J(200, { ok: true }); }
+            if (f.owner !== me) return J(403, { error: 'Only the owner can do that.' });
+            if (op === 'rename') { const nm = cleanText(b.name, 30); if (nm.length < 2) return J(400, { error: 'Pick a name.' }); await env.DB.prepare('UPDATE sfold SET name = ?, at = ? WHERE id = ?').bind(nm, Date.now(), id).run(); return J(200, { ok: true }); }
+            if (op === 'delete') { await env.DB.batch([env.DB.prepare('DELETE FROM sfold_m WHERE id = ?').bind(id), env.DB.prepare('DELETE FROM sfold WHERE id = ?').bind(id)]); return J(200, { ok: true }); }
+            if (op === 'invite' || op === 'kick') {
+                if (!uidOk(b.uid) || b.uid === me) return J(400, { error: 'Bad request' });
+                if (op === 'kick') { await env.DB.prepare('DELETE FROM sfold_m WHERE id = ? AND uid = ?').bind(id, b.uid).run(); return J(200, { ok: true }); }
+                if (!(await friendsWith(me, b.uid)) || await blockedEither(me, b.uid)) return J(403, { error: 'You can only invite friends.' });
+                if ((await first('SELECT COUNT(*) c FROM sfold_m WHERE id = ?', id)).c >= 8) return J(400, { error: 'That folder has 8 other people already.' });
+                await env.DB.prepare('INSERT OR IGNORE INTO sfold_m(id, uid) VALUES(?, ?)').bind(id, b.uid).run();
+                const who = await first('SELECT name FROM accounts WHERE uid = ?', me); push(env, [b.uid], { t: 'friend', title: 'Shared folder', body: (who ? who.name : 'A friend') + ' invited you to "' + f.name + '"' });
+                return J(200, { ok: true });
+            }
+            return J(400, { error: 'Unknown action.' });
+        }
         if (p === '/social/status' && m === 'POST') { // a short line on your profile ("busy till 8pm") that clears itself
             const b = await body(req, 300), t = cleanText(b.text, 60), hrs = clamp(b.hours, 0, 168);
             await env.DB.prepare('INSERT INTO profiles(uid, at) VALUES(?, ?) ON CONFLICT(uid) DO NOTHING').bind(me, Date.now()).run();

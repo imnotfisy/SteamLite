@@ -161,11 +161,21 @@ module.exports = function initAccount(ctx) {
     // ---------- "Launch on my PC": the phone app asks, and this starts the game (only if the player turned it on in Privacy) ----------
     const { shell, Notification } = require('electron'); let phoneBusy = false;
     async function checkPhone() {
-        if (phoneBusy || !acctTok()) return; const ui = store.get('uiPrefs') || {}; if (ui.remoteLaunch !== true) return;
+        if (phoneBusy || !acctTok()) return; const ui = store.get('uiPrefs') || {}; if (ui.remoteLaunch !== true && ui.remoteControl !== true) return;
         phoneBusy = true;
         try {
-            const r = await srv('GET', '/pc/pending');
+            const run = ctx.getRunning ? ctx.getRunning() : null;   // the phone shows what is running here
+            const r = await srv('POST', '/pc/pending', { running: run ? { appid: Number(run.appid) || 0, name: String(run.name || ''), since: run.since || 0 } : null });
             if (r && r.ok && Array.isArray(r.cmds)) for (const c of r.cmds.slice(0, 3)) {
+                const ctl = /^ctl:(lock|sleep|close)$/.exec(String(c.name || ''));
+                if (ctl) { // lock / sleep / close the running game: only when you allowed remote control here
+                    if (ui.remoteControl !== true) continue; const act = ctl[1];
+                    if (process.env.SL_TEST_NO_LAUNCH) { store.set('testCtl', act); continue; }
+                    try { const cp = require('child_process'); if (act === 'lock') cp.exec('rundll32.exe user32.dll,LockWorkStation'); else if (act === 'sleep') cp.exec('rundll32.exe powrprof.dll,SetSuspendState 0,1,0'); else if (ctx.stopGame) ctx.stopGame(); } catch (e) { }
+                    try { new Notification({ title: 'SteamLite', body: act === 'lock' ? 'Locking this PC from your phone' : act === 'sleep' ? 'Putting this PC to sleep from your phone' : 'Closing the game from your phone' }).show(); } catch (e) { }
+                    continue;
+                }
+                if (ui.remoteLaunch !== true) continue;
                 const id = String(c.appid || '').replace(/[^0-9]/g, ''); if (!/^\d{1,10}$/.test(id)) continue;
                 if (process.env.SL_TEST_NO_LAUNCH) { store.set('testLaunch', id); continue; }   // used by the automatic tests only
                 shell.openExternal('steam://rungameid/' + id);

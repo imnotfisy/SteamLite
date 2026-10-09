@@ -1,3 +1,17 @@
+# SteamLite 9.4.0 Changelog
+
+Control your PC from your phone, with a switch of its own.
+
+## Phone control
+- **New option in Settings, Privacy: "Let my phone lock, sleep or close games".** Off by default. When it is on, SteamLite Mobile can lock this PC, put it to sleep, or close the game you started from SteamLite.
+- **See what is running:** with either phone option on, the phone shows which game you are playing on the PC and for how long.
+- Launching games from the phone still has its own separate switch.
+
+## Works with
+- SteamLite Mobile 1.4.0: Steam store search, price alerts, folders you can share with friends, and a My PC card on Home.
+
+---
+
 # SteamLite 9.3.2 Changelog
 
 Your play streak is now the same on your PC and your phone.

@@ -669,7 +669,7 @@ app.whenReady().then(() => {
     } catch (e) { console.error('Could not start the extra features:', e && e.message); }
     try { // the account and the connection to SteamLite Online: both editions
         account = require('./account_main')({
-            app, ipcMain, store, fetchApi, BACKUP_KEYS, APP_VERSION, addProfile: addProfileCore, getStreakState, updateStreakOnPlay, tellStreak: (evt) => { if (evt && evt.current >= 1 && mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('streak-updated', evt); },
+            app, ipcMain, store, fetchApi, BACKUP_KEYS, APP_VERSION, addProfile: addProfileCore, getRunning: () => (activeGameTracking && activeGameTracking.sessionStart ? { appid: activeGameTracking.gameId, name: activeGameTracking.name, since: activeGameTracking.sessionStart } : null), stopGame: () => { try { return stopActiveGame(); } catch (e) { return false; } }, getStreakState, updateStreakOnPlay, tellStreak: (evt) => { if (evt && evt.current >= 1 && mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('streak-updated', evt); },
             restorePoint: (why) => extras.hooks.restorePoint && extras.hooks.restorePoint(why), quitApp: () => { isQuiting = true; app.quit(); }
         });
     } catch (e) { console.error('Could not start the account module:', e && e.message); }
