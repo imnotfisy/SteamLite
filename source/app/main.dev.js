@@ -669,7 +669,7 @@ app.whenReady().then(() => {
     } catch (e) { console.error('Could not start the extra features:', e && e.message); }
     try { // the account and the connection to SteamLite Online: both editions
         account = require('./account_main')({
-            app, ipcMain, store, fetchApi, BACKUP_KEYS, APP_VERSION, addProfile: addProfileCore,
+            app, ipcMain, store, fetchApi, BACKUP_KEYS, APP_VERSION, addProfile: addProfileCore, getStreakState, updateStreakOnPlay, tellStreak: (evt) => { if (evt && evt.current >= 1 && mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send('streak-updated', evt); },
             restorePoint: (why) => extras.hooks.restorePoint && extras.hooks.restorePoint(why), quitApp: () => { isQuiting = true; app.quit(); }
         });
     } catch (e) { console.error('Could not start the account module:', e && e.message); }
@@ -1914,11 +1914,11 @@ function checkAchievements(librarySize) {
 }
 
 // A play day = a day where a tracked session starts. Streak is visible from day 1.
-function updateStreakOnPlay() {
+function updateStreakOnPlay(dayOverride) { // dayOverride: a local YYYY-MM-DD the phone messaged on (counts as a play day)
     const s = expireStreakRecoveryIfPast(getStreakState());
-    const today = streakDayKey();
-    if (s.lastPlayDay === today) return null;
-    const yesterday = streakDayKey(Date.now() - 86400000);
+    const today = dayOverride || streakDayKey();
+    if (s.lastPlayDay === today || (dayOverride && s.lastPlayDay && s.lastPlayDay > today)) return null;
+    const yesterday = dayOverride ? streakDayKey(Date.parse(dayOverride + 'T12:00:00') - 86400000) : streakDayKey(Date.now() - 86400000);
     let evt = null;
     if (s.lastPlayDay === yesterday && s.current >= 1) {
         s.current += 1;

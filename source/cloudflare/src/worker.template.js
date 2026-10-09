@@ -38,6 +38,61 @@ function same(a, b) { // constant-time string compare
 }
 
 // rate limits are counted in the database (a Worker has no memory between requests)
+// the daily play streak (started by launching a game on the PC): messaging anyone from the phone counts as a play day too.
+// days are the phone's own local dates (YYYY-MM-DD); the PC folds them into its own streak and then posts the real numbers back here
+const dayStr = (t) => { const d = new Date(t); return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0') + '-' + String(d.getUTCDate()).padStart(2, '0'); };
+const dayPrev = (s) => dayStr(Date.parse(s + 'T12:00:00Z') - 86400000);
+async function playStreakBump(env, uid, day) {
+    if (typeof day !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(day) || Math.abs(Date.parse(day + 'T12:00:00Z') - Date.now()) > 2 * 86400000) return null;
+    let r = await env.DB.prepare('SELECT cur, best, last_day, phone_days FROM daystreak WHERE uid = ?').bind(uid).first();
+    if (!r) r = { cur: 0, best: 0, last_day: '', phone_days: '[]' };
+    let days = []; try { days = JSON.parse(r.phone_days) || []; } catch (e) { }
+    if (r.last_day === day || days.includes(day)) return { current: r.cur, best: r.best, up: false, done: true };
+    if (r.last_day && day < r.last_day) return { current: r.cur, best: r.best, up: false, done: true };
+    const cur = r.last_day === dayPrev(day) && r.cur >= 1 ? r.cur + 1 : 1, best = Math.max(r.best, cur);
+    days = days.concat(day).sort().slice(-8);
+    await env.DB.prepare('INSERT INTO daystreak(uid, cur, best, last_day, phone_days, at) VALUES(?, ?, ?, ?, ?, ?) ON CONFLICT(uid) DO UPDATE SET cur = excluded.cur, best = excluded.best, last_day = excluded.last_day, phone_days = excluded.phone_days, at = excluded.at').bind(uid, cur, best, day, JSON.stringify(days), Date.now()).run();
+    return { current: cur, best, up: true, done: true, from: r.last_day === dayPrev(day) ? r.cur : 0 };
+}
+// messages scheduled for later are sent by whoever's request or the hourly job gets here first
+let SCHED_AT = 0;
+async function runSched(env) {
+    if (Date.now() - SCHED_AT < 15000) return; SCHED_AT = Date.now();
+    const due = (await env.DB.prepare('SELECT id, uid, conv, text FROM sched WHERE send_at <= ? ORDER BY send_at LIMIT 15').bind(Date.now()).all()).results;
+    for (const s of due) {
+        try {
+            await env.DB.prepare('DELETE FROM sched WHERE id = ?').bind(s.id).run();
+            const mems = (await env.DB.prepare('SELECT uid, muted, muted_until FROM members WHERE conv = ?').bind(s.conv).all()).results, mine = mems.find((x) => x.uid === s.uid), cv = await env.DB.prepare('SELECT kind, name FROM convs WHERE id = ?').bind(s.conv).first();
+            if (!mine || !cv) continue;
+            if (cv.kind === 'dm') { const o = mems.find((x) => x.uid !== s.uid); if (!o) continue; const [a, b] = s.uid < o.uid ? [s.uid, o.uid] : [o.uid, s.uid]; if (!(await env.DB.prepare("SELECT 1 x FROM friends WHERE a = ? AND b = ? AND status = 'accepted'").bind(a, b).first())) continue; if (await env.DB.prepare('SELECT 1 x FROM blocks WHERE (uid = ?1 AND target = ?2) OR (uid = ?2 AND target = ?1)').bind(s.uid, o.uid).first()) continue; }
+            const now = Date.now(), r = await env.DB.prepare("INSERT INTO msgs(conv, uid, text, at, kind, data, reply_to) VALUES(?, ?, ?, ?, 'text', '', 0) RETURNING id").bind(s.conv, s.uid, s.text, now).first();
+            await env.DB.batch([env.DB.prepare('UPDATE convs SET last_at = ? WHERE id = ?').bind(now, s.conv), env.DB.prepare('UPDATE members SET last_read = ? WHERE conv = ? AND uid = ?').bind(r.id, s.conv, s.uid)]);
+            const me = await env.DB.prepare('SELECT name FROM accounts WHERE uid = ?').bind(s.uid).first();
+            const to = mems.filter((x) => x.uid !== s.uid && !x.muted && !(x.muted_until > now)).map((x) => x.uid);
+            await pushTo(env, to, { t: 'msg', conv: s.conv, title: cv.kind === 'dm' ? (me ? me.name : 'SteamLite') : (cv.name || 'Group chat'), body: (cv.kind === 'dm' ? '' : (me ? me.name : '') + ': ') + s.text.slice(0, 160), sender: me ? me.name : '', kind: 'text' });
+        } catch (e) { console.error('sched', e && e.message); }
+    }
+}
+const escH = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+async function wishPage(env, code) {
+    const r = await env.DB.prepare('SELECT name, items FROM wishshare WHERE code = ?').bind(code).first(); if (!r) return new Response('This wishlist link is no longer shared.', { status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+    let it = []; try { it = JSON.parse(r.items); } catch (e) { }
+    const html = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + escH(r.name) + "'s wishlist</title><style>body{margin:0;background:#0f0f14;color:#eee;font:16px system-ui,sans-serif}main{max-width:720px;margin:0 auto;padding:20px}h1{font-size:22px}a{display:flex;gap:12px;align-items:center;padding:8px;border-radius:12px;background:#1a1a24;margin:8px 0;color:inherit;text-decoration:none}img{width:120px;border-radius:8px}small{color:#9a9ab0}</style></head><body><main><h1>" + escH(r.name) + "'s wishlist</h1><small>Shared from SteamLite</small>" + it.map((g) => '<a href="https://store.steampowered.com/app/' + (g.appid | 0) + '/"><img loading="lazy" src="https://cdn.cloudflare.steamstatic.com/steam/apps/' + (g.appid | 0) + '/header.jpg" alt=""><span>' + escH(g.name) + '</span></a>').join('') + '</main></body></html>';
+    return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=300' } });
+}
+async function freeGamesRun(env) { // a game that just became free to keep: tell everyone who has the alert on (each phone filters by its own setting)
+    try {
+        const r = await fetch('https://store.steampowered.com/api/featuredcategories?cc=us', { signal: AbortSignal.timeout(8000) }); if (!r.ok) return;
+        const j = await r.json(), items = ((j.specials && j.specials.items) || []).filter((x) => x.discount_percent === 100 && x.id && x.name);
+        for (const g of items.slice(0, 5)) {
+            if (await env.DB.prepare('SELECT 1 x FROM freegames WHERE appid = ?').bind(g.id).first()) continue;
+            await env.DB.prepare('INSERT INTO freegames(appid, name, at) VALUES(?, ?, ?)').bind(g.id, String(g.name).slice(0, 80), Date.now()).run();
+            const uids = (await env.DB.prepare('SELECT DISTINCT uid FROM devices LIMIT 100').all()).results.map((x) => x.uid);
+            for (let i = 0; i < uids.length; i += 25) await pushTo(env, uids.slice(i, i + 25), { t: 'free', title: 'Free to keep', body: g.name + ' is free on Steam right now', appid: String(g.id) });
+        }
+        await env.DB.prepare('DELETE FROM freegames WHERE at < ?').bind(Date.now() - 90 * 86400000).run();
+    } catch (e) { }
+}
 async function limited(env, key, max, ms) {
     const now = Date.now(), bucket = Math.floor(now / ms), k = key + ':' + bucket;
     const r = await env.DB.prepare('INSERT INTO rate(k, n, exp) VALUES(?, 1, ?) ON CONFLICT(k) DO UPDATE SET n = n + 1 RETURNING n').bind(k, (bucket + 2) * ms).first();
@@ -152,11 +207,12 @@ async function dealsRun(env, refresh) {
     return { checked, found, pushed };
 }
 
-const profileView = (pr) => { let sc = []; try { sc = JSON.parse((pr && pr.showcase) || '[]'); } catch (e) { } let bn = null; try { bn = pr && pr.banner ? JSON.parse(pr.banner) : null; } catch (e) { } return { tagline: (pr && pr.tagline) || '', accent: (pr && pr.accent) || '', frame: (pr && pr.frame) || '', title: (pr && pr.title) || '', showcase: sc, banner: bn, hideBadges: !!(pr && pr.hide_badges), prestige: (pr && pr.prestige) || 0 }; };
+const profileView = (pr) => { let sc = []; try { sc = JSON.parse((pr && pr.showcase) || '[]'); } catch (e) { } let bn = null; try { bn = pr && pr.banner ? JSON.parse(pr.banner) : null; } catch (e) { } return { status: pr && pr.status_until > Date.now() ? pr.status || '' : '', tagline: (pr && pr.tagline) || '', accent: (pr && pr.accent) || '', frame: (pr && pr.frame) || '', title: (pr && pr.title) || '', showcase: sc, banner: bn, hideBadges: !!(pr && pr.hide_badges), prestige: (pr && pr.prestige) || 0 }; };
 
 async function route(req, env) {
     const url = new URL(req.url), p = url.pathname, m = req.method, q = url.searchParams, addr = ip(req);
     if (p === '/' || p === '/health') return J(200, { ok: true, name: 'SteamLite Online', time: Date.now() });
+    { const wm = /^\/wl\/([a-z0-9]{10,20})$/.exec(p); if (wm && m === 'GET') return wishPage(env, wm[1]); }
 
     // ----- admin -----
     if (p === '/admin' && m === 'GET') return new Response(ADMIN_HTML, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'self'; style-src 'unsafe-inline'; script-src 'unsafe-inline'", 'X-Robots-Tag': 'noindex' } });
@@ -283,7 +339,7 @@ async function route(req, env) {
         const id = acct.steamid, u = acct.uid;
         await env.DB.batch([env.DB.prepare('DELETE FROM sessions WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM backups WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM lb WHERE uid = ?').bind(u),
             env.DB.prepare('DELETE FROM theme_likes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM votes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM themes WHERE uid = ?').bind(u),
-            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM media WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM devices WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM wish WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM profiles WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM activity WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM gvotes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM pcs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM cmds WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
+            env.DB.prepare('DELETE FROM friends WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM streaks WHERE a = ?1 OR b = ?1').bind(u), env.DB.prepare('DELETE FROM daystreak WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM sched WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM wishshare WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM blocks WHERE uid = ?1 OR target = ?1').bind(u), env.DB.prepare('DELETE FROM msgs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM apikeys WHERE steamid = ?').bind(id), env.DB.prepare('DELETE FROM reactions WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM media WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM devices WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM wish WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM profiles WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM activity WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM gvotes WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM pcs WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM cmds WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM presence WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM stats WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM lists WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM challenge_members WHERE uid = ?').bind(u), env.DB.prepare('DELETE FROM accounts WHERE steamid = ?').bind(id)]);
         return J(200, { ok: true });
     }
     if (p === '/backup') {
@@ -320,10 +376,34 @@ async function route(req, env) {
         return J(200, { ok: true, devices: rows.length, results });
     }
     if (p === '/push/unregister' && m === 'POST') { if (!acct) return J(401, { error: 'Sign in first' }); const b = await body(req, 600); await env.DB.prepare('DELETE FROM devices WHERE token = ? AND uid = ?').bind(String(b.token || ''), acct.uid).run(); return J(200, { ok: true }); }
+    if (p === '/me/streak') { // GET: your play streak and the phone days the PC has not folded in yet. POST (PC): the real numbers
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (m === 'POST') {
+            const b = await body(req, 400), cur = clamp(b.current, 0, 9999), best = clamp(b.best, 0, 9999), last = /^\d{4}-\d{2}-\d{2}$/.test(String(b.lastPlayDay || '')) ? String(b.lastPlayDay) : '';
+            const prev = await env.DB.prepare('SELECT phone_days FROM daystreak WHERE uid = ?').bind(acct.uid).first(); let days = []; try { days = JSON.parse(prev && prev.phone_days || '[]'); } catch (e) { }
+            days = days.filter((d) => d > last);   // days the PC has already counted are done
+            await env.DB.prepare('INSERT INTO daystreak(uid, cur, best, last_day, phone_days, at) VALUES(?, ?, ?, ?, ?, ?) ON CONFLICT(uid) DO UPDATE SET cur = excluded.cur, best = excluded.best, last_day = excluded.last_day, phone_days = excluded.phone_days, at = excluded.at').bind(acct.uid, cur, best, last, JSON.stringify(days), Date.now()).run();
+            return J(200, { ok: true });
+        }
+        const r = await env.DB.prepare('SELECT cur, best, last_day, phone_days FROM daystreak WHERE uid = ?').bind(acct.uid).first(); let days = []; try { days = JSON.parse(r && r.phone_days || '[]'); } catch (e) { }
+        return J(200, { ok: true, current: r ? r.cur : 0, best: r ? r.best : 0, lastPlayDay: r ? r.last_day : '', phoneDays: days });
+    }
     if (p === '/me/deals' && m === 'GET') { // your wishlist games that are on sale right now
         if (!acct) return J(401, { error: 'Sign in first' });
         const rows = (await env.DB.prepare('SELECT w.appid, w.name, d.pct, d.price FROM wish w JOIN deals d ON d.appid = w.appid WHERE w.uid = ? AND d.pct >= 10 ORDER BY d.pct DESC LIMIT 20').bind(acct.uid).all()).results;
         return J(200, { ok: true, deals: rows });
+    }
+    if (p === '/me/wishshare') { // a public page with your wishlist (you can switch it off again)
+        if (!acct) return J(401, { error: 'Sign in first' });
+        if (m === 'DELETE') { await env.DB.prepare('DELETE FROM wishshare WHERE uid = ?').bind(acct.uid).run(); return J(200, { ok: true }); }
+        if (m === 'POST') {
+            const b = await body(req, 20000), items = [], seen = new Set();
+            for (const it of (Array.isArray(b.items) ? b.items : [])) { const id = appId(it && it.appid); if (!id || seen.has(id)) continue; seen.add(id); items.push({ appid: id, name: cleanText(it.name, 80) || ('App ' + id) }); if (items.length >= 150) break; }
+            if (!items.length) return J(400, { error: 'Your wishlist is empty.' });
+            const old = await env.DB.prepare('SELECT code FROM wishshare WHERE uid = ?').bind(acct.uid).first(), code = old ? old.code : HEX(7);
+            await env.DB.prepare('INSERT INTO wishshare(uid, code, name, items, at) VALUES(?, ?, ?, ?, ?) ON CONFLICT(uid) DO UPDATE SET items = excluded.items, name = excluded.name, at = excluded.at').bind(acct.uid, code, acct.name, JSON.stringify(items), Date.now()).run();
+            return J(200, { ok: true, url: new URL(req.url).origin + '/wl/' + code });
+        }
     }
     if (p === '/me/wishlist') { // the phone app sends your wishlist so the server can tell you when something goes on sale
         if (!acct) return J(401, { error: 'Sign in first' });
@@ -405,15 +485,16 @@ async function route(req, env) {
         const code = (u) => 'SL-' + u.slice(0, 10).toUpperCase();
 
         if (p === '/social/overview' && isGet) {
-            const fr = await all("SELECT f.a, f.b, f.status, f.req_by, ac.uid fuid, ac.name, ac.avatar, ac.verified FROM friends f JOIN accounts ac ON ac.uid = CASE WHEN f.a = ?1 THEN f.b ELSE f.a END WHERE f.a = ?1 OR f.b = ?1 LIMIT 300", me);
+            const fr = await all("SELECT f.a, f.b, f.status, f.req_by, ac.uid fuid, ac.name, ac.avatar, ac.verified, ac.created since, (SELECT CASE WHEN p.status_until > ?2 THEN p.status ELSE '' END FROM profiles p WHERE p.uid = ac.uid) fst FROM friends f JOIN accounts ac ON ac.uid = CASE WHEN f.a = ?1 THEN f.b ELSE f.a END WHERE f.a = ?1 OR f.b = ?1 LIMIT 300", me, Date.now());
+            { const sp = runSched(env).catch(() => { }); if (CTX && CTX.waitUntil) CTX.waitUntil(sp); }
             const st = await all('SELECT * FROM streaks WHERE a = ?1 OR b = ?1', me), stMap = {}; st.forEach(s => { stMap[s.a === me ? s.b : s.a] = s; });
             const pres = await presenceOf(fr.filter(f => f.status === 'accepted').map(f => f.fuid));
-            const friends = fr.filter(f => f.status === 'accepted').map(f => Object.assign(view({ uid: f.fuid, name: f.name, avatar: f.avatar, verified: f.verified }), streakView(stMap[f.fuid]), pres[f.fuid] || { online: false, playing: null })).sort((x, y) => y.streak - x.streak || x.name.localeCompare(y.name));
+            const friends = fr.filter(f => f.status === 'accepted').map(f => Object.assign(view({ uid: f.fuid, name: f.name, avatar: f.avatar, verified: f.verified }), { since: f.since || 0, status: f.fst || '' }, streakView(stMap[f.fuid]), pres[f.fuid] || { online: false, playing: null })).sort((x, y) => y.streak - x.streak || x.name.localeCompare(y.name));
             const incoming = fr.filter(f => f.status === 'pending' && f.req_by !== me).map(f => view({ uid: f.fuid, name: f.name, avatar: f.avatar, verified: f.verified })), outgoing = fr.filter(f => f.status === 'pending' && f.req_by === me).map(f => view({ uid: f.fuid, name: f.name, avatar: f.avatar, verified: f.verified }));
-            const cv = await all('SELECT c.id, c.kind, c.name, c.last_at, CASE WHEN mm.muted = 1 OR mm.muted_until > ?2 THEN 1 ELSE 0 END AS muted, (SELECT COUNT(*) FROM msgs x WHERE x.conv = c.id AND x.id > mm.last_read AND x.uid != ?1) unread, (SELECT text FROM msgs x WHERE x.conv = c.id ORDER BY x.id DESC LIMIT 1) ltext, (SELECT uid FROM msgs x WHERE x.conv = c.id ORDER BY x.id DESC LIMIT 1) luid, (SELECT COUNT(*) FROM members z WHERE z.conv = c.id) n FROM members mm JOIN convs c ON c.id = mm.conv WHERE mm.uid = ?1 ORDER BY c.last_at DESC LIMIT 60', me, Date.now());
+            const cv = await all('SELECT c.id, c.kind, c.name, c.avatar gav, c.last_at, CASE WHEN mm.muted = 1 OR mm.muted_until > ?2 THEN 1 ELSE 0 END AS muted, (SELECT COUNT(*) FROM msgs x WHERE x.conv = c.id AND x.id > mm.last_read AND x.uid != ?1) unread, (SELECT text FROM msgs x WHERE x.conv = c.id ORDER BY x.id DESC LIMIT 1) ltext, (SELECT uid FROM msgs x WHERE x.conv = c.id ORDER BY x.id DESC LIMIT 1) luid, (SELECT COUNT(*) FROM members z WHERE z.conv = c.id) n FROM members mm JOIN convs c ON c.id = mm.conv WHERE mm.uid = ?1 ORDER BY c.last_at DESC LIMIT 60', me, Date.now());
             const peers = await all("SELECT m1.conv, ac.uid, ac.name, ac.avatar, ac.verified FROM members m1 JOIN convs c ON c.id = m1.conv AND c.kind = 'dm' JOIN members m2 ON m2.conv = m1.conv AND m2.uid != m1.uid JOIN accounts ac ON ac.uid = m2.uid WHERE m1.uid = ?", me), peerOf = {}; peers.forEach(x => { peerOf[x.conv] = x; });
             const names = {}; fr.forEach(f => { names[f.fuid] = f.name; }); names[me] = acct.name;
-            const convs = cv.map(c => { const pr = peerOf[c.id]; return { id: c.id, kind: c.kind, name: c.kind === 'dm' ? (pr ? pr.name : 'Deleted player') : c.name, avatar: pr ? (pr.avatar || '') : '', verified: pr ? !!pr.verified : false, owner: pr ? pr.verified === 2 : false, peer: pr ? pr.uid : '', members: c.n, unread: c.unread, muted: !!c.muted, at: c.last_at, last: c.ltext ? { text: String(c.ltext).slice(0, 120), mine: c.luid === me, from: names[c.luid] || '' } : null }; });
+            const convs = cv.map(c => { const pr = peerOf[c.id]; return { id: c.id, kind: c.kind, name: c.kind === 'dm' ? (pr ? pr.name : 'Deleted player') : c.name, avatar: pr ? (pr.avatar || '') : (c.gav ? url.origin + '/media/' + c.gav : ''), verified: pr ? !!pr.verified : false, owner: pr ? pr.verified === 2 : false, peer: pr ? pr.uid : '', members: c.n, unread: c.unread, muted: !!c.muted, at: c.last_at, last: c.ltext ? { text: String(c.ltext).slice(0, 120), mine: c.luid === me, from: names[c.luid] || '' } : null }; });
             return J(200, { me: { uid: me, name: acct.name, code: code(me) }, friends, incoming, outgoing, convs, unread: convs.reduce((s, c) => s + c.unread, 0) });
         }
         if (p === '/social/find' && m === 'POST') {
@@ -489,7 +570,8 @@ async function route(req, env) {
             const pins = after || before ? undefined : (await all('SELECT x.id, x.text, x.kind, a.name FROM msgs x LEFT JOIN accounts a ON a.uid = x.uid WHERE x.conv = ? AND x.pinned = 1 ORDER BY x.id DESC LIMIT 5', id)).map(r => ({ id: r.id, name: r.name || 'Deleted player', text: String(r.text).slice(0, 140), kind: r.kind }));
             const pres = await presenceOf(mems.map(x => x.uid).filter(Boolean));
             const polls = {}; { const pids = rows.filter(r => r.kind === 'poll').map(r => r.id); if (pids.length) { (await all('SELECT msg, opt, COUNT(*) n, SUM(uid = ?) me FROM gvotes WHERE msg IN (' + pids.map(() => '?').join(',') + ') GROUP BY msg, opt', me, ...pids)).forEach(r => { const p0 = polls[r.msg] = polls[r.msg] || { counts: {}, mine: null, total: 0 }; p0.counts[r.opt] = r.n; p0.total += r.n; if (r.me) p0.mine = r.opt; }); pids.forEach(id => { polls[id] = polls[id] || { counts: {}, mine: null, total: 0 }; }); } }
-            const out = { id, kind: mem.kind, name: mem.name, hasMore: before ? rows.length >= 40 : (!after && rows.length >= 60), typing, muted: !!mem.muted || mem.muted_until > Date.now(), myRead: mem.last_read || 0, owner: mem.owner === me, members: mems.map(x => Object.assign(view(x), { role: x.role }, pres[x.uid] || { online: false, playing: null })), pins,
+            const gav = mem.kind === 'group' ? await first('SELECT avatar a FROM convs WHERE id = ?', id) : null;
+            const out = { id, kind: mem.kind, name: mem.name, avatar: gav && gav.a ? url.origin + '/media/' + gav.a : '', hasMore: before ? rows.length >= 40 : (!after && rows.length >= 60), typing, muted: !!mem.muted || mem.muted_until > Date.now(), myRead: mem.last_read || 0, owner: mem.owner === me, members: mems.map(x => Object.assign(view(x), { role: x.role }, pres[x.uid] || { online: false, playing: null })), pins,
                 messages: rows.map(x => { let d = null; if (x.data) { try { d = JSON.parse(x.data); } catch (e) { d = null; } } return { id: x.id, uid: x.uid, name: x.name || 'Deleted player', verified: !!x.av, owner: x.av === 2, text: x.text, kind: x.kind || 'text', data: d, replyTo: x.reply_to ? (quoted[x.reply_to] || { id: x.reply_to, name: '', text: 'Message deleted', kind: 'text' }) : null, edited: !!x.edited, pinned: !!x.pinned, reactions: reacts[x.id] || [], poll: polls[x.id], at: x.at, mine: x.uid === me }; }) };
             if (mem.kind === 'dm') { const other = mems.find(x => x.uid !== me); const hidR = other && other.uid ? await first('SELECT hide_read h FROM profiles WHERE uid = ?', other.uid) : null; out.peerRead = other && !(hidR && hidR.h) ? other.last_read : 0; if (other && other.uid) { const pa = await first('SELECT last FROM accounts WHERE uid = ?', other.uid); out.peerLast = pa ? pa.last || 0 : 0; } if (other && other.uid) { const [a, c] = pair(me, other.uid); out.streak = streakView(await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c)); out.peerUid = other.uid; out.canSend = await friendsWith(me, other.uid) && !(await blockedEither(me, other.uid)); } else out.canSend = false; }
             return J(200, out);
@@ -718,13 +800,14 @@ async function route(req, env) {
                 if (s.a_day === today && s.b_day === today && s.last_day !== today) { const n = s.last_day === today - 1 ? s.streak + 1 : 1; await env.DB.prepare('UPDATE streaks SET streak = ?, best = MAX(best, ?), last_day = ? WHERE a = ? AND b = ?').bind(n, n, today, a, c).run(); s = await first('SELECT * FROM streaks WHERE a = ? AND b = ?', a, c); if ([3, 7, 14, 30, 50, 100, 200, 365].includes(n)) await env.DB.batch([me, peer].map((u) => env.DB.prepare("INSERT INTO activity(uid, kind, text, appid, at) VALUES(?, 'streak', ?, 0, ?)").bind(u, 'reached a ' + n + '-day friend streak', Date.now()))); }
                 sv = streakView(s);
             }
-            if (Math.random() < 0.01) { await env.DB.prepare('DELETE FROM msgs WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM reactions WHERE msg_id NOT IN (SELECT id FROM msgs)').run(); await env.DB.prepare('DELETE FROM media WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM activity WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM convs WHERE id NOT IN (SELECT DISTINCT conv FROM msgs) AND last_at < ? AND id NOT IN (SELECT conv FROM challenges)').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM members WHERE conv NOT IN (SELECT id FROM convs)').run(); }
+            if (Math.random() < 0.01) { await env.DB.prepare('DELETE FROM msgs WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM reactions WHERE msg_id NOT IN (SELECT id FROM msgs)').run(); await env.DB.prepare('DELETE FROM media WHERE at < ? AND id NOT IN (SELECT avatar FROM convs WHERE avatar != \'\') AND instr((SELECT COALESCE(group_concat(banner), \'\') FROM profiles), id) = 0').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM activity WHERE at < ?').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM convs WHERE id NOT IN (SELECT DISTINCT conv FROM msgs) AND last_at < ? AND id NOT IN (SELECT conv FROM challenges)').bind(now - 30 * 86400000).run(); await env.DB.prepare('DELETE FROM members WHERE conv NOT IN (SELECT id FROM convs)').run(); }
             { // tell the other people in the chat (not muted ones) with a push
                 const to = (await all('SELECT uid FROM members WHERE conv = ? AND uid != ? AND muted = 0 AND muted_until < ?', id, me, Date.now())).map((x) => x.uid);
                 const what = kind === 'image' ? 'Sent a photo' : kind === 'voice' ? 'Sent a voice message' : kind === 'gif' ? 'Sent a GIF' : kind === 'game' ? 'Shared a game' : kind === 'list' ? 'Shared a game list' : text;
                 push(env, to, { t: 'msg', conv: id, title: mem.kind === 'dm' ? acct.name : (mem.name || 'Group chat'), body: (mem.kind === 'dm' ? '' : acct.name + ': ') + what.slice(0, 160), sender: acct.name, kind });   // not "from": Firebase reserves that name and refuses the whole message
             }
-            return J(200, { ok: true, id: r.id, at: now, streak: sv });
+            let pcs = null; try { pcs = await playStreakBump(env, me, b.day); } catch (e) { }
+            return J(200, { ok: true, id: r.id, at: now, streak: sv, play: pcs });
         }
         if (p === '/social/delete' && m === 'POST') {
             const b = await body(req, 500), id = clamp(b.id, 1, 1e12), msg = await first('SELECT uid, conv FROM msgs WHERE id = ?', id); if (!msg) return J(404, { error: 'Not found' });
@@ -741,8 +824,26 @@ async function route(req, env) {
             return J(200, { ok: true, id });
         }
         let gm;
-        if ((gm = /^\/social\/group\/(add|remove|rename)$/.exec(p)) && m === 'POST') {
+        if (p === '/social/status' && m === 'POST') { // a short line on your profile ("busy till 8pm") that clears itself
+            const b = await body(req, 300), t = cleanText(b.text, 60), hrs = clamp(b.hours, 0, 168);
+            await env.DB.prepare('INSERT INTO profiles(uid, at) VALUES(?, ?) ON CONFLICT(uid) DO NOTHING').bind(me, Date.now()).run();
+            await env.DB.prepare('UPDATE profiles SET status = ?, status_until = ? WHERE uid = ?').bind(t && hrs ? t : '', t && hrs ? Date.now() + hrs * 3600000 : 0, me).run();
+            return J(200, { ok: true });
+        }
+        if (p === '/social/schedule' && m === 'POST') { // send a message later
+            const b = await body(req, 3000), id = cid(b.conv), text = cleanText(b.text, 2000), at = Number(b.at);
+            if (!id || !text) return J(400, { error: 'Write something first.' }); if (!(at > Date.now() + 30000) || at > Date.now() + 30 * 86400000) return J(400, { error: 'Pick a time between a minute and 30 days from now.' });
+            const mem = await inConv(id); if (!mem) return J(404, { error: 'Not found' });
+            if ((await first('SELECT COUNT(*) c FROM sched WHERE uid = ?', me)).c >= 20) return J(400, { error: 'You already have 20 scheduled messages.' });
+            const r = await env.DB.prepare('INSERT INTO sched(uid, conv, text, send_at, created) VALUES(?, ?, ?, ?, ?) RETURNING id').bind(me, id, text, Math.floor(at), Date.now()).first();
+            return J(200, { ok: true, id: r.id });
+        }
+        if (p === '/social/scheduled' && isGet) { const id = cid(q.get('conv')); const rows = await all(id ? 'SELECT id, conv, text, send_at FROM sched WHERE uid = ? AND conv = ? ORDER BY send_at' : 'SELECT id, conv, text, send_at FROM sched WHERE uid = ?1 ORDER BY send_at', me, ...(id ? [id] : [])); return J(200, { ok: true, items: rows.map((x) => ({ id: x.id, conv: x.conv, text: x.text, at: x.send_at })) }); }
+        if (p === '/social/unschedule' && m === 'POST') { const b = await body(req, 100); await env.DB.prepare('DELETE FROM sched WHERE id = ? AND uid = ?').bind(clamp(b.id, 1, 1e12), me).run(); return J(200, { ok: true }); }
+        if (p === '/social/readall' && m === 'POST') { await env.DB.prepare('UPDATE members SET last_read = COALESCE((SELECT MAX(id) FROM msgs WHERE msgs.conv = members.conv), last_read) WHERE uid = ?').bind(me).run(); return J(200, { ok: true }); }
+        if ((gm = /^\/social\/group\/(add|remove|rename|avatar)$/.exec(p)) && m === 'POST') {
             const b = await body(req, 1000), id = cid(b.conv), mem = id ? await inConv(id) : null; if (!mem || mem.kind !== 'group') return J(404, { error: 'Not found' });
+            if (gm[1] === 'avatar') { if (mem.owner !== me) return J(403, { error: 'Only the group owner can do that.' }); const mid = String(b.media || ''); if (mid && (!/^[a-f0-9]{24}$/.test(mid) || !(await first('SELECT 1 x FROM media WHERE id = ? AND uid = ?', mid, me)))) return J(400, { error: 'Upload the picture first.' }); await env.DB.prepare('UPDATE convs SET avatar = ? WHERE id = ?').bind(mid, id).run(); return J(200, { ok: true }); }
             if (gm[1] === 'rename') { if (mem.owner !== me) return J(403, { error: 'Only the group owner can do that.' }); const nm = cleanText(b.name, 32); if (nm.length < 2) return J(400, { error: 'Pick a longer name.' }); await env.DB.prepare('UPDATE convs SET name = ? WHERE id = ?').bind(nm, id).run(); return J(200, { ok: true }); }
             if (!uidOk(b.uid)) return J(400, { error: 'Bad request' });
             if (gm[1] === 'add') {
@@ -870,6 +971,8 @@ export default {
     async scheduled(event, env, ctx) { // every hour: sale alerts. At 17:00 UTC: remind people whose friend streak is about to end, and tidy up old push tokens
         CTX = ctx; const today = Math.floor(Date.now() / 86400000), hr = new Date(event.scheduledTime || Date.now()).getUTCHours();
         try { await dealsRun(env, [4, 10, 16, 22].includes(hr)); } catch (e) { }
+        try { await runSched(env); } catch (e) { }
+        if ([4, 10, 16, 22].includes(hr)) await freeGamesRun(env);
         if (hr !== 17) return;
         try {
             const rows = (await env.DB.prepare('SELECT a, b, streak, a_day, b_day FROM streaks WHERE streak > 0 AND last_day = ? LIMIT 40').bind(today - 1).all()).results;

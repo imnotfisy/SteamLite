@@ -1,3 +1,13 @@
+# SteamLite 9.3.1 Changelog
+
+Keep your play streak going from your phone.
+
+## Streak
+- **Message anyone on SteamLite Mobile to keep your play streak:** away from your PC, sending a message counts as a play day, so your streak no longer breaks when you cannot launch a game. The PC picks the days up within a couple of minutes of starting and your streak goes up as normal.
+- Your streak count is shared with SteamLite Mobile 1.2.1, which shows it on the Home page.
+
+---
+
 # SteamLite 9.3.0 Changelog
 
 Your profile look follows you to your phone and to your friends.

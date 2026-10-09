@@ -142,6 +142,22 @@ module.exports = function initAccount(ctx) {
     }
     setInterval(syncProfile, 90000); setTimeout(syncProfile, 25000);
 
+    // ---------- the play streak: messaging anyone on the phone counts as a play day, and the phone shows the real number ----------
+    let lastStreakSig = '', streakBusy = false;
+    async function syncStreak() {
+        if (streakBusy || !acctTok() || !ctx.getStreakState) return; streakBusy = true;
+        try {
+            const r = await srv('GET', '/me/streak', null, 15000);
+            if (r && r.ok && Array.isArray(r.phoneDays)) { // fold in the days you messaged from the phone, oldest first
+                let last = null; for (const d of r.phoneDays.filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(x)).sort()) { const e = ctx.updateStreakOnPlay(d); if (e) last = e; }
+                if (last) ctx.tellStreak(last);
+            }
+            const s = ctx.getStreakState(), body = { current: s.current || 0, best: s.best || 0, lastPlayDay: s.lastPlayDay || '' }, sig = JSON.stringify(body);
+            if (sig !== lastStreakSig) { const w = await srv('POST', '/me/streak', body, 15000); if (w && w.ok) lastStreakSig = sig; }
+        } catch (e) { } finally { streakBusy = false; }
+    }
+    setInterval(syncStreak, 120000); setTimeout(syncStreak, 30000);
+
     // ---------- "Launch on my PC": the phone app asks, and this starts the game (only if the player turned it on in Privacy) ----------
     const { shell, Notification } = require('electron'); let phoneBusy = false;
     async function checkPhone() {
