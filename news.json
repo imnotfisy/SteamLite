@@ -1,8 +1,11 @@
 {
   "changelog": {
-    "version": "9.4.0",
-    "title": "SteamLite 9.4.0 - Control your PC from your phone",
+    "version": "9.4.1",
+    "title": "SteamLite 9.4.1 - Profile changes sync both ways",
     "items": [
+      "Banner, frame, title, accent, tagline and showcase now sync both ways with SteamLite Mobile",
+      "A banner picture chosen on the phone is downloaded to the PC",
+      "Works with SteamLite Mobile 1.4.1",
       "New switch: let your phone lock this PC, put it to sleep or close a game (off by default)",
       "Your phone can see what game is running on the PC",
       "Works with SteamLite Mobile 1.4.0",
@@ -19,13 +22,15 @@
       "Record voice messages up to 60 seconds, with a player for your friends",
       "Link previews, one-click quick replies and pinned chats",
       "What should we play? finds the games everyone in a chat owns",
-      "Works with the new SteamLite Mobile app for Android, with a card in Messages to get it",
-      "Emoji picker, reactions, replies, edits, pins and search in Messages",
-      "Share a game with a Buy on Steam button, or share a whole game list",
-      "Profiles, online status with what friends are playing, and friend challenges"
+      "Works with the new SteamLite Mobile app for Android, with a card in Messages to get it"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 9.4.1 Released - Profile changes sync both ways",
+      "date": "October 10, 2026",
+      "content": "Edit your profile look on your phone or on the PC: banner, frame, title, accent colour, tagline and showcase now stay the same in both. A banner picture you pick on the phone is brought over to the PC as well."
+    },
     {
       "title": "SteamLite 9.4.0 Released - Control your PC from your phone",
       "date": "October 10, 2026",
