@@ -1,3 +1,14 @@
+# SteamLite 9.4.1 Changelog
+
+Profile changes made on your phone now show up on the PC.
+
+## Profile
+- **Two-way sync:** your banner (including a picture), avatar frame, title, accent colour, tagline, showcase and badge setting are now kept the same on the PC and in SteamLite Mobile. Change them on either one and the other follows within a couple of minutes.
+- If you change something on the PC and the phone at the same time, the PC wins.
+- Your prestige stays on the PC.
+
+---
+
 # SteamLite 9.4.0 Changelog
 
 Control your PC from your phone, with a switch of its own.

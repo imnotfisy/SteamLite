@@ -130,14 +130,44 @@ module.exports = function initAccount(ctx) {
         const r = await srv('POST', '/media', { mime: 'image/jpeg', data: buf.toString('base64') }, 40000); if (!r || !r.ok) return null;
         bannerCache = { key, id: r.id }; o.id = r.id; return o;
     }
+    // what is on this PC right now, as one comparable string (the picture counts by file and time, not by upload)
+    function localLook(sid) {
+        const c = (store.get('profileCustom') || {})[sid] || {}, bn = (store.get('profileBanners') || {})[sid] || {}; let m = 0; try { if (bn.mode === 'image' && bn.image) m = require('fs').statSync(bn.image).mtimeMs; } catch (e) { }
+        return JSON.stringify([c.tagline || '', c.accent || '', c.frame || 'none', c.title || '', (c.showcase || []).map(String), !!c.hideBadges, bn.mode || 'default', bn.blur || 0, bn.dim || 0, bn.x, bn.y, bn.zoom, bn.c1 || '', bn.c2 || '', bn.angle, bn.image || '', m]);
+    }
+    // the look changed on the phone: take it over on this PC
+    async function applyServerLook(sid, p) {
+        const fs = require('fs'), path = require('path'), cu = p.custom || {};
+        const pc = store.get('profileCustom') || {}; pc[sid] = Object.assign({}, pc[sid], { tagline: String(cu.tagline || ''), accent: /^#[0-9a-f]{6}$/i.test(cu.accent || '') ? cu.accent : '', frame: cu.frame ? String(cu.frame) : 'none', title: String(cu.title || ''), showcase: (Array.isArray(cu.showcase) ? cu.showcase : []).map(String).slice(0, 5), hideBadges: !!cu.hideBadges });
+        const pb = store.get('profileBanners') || {}, bn = cu.banner, cur = pb[sid] || {};
+        if (!bn || bn.mode === 'default') pb[sid] = Object.assign({}, cur, { mode: 'default' });
+        else {
+            const nb = { mode: bn.mode, blur: bn.blur || 0, dim: bn.dim || 0, x: bn.x === undefined ? 50 : bn.x, y: bn.y === undefined ? 50 : bn.y, zoom: bn.zoom || 100, c1: bn.c1, c2: bn.c2, angle: bn.angle === undefined ? 135 : bn.angle };
+            if (bn.mode === 'image') {
+                if (!bn.id || !/^[a-f0-9]{24}$/.test(bn.id)) return false;
+                const b = await onlineBase(); if (!b) return false; const dir = path.join(require('electron').app.getPath('userData'), 'banners'); fs.mkdirSync(dir, { recursive: true });
+                const file = path.join(dir, 'phone-' + bn.id + '.jpg');
+                if (!fs.existsSync(file)) { const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 30000); try { const r = await fetch(b + '/media/' + bn.id, { signal: ctl.signal }); if (!r.ok) return false; fs.writeFileSync(file, Buffer.from(await r.arrayBuffer())); } finally { clearTimeout(t); } }
+                nb.image = file; bannerCache = { key: file + '|' + fs.statSync(file).mtimeMs, id: bn.id };   // the server already has this picture: no need to upload it again
+            }
+            pb[sid] = Object.assign({}, cur, nb);
+        }
+        store.set('profileCustom', pc); store.set('profileBanners', pb); return true;
+    }
     async function syncProfile() {
         if (profileBusy || !acctTok()) return; const sid = acctSteamId(); if (!sid) return; profileBusy = true;
         try {
+            let pulled = false, syncAt = Number(store.get('profileSyncAt')) || 0; const lastLocal = String(store.get('profileLocalSig') || ''), uid = crypto.createHash('sha256').update('steamlite-account:' + sid).digest('hex').slice(0, 32);
+            // 1) did the look change somewhere else (the phone) since we last agreed, while nothing changed here?
+            if (syncAt > 0 && localLook(sid) === lastLocal) {
+                const sp = await srv('GET', '/social/profile?uid=' + uid, null, 15000);
+                if (sp && sp.uid && sp.custom && sp.custom.at > syncAt) { if (await applyServerLook(sid, sp)) { store.set('profileSyncAt', sp.custom.at); store.set('profileLocalSig', localLook(sid)); pulled = true; syncAt = sp.custom.at; } }
+            }
             const c = (store.get('profileCustom') || {})[sid] || {}, bn = (store.get('profileBanners') || {})[sid] || null, pre = (store.get('prestige') || {}).count || 0;
             const banner = await bannerPayload(bn);
             const body = { tagline: String(c.tagline || ''), accent: /^#[0-9a-f]{6}$/i.test(c.accent || '') ? c.accent : '', frame: c.frame && c.frame !== 'none' ? String(c.frame) : '', title: String(c.title || ''), hideBadges: !!c.hideBadges, showcase: (Array.isArray(c.showcase) ? c.showcase : []).map(Number).filter(Boolean).slice(0, 5), banner: banner, prestige: pre };
-            const sig = JSON.stringify(body); if (sig === lastProfileSig) return;
-            const r = await srv('POST', '/social/customize', body, 20000); if (r && r.ok) lastProfileSig = sig;
+            const sig = JSON.stringify(body); if (pulled) { lastProfileSig = sig; return; } if (sig === lastProfileSig) return;
+            const r = await srv('POST', '/social/customize', body, 20000); if (r && r.ok) { lastProfileSig = sig; if (r.at) { store.set('profileSyncAt', r.at); store.set('profileLocalSig', localLook(sid)); } }
         } catch (e) { } finally { profileBusy = false; }
     }
     setInterval(syncProfile, 90000); setTimeout(syncProfile, 25000);

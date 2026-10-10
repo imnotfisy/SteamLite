@@ -215,7 +215,7 @@ async function dealsRun(env, refresh) {
     return { checked, found, pushed };
 }
 
-const profileView = (pr) => { let sc = []; try { sc = JSON.parse((pr && pr.showcase) || '[]'); } catch (e) { } let bn = null; try { bn = pr && pr.banner ? JSON.parse(pr.banner) : null; } catch (e) { } return { status: pr && pr.status_until > Date.now() ? pr.status || '' : '', tagline: (pr && pr.tagline) || '', accent: (pr && pr.accent) || '', frame: (pr && pr.frame) || '', title: (pr && pr.title) || '', showcase: sc, banner: bn, hideBadges: !!(pr && pr.hide_badges), prestige: (pr && pr.prestige) || 0 }; };
+const profileView = (pr) => { let sc = []; try { sc = JSON.parse((pr && pr.showcase) || '[]'); } catch (e) { } let bn = null; try { bn = pr && pr.banner ? JSON.parse(pr.banner) : null; } catch (e) { } return { at: (pr && pr.at) || 0, status: pr && pr.status_until > Date.now() ? pr.status || '' : '', tagline: (pr && pr.tagline) || '', accent: (pr && pr.accent) || '', frame: (pr && pr.frame) || '', title: (pr && pr.title) || '', showcase: sc, banner: bn, hideBadges: !!(pr && pr.hide_badges), prestige: (pr && pr.prestige) || 0 }; };
 
 async function route(req, env) {
     const url = new URL(req.url), p = url.pathname, m = req.method, q = url.searchParams, addr = ip(req);
@@ -760,8 +760,8 @@ async function route(req, env) {
             }
             const keys = Object.keys(sets); if (!keys.length) return J(200, { ok: true });
             await env.DB.prepare('INSERT INTO profiles(uid, at) VALUES(?, ?) ON CONFLICT(uid) DO NOTHING').bind(me, Date.now()).run();
-            await env.DB.prepare('UPDATE profiles SET ' + keys.map(k => k + ' = ?').join(', ') + ', at = ? WHERE uid = ?').bind(...keys.map(k => sets[k]), Date.now(), me).run();
-            return J(200, { ok: true });
+            const nowAt = Date.now(); await env.DB.prepare('UPDATE profiles SET ' + keys.map(k => k + ' = ?').join(', ') + ', at = ? WHERE uid = ?').bind(...keys.map(k => sets[k]), nowAt, me).run();
+            return J(200, { ok: true, at: nowAt });
         }
         if (p === '/social/prefs') { // privacy switches: read receipts and typing indicator
             if (isGet) { const r = await first('SELECT hide_read, hide_typing FROM profiles WHERE uid = ?', me); return J(200, { ok: true, readReceipts: !(r && r.hide_read), typing: !(r && r.hide_typing) }); }
