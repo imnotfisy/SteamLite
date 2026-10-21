@@ -2,23 +2,23 @@
 
 A fast, free desktop companion for your Steam library: browse and launch your games, follow achievements and friends, chat with other SteamLite users, and make it look the way you want.
 
-![SteamLite Version](https://img.shields.io/badge/version-10.0.1-blue)
+![SteamLite Version](https://img.shields.io/badge/version-10.0.2-blue)
 ![Tauri](https://img.shields.io/badge/Tauri-2-24C8DB)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/2VP6x6Rvak)
 
 **Website:** https://imnotfisy.github.io/SteamLite/
 
-## What is new in 10.0.1
+## What is new in 10.0.2
 
-SteamLite 10.0.1 is a new engine and a completely rebuilt interface (introduced in 10.0.0), with smoother page changes, tidier spacing and a few small bug fixes.
+SteamLite 10.0.2 is a new engine and a completely rebuilt interface (introduced in 10.0.0), with more motion throughout and achievement pictures that load.
 
 - **A new engine.** SteamLite now runs on Tauri 2 (Rust and the system web view) instead of Electron. The installer is about 25 MB instead of about 103 MB, and the app itself is a few megabytes. Everything behind the interface (your library, settings, Steam and Discord connections, play tracking, hotkeys, tray and updates) is the same proven backend as before, so your settings and data carry over.
 - **A new interface.** Spring animations on every press and hover, pages that scroll up and down as you move between them, a floating dock, and a soft glow that takes the colour of the game you are looking at.
 - **Messages are back.** Chat with your SteamLite friends, with photos, GIFs and notifications.
 - **A News page** you can open from anywhere, and update notices that appear on any page.
 
-### Not in 10.0.1 yet
+### Not in 10.0.2 yet
 
 Drops, the shop, the trophy room, events, wishlist and sales, inventory and the tools hub from 9.x are not in this version yet and will return in the new design. If you rely on them, you can keep using [9.4.1](https://github.com/imnotfisy/SteamLite/releases/tag/v9.4.1) and skip the update.
 
@@ -67,7 +67,7 @@ Drops, the shop, the trophy room, events, wishlist and sales, inventory and the 
 
 ### Windows
 
-Download the latest installer from the [Releases](https://github.com/imnotfisy/SteamLite/releases) page and run `SteamLite.Setup.<version>.exe` (for example `SteamLite.Setup.10.0.1.exe`).
+Download the latest installer from the [Releases](https://github.com/imnotfisy/SteamLite/releases) page and run `SteamLite.Setup.<version>.exe` (for example `SteamLite.Setup.10.0.2.exe`).
 
 - It installs over an existing SteamLite in the same folder, keeping your settings
 - It also installs the SteamLite Updater
