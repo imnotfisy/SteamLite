@@ -1,5 +1,5 @@
 {
-  "version": "10.1.1",
-  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v10.1.1/SteamLite.Setup.10.1.1.exe",
-  "notes": "# SteamLite 10.1.1\n\nA fix for SteamLite stopping after a minute or two.\n\n- Fixed: after a minute or two SteamLite could stop loading things, and the minimise and close buttons stopped working. The background part of SteamLite was given a memory limit in 10.1.0 that a large library could reach. The limit is gone."
+  "version": "10.1.2",
+  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v10.1.2/SteamLite.Setup.10.1.2.exe",
+  "notes": "# SteamLite 10.1.2\n\nA fix for SteamLite freezing when you add games from the Start menu.\n\n- Fixed: Add a game > From the Start menu opened every shortcut one after another and waited for each, which froze the background part of SteamLite for a minute or more. Nothing loaded and the minimise and close buttons did not work until it finished. The shortcuts are now read together in the background, which takes about a second."
 }
