@@ -1,13 +1,18 @@
 {
   "changelog": {
-    "version": "10.1.1",
-    "title": "SteamLite 10.1.1 - A fix for SteamLite stopping after a minute or two",
+    "version": "10.1.2",
+    "title": "SteamLite 10.1.2 - A fix for freezing when adding games from the Start menu",
     "items": [
-      "Fixed: SteamLite could stop loading things after a minute or two, and the minimise and close buttons stopped working",
-      "The memory limit added to the background part of SteamLite in 10.1.0 is gone"
+      "Fixed: Add a game > From the Start menu could freeze SteamLite for a minute or more, so nothing loaded and the minimise and close buttons did not work",
+      "The Start menu shortcuts are now read together in the background and the list appears in about a second"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 10.1.2 Released - A fix for freezing when adding games",
+      "date": "October 21, 2026",
+      "content": "SteamLite 10.1.2 is out. It fixes SteamLite freezing when you added games from the Start menu. If you installed 10.1.0 or 10.1.1, please update."
+    },
     {
       "title": "SteamLite 10.1.1 Released - A fix for SteamLite stopping",
       "date": "October 21, 2026",
