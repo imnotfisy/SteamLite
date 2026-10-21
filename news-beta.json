@@ -1,17 +1,21 @@
 {
   "changelog": {
     "version": "10.0.0",
-    "title": "SteamLite 10.0.0 - A new engine and a new interface",
+    "title": "SteamLite 10.0.1 - Fixes and polish",
     "items": [
-      "A new engine (Tauri) and a completely rebuilt interface, with a much smaller installer",
-      "Messages are back: chat, reply, react, photos and GIFs, mute, block and unblock, with notifications",
-      "A News page and update notices you can open from anywhere",
-      "The Play button shows Loading..., Stop and Stopping...",
-      "Profile customisation: banner, avatar frame, title, accent colour and showcase",
-      "Not in 10.0.0 yet: drops, the shop, the trophy room, events, wishlist and sales, inventory and the tools hub"
+      "Smoother page changes: the old page leaves before the new one arrives",
+      "Removed the clipped glow under the selected filter chips and game tabs",
+      "Fixed spacing in Settings > Look & feel",
+      "Fixed a hidden error when opening games quickly, and Check now getting stuck",
+      "The Delete and Report boxes in Messages close with Esc"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 10.0.1 Released - Fixes and polish",
+      "date": "October 22, 2026",
+      "content": "SteamLite 10.0.1 is out. It makes page changes smoother, removes a clipped glow under the selected filter chips and game tabs, fixes spacing in Settings, and fixes a few small bugs."
+    },
     {
       "title": "SteamLite 10.0.0 Released - A new engine and a new interface",
       "date": "October 21, 2026",
