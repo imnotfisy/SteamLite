@@ -2,23 +2,26 @@
 
 A fast, free desktop companion for your Steam library: browse and launch your games, follow achievements and friends, chat with other SteamLite users, and make it look the way you want.
 
-![SteamLite Version](https://img.shields.io/badge/version-10.0.3-blue)
+![SteamLite Version](https://img.shields.io/badge/version-10.1.0-blue)
 ![Tauri](https://img.shields.io/badge/Tauri-2-24C8DB)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/2VP6x6Rvak)
 
 **Website:** https://imnotfisy.github.io/SteamLite/
 
-## What is new in 10.0.3
+## What is new in 10.1.0
 
-SteamLite 10.0.3 is a new engine and a completely rebuilt interface (introduced in 10.0.0). This version adds profiles, so you can switch between Steam accounts, and tracks games with an anti-cheat correctly.
+SteamLite 10.1.0 is built on the new engine and interface introduced in 10.0.0. This version lets you add games from outside Steam, adds an in-game overlay, and brings voice messages, group chats and GIFs to Messages.
 
 - **A new engine.** SteamLite now runs on Tauri 2 (Rust and the system web view) instead of Electron. The installer is about 25 MB instead of about 103 MB, and the app itself is a few megabytes. Everything behind the interface (your library, settings, Steam and Discord connections, play tracking, hotkeys, tray and updates) is the same proven backend as before, so your settings and data carry over.
 - **A new interface.** Spring animations on every press and hover, pages that scroll up and down as you move between them, a floating dock, and a soft glow that takes the colour of the game you are looking at.
 - **Messages are back.** Chat with your SteamLite friends, with photos, GIFs and notifications.
 - **A News page** you can open from anywhere, and update notices that appear on any page.
+- **Add any game.** Games from other stores or ones you installed yourself can be added from the Library, by picking the program or importing from the Start menu. They launch from SteamLite and their play time is tracked.
+- **An in-game overlay.** A small see-through card over your game with your play time, the clock, your streak and new messages (`Ctrl + Alt + O`).
+- **Voice messages, group chats and GIFs** in Messages, the streak celebration is back, updates download inside SteamLite with a progress bar, and there are 28 more themes.
 
-### Not in 10.0.3 yet
+### Not in 10.1.0 yet
 
 Drops, the shop, the trophy room, events, wishlist and sales, inventory and the tools hub from 9.x are not in this version yet and will return in the new design. If you rely on them, you can keep using [9.4.1](https://github.com/imnotfisy/SteamLite/releases/tag/v9.4.1) and skip the update.
 
@@ -29,6 +32,7 @@ Drops, the shop, the trophy room, events, wishlist and sales, inventory and the 
 - **Filters and sorting** - All, Installed, Not installed, Unplayed and Hidden, sorted by recently played, name, playtime or size on disk
 - **Collections** - Filter your library by your collections
 - **Favourites and hiding** - One click to favourite or hide a game, with undo
+- **Add any game** - Add a program from outside Steam by picking its .exe or importing from the Start menu. It launches from SteamLite, its play time is tracked, and you can remove it again with Undo
 - **Play, Stop and install** - The Play button shows Loading..., Stop and Stopping... while a game starts and closes, with play time tracked per session
 
 ### Game pages
@@ -40,6 +44,7 @@ Drops, the shop, the trophy room, events, wishlist and sales, inventory and the 
 ### Friends and Messages
 - See who is online or playing, which games you share, and open their Steam profile
 - **Messages** - Chats with your SteamLite friends, and the group chats you are in. Reply, react, edit and delete your messages, pin, and mute a chat. Photos and GIFs show in the chat and open full size. Chats sync with [SteamLite Messages](https://github.com/imnotfisy/SteamLite-Messages) on your phone
+- **Voice messages, group chats and GIFs** - Record and play voice messages, make a group chat with up to 19 friends, and send GIFs from Giphy
 - **Notifications** - A pop-up, a sound and a Windows notification for new messages and friend requests, a note in your notification history, and a badge on the Messages button. Streaks that end tonight are announced too
 - **Block and unblock** - Block someone from a chat, and unblock them from the chat or from the Blocked players list
 - Add friends with a friend code and accept or decline requests
@@ -50,7 +55,7 @@ Drops, the shop, the trophy room, events, wishlist and sales, inventory and the 
 - **Customisation** - Banner (a picture, a GIF, a gradient or a solid colour), tagline, title, avatar frame, accent colour, showcase games and pinned achievements. It also shows on your phone and to your friends
 
 ### Themes
-- All 56 existing themes work, with a live preview before you apply one
+- More than 80 themes, with a live preview before you apply one
 - Pick any accent colour, import themes, and browse the community themes
 
 ### News and updates
@@ -59,6 +64,8 @@ Drops, the shop, the trophy room, events, wishlist and sales, inventory and the 
 - Works with the **SteamLite Updater**, a small separate app that downloads and installs updates
 
 ### Everything else
+- **In-game overlay** - A small card over windowed and borderless games with your play time, the clock, your streak and new messages. Show or hide it with `Ctrl + Alt + O`, or let it open with every game
+- **Streak celebration** - A flame and a burst of sparks when you extend your streak
 - **Command palette** - Press `Ctrl + K` anywhere to find a game, friend, page or setting
 - **Introduction tour** - A short tour after you first sign in, which you can replay from Settings
 - **Discord Rich Presence**, start with Windows, start minimised to the tray, and close to the tray
@@ -68,7 +75,7 @@ Drops, the shop, the trophy room, events, wishlist and sales, inventory and the 
 
 ### Windows
 
-Download the latest installer from the [Releases](https://github.com/imnotfisy/SteamLite/releases) page and run `SteamLite.Setup.<version>.exe` (for example `SteamLite.Setup.10.0.3.exe`).
+Download the latest installer from the [Releases](https://github.com/imnotfisy/SteamLite/releases) page and run `SteamLite.Setup.<version>.exe` (for example `SteamLite.Setup.10.1.0.exe`).
 
 - It installs over an existing SteamLite in the same folder, keeping your settings
 - It also installs the SteamLite Updater
