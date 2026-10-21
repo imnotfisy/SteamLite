@@ -1,15 +1,23 @@
 {
   "changelog": {
-    "version": "10.0.3",
-    "title": "SteamLite 10.0.3 - Profiles and an anti-cheat fix",
+    "version": "10.1.0",
+    "title": "SteamLite 10.1.0 - Add any game, an in-game overlay, voice messages and more",
     "items": [
-      "Profiles: switch between Steam accounts from your picture in the title bar, or add another one with Sign in with Steam",
-      "A new profile opens on a full-screen page to set up its SteamLite account, with message and notification switches",
-      "Games with an anti-cheat are no longer counted as closed when their launcher quits",
-      "Message notification switches now belong to each profile"
+      "Add games from outside Steam: pick a program or import from the Start menu, with play time tracking",
+      "An in-game overlay with your play time, the clock, streak and new messages (Ctrl + Alt + O)",
+      "The streak celebration is back",
+      "Voice messages, group chats and GIFs (from Giphy) in Messages",
+      "In-app updates with a progress bar",
+      "28 more themes",
+      "No more browser right-click menu or developer tools"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 10.1.0 Released - Add any game, an in-game overlay and voice messages",
+      "date": "October 21, 2026",
+      "content": "SteamLite 10.1.0 is out. Add games from other stores, see your play time in a new in-game overlay, send voice messages, make group chats and send GIFs. The streak celebration is back, updates now download inside SteamLite with a progress bar, and there are 28 more themes."
+    },
     {
       "title": "SteamLite 10.0.3 Released - Profiles and an anti-cheat fix",
       "date": "October 21, 2026",
