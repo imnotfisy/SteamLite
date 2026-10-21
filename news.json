@@ -1,18 +1,18 @@
 {
   "changelog": {
-    "version": "10.1.0",
-    "title": "SteamLite 10.1.0 - Add any game, an in-game overlay, voice messages and more",
+    "version": "10.1.1",
+    "title": "SteamLite 10.1.1 - A fix for SteamLite stopping after a minute or two",
     "items": [
-      "Add games from outside Steam: pick a program or import from the Start menu, with play time tracking",
-      "An in-game overlay with your play time, the clock, streak and new messages (Ctrl + Alt + O)",
-      "The streak celebration is back",
-      "Voice messages, group chats and GIFs (from Giphy) in Messages",
-      "In-app updates with a progress bar",
-      "28 more themes",
-      "No more browser right-click menu or developer tools"
+      "Fixed: SteamLite could stop loading things after a minute or two, and the minimise and close buttons stopped working",
+      "The memory limit added to the background part of SteamLite in 10.1.0 is gone"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 10.1.1 Released - A fix for SteamLite stopping",
+      "date": "October 21, 2026",
+      "content": "SteamLite 10.1.1 is out. It fixes SteamLite stopping after a minute or two, when nothing loaded and the minimise and close buttons did not work. If you installed 10.1.0, please update."
+    },
     {
       "title": "SteamLite 10.1.0 Released - Add any game, an in-game overlay and voice messages",
       "date": "October 21, 2026",
