@@ -1,31 +1,22 @@
 {
   "changelog": {
-    "version": "9.4.1",
-    "title": "SteamLite 9.4.1 - Profile changes sync both ways",
+    "version": "10.0.0",
+    "title": "SteamLite 10.0.0 - A new engine and a new interface",
     "items": [
-      "Banner, frame, title, accent, tagline and showcase now sync both ways with SteamLite Mobile",
-      "A banner picture chosen on the phone is downloaded to the PC",
-      "Works with SteamLite Mobile 1.4.1",
-      "New switch: let your phone lock this PC, put it to sleep or close a game (off by default)",
-      "Your phone can see what game is running on the PC",
-      "Works with SteamLite Mobile 1.4.0",
-      "Your play streak syncs with SteamLite Mobile right away",
-      "Streak restores and recovery are shown on the phone",
-      "Works with SteamLite Mobile 1.2.2",
-      "Message anyone on SteamLite Mobile to count as a play day and keep your streak",
-      "Works with SteamLite Mobile 1.2.1",
-      "Your banner, frame, title, accent, tagline and showcase are shared, so friends see them on PC and phone",
-      "Open a friend's profile to see their banner, title, tagline and showcase",
-      "Works with SteamLite Mobile 1.2.0",
-      "Let my phone launch games (off by default): the Play on my PC button in SteamLite Mobile starts a game on this PC",
-      "Send photos and GIFs in Messages: pick, paste or drop one into the chat",
-      "Record voice messages up to 60 seconds, with a player for your friends",
-      "Link previews, one-click quick replies and pinned chats",
-      "What should we play? finds the games everyone in a chat owns",
-      "Works with the new SteamLite Mobile app for Android, with a card in Messages to get it"
+      "A new engine (Tauri) and a completely rebuilt interface, with a much smaller installer",
+      "Messages are back: chat, reply, react, photos and GIFs, mute, block and unblock, with notifications",
+      "A News page and update notices you can open from anywhere",
+      "The Play button shows Loading..., Stop and Stopping...",
+      "Profile customisation: banner, avatar frame, title, accent colour and showcase",
+      "Not in 10.0.0 yet: drops, the shop, the trophy room, events, wishlist and sales, inventory and the tools hub"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 10.0.0 Released - A new engine and a new interface",
+      "date": "October 21, 2026",
+      "content": "SteamLite 10.0.0 is out. It runs on a new, lighter engine with a completely rebuilt interface, and Messages are back with notifications, photos and GIFs, and block and unblock. Drops, the shop, the trophy room, events, wishlist and sales, inventory and the tools hub are not in this version yet and will return in the new design."
+    },
     {
       "title": "SteamLite 9.4.1 Released - Profile changes sync both ways",
       "date": "October 10, 2026",
