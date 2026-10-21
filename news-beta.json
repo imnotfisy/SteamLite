@@ -1,6 +1,6 @@
 {
   "changelog": {
-    "version": "10.0.0",
+    "version": "10.0.1",
     "title": "SteamLite 10.0.1 - Fixes and polish",
     "items": [
       "Smoother page changes: the old page leaves before the new one arrives",
@@ -13,7 +13,7 @@
   "news": [
     {
       "title": "SteamLite 10.0.1 Released - Fixes and polish",
-      "date": "October 22, 2026",
+      "date": "October 21, 2026",
       "content": "SteamLite 10.0.1 is out. It makes page changes smoother, removes a clipped glow under the selected filter chips and game tabs, fixes spacing in Settings, and fixes a few small bugs."
     },
     {
