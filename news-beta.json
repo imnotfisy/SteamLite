@@ -1,16 +1,20 @@
 {
   "changelog": {
-    "version": "10.0.1",
-    "title": "SteamLite 10.0.1 - Fixes and polish",
+    "version": "10.0.2",
+    "title": "SteamLite 10.0.2 - More motion, achievement pictures",
     "items": [
-      "Smoother page changes: the old page leaves before the new one arrives",
-      "Removed the clipped glow under the selected filter chips and game tabs",
-      "Fixed spacing in Settings > Look & feel",
-      "Fixed a hidden error when opening games quickly, and Check now getting stuck",
-      "The Delete and Report boxes in Messages close with Esc"
+      "Achievement pictures on game pages load again",
+      "Game page tabs, Library filters and other choices have a highlight that glides between them",
+      "Game cards rise in when you change a filter, search, sort or view",
+      "Buttons dip when pressed and spring back, and page sections rise in one after another"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 10.0.2 Released - More motion, achievement pictures",
+      "date": "October 21, 2026",
+      "content": "SteamLite 10.0.2 is out. Achievement pictures load again, and game page tabs, the Library filters and other choices now have a highlight that glides between them. Buttons spring when pressed and page sections rise in one after another."
+    },
     {
       "title": "SteamLite 10.0.1 Released - Fixes and polish",
       "date": "October 21, 2026",
