@@ -1,15 +1,20 @@
 {
   "changelog": {
-    "version": "10.0.2",
-    "title": "SteamLite 10.0.2 - More motion, achievement pictures",
+    "version": "10.0.3",
+    "title": "SteamLite 10.0.3 - Profiles and an anti-cheat fix",
     "items": [
-      "Achievement pictures on game pages load again",
-      "Game page tabs, Library filters and other choices have a highlight that glides between them",
-      "Game cards rise in when you change a filter, search, sort or view",
-      "Buttons dip when pressed and spring back, and page sections rise in one after another"
+      "Profiles: switch between Steam accounts from your picture in the title bar, or add another one with Sign in with Steam",
+      "A new profile opens on a full-screen page to set up its SteamLite account, with message and notification switches",
+      "Games with an anti-cheat are no longer counted as closed when their launcher quits",
+      "Message notification switches now belong to each profile"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 10.0.3 Released - Profiles and an anti-cheat fix",
+      "date": "October 21, 2026",
+      "content": "SteamLite 10.0.3 is out. You can now switch between Steam accounts, or add another one, from your picture in the title bar, and a new profile opens on a setup page for its messages and notifications. Games with an anti-cheat are no longer counted as closed when their launcher quits."
+    },
     {
       "title": "SteamLite 10.0.2 Released - More motion, achievement pictures",
       "date": "October 21, 2026",
