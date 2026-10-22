@@ -1,0 +1,17 @@
+{
+  "canvas": [],
+  "vars": {
+    "--bg-dark": "#050a05",
+    "--bg-glass": "rgba(8, 18, 8, 0.8)",
+    "--bg-glass-light": "rgba(12, 26, 12, 0.85)",
+    "--border-glass": "rgba(51, 255, 102, 0.2)",
+    "--border-glass-hover": "rgba(51, 255, 102, 0.4)",
+    "--text-primary": "#d6ffd6",
+    "--text-secondary": "#7dcc7d",
+    "--accent-color": "#33ff66",
+    "--success": "#33ff66",
+    "--warning": "#ffb000",
+    "--danger": "#ff4444"
+  },
+  "css": "* { font-family: Consolas, 'Courier New', monospace !important; letter-spacing: 0.3px; } h1, .home-title, .game-title, .modal-title { text-shadow: 0 0 10px rgba(51, 255, 102, 0.45); }"
+}

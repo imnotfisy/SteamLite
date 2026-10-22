@@ -1,0 +1,17 @@
+{
+  "canvas": [],
+  "vars": {
+    "--bg-dark": "#0b132b",
+    "--bg-glass": "rgba(11, 19, 43, 0.85)",
+    "--bg-glass-light": "rgba(28, 37, 65, 0.9)",
+    "--border-glass": "rgba(91, 192, 190, 0.18)",
+    "--border-glass-hover": "rgba(91, 192, 190, 0.4)",
+    "--text-primary": "#f1faee",
+    "--text-secondary": "#8da9c4",
+    "--accent-color": "#5bc0be",
+    "--success": "#6fffe9",
+    "--warning": "#f4d35e",
+    "--danger": "#ee6055"
+  },
+  "css": ""
+}

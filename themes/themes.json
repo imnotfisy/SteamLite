@@ -141,94 +141,46 @@
       ]
     },
     {
-      "id": "centurion-gold",
-      "name": "Centurion Gold",
+      "id": "royal-gold",
+      "name": "Royal Gold",
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Opulent gold and warm amber — reward for 100 game launches.",
-      "file": "centurion-gold.json",
+      "description": "Regal gold on a deep violet-black base.",
+      "file": "royal-gold.json",
       "colors": [
-        "#d4af37",
-        "#1a1608",
-        "#7ec850"
-      ],
-      "requires": "veteran-launches"
+        "#f5c451",
+        "#0f0b18",
+        "#b794f6"
+      ]
     },
     {
-      "id": "500-club-platinum",
-      "name": "500 Club Platinum",
+      "id": "mocha-cream",
+      "name": "Mocha Cream",
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Cool platinum-silver prestige — reward for 500 hours in a single game.",
-      "file": "500-club-platinum.json",
+      "description": "Warm coffee browns with a soft cream accent. Cosy and easy on the eyes.",
+      "file": "mocha-cream.json",
       "colors": [
-        "#c0c0d0",
-        "#0f0f13",
-        "#6ee7a0"
-      ],
-      "requires": "five-hundred"
+        "#e6c9a8",
+        "#1a120d",
+        "#d98c5f"
+      ]
     },
     {
-      "id": "marathon-redline",
-      "name": "Marathon Redline",
+      "id": "sakura-night",
+      "name": "Sakura Night",
       "author": "SteamLite",
       "authorSteamId": "76561198652781296",
       "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Blazing red — reward for a single 5+ hour session.",
-      "file": "marathon-redline.json",
+      "description": "Cherry-blossom pink and sky blue under an ink-blue night.",
+      "file": "sakura-night.json",
       "colors": [
-        "#ff2d2d",
-        "#1a0a0a",
-        "#5cff7e"
-      ],
-      "requires": "marathon"
-    },
-    {
-      "id": "streak-inferno",
-      "name": "Streak Inferno",
-      "author": "SteamLite",
-      "authorSteamId": "76561198652781296",
-      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Molten orange fire theme — reward for a 7-day play streak.",
-      "file": "streak-inferno.json",
-      "colors": [
-        "#ff7800",
-        "#140800",
-        "#66ff66"
-      ],
-      "requires": "streak-7"
-    },
-    {
-      "id": "unstoppable-solar",
-      "name": "Unstoppable Solar",
-      "author": "SteamLite",
-      "authorSteamId": "76561198652781296",
-      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Radiant golden glow — reward for a 30-day play streak.",
-      "file": "unstoppable-solar.json",
-      "colors": [
-        "#ffc832",
-        "#0c0c18",
-        "#6eff8a"
-      ],
-      "requires": "streak-30"
-    },
-    {
-      "id": "completionist-prism",
-      "name": "Completionist Prism",
-      "author": "SteamLite",
-      "authorSteamId": "76561198652781296",
-      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Ethereal violet prism — reward for 100% completing any game.",
-      "file": "completionist-prism.json",
-      "colors": [
-        "#b478ff",
-        "#0e0e14",
-        "#6eff96"
-      ],
-      "requires": "completionist"
+        "#ffa3c8",
+        "#0c0f1e",
+        "#8ec5ff"
+      ]
     },
     {
       "id": "aurora-borealis",
@@ -257,21 +209,6 @@
         "#141210",
         "#7ec850"
       ]
-    },
-    {
-      "id": "chrome-aurora",
-      "name": "Chrome Aurora",
-      "author": "SteamLite",
-      "authorSteamId": "76561198652781296",
-      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
-      "description": "Liquid chrome-blue glow — reward for applying 5 themes.",
-      "file": "chrome-aurora.json",
-      "colors": [
-        "#64c8ff",
-        "#080c10",
-        "#5cff8a"
-      ],
-      "requires": "theme-collector"
     },
     {
       "id": "sunset-drive",
@@ -411,6 +348,468 @@
         "#e74c3c",
         "#0a0a0a",
         "#ecf0f1"
+      ]
+    },
+    {
+      "id": "cotton-candy",
+      "name": "Cotton Candy",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Sweet pastel pinks and blues for a dreamy aesthetic.",
+      "file": "cotton-candy.json",
+      "colors": [
+        "#ff9ff3",
+        "#2d3436",
+        "#74b9ff"
+      ]
+    },
+    {
+      "id": "desert-dusk",
+      "name": "Desert Dusk",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Warm desert sunset with amber and purple gradients.",
+      "file": "desert-dusk.json",
+      "colors": [
+        "#ff9f43",
+        "#2c1e14",
+        "#a55eea"
+      ]
+    },
+    {
+      "id": "emerald-dream",
+      "name": "Emerald Dream",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Rich emerald greens on a deep forest background.",
+      "file": "emerald-dream.json",
+      "colors": [
+        "#00d2d3",
+        "#0e1410",
+        "#ffeaa7"
+      ]
+    },
+    {
+      "id": "lavender-haze",
+      "name": "Lavender Haze",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Soft lavender tones with gentle violet accents.",
+      "file": "lavender-haze.json",
+      "colors": [
+        "#a29bfe",
+        "#2d2430",
+        "#fd79a8"
+      ]
+    },
+    {
+      "id": "obsidian-fire",
+      "name": "Obsidian Fire",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Dark obsidian black with fiery orange accents.",
+      "file": "obsidian-fire.json",
+      "colors": [
+        "#ff6b6b",
+        "#0a0a0a",
+        "#feca57"
+      ]
+    },
+    {
+      "id": "tokyo-night",
+      "name": "Tokyo Night",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Deep blue with soft neon, like a city at night.",
+      "file": "tokyo-night.json",
+      "colors": [
+        "#7aa2f7",
+        "#1a1b26",
+        "#9ece6a"
+      ]
+    },
+    {
+      "id": "one-dark",
+      "name": "One Dark",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "The calm, familiar editor classic.",
+      "file": "one-dark.json",
+      "colors": [
+        "#61afef",
+        "#21252b",
+        "#98c379"
+      ]
+    },
+    {
+      "id": "monokai-pro",
+      "name": "Monokai Pro",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Warm charcoal with a golden accent.",
+      "file": "monokai-pro.json",
+      "colors": [
+        "#ffd866",
+        "#19181a",
+        "#a9dc76"
+      ]
+    },
+    {
+      "id": "rose-pine",
+      "name": "Rose Pine",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Soft rose and gold on a quiet purple-black.",
+      "file": "rose-pine.json",
+      "colors": [
+        "#ebbcba",
+        "#191724",
+        "#9ccfd8"
+      ]
+    },
+    {
+      "id": "everforest-night",
+      "name": "Everforest Night",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Gentle greens on a dark forest floor.",
+      "file": "everforest-night.json",
+      "colors": [
+        "#a7c080",
+        "#232a2e",
+        "#a7c080"
+      ]
+    },
+    {
+      "id": "ayu-mirage",
+      "name": "Ayu Mirage",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Smoky blue-grey with a sunny yellow accent.",
+      "file": "ayu-mirage.json",
+      "colors": [
+        "#ffcc66",
+        "#1f2430",
+        "#d5ff80"
+      ]
+    },
+    {
+      "id": "night-owl",
+      "name": "Night Owl",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Midnight blue made for late sessions.",
+      "file": "night-owl.json",
+      "colors": [
+        "#82aaff",
+        "#011627",
+        "#addb67"
+      ]
+    },
+    {
+      "id": "palenight",
+      "name": "Palenight",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Dusky purple-grey with lavender highlights.",
+      "file": "palenight.json",
+      "colors": [
+        "#c792ea",
+        "#292d3e",
+        "#c3e88d"
+      ]
+    },
+    {
+      "id": "github-dimmed",
+      "name": "Graphite Blue",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A dimmed, low-glare dark with a clear blue.",
+      "file": "github-dimmed.json",
+      "colors": [
+        "#539bf5",
+        "#22272e",
+        "#57ab5a"
+      ]
+    },
+    {
+      "id": "kanagawa",
+      "name": "Kanagawa",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Muted ink colours inspired by a famous wave.",
+      "file": "kanagawa.json",
+      "colors": [
+        "#7e9cd8",
+        "#1f1f28",
+        "#98bb6c"
+      ]
+    },
+    {
+      "id": "nightfox",
+      "name": "Nightfox",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Cool teal-blue with a fox-orange warmth.",
+      "file": "nightfox.json",
+      "colors": [
+        "#719cd6",
+        "#192330",
+        "#81b29a"
+      ]
+    },
+    {
+      "id": "horizon-dark",
+      "name": "Horizon",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Dark slate with a hot pink-red accent.",
+      "file": "horizon-dark.json",
+      "colors": [
+        "#e95378",
+        "#1c1e26",
+        "#29d398"
+      ]
+    },
+    {
+      "id": "poimandres",
+      "name": "Poimandres",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Minty teal on blue-black, clean and sharp.",
+      "file": "poimandres.json",
+      "colors": [
+        "#5de4c7",
+        "#1b1e28",
+        "#5de4c7"
+      ]
+    },
+    {
+      "id": "shades-of-purple",
+      "name": "Shades of Purple",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Bold indigo with electric yellow.",
+      "file": "shades-of-purple.json",
+      "colors": [
+        "#fad000",
+        "#2d2b55",
+        "#3ad900"
+      ]
+    },
+    {
+      "id": "cobalt-gold",
+      "name": "Cobalt Gold",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Deep cobalt blue with a bright gold accent.",
+      "file": "cobalt-gold.json",
+      "colors": [
+        "#ffc600",
+        "#193549",
+        "#3ad900"
+      ]
+    },
+    {
+      "id": "matrix-green",
+      "name": "Matrix Green",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Black-green terminal glow.",
+      "file": "matrix-green.json",
+      "colors": [
+        "#3bff6a",
+        "#0a0f0a",
+        "#3bff6a"
+      ]
+    },
+    {
+      "id": "vesper",
+      "name": "Vesper",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Near-black with a warm peach accent.",
+      "file": "vesper.json",
+      "colors": [
+        "#ffc799",
+        "#101010",
+        "#99ffe4"
+      ]
+    },
+    {
+      "id": "carbon-ice",
+      "name": "Carbon Ice",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Neutral carbon grey with an icy blue.",
+      "file": "carbon-ice.json",
+      "colors": [
+        "#78a9ff",
+        "#161616",
+        "#42be65"
+      ]
+    },
+    {
+      "id": "crimson-night",
+      "name": "Crimson Night",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Black cherry with a vivid red.",
+      "file": "crimson-night.json",
+      "colors": [
+        "#ff4d6d",
+        "#14080b",
+        "#4ade80"
+      ]
+    },
+    {
+      "id": "amber-terminal",
+      "name": "Amber Terminal",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "A warm amber monitor from the old days.",
+      "file": "amber-terminal.json",
+      "colors": [
+        "#ffb000",
+        "#120c02",
+        "#7bd36b"
+      ]
+    },
+    {
+      "id": "arctic-dawn",
+      "name": "Arctic Dawn",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Pale ice blue over a deep polar night.",
+      "file": "arctic-dawn.json",
+      "colors": [
+        "#7fdbff",
+        "#0e1a24",
+        "#7ef0c0"
+      ]
+    },
+    {
+      "id": "violet-storm",
+      "name": "Violet Storm",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Stormy violet with a bright periwinkle.",
+      "file": "violet-storm.json",
+      "colors": [
+        "#9d7cff",
+        "#130f24",
+        "#6ee7b7"
+      ]
+    },
+    {
+      "id": "moss-and-stone",
+      "name": "Moss and Stone",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Quiet green-grey, like mossy rock.",
+      "file": "moss-and-stone.json",
+      "colors": [
+        "#8fbf9f",
+        "#151a17",
+        "#8fbf9f"
+      ]
+    },
+    {
+      "id": "bubblegum-dark",
+      "name": "Bubblegum Dark",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Playful pink on a plum-black base.",
+      "file": "bubblegum-dark.json",
+      "colors": [
+        "#ff7ac6",
+        "#1a1020",
+        "#7affc4"
+      ]
+    },
+    {
+      "id": "slate-sky",
+      "name": "Slate Sky",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Cool slate with a clear sky-blue accent.",
+      "file": "slate-sky.json",
+      "colors": [
+        "#38bdf8",
+        "#0f172a",
+        "#34d399"
+      ]
+    },
+    {
+      "id": "midnight-oil",
+      "name": "Midnight Oil",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Navy with a calm teal.",
+      "file": "midnight-oil.json",
+      "colors": [
+        "#5bc0be",
+        "#0b132b",
+        "#6fffe9"
+      ]
+    },
+    {
+      "id": "copper-dusk",
+      "name": "Copper Dusk",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Warm brown-black with a copper glow.",
+      "file": "copper-dusk.json",
+      "colors": [
+        "#e0956b",
+        "#1c1410",
+        "#9ccf8a"
+      ]
+    },
+    {
+      "id": "ocean-glass",
+      "name": "Ocean Glass",
+      "author": "SteamLite",
+      "authorSteamId": "76561198652781296",
+      "authorAvatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a0150624d1b5eb1_full.jpg",
+      "description": "Teal-green water with a glassy shimmer.",
+      "file": "ocean-glass.json",
+      "colors": [
+        "#2dd4bf",
+        "#08171a",
+        "#5eead4"
       ]
     }
   ]
