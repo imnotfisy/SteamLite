@@ -1,13 +1,21 @@
 {
   "changelog": {
-    "version": "10.1.2",
-    "title": "SteamLite 10.1.2 - A fix for freezing when adding games from the Start menu",
+    "version": "10.1.3",
+    "title": "SteamLite 10.1.3 - Download themes, collections and offline mode",
     "items": [
-      "Fixed: Add a game > From the Start menu could freeze SteamLite for a minute or more, so nothing loaded and the minimise and close buttons did not work",
-      "The Start menu shortcuts are now read together in the background and the list appears in about a second"
+      "Themes are downloaded from GitHub with a screenshot of each one, and Download opens a larger view",
+      "Collections are back: make them, delete them with Undo, and tick games into them from a game page",
+      "The title slides sideways when you open a collection",
+      "An Offline mark next to the logo, and Messages, Friends and News closed while offline",
+      "New Settings > Online with an offline mode switch and a Disconnect button"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 10.1.3 Released - Download themes, collections and offline mode",
+      "date": "October 22, 2026",
+      "content": "SteamLite 10.1.3 is out. Themes are now downloaded when you want them, with a screenshot of each, collections are back, and there is a new offline mode with a Disconnect button in Settings > Online."
+    },
     {
       "title": "SteamLite 10.1.2 Released - A fix for freezing when adding games",
       "date": "October 21, 2026",
