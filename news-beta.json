@@ -1,16 +1,21 @@
 {
   "changelog": {
-    "version": "10.1.3",
-    "title": "SteamLite 10.1.3 - Download themes, collections and offline mode",
+    "version": "10.1.4",
+    "title": "SteamLite 10.1.4 - A better About page and the verified tick",
     "items": [
-      "Themes are downloaded from GitHub with a screenshot of each one, and Download opens a larger view",
-      "Collections are back: make them, delete them with Undo, and tick games into them from a game page",
-      "The title slides sideways when you open a collection",
-      "An Offline mark next to the logo, and Messages, Friends and News closed while offline",
-      "New Settings > Online with an offline mode switch and a Disconnect button"
+      "A better About page: links to Discord, the website and Instagram, and a Made by card with an Add friend button",
+      "Verified players get a blue tick on Home, profiles and in Messages",
+      "Switching chats in Messages blurs and fades in",
+      "Fixed: a chat with a friend showed a question mark and no name",
+      "Fixed: the buttons above a collection wrapped their text, and the collection chips went off screen on a narrow window"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 10.1.4 Released - A better About page and the verified tick",
+      "date": "October 23, 2026",
+      "content": "SteamLite 10.1.4 is out. The About page has links to Discord, the website and Instagram and a card to add the creator as a friend, verified players get a blue tick, and switching chats now fades in. It also fixes chats with no name and collection buttons that wrapped."
+    },
     {
       "title": "SteamLite 10.1.3 Released - Download themes, collections and offline mode",
       "date": "October 22, 2026",
