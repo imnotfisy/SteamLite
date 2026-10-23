@@ -1,16 +1,20 @@
 {
   "changelog": {
-    "version": "10.1.4",
-    "title": "SteamLite 10.1.4 - A better About page and the verified tick",
+    "version": "10.1.5",
+    "title": "SteamLite 10.1.5 - The Non-Steam page",
     "items": [
-      "A better About page: links to Discord, the website and Instagram, and a Made by card with an Add friend button",
-      "Verified players get a blue tick on Home, profiles and in Messages",
-      "Switching chats in Messages blurs and fades in",
-      "Fixed: a chat with a friend showed a question mark and no name",
-      "Fixed: the buttons above a collection wrapped their text, and the collection chips went off screen on a narrow window"
+      "New Non-Steam page: games running right now that are not from Steam are spotted automatically, with pictures and details looked up for them",
+      "A temporary game page for each one, with Add to library and Show file location",
+      "Games from a store launcher (Rockstar, Epic, GOG, EA, Ubisoft, Battle.net, Riot, Xbox) say Open <launcher> instead of Play, and play time is still counted",
+      "The dock shrinks a little on short windows so all ten buttons fit"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 10.1.5 Released - The Non-Steam page",
+      "date": "October 23, 2026",
+      "content": "SteamLite 10.1.5 is out. A new Non-Steam page spots any game running on your PC that is not from Steam and finds pictures for it, with a temporary game page you can add to your library. Games from Rockstar, Epic, GOG and other launchers now say Open launcher instead of Play."
+    },
     {
       "title": "SteamLite 10.1.4 Released - A better About page and the verified tick",
       "date": "October 23, 2026",
