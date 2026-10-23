@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support - SteamLite</title>
+<meta name="description" content="Get help with SteamLite: fixes for common problems, and how to report a bug or ask for a feature.">
+<meta name="theme-color" content="#07070d">
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="style.css?v=16">
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="aurora" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="index.html"><img src="assets/icon.png" alt="" width="30" height="30"><span>SteamLite</span></a>
+  <div class="status" id="status" data-s="check" role="status" aria-live="polite" title="SteamLite Online server status"><i></i><span id="statusTxt">Checking servers</span></div>
+  <nav id="navLinks">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#tour">Tour</a>
+    <a href="index.html#download">Download</a>
+    <a href="index.html#mobile">Mobile</a>
+    <a href="changelog.html">Changelog</a>
+    <a href="support.html" class="on">Support</a>
+    <i class="ink" id="ink"></i>
+  </nav>
+  <a class="btn small mag" href="index.html#download"><span>Get SteamLite</span></a>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><i></i><i></i><i></i></button>
+</header>
+
+<main class="cl-page">
+  <div class="wrap">
+    <span class="pill rise" style="--d:0">Support</span>
+    <h1 class="cl-title rise" style="--d:1">How can we help?</h1>
+    <p class="lead rise" style="--d:2">Try the quick fixes first. If that does not solve it, tell us what happened and we will look into it.</p>
+
+    <div class="paths">
+      <a class="card spot reveal" href="#report" data-type="bug"><h3>Report a bug</h3><p>Something broke or looks wrong.</p></a>
+      <a class="card spot reveal" href="#report" data-type="feature"><h3>Request a feature</h3><p>Tell us what you would like to see.</p></a>
+      <a class="card spot reveal" href="#fixes"><h3>Quick fixes</h3><p>Answers to the common problems.</p></a>
+      <a class="card spot reveal" href="https://github.com/imnotfisy/SteamLite/issues"><h3>Existing issues</h3><p>See what is already reported.</p></a>
+    </div>
+
+    <section id="fixes" class="sp-sec">
+      <h2 class="reveal">Quick fixes</h2>
+      <div class="faq">
+        <div class="q reveal"><button aria-expanded="false">My games do not show up<i></i></button><div class="a"><div><p>SteamLite reads your library through Steam. Check that your Steam profile's game details are set to public, that the Steam ID is right, and that your Steam Web API key is valid. Then press refresh in the Library.</p></div></div></div>
+        <div class="q reveal"><button aria-expanded="false">I need a Steam Web API key<i></i></button><div class="a"><div><p>It is free. Get one from Steam's website while signed in to your Steam account, then paste it into SteamLite when you sign in. The key is stored on your PC.</p></div></div></div>
+        <div class="q reveal"><button aria-expanded="false">The update will not install<i></i></button><div class="a"><div><p>Download the installer for the version you want from the <a href="index.html#download">download section</a> or the <a href="https://github.com/imnotfisy/SteamLite/releases">releases page</a> and run it. It installs over your existing SteamLite and keeps your settings.</p></div></div></div>
+        <div class="q reveal"><button aria-expanded="false">A feature is missing in 10.1.5<i></i></button><div class="a"><div><p>Drops, the shop, the trophy room, events, wishlist and sales, inventory and the tools hub are not in 10.1.5 yet. If you need them, download 9.4.1 from the <a href="https://github.com/imnotfisy/SteamLite/releases">releases page</a> and skip the update. See the <a href="changelog.html">changelog</a> for details.</p></div></div></div>
+        <div class="q reveal"><button aria-expanded="false">Online features are not working<i></i></button><div class="a"><div><p>Check the server status at the top of this page. If it says unreachable, the SteamLite Online server is down or your network is blocking it; try again in a few minutes.</p></div></div></div>
+        <div class="q reveal"><button aria-expanded="false">The phone app is not syncing<i></i></button><div class="a"><div><p>Make sure the PC app and the phone app are both signed in to the same Steam account and online. Profile changes can take a couple of minutes to appear on the other device.</p></div></div></div>
+      </div>
+    </section>
+
+    <section id="report" class="sp-sec">
+      <h2 class="reveal">Report a problem or idea</h2>
+      <p class="sub reveal">This opens a pre-filled issue on GitHub. You need a free GitHub account to submit it. Nothing is sent until you press Submit there.</p>
+      <form class="card reveal report" id="reportForm">
+        <div class="seg" id="kind" role="tablist"><button type="button" class="on" data-k="bug">Bug</button><button type="button" data-k="feature">Feature request</button><button type="button" data-k="question">Question</button></div>
+        <label>Short summary<input id="rTitle" required maxlength="100" placeholder="For example: Library is empty after signing in"></label>
+        <div class="two">
+          <label>SteamLite version<input id="rVer" placeholder="For example: 10.1.5"></label>
+          <label>Windows version<input id="rOs" placeholder="For example: Windows 11"></label>
+        </div>
+        <label>What happened?<textarea id="rBody" rows="6" required placeholder="What did you do, what did you expect, and what happened instead?"></textarea></label>
+        <button class="btn mag" type="submit"><span>Continue on GitHub</span></button>
+      </form>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="brand"><img src="assets/icon.png" alt="" width="26" height="26"><span>SteamLite</span></div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="changelog.html">Changelog</a>
+      <a href="https://github.com/imnotfisy/SteamLite">GitHub</a>
+      <a href="https://github.com/imnotfisy/SteamLite/releases">Releases</a>
+    </div>
+    <p>Not affiliated with Valve Corporation. Steam and the Steam logo are trademarks of Valve.</p>
+  </div>
+</footer>
+<script src="main.js?v=16"></script>
+<script src="support.js?v=16"></script>
+</body>
+</html>

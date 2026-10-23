@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changelog - SteamLite</title>
+<meta name="description" content="Every SteamLite release, newest first.">
+<meta name="theme-color" content="#07070d">
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="style.css?v=16">
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="aurora" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="index.html"><img src="assets/icon.png" alt="" width="30" height="30"><span>SteamLite</span></a>
+  <div class="status" id="status" data-s="check" role="status" aria-live="polite" title="SteamLite Online server status"><i></i><span id="statusTxt">Checking servers</span></div>
+  <nav id="navLinks">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#tour">Tour</a>
+    <a href="index.html#download">Download</a>
+    <a href="index.html#mobile">Mobile</a>
+    <a href="changelog.html" class="on">Changelog</a>
+    <a href="support.html">Support</a>
+    <i class="ink" id="ink"></i>
+  </nav>
+  <a class="btn small mag" href="index.html#download"><span>Get SteamLite</span></a>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><i></i><i></i><i></i></button>
+</header>
+
+<main class="cl-page">
+  <div class="wrap narrow">
+    <span class="pill rise" style="--d:0">Release notes</span>
+    <h1 class="cl-title rise" style="--d:1">Changelog</h1>
+    <p class="lead rise" style="--d:2">Everything that changed in SteamLite, newest first. Pulled straight from the GitHub releases.</p>
+
+    <div class="filters rise" style="--d:3" id="filters" role="tablist">
+      <button class="on" data-f="all">All</button>
+      <button data-f="stable">Stable</button>
+      <button data-f="beta">Beta</button>
+    </div>
+
+    <div class="timeline" id="timeline" aria-live="polite">
+      <article class="rel" data-kind="stable">
+        <div class="head"><h2>10.1.5</h2><span class="pill">Stable</span><time>2026-10-23</time></div>
+        <div class="body">
+          <p>The Non-Steam page.</p>
+          <ul><li>New Non-Steam button in the dock: it lists the games that are running right now and are not from Steam, spotted from the running programs, including games with an anti-cheat.</li>
+          <li>Pictures and details are found for each game: first from the Steam store, then Wikipedia, then the program's own icon.</li>
+          <li>Click a game for a temporary game page. It is not kept in your library unless you press Add to library.</li>
+          <li>Games from a store's launcher (Rockstar, Epic, GOG, EA, Ubisoft, Battle.net, Riot, Xbox) say Open launcher instead of Play, and play time is still counted.</li>
+          <li>Earlier in 10.1.x: themes you download, collections, an offline mode, a verified tick, an About page with the community links, and fixes.</li></ul>
+        </div>
+      </article>
+      <article class="rel" data-kind="stable">
+        <div class="head"><h2>10.0.3</h2><span class="pill">Stable</span><time>2026-10-21</time></div>
+        <div class="body">
+          <p>Profiles, a setup page for new profiles, and a fix for games with an anti-cheat.</p>
+          <ul><li>Profiles: switch between Steam accounts, or add another one with Sign in with Steam, from your picture in the title bar. Each profile keeps its own sign-in, so you can switch back and forth without signing in again.</li>
+          <li>A new profile opens on a full-screen page to set up its SteamLite account: message notifications, Windows notifications, message sound, friend requests and streak reminders.</li>
+          <li>Games with an anti-cheat (Easy Anti-Cheat, BattlEye) are no longer counted as closed when their launcher quits.</li>
+          <li>Sign out now really signs the profile out.</li></ul>
+        </div>
+      </article>
+      <p class="cl-load" id="clLoad">Loading earlier releases</p>
+    </div>
+    <p class="note"><a href="https://github.com/imnotfisy/SteamLite/releases">See all releases on GitHub</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="brand"><img src="assets/icon.png" alt="" width="26" height="26"><span>SteamLite</span></div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="support.html">Support</a>
+      <a href="https://github.com/imnotfisy/SteamLite">GitHub</a>
+      <a href="https://github.com/imnotfisy/SteamLite/releases">Releases</a>
+    </div>
+    <p>Not affiliated with Valve Corporation. Steam and the Steam logo are trademarks of Valve.</p>
+  </div>
+</footer>
+<script src="main.js?v=16"></script>
+<script src="changelog.js?v=16"></script>
+</body>
+</html>
