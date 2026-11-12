@@ -11,6 +11,11 @@
   },
   "news": [
     {
+      "title": "A new SteamLite is on the way",
+      "date": "November 12, 2026",
+      "content": "We are rebuilding SteamLite from the ground up: a new modern look, a faster and simpler app, and a new version numbering by year and month (the first release will be 26.11). Your library, profiles, collections and play time carry over. To keep things focused, Messages, themes and the in-game overlay will not return. Details will follow here."
+    },
+    {
       "title": "SteamLite 10.1.5 Released - The Non-Steam page",
       "date": "October 23, 2026",
       "content": "SteamLite 10.1.5 is out. A new Non-Steam page spots any game running on your PC that is not from Steam and finds pictures for it, with a temporary game page you can add to your library. Games from Rockstar, Epic, GOG and other launchers now say Open launcher instead of Play."
