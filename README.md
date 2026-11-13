@@ -3,11 +3,30 @@
 A fast, free desktop companion for your Steam library: browse and launch your games, follow achievements and friends, chat with other SteamLite users, and make it look the way you want.
 
 ![SteamLite Version](https://img.shields.io/badge/version-10.1.5-blue)
+![Beta](https://img.shields.io/badge/beta-26.11.beta-orange)
 ![Tauri](https://img.shields.io/badge/Tauri-2-24C8DB)
 ![License](https://img.shields.io/badge/license-MIT-green)
 [![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/2VP6x6Rvak)
 
 **Website:** https://imnotfisy.github.io/SteamLite/
+
+## SteamLite 26.11.beta - the new SteamLite (beta)
+
+A new SteamLite, rebuilt from the ground up and focused on your games. Versions are now the year and the month, so this is 26.11. **It is a beta**: it is for trying out and telling us what to fix. 10.1.5 is still the stable version.
+
+**Download:** [SteamLite 26.11.beta](https://github.com/imnotfisy/SteamLite/releases/tag/v26.11.0-beta) (the pre-release on the Releases page). If you use the beta update channel, it is offered to you inside SteamLite.
+
+- **A new look.** A deep dark design with an accent colour taken from the art you are looking at, a curved side rail, and smooth motion everywhere (it respects the Windows "reduce motion" setting).
+- **Home.** A rotating "Jump back in" banner, your totals, rows for recently played, most played and favorites, and the latest news from your games.
+- **Library.** Instant search, sorting, filters (installed, favorites, non-Steam, your collections, hidden), a cover size slider and "Pick for me".
+- **Game pages.** Play and Stop, favorites, collections, launch options (including run as administrator), achievements, game news and notes.
+- **Any game.** Add games from outside Steam and have their play time counted too.
+- **Accounts.** Sign in with your SteamID64 and a Steam Web API key (they stay on your PC), and switch accounts from your picture at the top right.
+- **Your data carries over.** Your existing settings, logins, favorites, collections and play time are read from the same place as before.
+
+### What is not in 26.11.beta
+
+To keep SteamLite focused, these are not in the beta: Messages and friends, themes, the in-game overlay, streaks, the rewards system (achievements, XP, levels and the shop), cloud backup and Discord presence. If you rely on them, stay on 10.1.5. Everything below this section describes 10.1.5.
 
 ## What is new in 10.1.5
 
