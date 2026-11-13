@@ -1,5 +1,5 @@
 {
-  "version": "26.11.4-beta",
-  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.4-beta/SteamLite.Setup.26.11.4-beta.exe",
-  "notes": "The fifth beta of the new SteamLite.\n\n- **Game pictures load more often.** If a game's picture is missing from one Steam image server, SteamLite now tries three more, and then the store's own smaller pictures, before showing the letter tile.\n- **Island support.** SteamLite can show your game, its timer and a Stop button on Island, a separate small app. You can turn this off in Settings."
+  "version": "26.11.5-beta",
+  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.5-beta/SteamLite.Setup.26.11.5-beta.exe",
+  "notes": "The sixth beta of the new SteamLite.\n\n- **A new installer.** The SteamLite installer is now a modern window with a living background, a progress dial and a checklist, and a finish screen. Everything the old installer did is kept (shortcuts, the uninstaller, updating in place).\n- **Updating is the installer.** When an update is found, Update now downloads it, closes SteamLite and opens the installer, which updates SteamLite where it is and opens it again. Your games, collections and play time are kept.\n- **The installer checks GitHub.** If you run an older installer, it tells you when a newer version is out and can get it for you.\n- **Game pictures load more often.** If a picture is missing from one Steam image server, SteamLite tries three more, and then the store's own smaller pictures."
 }
