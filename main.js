@@ -105,6 +105,8 @@ $$('.q button').forEach((b) => b.addEventListener('click', () => {
     if (!Array.isArray(rs)) return;
     const setup = (r) => (r.assets || []).find((a) => /\.exe$/i.test(a.name));
     const st = rs.find((r) => !r.prerelease && !r.draft && setup(r));
+    const bt = rs.find((r) => r.prerelease && !r.draft && setup(r));
+    if (bt && $('#betaBtn')) { $('#betaBtn').href = setup(bt).browser_download_url; $('#betaVer').textContent = bt.tag_name.replace(/^v/, '').replace(/\.0-beta/, '.beta'); }
     if (st) { $('#stableBtn').href = setup(st).browser_download_url; $('#stableVer').textContent = st.tag_name.replace(/^v/, ''); }
   } catch (e) { /* keep fallbacks */ }
 })();
