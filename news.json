@@ -11,6 +11,11 @@
   },
   "news": [
     {
+      "title": "SteamLite 26.11.5.beta is out - a new installer",
+      "date": "November 13, 2026",
+      "content": "The sixth beta of the new SteamLite is out. The installer is now a modern animated window, and it is also how SteamLite updates: when an update is found, Update now downloads it, closes SteamLite and opens the installer, which updates SteamLite where it is and opens it again. Your games, collections and play time are kept. If you run an older installer, it tells you when a newer version is out and can get it for you. Game pictures also load more often, because SteamLite now tries more Steam image servers before giving up. Get it from the SteamLite page on GitHub (Releases, the 26.11.5.beta pre-release), or in the app if you use the beta update channel."
+    },
+    {
       "title": "SteamLite 26.11.1.beta is out - Sign in with Steam",
       "date": "November 13, 2026",
       "content": "The second beta of the new SteamLite is out. SteamLite now signs you in with Steam's own sign-in page, so typing a Steam ID and API key is gone. Everyone signs in with Steam once, even if you were already signed in, and your library, favorites, collections and play time are kept. It also adds an update channel picker in Settings, better game tracking (games that start through a launcher, and Steam games started from Steam), an animated Play and Stop button, and a few fixes. Get it from the SteamLite page on GitHub (Releases, the 26.11.1.beta pre-release), or in the app if you use the beta update channel."
