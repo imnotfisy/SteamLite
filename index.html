@@ -3,217 +3,201 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SteamLite - a lighter way to use Steam</title>
-<meta name="description" content="SteamLite is a fast, free desktop companion for your Steam library: browse games, track achievements, see friends, customise your profile and themes.">
-<meta name="theme-color" content="#07070d">
+<title>SteamLite - Your Steam library, clear and quick</title>
+<meta name="description" content="SteamLite shows your Steam library, launches your games and keeps count of your play time. Free for Windows.">
+<meta name="theme-color" content="#1A1D2A">
+<meta property="og:title" content="SteamLite 26.11">
+<meta property="og:description" content="Your Steam library, clear and quick. Free for Windows.">
+<meta property="og:image" content="https://imnotfisy.github.io/SteamLite/assets/shots/home.png">
 <link rel="icon" href="assets/icon.png">
-<meta property="og:title" content="SteamLite">
-<meta property="og:description" content="A fast, free desktop companion for your Steam library.">
-<meta property="og:image" content="assets/shots/library.webp">
-<link rel="stylesheet" href="style.css?v=16">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=26">
 </head>
 <body>
+<div class="sky" aria-hidden="true"></div><i class="orb a" aria-hidden="true"></i><i class="orb b" aria-hidden="true"></i>
 <div class="progress" id="progress"></div>
-<div class="aurora" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
-<div class="grain" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
   <a class="brand" href="#top"><img src="assets/icon.png" alt="" width="30" height="30"><span>SteamLite</span></a>
-  <div class="status" id="status" data-s="check" role="status" aria-live="polite" title="SteamLite Online server status"><i></i><span id="statusTxt">Checking servers</span></div>
-  <nav id="navLinks">
-    <a href="#features">Features</a>
-    <a href="#tour">Tour</a>
-    <a href="#download">Download</a>
-    <a href="#mobile">Mobile</a>
-    <a href="#faq">FAQ</a>
-    <a href="changelog.html">Changelog</a>
-    <a href="support.html">Support</a>
-    <i class="ink" id="ink"></i>
+  <nav class="links" id="navLinks" aria-label="Main">
+    <a href="#features">Features</a><a href="#screens">Screenshots</a><a href="#download">Download</a><a href="#faq">FAQ</a><a href="changelog.html">Changelog</a><a href="support.html">Support</a>
   </nav>
-  <a class="btn small mag" href="#download"><span>Get SteamLite</span></a>
+  <a class="btn go sm" href="#download" id="navDl">Download</a>
   <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><i></i><i></i><i></i></button>
 </header>
 
 <main id="top">
-  <section class="hero">
+  <!-- hero -->
+  <section class="hero" style="padding-top:150px">
     <div class="wrap">
-      <span class="pill rise" style="--d:0">26.11.5.beta is in testing</span>
-      <h1 id="h1" aria-label="Your Steam library, lighter and faster.">
-        <span class="line"><span class="w">Your</span> <span class="w">Steam</span> <span class="w">library,</span></span>
-        <span class="line grad"><span class="w">lighter</span> <span class="w">and</span> <span class="w">faster.</span></span>
-      </h1>
-      <p class="lead rise" style="--d:5">A free desktop companion for Steam. Browse and launch your games, follow achievements and friends, and make it look the way you want, in an app that installs in seconds.</p>
-      <div class="cta rise" style="--d:6">
-        <a class="btn mag" href="#download"><span>Download for Windows</span></a>
-        <a class="btn ghost mag" href="#tour"><span>Take the tour</span></a>
+      <span class="chip rise" style="--d:0"><b id="heroTag">New</b><span id="heroVer">SteamLite 26.11 is out</span></span>
+      <h1 class="big" id="h1" aria-label="Your Steam library, clear and quick."><span class="w" style="--i:0">Your</span> <span class="w" style="--i:1">Steam</span> <span class="w" style="--i:2">library,</span> <span class="w shine" style="--i:3">clear</span> <span class="w shine" style="--i:4">and</span> <span class="w shine" style="--i:5">quick.</span></h1>
+      <p class="lead rise" style="--d:3">SteamLite shows your games, launches them with one button and keeps count of your play time. Free for Windows.</p>
+      <div class="cta rise" style="--d:4">
+        <a class="btn go big" id="heroDl" href="https://github.com/imnotfisy/SteamLite/releases/latest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg><span id="heroDlText">Download for Windows</span></a>
+        <a class="btn big" href="#features">See what it does</a>
       </div>
-      <p class="meta rise" style="--d:7">Windows 10 and 11 &middot; about 25 MB &middot; free</p>
-    </div>
-    <div class="stage3d rise" style="--d:8" id="stage3d">
-      <div class="frame" id="frame">
-        <img src="assets/shots/library.webp" alt="SteamLite library" width="1280" height="820" fetchpriority="high">
-        <span class="sheen"></span>
+      <p class="meta rise" style="--d:5" id="heroMeta">Windows 10 and 11 &middot; Free &middot; Open source</p>
+
+      <div class="stage rise" style="--d:6" id="stage">
+        <div class="frame" id="frame">
+          <div class="bar"><i></i><i></i><i></i></div>
+          <img src="assets/shots/home.png" alt="The SteamLite home page with a Play button for Counter-Strike 2" width="1180" height="720">
+          <div class="glint"></div>
+        </div>
+        <div class="float f1"><i class="dot"></i><div>Counter-Strike 2<small>Installed &middot; 90 h played</small></div></div>
+        <div class="float f2"><span class="pb">Play</span><div>One button<small>Stop appears while it runs</small></div></div>
+        <div class="float f3"><div>Last played yesterday<small>Tracked automatically</small></div></div>
       </div>
     </div>
   </section>
 
-  <section class="band">
-    <div class="wrap stats">
-      <div class="reveal"><b><span data-count="25">0</span> MB</b><span>installer</span></div>
-      <div class="reveal"><b data-count="56">0</b><span>themes</span></div>
-      <div class="reveal"><b data-count="26">0</b><span>avatar frames</span></div>
-      <div class="reveal"><b>Free</b><span>no ads, no account</span></div>
-    </div>
-  </section>
+  <div class="marq" aria-hidden="true"><div id="marq"></div></div>
 
-  <section id="features" class="wrap sec">
-    <h2 class="reveal">Everything you use,<br>nothing you don't</h2>
-    <p class="sub reveal">Rebuilt for version 10.1.5 on a lightweight engine, with an interface made to feel smooth.</p>
-    <div class="bento">
-      <article class="card spot reveal big"><h3>A library that keeps up</h3><p>Grid or list, collections, search and an A to Z jump. Stays smooth even with thousands of games.</p><div class="mini lib"><i></i><i></i><i></i><i></i><i></i><i></i></div></article>
-      <article class="card spot reveal"><h3>Rich game pages</h3><p>Play time, achievements, news, screenshots, notes and launch options in one place.</p></article>
-      <article class="card spot reveal"><h3>Friends and messages</h3><p>See who is online or playing, then chat with them, with photos, GIFs and notifications. Block and unblock when you need to.</p></article>
-      <article class="card spot reveal"><h3>Search anywhere</h3><p>Press <kbd>Ctrl</kbd> <kbd>K</kbd> to find a game, friend or setting and play from the keyboard.</p></article>
-      <article class="card spot reveal wide"><h3>Make it yours</h3><p>More than 80 themes or any accent colour, plus a profile with banner, avatar frame, title and showcase games.</p>
-        <div class="swatches"><i style="--c:#8b5cf6"></i><i style="--c:#38bdf8"></i><i style="--c:#34d399"></i><i style="--c:#f472b6"></i><i style="--c:#fb923c"></i><i style="--c:#facc15"></i><i style="--c:#f87171"></i><i style="--c:#a3e635"></i></div></article>
-      <article class="card spot reveal"><h3>Light on your PC</h3><p>Built on Tauri instead of Electron: a small installer and a quick start.</p></article>
-    </div>
-  </section>
-
-  <section class="marquee" aria-hidden="true">
-    <div class="track" id="track"></div>
-  </section>
-
-  <section id="tour" class="tour">
+  <!-- features -->
+  <section id="features">
     <div class="wrap">
-      <h2 class="reveal">Take the tour</h2>
-      <p class="sub reveal">Screenshots of SteamLite, shown with sample data.</p>
-      <div class="tour-grid">
-        <div class="steps" id="steps">
-          <div class="step on" data-img="library"><h3>Library</h3><p>Every game you own, with filters, collections and instant search.</p></div>
-          <div class="step" data-img="game"><h3>Game pages</h3><p>Stats, achievements, news and notes, with cover art that morphs into the hero.</p></div>
-          <div class="step" data-img="friends"><h3>Friends</h3><p>Profiles, status and the games you have in common.</p></div>
-          <div class="step" data-img="messages"><h3>Messages</h3><p>Chat with friends, reply and react, share photos and GIFs, and get notified. It syncs with your phone.</p></div>
-          <div class="step" data-img="themes"><h3>Themes</h3><p>Try a theme before you apply it, or just pick an accent.</p></div>
-          <div class="step" data-img="profile"><h3>Profile</h3><p>Banner, avatar frames, titles and showcase games.</p></div>
-          <div class="step" data-img="search"><h3>Search</h3><p>One shortcut to anything in the app.</p></div>
+      <p class="eyebrow reveal">What it does</p>
+      <h2 class="reveal">Everything you need to find a game and play it.</h2>
+      <p class="sub reveal">No overlay, no store, no feed. Just your library, clearly laid out.</p>
+
+      <div class="bento">
+        <article class="tile t1 reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 4.5h5v15H4zM11 4.5h3v15h-3zM16.4 5.4l2.9-.8 3.1 14.1-2.9.8z"/></svg></div>
+          <h3>A library you can scan</h3>
+          <p>Plain covers in a clean grid. Every game says whether it is installed, how long you have played and when you last played it.</p>
+          <div class="crop" style="margin-top:22px;aspect-ratio:1024/354;border-radius:16px;border:1px solid var(--line2);background:url(assets/shots/library.png) no-repeat;background-size:115.23% auto;background-position:64.1% 63.1%"></div>
+        </article>
+        <article class="tile t2 reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+          <h3>One Play button</h3>
+          <p>Green means go. Stop appears while the game runs.</p>
+          <span class="playbig"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>Play</span>
+        </article>
+        <article class="tile t3 reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>Play time, counted</h3>
+          <p>Follows games started by a launcher, and Steam games started from Steam.</p>
+          <div class="timer" id="timer">0:00:00<small>this session</small></div>
+        </article>
+        <article class="tile t4 reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5M3 17.5l9 5 9-5"/></svg></div>
+          <h3>Collections</h3>
+          <p>Group games your way, mark favorites, hide what you never play.</p>
+          <div class="pillrow"><span>Co-op</span><span>Backlog</span><span>Favorites</span><span>Short games</span></div>
+        </article>
+        <article class="tile t5 reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M11 18a7 7 0 100-14 7 7 0 000 14zM20 20l-4-4"/></svg></div>
+          <h3>Search and sort</h3>
+          <p>Instant search. Sort by recently played, A to Z, installed first or most played.</p>
+          <div class="pillrow"><span>Recently played</span><span>Installed first</span></div>
+        </article>
+        <article class="tile t6 reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12a1 1 0 011 1v8a1 1 0 01-1 1H6a1 1 0 01-1-1v-8a1 1 0 011-1z"/></svg></div>
+          <h3>Sign in with Steam</h3>
+          <p>Steam's own sign-in page. SteamLite never sees your password, and your library, collections and play time carry over from 10.x.</p>
+        </article>
+        <article class="tile t7 reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 19.5h14"/></svg></div>
+          <h3>Updates that just work</h3>
+          <p>Update now closes SteamLite, updates it in place and opens it again. Choose Stable or Beta in Settings.</p>
+          <div class="island"><img src="assets/icon.png" alt=""><i></i>Works with Island, a small pill at the top of your screen</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- screenshots -->
+  <section id="screens">
+    <div class="wrap">
+      <p class="eyebrow reveal">Take a look</p>
+      <h2 class="reveal">Calm, dark and easy to read.</h2>
+      <div class="show reveal">
+        <div class="tabs" id="tabs">
+          <button class="on" data-i="0"><b>Home</b><span>Continue the game you were playing, with your totals and recent games below.</span><div class="bar2"><i></i></div></button>
+          <button data-i="1"><b>Library</b><span>Search, sort and filter. Installed, play time and last played on every game.</span><div class="bar2"><i></i></div></button>
+          <button data-i="2"><b>Game page</b><span>A big Play button. Collections, launch options and notes stay out of the way.</span><div class="bar2"><i></i></div></button>
+          <button data-i="3"><b>Settings</b><span>Open on Home or Library, update channels, and a few small things you can switch off.</span><div class="bar2"><i></i></div></button>
         </div>
-        <div class="sticky">
-          <div class="frame shotbox" id="shotbox">
-            <img data-img="library" class="on" src="assets/shots/library.webp" alt="Library screen" loading="lazy">
-            <img data-img="game" src="assets/shots/game.webp" alt="Game page" loading="lazy">
-            <img data-img="friends" src="assets/shots/friends.webp" alt="Friends screen" loading="lazy">
-            <img data-img="messages" src="assets/shots/messages.webp" alt="Messages screen" loading="lazy">
-            <img data-img="themes" src="assets/shots/themes.webp" alt="Themes screen" loading="lazy">
-            <img data-img="profile" src="assets/shots/profile.webp" alt="Profile editor" loading="lazy">
-            <img data-img="search" src="assets/shots/search.webp" alt="Search" loading="lazy">
-          </div>
+        <div class="shot" id="shot">
+          <img class="on" src="assets/shots/home.png" alt="Home" loading="lazy"><img src="assets/shots/library.png" alt="Library" loading="lazy"><img src="assets/shots/game.png" alt="A game page" loading="lazy"><img src="assets/shots/settings.png" alt="Settings" loading="lazy">
         </div>
       </div>
     </div>
   </section>
 
-  <section id="download" class="wrap sec">
-    <h2 class="reveal">Download</h2>
-    <p class="sub reveal">SteamLite is free. You need Steam installed and a free Steam Web API key to connect your account.</p>
-    <div class="dl">
-      <div class="card spot reveal">
-        <span class="pill">Latest</span>
-        <h3>SteamLite <span id="stableVer">10.1.5</span></h3>
-        <p>The new engine and interface, with Messages.</p>
-        <a class="btn mag" id="stableBtn" href="https://github.com/imnotfisy/SteamLite/releases/latest"><span>Download for Windows</span></a>
-      </div>
-      <div class="card spot reveal">
-        <span class="pill hot">Beta</span>
-        <h3>SteamLite <span id="betaVer">26.11.5.beta</span></h3>
-        <p>The new SteamLite, rebuilt from the ground up: a new look, a faster and simpler app, and versions by year and month. It is a beta, and it does not have everything from 10.x (see below).</p>
-        <a class="btn mag" id="betaBtn" href="https://github.com/imnotfisy/SteamLite/releases/tag/v26.11.5-beta"><span>Download the beta</span></a>
-      </div>
-      <div class="card spot reveal">
-        <h3>Older versions</h3>
-        <p>Need an earlier SteamLite, such as 9.4.1? Every release is on GitHub.</p>
-        <a class="btn ghost mag" href="https://github.com/imnotfisy/SteamLite/releases"><span>All releases</span></a>
+  <!-- steps -->
+  <section id="how">
+    <div class="wrap">
+      <p class="eyebrow reveal">Getting started</p>
+      <h2 class="reveal">Ready in about a minute.</h2>
+      <div class="steps">
+        <div class="step reveal"><h3>Download</h3><p>Get the installer and press Install. It installs just for you, so it normally needs no administrator rights.</p></div>
+        <div class="step reveal"><h3>Sign in with Steam</h3><p>Steam's own sign-in page opens in your browser. Make sure your profile's game details are public.</p></div>
+        <div class="step reveal"><h3>Press Play</h3><p>Your library loads. Pick a game and press Play. SteamLite counts the time.</p></div>
       </div>
     </div>
-    <p class="note reveal">Installing over an existing SteamLite keeps your settings. Updates come through the built-in SteamLite Updater.</p>
   </section>
 
-  <section id="mobile" class="wrap sec">
-    <h2 class="reveal">SteamLite on your phone</h2>
-    <p class="sub reveal">An Android companion app and a separate Messages app, both free on GitHub.</p>
-    <div class="dl">
-      <div class="card spot reveal"><h3>SteamLite Mobile</h3><p>Your library, profile and friends on Android.</p><a class="btn ghost mag" href="https://github.com/imnotfisy/SteamLite-Mobile/releases"><span>Get the APK</span></a></div>
-      <div class="card spot reveal"><h3>SteamLite Messages</h3><p>Chat and voice calls with other SteamLite users.</p><a class="btn ghost mag" href="https://github.com/imnotfisy/SteamLite-Messages/releases"><span>Get the APK</span></a></div>
-    </div>
-  </section>
-
-  <section class="wrap sec narrow">
-    <h2 class="reveal">What's new in 26.11.5.beta</h2>
-    <p class="sub reveal">The sixth beta of the new SteamLite, rebuilt from the ground up and focused on your games. Versions are the year and the month.</p>
-    <ul class="log">
-      <li class="reveal">A new installer: a modern animated window with a progress dial. It is also how SteamLite updates. Update now closes SteamLite and opens the installer, which updates it in place and opens it again. An older installer tells you when a newer version is out.</li>
-      <li class="reveal">Game pictures load more often: if one Steam image server is missing a picture, SteamLite tries more before giving up.</li>
-      <li class="reveal">Sign in with Steam: SteamLite signs you in with Steam's own sign-in page, so it never sees your password. Everyone signs in with Steam once, even if they were already signed in, and your library, favorites, collections and play time are kept.</li>
-      <li class="reveal">An update channel picker in Settings. Beta is selected now, and Release unlocks when the beta is finished.</li>
-      <li class="reveal">Better game tracking: games that start through a launcher are followed, and Steam games started from Steam itself are counted too. The Play and Stop button now animates when it switches.</li>
-      <li class="reveal">A new look: a deep dark design with an accent colour taken from the art you are looking at, a curved side rail, and smooth motion everywhere.</li>
-      <li class="reveal">Home with a rotating Jump back in banner, your totals, and rows for recently played, most played and favorites, plus the latest news from your games.</li>
-      <li class="reveal">A library with instant search, sorting, filters, collections, a cover size slider and Pick for me.</li>
-      <li class="reveal">Game pages with Play and Stop, launch options (including run as administrator), achievements, news and notes. Add games from outside Steam and have their play time counted too.</li>
-      <li class="reveal">News from SteamLite and the games you play, and switching between Steam accounts from your picture at the top right.</li>
-    </ul>
-    <p class="note reveal">To keep SteamLite focused, Messages and friends, themes, the in-game overlay, streaks, the rewards system, cloud backup and Discord presence are not in 26.11.5.beta. If you rely on them, stay on 10.1.5. It is a beta, so please tell us what to fix on the <a href="https://github.com/imnotfisy/SteamLite/issues">GitHub page</a>.</p>
-  </section>
-
-  <section class="wrap sec narrow">
-    <h2 class="reveal">What's new in 10.1.5</h2>
-    <ul class="log">
-      <li class="reveal">A new Non-Steam page spots any game running on your PC that is not from Steam, finds pictures for it and shows a temporary game page. Games from Rockstar, Epic, GOG and other launchers say Open launcher instead of Play.</li>
-      <li class="reveal">Add games from outside Steam, with play time tracked, and an in-game overlay with your play time, the clock, your streak and new messages.</li>
-      <li class="reveal">Themes are downloaded from GitHub with a screenshot of each one, collections are back, and there is an offline mode in Settings.</li>
-      <li class="reveal">Messages: voice messages, group chats and GIFs. The streak celebration is back, and updates download inside SteamLite with a progress bar.</li>
-      <li class="reveal">Profiles: switch between Steam accounts, or add another one, from your picture. Games with an anti-cheat are tracked correctly.</li>
-      <li class="reveal">New engine: Tauri 2 instead of Electron, about 25 MB installer instead of about 103 MB.</li>
-      <li class="reveal">Brand new interface with spring animations and pages that scroll up and down.</li>
-      <li class="reveal">Messages: chat with friends, share photos and GIFs, mute, block and unblock, with notifications.</li>
-      <li class="reveal">A News page and update notices you can open from anywhere.</li>
-      <li class="reveal">Profile customisation: banner, tagline, title, avatar frame, accent and showcase.</li>
-      <li class="reveal">Works with the SteamLite Updater and installs over your existing copy.</li>
-    </ul>
-    <p class="note reveal">Drops, the shop, the trophy room, events, wishlist and sales, inventory and the tools hub are not in 10.1.5 yet and will return in the new design.</p>
-  </section>
-
-  <section id="faq" class="wrap sec narrow">
-    <h2 class="reveal">Questions</h2>
-    <div class="faq">
-      <div class="q reveal"><button aria-expanded="false">Is SteamLite free?<i></i></button><div class="a"><div><p>Yes.</p></div></div></div>
-      <div class="q reveal"><button aria-expanded="false">Do I need a Steam Web API key?<i></i></button><div class="a"><div><p>Yes, a free one. You can get it from Steam's website and paste it in when you sign in. It stays on your PC.</p></div></div></div>
-      <div class="q reveal"><button aria-expanded="false">Is it affiliated with Valve?<i></i></button><div class="a"><div><p>No. SteamLite is an independent project and is not made or endorsed by Valve. Steam is a trademark of Valve Corporation.</p></div></div></div>
-      <div class="q reveal"><button aria-expanded="false">Will 10.1.5 replace my current SteamLite?<i></i></button><div class="a"><div><p>It installs over your existing SteamLite and keeps your settings. It does not include drops, the shop, the trophy room, events, wishlist and sales, inventory or the tools hub yet. If you rely on those, you can download 9.4.1 from the releases page and skip the update.</p></div></div></div>
-      <div class="q reveal"><button aria-expanded="false">What is SteamLite 26.11.5.beta?<i></i></button><div class="a"><div><p>It is a preview of the next SteamLite, rebuilt from the ground up with a new look and a simpler, faster app. It is a beta, so expect rough edges, and some 10.x features such as Messages, themes and the overlay are not in it. Your settings and data are read from the same place, so you can try it and go back. 10.1.5 stays the stable version.</p></div></div></div>
-      <div class="q reveal"><button aria-expanded="false">Where do I report a bug?<i></i></button><div class="a"><div><p>Open an issue on the <a href="https://github.com/imnotfisy/SteamLite/issues">GitHub page</a>.</p></div></div></div>
+  <!-- download -->
+  <section id="download">
+    <div class="wrap">
+      <p class="eyebrow reveal">Download</p>
+      <h2 class="reveal">Pick a channel.</h2>
+      <p class="sub reveal">Stable is finished and tested. Beta gets new features first. You can switch any time in Settings.</p>
+      <div class="chan">
+        <article class="dl main reveal">
+          <span class="tag">Stable</span>
+          <h3 id="stableVer">SteamLite 26.11</h3>
+          <p>The release for everyone. Updates arrive when they are finished.</p>
+          <ul><li>Tested, finished updates only</li><li>Updates itself, in place</li><li>Keeps your 10.x data</li></ul>
+          <a class="btn go big" id="stableDl" href="https://github.com/imnotfisy/SteamLite/releases/latest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>Download stable</a>
+          <p class="small" id="stableInfo">Windows 10 and 11</p>
+        </article>
+        <article class="dl reveal">
+          <span class="tag">Beta</span>
+          <h3 id="betaVer">SteamLite Beta</h3>
+          <p>Try new features before the stable release gets them. It may have rough edges.</p>
+          <ul><li>New features first</li><li>Switch to Stable any time</li><li>Tell us what to fix</li></ul>
+          <a class="btn big" id="betaDl" href="https://github.com/imnotfisy/SteamLite/releases">Download beta</a>
+          <p class="small" id="betaInfo">Windows 10 and 11</p>
+        </article>
+      </div>
     </div>
   </section>
 
-  <section class="final wrap">
-    <h2 class="reveal">Ready when you are.</h2>
-    <a class="btn mag reveal" href="#download"><span>Download SteamLite</span></a>
+  <!-- faq -->
+  <section id="faq">
+    <div class="wrap">
+      <p class="eyebrow reveal">Questions</p>
+      <h2 class="reveal">Short answers.</h2>
+      <div class="faq">
+        <div class="q reveal"><button aria-expanded="false">Is it safe to sign in?<i></i></button><div class="a"><div><p>SteamLite opens Steam's own sign-in page in your browser, so it never sees your password. The sign-in is confirmed through the SteamLite server, and the token it saves is protected by Windows.</p></div></div></div>
+        <div class="q reveal"><button aria-expanded="false">Why does it ask for a Steam Web API key?<i></i></button><div class="a"><div><p>Steam needs a free Web API key to hand over your game list. SteamLite asks once and saves it to your account. You can get one from <a href="https://steamcommunity.com/dev/apikey" rel="noopener">Steam's website</a>.</p></div></div></div>
+        <div class="q reveal"><button aria-expanded="false">My library is empty.<i></i></button><div class="a"><div><p>Set <b>Game details</b> to <b>Public</b> in your Steam privacy settings, then press refresh in the library.</p></div></div></div>
+        <div class="q reveal"><button aria-expanded="false">Do I keep my data from 10.x?<i></i></button><div class="a"><div><p>Yes. Install 26.11 over 10.x. Your settings, favorites, collections and play time are read from the same place, and you sign in with Steam once.</p></div></div></div>
+        <div class="q reveal"><button aria-expanded="false">What happened to Messages, themes and the overlay?<i></i></button><div class="a"><div><p>To keep SteamLite focused, these are not in 26.11: Messages and friends, themes, the in-game overlay, streaks, the rewards system, cloud backup and Discord presence. If you rely on them, <a href="https://github.com/imnotfisy/SteamLite/releases/tag/v10.1.5">10.1.5</a> is still available.</p></div></div></div>
+        <div class="q reveal"><button aria-expanded="false">Which version should I choose?<i></i></button><div class="a"><div><p>Stable if you want finished updates only. Beta if you want new features before the stable release gets them. The release notes for every version are on the <a href="changelog.html">changelog</a>.</p></div></div></div>
+      </div>
+    </div>
   </section>
+
+  <div class="wrap">
+    <div class="final reveal">
+      <h2>Your games, one button away.</h2>
+      <div class="cta"><a class="btn go big" href="#download">Download SteamLite</a><a class="btn big" href="https://github.com/imnotfisy/SteamLite">View on GitHub</a></div>
+    </div>
+  </div>
 </main>
 
 <footer>
   <div class="wrap foot">
-    <div class="brand"><img src="assets/icon.png" alt="" width="26" height="26"><span>SteamLite</span></div>
-    <div class="links">
-      <a href="https://github.com/imnotfisy/SteamLite">GitHub</a>
-      <a href="changelog.html">Changelog</a>
-      <a href="support.html">Support</a>
-      <a href="https://github.com/imnotfisy/SteamLite/releases">Releases</a>
-      <a href="https://github.com/imnotfisy/SteamLite/issues">Report a bug</a>
-    </div>
-    <p>Not affiliated with Valve Corporation. Steam and the Steam logo are trademarks of Valve.</p>
+    <a class="brand" href="#top"><img src="assets/icon.png" alt="" width="26" height="26"><span>SteamLite</span></a>
+    <div class="links"><a href="changelog.html">Changelog</a><a href="support.html">Support</a><a href="https://github.com/imnotfisy/SteamLite">GitHub</a><a href="https://github.com/imnotfisy/SteamLite/releases">Releases</a></div>
+    <p>SteamLite is free and open source (MIT). Not affiliated with Valve Corporation. Steam and the Steam logo are trademarks of Valve.</p>
   </div>
 </footer>
-<script src="main.js?v=18"></script>
+<script src="main.js?v=26"></script>
 </body>
 </html>

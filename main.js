@@ -1,143 +1,84 @@
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-// split headline words so they can stagger in
-$$('#h1 .w').forEach((w, i) => w.style.setProperty('--i', i));
+// scroll reveal, with a small stagger between siblings
+const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+$$('.reveal').forEach((el) => { const sibs = $$(':scope > .reveal', el.parentElement), i = sibs.indexOf(el); el.style.setProperty('--rd', Math.min(i, 6) * 80 + 'ms'); io.observe(el); });
 
-// scroll reveal with a small stagger for siblings
-const io = new IntersectionObserver((es) => es.forEach((e) => {
-  if (!e.isIntersecting) return;
-  e.target.classList.add('in'); io.unobserve(e.target);
-}), { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-$$('.reveal').forEach((el) => {
-  const sibs = $$(':scope > .reveal', el.parentElement), i = sibs.indexOf(el);
-  el.style.setProperty('--rd', Math.min(i, 6) * 80 + 'ms');
-  io.observe(el);
-});
+// marquee words
+const words = ['Your library', 'Play time', 'Collections', 'Sign in with Steam', 'One Play button', 'Updates in place', 'Stable and Beta', 'Island support', 'Free and open source'];
+const marq = $('#marq'); if (marq) marq.innerHTML = [...words, ...words].map((w) => `<span>${w}</span>`).join('');
 
-// count-up numbers
-const ease = (t) => 1 - Math.pow(1 - t, 4);
-const cio = new IntersectionObserver((es) => es.forEach((e) => {
-  if (!e.isIntersecting) return; cio.unobserve(e.target);
-  const to = +e.target.dataset.count; if (reduce) { e.target.textContent = to; return; }
-  const t0 = performance.now(), dur = 1400;
-  (function tick(t) { const p = Math.min(1, (t - t0) / dur); e.target.textContent = Math.round(to * ease(p)); if (p < 1) requestAnimationFrame(tick); })(t0);
-}), { threshold: 0.1 });
-$$('[data-count]').forEach((el) => cio.observe(el));
-
-// theme-colour marquee
-const PAL = [['#8b5cf6', '#1b1233'], ['#38bdf8', '#0c2238'], ['#34d399', '#0b2a22'], ['#f472b6', '#2c1022'], ['#fb923c', '#2c1708'], ['#facc15', '#2a2308'], ['#f87171', '#2b0f10'], ['#a3e635', '#18260a'], ['#818cf8', '#14173a'], ['#2dd4bf', '#0a2926'], ['#e879f9', '#2a1030'], ['#94a3b8', '#141a24']];
-const track = $('#track');
-if (track) track.innerHTML = [...PAL, ...PAL].map(([a, b]) => `<i style="--a:${a};--b:${b}"></i>`).join('');
-
-// scroll-driven state: progress bar, nav, hero parallax, active nav link
-const nav = $('#nav'), prog = $('#progress'), frame = $('#frame'), stage = $('#stage3d');
-const links = $$('#navLinks a'), ink = $('#ink');
-const sections = links.map((a) => (a.getAttribute('href').startsWith('#') ? $(a.getAttribute('href')) : null));
-let lastY = 0, tiltX = 0, tiltY = 0, ticking = false;
+// progress bar, floating nav, hero 3D frame
+const nav = $('#nav'), prog = $('#progress'), frame = $('#frame'), stage = $('#stage');
+const links = $$('#navLinks a[href^="#"]'), secs = links.map((a) => $(a.getAttribute('href')));
+let lastY = 0, tiltX = 0, tiltY = 0, tick = false;
 function onScroll() {
   const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
   prog.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
   nav.classList.toggle('stuck', y > 20);
-  nav.classList.toggle('hide', y > lastY + 4 && y > 500 ? true : y < lastY - 4 ? false : nav.classList.contains('hide'));
+  if (!nav.classList.contains('open')) nav.classList.toggle('hide', y > lastY + 4 && y > 500 ? true : y < lastY - 4 ? false : nav.classList.contains('hide'));
   lastY = y;
-  if (!reduce && stage) {
-    const r = stage.getBoundingClientRect(), p = Math.max(0, Math.min(1, 1 - r.top / innerHeight * 1.15));
-    frame.style.setProperty('--rx', (10 - p * 10 + tiltX).toFixed(2) + 'deg');
-    frame.style.setProperty('--sc', (0.94 + p * 0.06).toFixed(3));
-    frame.style.setProperty('--ty', (-p * 20).toFixed(1) + 'px');
-    frame.style.setProperty('--ry', tiltY.toFixed(2) + 'deg');
+  if (!reduce && stage && frame) {
+    const r = stage.getBoundingClientRect(), p = Math.max(0, Math.min(1, 1 - r.top / innerHeight * 1.1));
+    frame.style.setProperty('--rx', (10 - p * 10 + tiltX).toFixed(2) + 'deg'); frame.style.setProperty('--sc', (0.94 + p * 0.06).toFixed(3));
+    frame.style.setProperty('--ty', (-p * 18).toFixed(1) + 'px'); frame.style.setProperty('--ry', tiltY.toFixed(2) + 'deg');
   }
-  let cur = -1; sections.forEach((s, i) => { if (s && s.getBoundingClientRect().top < innerHeight * 0.4) cur = i; });
+  let cur = -1; secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top < innerHeight * 0.4) cur = i; });
   links.forEach((a, i) => a.classList.toggle('on', i === cur));
-  if (cur >= 0) { const a = links[cur]; ink.style.width = a.offsetWidth + 'px'; ink.style.transform = `translateX(${a.offsetLeft}px)`; ink.style.opacity = 1; } else ink.style.opacity = 0;
-  ticking = false;
+  tick = false;
 }
-addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-addEventListener('resize', onScroll); onScroll();
-
-// hero tilt follows the pointer
+addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(onScroll); } }, { passive: true }); addEventListener('resize', onScroll); onScroll();
 if (fine && !reduce && stage) {
-  stage.addEventListener('pointermove', (e) => {
-    const r = stage.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-    tiltY = x * 9; tiltX = -y * 6; frame.style.setProperty('--sx', (x * 120 + 10) + '%'); onScroll();
-  });
+  stage.addEventListener('pointermove', (e) => { const r = stage.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5; tiltY = x * 8; tiltX = -y * 5; frame.style.setProperty('--sx', (x * 120 + 10) + '%'); onScroll(); });
   stage.addEventListener('pointerleave', () => { tiltX = tiltY = 0; frame.style.setProperty('--sx', '-60%'); onScroll(); });
-  // aurora drifts slightly against the pointer
-  const au = $('.aurora');
-  addEventListener('pointermove', (e) => { au.style.transform = `translate3d(${(e.clientX / innerWidth - 0.5) * -30}px,${(e.clientY / innerHeight - 0.5) * -30}px,0)`; }, { passive: true });
-  au.style.transition = 'transform 1.2s cubic-bezier(.22,1,.36,1)';
+  const orbs = $$('.orb'); addEventListener('pointermove', (e) => orbs.forEach((o, i) => { o.style.translate = `${(e.clientX / innerWidth - 0.5) * (i ? 40 : -40)}px ${(e.clientY / innerHeight - 0.5) * (i ? 40 : -40)}px`; }), { passive: true });
 }
-
-// spotlight on cards, light on buttons, magnetic buttons
-$$('.card.spot, .btn').forEach((el) => el.addEventListener('pointermove', (e) => {
-  const r = el.getBoundingClientRect(); el.style.setProperty('--mx', e.clientX - r.left + 'px'); el.style.setProperty('--my', e.clientY - r.top + 'px');
-}));
-if (fine && !reduce) $$('.mag').forEach((b) => {
-  const s = $('span', b);
-  b.addEventListener('pointermove', (e) => { const r = b.getBoundingClientRect(), x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2; b.style.transform = `translate(${x * 0.18}px,${y * 0.28}px)`; if (s) s.style.transform = `translate(${x * 0.08}px,${y * 0.12}px)`; });
-  b.addEventListener('pointerleave', () => { b.style.transform = ''; if (s) s.style.transform = ''; });
-});
-
-// sticky tour: crossfade the screenshot to match the step in view
-const steps = $$('.step'), shots = $$('#shotbox img');
-const sio = new IntersectionObserver((es) => es.forEach((e) => {
-  if (!e.isIntersecting) return;
-  const id = e.target.dataset.img;
-  steps.forEach((s) => s.classList.toggle('on', s === e.target));
-  shots.forEach((im) => im.classList.toggle('on', im.dataset.img === id));
-}), { rootMargin: '-45% 0px -45% 0px' });
-steps.forEach((s) => sio.observe(s));
-steps.forEach((s) => s.addEventListener('click', () => s.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' })));
-
-// faq accordion
-$$('.q button').forEach((b) => b.addEventListener('click', () => {
-  const q = b.parentElement, open = !q.classList.contains('open');
-  $$('.q.open').forEach((o) => { o.classList.remove('open'); $('button', o).setAttribute('aria-expanded', 'false'); });
-  q.classList.toggle('open', open); b.setAttribute('aria-expanded', open);
-}));
-
-// latest releases from GitHub (falls back to the static links)
-(async () => {
-  try {
-    const rs = await (await fetch('https://api.github.com/repos/imnotfisy/SteamLite/releases?per_page=20')).json();
-    if (!Array.isArray(rs)) return;
-    const setup = (r) => (r.assets || []).find((a) => /\.exe$/i.test(a.name));
-    const st = rs.find((r) => !r.prerelease && !r.draft && setup(r));
-    const bt = rs.find((r) => r.prerelease && !r.draft && setup(r));
-    if (bt && $('#betaBtn')) { $('#betaBtn').href = setup(bt).browser_download_url; $('#betaVer').textContent = bt.tag_name.replace(/^v/, '').replace(/-beta$/, '.beta').replace(/\.0\.beta$/, '.beta'); }
-    if (st) { $('#stableBtn').href = setup(st).browser_download_url; $('#stableVer').textContent = st.tag_name.replace(/^v/, ''); }
-  } catch (e) { /* keep fallbacks */ }
-})();
-
-// server status: pings the SteamLite Online server (no-cors, so we only learn reachable / not reachable, plus how long it took)
-(function () {
-  const el = $('#status'), txt = $('#statusTxt'), URL = 'https://steamlite-online.bayxturtle.workers.dev/health';
-  const set = (s, t) => { el.dataset.s = s; txt.textContent = t; };
-  async function check() {
-    const t0 = performance.now(), ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 6000);
-    try {
-      let r = null;
-      try { r = await fetch(URL + '?t=' + Date.now(), { cache: 'no-store', signal: ctl.signal }); }
-      catch (e) { await fetch(URL + '?t=' + Date.now(), { mode: 'no-cors', cache: 'no-store', signal: ctl.signal }); } // server without CORS: we can only tell it answered
-      const ms = Math.round(performance.now() - t0);
-      if (r && r.status === 503) set('off', 'Servers switched off');
-      else set(ms > 1500 ? 'slow' : 'up', ms > 1500 ? 'Servers slow · ' + ms + ' ms' : 'Servers online · ' + ms + ' ms');
-    } catch (e) { set('down', 'Servers unreachable'); }
-    clearTimeout(to);
-  }
-  check(); setInterval(() => { if (!document.hidden) check(); }, 30000);
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) check(); });
-})();
 
 // mobile menu
-(function () {
-  const bar = $('#nav'), b = $('#burger'); if (!b) return;
-  const set = (o) => { bar.classList.toggle('open', o); b.setAttribute('aria-expanded', o); };
-  b.addEventListener('click', (e) => { e.stopPropagation(); set(!bar.classList.contains('open')); });
-  $$('#navLinks a').forEach((a) => a.addEventListener('click', () => set(false)));
-  addEventListener('click', (e) => { if (!bar.contains(e.target)) set(false); });
-  addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
-  addEventListener('resize', () => { if (innerWidth > 900) set(false); });
+const burger = $('#burger');
+burger.addEventListener('click', () => { const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
+$$('#navLinks a').forEach((a) => a.addEventListener('click', () => { nav.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); }));
+
+// light that follows the pointer on the feature tiles, and a ripple on buttons
+$$('.tile').forEach((el) => el.addEventListener('pointermove', (e) => { const r = el.getBoundingClientRect(); el.style.setProperty('--mx', e.clientX - r.left + 'px'); el.style.setProperty('--my', e.clientY - r.top + 'px'); }));
+document.addEventListener('pointerdown', (e) => {
+  const b = e.target.closest && e.target.closest('.btn'); if (!b || reduce) return;
+  const r = b.getBoundingClientRect(), d = Math.max(r.width, r.height) * 2.2, s = document.createElement('span'); s.className = 'ripple';
+  s.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - r.left - d / 2}px;top:${e.clientY - r.top - d / 2}px`; b.appendChild(s); setTimeout(() => s.remove(), 750);
+});
+
+// a session timer that ticks, as a little demo of play time
+const timer = $('#timer');
+if (timer) { let t = 3 * 3600 + 24 * 60 + 9; const fmt = (n) => Math.floor(n / 3600) + ':' + String(Math.floor(n % 3600 / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0'); const small = timer.querySelector('small'); const draw = () => { timer.firstChild.textContent = fmt(t); }; draw(); if (!reduce) setInterval(() => { t++; draw(); }, 1000); }
+
+// screenshot tabs: they advance by themselves and pause while you look
+const tabs = $$('#tabs button'), shots = $$('#shot img'); let cur = 0, prog2 = 0, hover = false;
+function show(i) { cur = i; prog2 = 0; tabs.forEach((b, n) => { b.classList.toggle('on', n === i); const f = $('.bar2 i', b); if (f) f.style.width = '0'; }); shots.forEach((s, n) => s.classList.toggle('on', n === i)); }
+tabs.forEach((b, i) => b.addEventListener('click', () => show(i)));
+const area = $('.show'); if (area) { area.addEventListener('pointerenter', () => (hover = true)); area.addEventListener('pointerleave', () => (hover = false)); }
+if (!reduce) setInterval(() => { if (hover || document.hidden) return; prog2 += 1; const f = $('.bar2 i', tabs[cur]); if (f) f.style.width = Math.min(100, prog2 / 0.5) + '%'; if (prog2 >= 50) show((cur + 1) % tabs.length); }, 100);
+
+// FAQ
+$$('.q button').forEach((b) => b.addEventListener('click', () => { const o = b.getAttribute('aria-expanded') === 'true'; $$('.q button').forEach((x) => x.setAttribute('aria-expanded', 'false')); b.setAttribute('aria-expanded', String(!o)); }));
+
+// downloads: the newest stable release and the newest beta, straight from GitHub
+const niceVer = (t) => t.replace(/^v/, '').replace(/\.0$/, '').replace(/-beta$/, '.beta').replace(/\.0\.beta$/, '.beta');
+const size = (n) => (n / 1048576).toFixed(0) + ' MB';
+const day = (d) => new Date(d).toLocaleDateString('en', { year: 'numeric', month: 'long', day: 'numeric' });
+(async () => {
+  if (!$('#stableDl')) return;
+  try {
+    const rs = (await (await fetch('https://api.github.com/repos/imnotfisy/SteamLite/releases?per_page=30')).json()).filter((r) => !r.draft);
+    const exe = (r) => (r.assets || []).find((a) => /\.exe$/i.test(a.name));
+    const isNew = (r) => /^v2\d\./.test(r.tag_name);
+    const stable = rs.find((r) => !r.prerelease && isNew(r) && exe(r)), beta = rs.find((r) => r.prerelease && exe(r));
+    if (stable) {
+      const v = niceVer(stable.tag_name), a = exe(stable);
+      $('#heroVer').textContent = 'SteamLite ' + v + ' is out'; $('#heroTag').textContent = 'Stable'; $('#heroDl').href = a.browser_download_url; $('#heroDlText').textContent = 'Download SteamLite ' + v;
+      $('#stableVer').textContent = 'SteamLite ' + v; $('#stableDl').href = a.browser_download_url; $('#stableInfo').textContent = size(a.size) + ' · Windows 10 and 11 · ' + day(stable.published_at); $('#navDl').href = '#download';
+      $('#heroMeta').textContent = size(a.size) + ' · Windows 10 and 11 · Free · Open source';
+    }
+    if (beta) { const a = exe(beta); $('#betaVer').textContent = 'SteamLite ' + niceVer(beta.tag_name); $('#betaDl').href = a.browser_download_url; $('#betaInfo').textContent = size(a.size) + ' · Windows 10 and 11 · ' + day(beta.published_at); }
+  } catch (e) { /* the links already point to the releases page */ }
 })();

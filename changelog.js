@@ -18,7 +18,7 @@ function md(src) {
   }
   flush(); close(); return out.join('');
 }
-const niceTag = (t) => t.replace(/^v/, '').replace(/-beta\.?(\d*)/, (m, n) => ' beta' + (n ? ' ' + n : ''));
+const niceTag = (t) => t.replace(/^v/, '').replace(/-beta\.?\d*$/, '.beta').replace(/^(2\d\.\d+)\.0(\.beta)?$/, '$1$2');
 
 function card(r, i) {
   const a = document.createElement('article');
