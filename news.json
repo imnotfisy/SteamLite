@@ -1,17 +1,18 @@
 {
   "changelog": {
-    "version": "26.11",
-    "title": "SteamLite 26.11 - the stable release",
+    "version": "26.11.1",
+    "title": "SteamLite 26.11.1 - a new icon and a Save button",
     "items": [
-      "A calm new look with plain covers and one green Play button on every game",
-      "Every game shows installed or not, play time and when you last played it",
-      "Sign in with Steam, so SteamLite never sees your password",
-      "Better play time tracking for launcher games and Steam games started from Steam",
-      "A modern installer that also updates SteamLite in place",
-      "Stable and Beta update channels: stay on Beta to get new features first"
+      "A new icon in the app's grey gradient, instead of purple and blue",
+      "A Save button in Settings: changes wait until you save, and a bar tells you about unsaved changes"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 26.11.1 is out - a new icon and a Save button",
+      "date": "November 14, 2026",
+      "content": "A small update to the stable release. SteamLite has a new icon: the same mark, now in the app's grey gradient instead of purple and blue. Settings now has a Save button: changes wait until you press Save, and a bar at the bottom says \"Careful, you have unsaved changes!\" with the Save button next to it. The beta, 26.11.7.beta, has the same changes. Update from inside SteamLite, or get the installer from the latest release on GitHub."
+    },
     {
       "title": "SteamLite 26.11.6.beta is out - new features go here first",
       "date": "November 14, 2026",
