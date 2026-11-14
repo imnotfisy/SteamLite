@@ -1,5 +1,5 @@
 {
-  "version": "26.11.1",
-  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.1/SteamLite.Setup.26.11.1.exe",
-  "notes": "A small update to the stable release.\n\n- **A new icon.** The same mark, now in the app's grey gradient instead of purple and blue. It is in the app, the installer and the shortcuts.\n- **A Save button in Settings.** Changes now wait until you press Save. A bar at the bottom says \"Careful, you have unsaved changes!\" with the Save button next to it, and it goes away when you save or change things back."
+  "version": "26.11.2",
+  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.2/SteamLite.Setup.26.11.2.exe",
+  "notes": "A small update to the stable release.\n\n- **Open any news post or release.** In News, click a card and it grows into a full view with the whole post, the full notes of that release, and its pictures. Click a picture to see it full size. Press Esc or click outside to close."
 }
