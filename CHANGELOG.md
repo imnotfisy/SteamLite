@@ -7,9 +7,18 @@
 [![Latest](https://img.shields.io/badge/latest-26.11-3ddc97?style=flat-square&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
 [![Channel](https://img.shields.io/badge/channels-stable%20%7C%20beta-8D99AE?style=flat-square&labelColor=1A1D2A)](README.md#stable-and-beta)
 
-[26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
+[26.11.2](#26112--stable) · [26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
 
 </div>
+
+<br/>
+
+## 26.11.2 · Stable
+
+> **A small update to the stable release.**
+
+### New
+- **Open any news post or release.** In **News**, click a card and it grows into a full view with the whole post, the full notes of that release, and its pictures. Click a picture to see it full size. Press **Esc** or click outside to close.
 
 <br/>
 
@@ -47,6 +56,13 @@ Messages and friends, themes, the in-game overlay, streaks, the rewards system, 
 <br/>
 
 ## The betas
+
+<details>
+<summary><b>26.11.8.beta</b> · open any post or release</summary>
+
+- Everything in stable 26.11.2: **open any news post or release** for the full notes and pictures.
+
+</details>
 
 <details>
 <summary><b>26.11.7.beta</b> · a new icon and a Save button</summary>
