@@ -1,5 +1,5 @@
 {
-  "version": "26.11.6-beta",
-  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.6-beta/SteamLite.Setup.26.11.6-beta.exe",
-  "notes": "The seventh beta of the new SteamLite. It has everything in the stable 26.11 release, and it is the start of the line that gets new features first.\n\n- **A new base look.** Deep navy surfaces with one steel colour, and green only for Play. Plain 2:3 covers with no glow.\n- **A clearer library.** Every game shows Installed or Not installed, its play time and when you last played it. Sort by recently played, A to Z, installed first or most played.\n- **Plain messages.** Loading, an empty library, a library that did not load and a failed sign-in each say what happened and what to do next.\n- **Stable channel unlocked.** Settings > Updates now lets you switch between Beta and Stable. Stay on Beta to get new features before the stable release.\n- **Updates.** The stable 26.11 release is newer than the betas 26.11.1 to 26.11.5, and betas numbered 26.11.6 or higher are newer than it.\n- **Fixed:** the press animation on buttons no longer makes chips and tabs flicker."
+  "version": "26.11.7-beta",
+  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.7-beta/SteamLite.Setup.26.11.7-beta.exe",
+  "notes": "The eighth beta of the new SteamLite. It has everything in stable 26.11.1.\n\n- **A new icon.** The same mark, now in the app's grey gradient instead of purple and blue.\n- **A Save button in Settings.** Changes wait until you press Save. A bar at the bottom says \"Careful, you have unsaved changes!\" with the Save button next to it."
 }
