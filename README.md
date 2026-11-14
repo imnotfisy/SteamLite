@@ -1,162 +1,198 @@
-# SteamLite
+<div align="center">
 
-A fast, free desktop companion for your Steam library: browse and launch your games, follow achievements and friends, chat with other SteamLite users, and make it look the way you want.
+<img src="docs/banner.svg" alt="SteamLite 26.11" width="100%"/>
 
-![SteamLite Version](https://img.shields.io/badge/version-10.1.5-blue)
-![Beta](https://img.shields.io/badge/beta-26.11.5.beta-orange)
-![Tauri](https://img.shields.io/badge/Tauri-2-24C8DB)
-![License](https://img.shields.io/badge/license-MIT-green)
-[![Discord](https://img.shields.io/badge/Discord-join%20the%20server-5865F2?logo=discord&logoColor=white)](https://discord.gg/2VP6x6Rvak)
+<br/>
 
-**Website:** https://imnotfisy.github.io/SteamLite/
+[![Download](https://img.shields.io/badge/Download-SteamLite%2026.11-3ddc97?style=for-the-badge&logo=windows&logoColor=062a1b&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
+[![Website](https://img.shields.io/badge/Website-imnotfisy.github.io-8D99AE?style=for-the-badge&labelColor=1A1D2A)](https://imnotfisy.github.io/SteamLite/)
 
-## SteamLite 26.11.5.beta - the new SteamLite (beta)
+![Version](https://img.shields.io/badge/version-26.11-8D99AE?style=flat-square&labelColor=1A1D2A)
+![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-8D99AE?style=flat-square&labelColor=1A1D2A)
+![License](https://img.shields.io/badge/license-MIT-8D99AE?style=flat-square&labelColor=1A1D2A)
+![Channel](https://img.shields.io/badge/channel-stable-3ddc97?style=flat-square&labelColor=1A1D2A)
 
-A new SteamLite, rebuilt from the ground up and focused on your games. Versions are now the year and the month, so this is 26.11 (and this is its sixth beta, 26.11.5.beta). **It is a beta**: it is for trying out and telling us what to fix. 10.1.5 is still the stable version.
+**A lighter way to see your Steam library, launch your games and keep count of your time.**
 
-**Download:** [SteamLite 26.11.5.beta](https://github.com/imnotfisy/SteamLite/releases/tag/v26.11.5-beta) (the pre-release on the Releases page). If you use the beta update channel, it is offered to you inside SteamLite.
+[Download](#download) · [What's new](#whats-new-in-2611) · [Features](#features) · [Screenshots](#screenshots) · [FAQ](#faq) · [Changelog](CHANGELOG.md)
 
-- **A new look.** A deep dark design with an accent colour taken from the art you are looking at, a curved side rail, and smooth motion everywhere (it respects the Windows "reduce motion" setting).
-- **Home.** A rotating "Jump back in" banner, your totals, rows for recently played, most played and favorites, and the latest news from your games.
-- **Library.** Instant search, sorting, filters (installed, favorites, non-Steam, your collections, hidden), a cover size slider and "Pick for me".
-- **Game pages.** Play and Stop, favorites, collections, launch options (including run as administrator), achievements, game news and notes.
-- **Any game.** Add games from outside Steam and have their play time counted too.
-- **Sign in with Steam.** SteamLite signs you in with Steam's own sign-in page (through the SteamLite server), so SteamLite never sees your password. Everyone signs in with Steam once, even if they were already signed in. SteamLite still needs your free Steam Web API key to read your library: it asks for it once, and saves it to your account. Switch accounts, or add another one, from your picture at the top right.
-- **A new installer.** A modern animated window with a progress dial and a finish screen. It is also how SteamLite updates: Update now downloads the new version, closes SteamLite and opens the installer, which updates it in place and opens it again. An older installer tells you when a newer version is out.
-- **Updates.** Built in, with an update channel picker in Settings (Beta now; Release unlocks when the beta is finished).
-- **Game tracking.** Play time is counted for games that start through a launcher, and for Steam games started from Steam itself.
-- **Your data carries over.** Your existing settings, logins, favorites, collections and play time are read from the same place as before.
+</div>
 
-### What is not in 26.11.5.beta
+<br/>
 
-To keep SteamLite focused, these are not in the beta: Messages and friends, themes, the in-game overlay, streaks, the rewards system (achievements, XP, levels and the shop), cloud backup and Discord presence. If you rely on them, stay on 10.1.5. Everything below this section describes 10.1.5.
+## What's new in 26.11
 
-## What is new in 10.1.5
+SteamLite is rebuilt from the ground up. Versions are now the **year and the month**, so this is **26.11**.
 
-SteamLite 10.1.5 is built on the new engine and interface introduced in 10.0.0. The newest version adds a Non-Steam page that spots any game running on your PC, on top of added games, an in-game overlay, voice messages, group chats, GIFs, downloadable themes, collections and an offline mode.
+|  |  |
+|---|---|
+| **A new look** | A calm dark design, plain 2:3 covers and one green **Play** button on every game. |
+| **Sign in with Steam** | Steam's own sign-in page. SteamLite never sees your password. |
+| **A clearer library** | Installed or not, play time and last played, on every game. Search, sort and filter in a click. |
+| **Better play tracking** | Counts games started through a launcher, and Steam games started from Steam itself. |
+| **A modern installer** | One window that also **updates SteamLite in place**. |
+| **Stable and Beta** | Stable by default. Switch to Beta to try new features first. |
 
-- **A new engine.** SteamLite now runs on Tauri 2 (Rust and the system web view) instead of Electron. The installer is about 25 MB instead of about 103 MB, and the app itself is a few megabytes. Everything behind the interface (your library, settings, Steam and Discord connections, play tracking, hotkeys, tray and updates) is the same proven backend as before, so your settings and data carry over.
-- **A new interface.** Spring animations on every press and hover, pages that scroll up and down as you move between them, a floating dock, and a soft glow that takes the colour of the game you are looking at.
-- **Messages are back.** Chat with your SteamLite friends, with photos, GIFs and notifications.
-- **A News page** you can open from anywhere, and update notices that appear on any page.
-- **Add any game.** Games from other stores or ones you installed yourself can be added from the Library, by picking the program or importing from the Start menu. They launch from SteamLite and their play time is tracked.
-- **An in-game overlay.** A small see-through card over your game with your play time, the clock, your streak and new messages (`Ctrl + Alt + O`).
-- **A Non-Steam page.** A dock button lists the games running right now that are not from Steam, spotted from the running programs (the way Task Manager lists them). It finds pictures and details for each one, shows a temporary game page, and lets you add the game to your library if you want.
-- **Open the launcher, not Play.** A game from Rockstar, Epic, GOG, EA, Ubisoft, Battle.net, Riot or Xbox says Open Rockstar Games Launcher (or whichever it is), and SteamLite still counts your play time.
-- **Themes you download.** Themes are hosted on GitHub with a screenshot of each one, and Download opens a larger view. Collections are back, and there is an Offline mode in Settings > Online.
-- **Voice messages, group chats and GIFs** in Messages, a verified tick, the streak celebration is back, and updates download inside SteamLite with a progress bar.
+> [!NOTE]
+> **Coming from 10.x?** Install 26.11 over it. Your settings, favorites, collections and play time are read from the same place as before, and you sign in with Steam once.
 
-### Not in 10.1.5 yet
+<br/>
 
-Drops, the shop, the trophy room, events, wishlist and sales, inventory and the tools hub from 9.x are not in this version yet and will return in the new design. If you rely on them, you can keep using [9.4.1](https://github.com/imnotfisy/SteamLite/releases/tag/v9.4.1) and skip the update.
+## Screenshots
+
+<div align="center">
+
+<img src="docs/screenshots/home.png" alt="Home" width="49%"/> <img src="docs/screenshots/library.png" alt="Library" width="49%"/>
+<img src="docs/screenshots/game.png" alt="A game page" width="49%"/> <img src="docs/screenshots/settings.png" alt="Settings" width="49%"/>
+
+<sub>Home · Library · a game page · Settings</sub>
+
+</div>
+
+<br/>
 
 ## Features
 
-### Library
-- **Fast library** - Grid or list, smooth even with thousands of games, with an A to Z jump strip
-- **Filters and sorting** - All, Installed, Not installed, Unplayed and Hidden, sorted by recently played, name, playtime or size on disk
-- **Collections** - Filter your library by your collections
-- **Favourites and hiding** - One click to favourite or hide a game, with undo
-- **Non-Steam page** - See games running right now that are not from Steam, with pictures and details found for them, and a temporary game page
-- **Add any game** - Add a program from outside Steam by picking its .exe or importing from the Start menu. It launches from SteamLite, its play time is tracked, and you can remove it again with Undo
-- **Play, Stop and install** - The Play button shows Loading..., Stop and Stopping... while a game starts and closes, with play time tracked per session
+<table>
+<tr>
+<td width="50%" valign="top">
 
-### Game pages
-- Play time, last played, achievements and size on disk at a glance
-- **Achievements**, **News**, **Screenshots** and **Notes** tabs
-- **Launch** tab: launch options, a different program to start the game with, and run as administrator
-- Cover art that morphs into the game's hero picture, and an ambient glow in the game's colours
+### Your library
+Covers in a clean grid, with **Installed / Not installed**, play time and *last played* under each one. Instant search, sorting (**recently played, A to Z, installed first, most played**), filters and a cover size slider.
 
-### Friends and Messages
-- See who is online or playing, which games you share, and open their Steam profile
-- **Messages** - Chats with your SteamLite friends, and the group chats you are in. Reply, react, edit and delete your messages, pin, and mute a chat. Photos and GIFs show in the chat and open full size. Chats sync with [SteamLite Messages](https://github.com/imnotfisy/SteamLite-Messages) on your phone
-- **Voice messages, group chats and GIFs** - Record and play voice messages, make a group chat with up to 19 friends, and send GIFs from Giphy
-- **Notifications** - A pop-up, a sound and a Windows notification for new messages and friend requests, a note in your notification history, and a badge on the Messages button. Streaks that end tonight are announced too
-- **Block and unblock** - Block someone from a chat, and unblock them from the chat or from the Blocked players list
-- Add friends with a friend code and accept or decline requests
+</td>
+<td width="50%" valign="top">
 
-### Profiles
-- **Several Steam accounts** - Click your picture in the title bar to switch between profiles or add another one with Sign in with Steam. Each profile keeps its own sign-in, so you can switch back and forth without signing in again, and a new profile opens on a setup page for its messages and notifications
-- Your stats, most played games, play streak and SteamLite level
-- **Customisation** - Banner (a picture, a GIF, a gradient or a solid colour), tagline, title, avatar frame, accent colour, showcase games and pinned achievements. It also shows on your phone and to your friends
+### Play and Stop
+One green **Play** button per game, and **Stop** while it runs. SteamLite follows a game even when a launcher starts it and then closes.
 
-### Themes
-- More than 80 themes, hosted on GitHub with a screenshot of each: download the ones you like, then preview and apply them
-- Pick any accent colour, import themes, and browse the community themes
+</td>
+</tr>
+<tr>
+<td valign="top">
 
-### News and updates
-- **News page** - What is new in SteamLite, news from the games you play, and your notification history
-- **Update notices** on any page, with Update, Later and Skip, and a download progress bar
-- Works with the **SteamLite Updater**, a small separate app that downloads and installs updates
+### Play time
+Counted from the moment a game is really running until it closes. Steam games you start from Steam itself are noticed too.
 
-### Everything else
-- **In-game overlay** - A small card over windowed and borderless games with your play time, the clock, your streak and new messages. Show or hide it with `Ctrl + Alt + O`, or let it open with every game
-- **Streak celebration** - A flame and a burst of sparks when you extend your streak
-- **Command palette** - Press `Ctrl + K` anywhere to find a game, friend, page or setting
-- **Introduction tour** - A short tour after you first sign in, which you can replay from Settings
-- **Discord Rich Presence**, start with Windows, start minimised to the tray, and close to the tray
-- **Settings** - Sound and alerts, rebindable global shortcuts, accent and interface size, Potato mode and Reduce animations for older PCs, backup and restore, and Steam library drive usage
+</td>
+<td valign="top">
 
-## Installation
+### Collections and favorites
+Group games your way, mark favorites, hide what you never play. Launch options and *run as administrator* are saved per game.
 
-### Windows
+</td>
+</tr>
+<tr>
+<td valign="top">
 
-Download the latest installer from the [Releases](https://github.com/imnotfisy/SteamLite/releases) page and run `SteamLite.Setup.<version>.exe` (for example `SteamLite.Setup.10.1.5.exe`).
+### Any game
+Add games that are not on Steam, and have their play time counted too.
 
-- It installs over an existing SteamLite in the same folder, keeping your settings
-- It also installs the SteamLite Updater
-- Silent installs are supported with the `/S` switch, plus `/AllUsers` or `/CurrentUser`
+</td>
+<td valign="top">
 
-## Getting started
+### News
+SteamLite news and the latest news from the games you play, in one place.
 
-1. Launch SteamLite
-2. Sign in with Steam, and enter your Steam Web API key (get one for free from [Steam Community](https://steamcommunity.com/dev/apikey))
-3. Follow the short introduction tour
+</td>
+</tr>
+<tr>
+<td valign="top">
 
-Your key is stored on your PC.
+### Updates built in
+When there is a new version, **Update now** closes SteamLite, updates it in place and opens it again. Choose **Stable** or **Beta** in Settings.
 
-## Keyboard shortcuts
+</td>
+<td valign="top">
 
-| Shortcut | Action |
-| --- | --- |
-| `Ctrl + K` | Command palette (rebindable) |
-| `Ctrl + Alt + G` | Quick launch (rebindable) |
-| `Ctrl + Alt + X` | Stop the running game (rebindable) |
-| `Alt + Left` | Go back |
-| `Esc` | Close the top panel or window |
+### Island support
+Show your game, its timer and a Stop button in **Island**, a separate small app that sits at the top of your screen. Turn it on or off in Settings.
 
-The global shortcuts work even while a game is in front. Rebind them in Settings > Shortcuts.
+</td>
+</tr>
+</table>
 
-## Updates
+<br/>
 
-- SteamLite checks for updates automatically and shows a notice on any page. You can turn automatic checks off, check by hand, or skip a version, all in Settings > Updates
-- The SteamLite Updater (started from the update notice) downloads the installer, runs it and restarts SteamLite
+## Download
 
-## Requirements
+1. Get **`SteamLite.Setup.26.11.0.exe`** from the [latest release](https://github.com/imnotfisy/SteamLite/releases/latest).
+2. Run it and press **Install**. It installs just for you, so it normally needs no administrator rights.
+3. Open SteamLite and **Sign in with Steam**.
 
-- Windows 10 or later
-- A Steam account with games
-- A free Steam Web API key
+<details>
+<summary><b>Requirements</b></summary>
 
-## SteamLite on your phone
+- Windows 10 or 11 (64-bit)
+- Microsoft Edge WebView2 (the installer sets it up if it is missing)
+- A Steam account. Your Steam profile's **game details** must be public for SteamLite to read your library.
 
-- [SteamLite Mobile](https://github.com/imnotfisy/SteamLite-Mobile) - your library, profile and friends on Android
-- [SteamLite Messages](https://github.com/imnotfisy/SteamLite-Messages) - chats and voice calls with other SteamLite users
+</details>
 
-## License
+<br/>
 
-MIT - see [LICENSE](LICENSE).
+## Stable and Beta
 
-## Credits
+| Channel | What you get |
+|---|---|
+| **Stable** *(default)* | Finished, tested releases only. |
+| **Beta** | New features first, before the stable release gets them. May have rough edges. |
 
-Developed by imnotfisy
+Switch any time in **Settings → Updates**. If you are on the Beta channel you can stay there.
 
-Community themes by:
-- Castiel
-- Alex
+<br/>
 
-## Support
+## FAQ
 
-For issues, feature requests, or questions, use the [support page](https://imnotfisy.github.io/SteamLite/support.html) or open an issue on [GitHub](https://github.com/imnotfisy/SteamLite/issues).
+<details>
+<summary><b>Is it safe to sign in?</b></summary>
 
-SteamLite is an independent project and is not affiliated with Valve Corporation. Steam and the Steam logo are trademarks of Valve Corporation.
+SteamLite opens Steam's own sign-in page in your browser. It never sees your password. The sign-in is confirmed through the SteamLite server, and the token it saves is protected by Windows.
+
+</details>
+
+<details>
+<summary><b>Why does it ask for a Steam Web API key?</b></summary>
+
+To read your game list, Steam needs a free Web API key. SteamLite asks once and saves it to your account.
+
+</details>
+
+<details>
+<summary><b>My library is empty.</b></summary>
+
+Set **Game details** to **Public** in your Steam privacy settings, then press refresh in the library.
+
+</details>
+
+<details>
+<summary><b>What happened to Messages, themes and the overlay?</b></summary>
+
+To keep SteamLite focused, these are not in 26.11: Messages and friends, themes, the in-game overlay, streaks, the rewards system, cloud backup and Discord presence. If you rely on them, 10.1.5 is still available on the [releases page](https://github.com/imnotfisy/SteamLite/releases/tag/v10.1.5).
+
+</details>
+
+<details>
+<summary><b>Where is my data?</b></summary>
+
+In `%APPDATA%\SteamLite` on your PC. **Settings → Data and help → Open the data folder** takes you there.
+
+</details>
+
+<br/>
+
+## Help and feedback
+
+- Found a bug or want something added? [Open an issue](https://github.com/imnotfisy/SteamLite/issues).
+- See what changed in every version in the [changelog](CHANGELOG.md).
+- Website: <https://imnotfisy.github.io/SteamLite/>
+
+<br/>
+
+<div align="center">
+
+<sub>SteamLite is not affiliated with or endorsed by Valve. Steam and the Steam logo are trademarks of Valve Corporation.</sub>
+<br/>
+<sub>Made with care · [MIT license](LICENSE)</sub>
+
+</div>
