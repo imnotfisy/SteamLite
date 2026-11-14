@@ -1,15 +1,27 @@
 {
   "changelog": {
-    "version": "10.1.5",
-    "title": "SteamLite 10.1.5 - The Non-Steam page",
+    "version": "26.11",
+    "title": "SteamLite 26.11 - the stable release",
     "items": [
-      "New Non-Steam page: games running right now that are not from Steam are spotted automatically, with pictures and details looked up for them",
-      "A temporary game page for each one, with Add to library and Show file location",
-      "Games from a store launcher (Rockstar, Epic, GOG, EA, Ubisoft, Battle.net, Riot, Xbox) say Open <launcher> instead of Play, and play time is still counted",
-      "The dock shrinks a little on short windows so all ten buttons fit"
+      "A calm new look with plain covers and one green Play button on every game",
+      "Every game shows installed or not, play time and when you last played it",
+      "Sign in with Steam, so SteamLite never sees your password",
+      "Better play time tracking for launcher games and Steam games started from Steam",
+      "A modern installer that also updates SteamLite in place",
+      "Stable and Beta update channels: stay on Beta to get new features first"
     ]
   },
   "news": [
+    {
+      "title": "SteamLite 26.11.6.beta is out - new features go here first",
+      "date": "November 14, 2026",
+      "content": "The seventh beta is out, and it is the start of the line that gets new features before the stable release. It has the new base look, a clearer library with installed or not, play time and last played on every game, plain messages for empty and error states, and the Stable channel unlocked in Settings. Stay on the Beta channel to test new features first, or switch to Stable any time."
+    },
+    {
+      "title": "SteamLite 26.11 is out - the stable release",
+      "date": "November 14, 2026",
+      "content": "The new SteamLite is now stable. It has a calm new look, a library that shows installed or not, play time and last played for every game, one green Play button, Sign in with Steam, better play time tracking, and a modern installer that also updates SteamLite in place. If you are on 10.x, install it over your current SteamLite and sign in with Steam once. Your settings, favorites, collections and play time are kept. Stable is the default update channel. If you are on the beta you can stay there: Beta gets new features first, so you can test them before the stable release gets them. You can switch in Settings, Updates. Get it from the latest release on the SteamLite page on GitHub, or in the app."
+    },
     {
       "title": "SteamLite 26.11.5.beta is out - a new installer",
       "date": "November 13, 2026",
