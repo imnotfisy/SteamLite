@@ -1,5 +1,5 @@
 {
-  "version": "26.11.7-beta",
-  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.7-beta/SteamLite.Setup.26.11.7-beta.exe",
-  "notes": "The eighth beta of the new SteamLite. It has everything in stable 26.11.1.\n\n- **A new icon.** The same mark, now in the app's grey gradient instead of purple and blue.\n- **A Save button in Settings.** Changes wait until you press Save. A bar at the bottom says \"Careful, you have unsaved changes!\" with the Save button next to it."
+  "version": "26.11.8-beta",
+  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.8-beta/SteamLite.Setup.26.11.8-beta.exe",
+  "notes": "The ninth beta of the new SteamLite. It has everything in stable 26.11.2.\n\n- **Open any news post or release.** In News, click a card and it grows into a full view with the whole post, the full notes of that release, and its pictures. Click a picture to see it full size."
 }
