@@ -116,7 +116,7 @@ Show your game, its timer and a Stop button in **Island**, a separate small app 
 
 ## Download
 
-1. Get **`SteamLite.Setup.26.11.0.exe`** from the [latest release](https://github.com/imnotfisy/SteamLite/releases/latest).
+1. Get the **SteamLite installer** (`SteamLite.Setup.<version>.exe`) from the [latest release](https://github.com/imnotfisy/SteamLite/releases/latest).
 2. Run it and press **Install**. It installs just for you, so it normally needs no administrator rights.
 3. Open SteamLite and **Sign in with Steam**.
 
