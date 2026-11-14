@@ -7,9 +7,19 @@
 [![Latest](https://img.shields.io/badge/latest-26.11-3ddc97?style=flat-square&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
 [![Channel](https://img.shields.io/badge/channels-stable%20%7C%20beta-8D99AE?style=flat-square&labelColor=1A1D2A)](README.md#stable-and-beta)
 
-[26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
+[26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
 
 </div>
+
+<br/>
+
+## 26.11.1 · Stable
+
+> **A small update to the stable release.**
+
+### New
+- **A new icon.** The same mark, now in the app's grey gradient instead of purple and blue. It is in the app, the installer and the shortcuts.
+- **A Save button in Settings.** Changes wait until you press **Save**. A bar at the bottom says "Careful, you have unsaved changes!" with the Save button next to it, and it goes away when you save or change things back.
 
 <br/>
 
@@ -37,6 +47,22 @@ Messages and friends, themes, the in-game overlay, streaks, the rewards system, 
 <br/>
 
 ## The betas
+
+<details>
+<summary><b>26.11.7.beta</b> · a new icon and a Save button</summary>
+
+- Everything in stable 26.11.1: the **new grey icon** and the **Save button** in Settings.
+
+</details>
+
+<details>
+<summary><b>26.11.6.beta</b> · the line that gets features first</summary>
+
+- **A new base look.** Deep navy surfaces with one steel colour, and green only for Play.
+- **A clearer library**, **plain messages** for empty and error states, and the **Stable channel unlocked** in Settings.
+- **Fixed:** the press animation on buttons no longer makes chips and tabs flicker.
+
+</details>
 
 <details>
 <summary><b>26.11.5.beta</b> · a new installer</summary>
