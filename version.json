@@ -1,5 +1,5 @@
 {
-  "version": "26.11.2",
-  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.2/SteamLite.Setup.26.11.2.exe",
-  "notes": "A small update to the stable release.\n\n- **Open any news post or release.** In News, click a card and it grows into a full view with the whole post, the full notes of that release, and its pictures. Click a picture to see it full size. Press Esc or click outside to close."
+  "version": "26.11.3",
+  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.3/SteamLite.Setup.26.11.3.exe",
+  "notes": "A small update to the stable release.\n\n- **Game pictures load for new games.** Some newer games keep their pictures under a code in the address, so their covers never loaded. SteamLite now asks Steam's store for the exact picture files when the usual addresses fail, and remembers the answer.\n- **A clearer Stop and Cancel.** Stop is a solid square, and Cancel (while a game is starting) now shows a cross instead of a small hollow square that looked like a missing icon."
 }
