@@ -1,5 +1,5 @@
 {
-  "version": "26.11.4",
-  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.4/SteamLite.Setup.26.11.4.exe",
-  "notes": "An update to the stable release.\n\n- **Themes.** Settings has a new Themes section: the Default look, the Original purple and blue look, and a GTA 6 theme. Pick one to see it straight away, then press Save. The GTA 6 theme celebrates the upcoming release and can be picked from Nov 15 to Dec 1; after that it stays in the list, greyed out.\n- **What changed after an update.** The first time SteamLite opens after an update, it shows the release notes. You can turn this off in Settings.\n- **Copy diagnostics.** Settings, Data and help has a button that copies your SteamLite and Windows versions to paste into a bug report. Nothing personal is in it.\n- **Keyboard shortcuts.** Press / or Ctrl+F to jump to the library search from any page, and Esc to clear it."
+  "version": "26.11.4.1",
+  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.4.1/SteamLite.Setup.26.11.4.1.exe",
+  "notes": "A small fix for 26.11.4.\n\n- **GTA 6 theme message.** After Dec 1, the greyed-out GTA 6 theme in Settings now says it will return when the game releases for the PC platform, or when it is available on Steam."
 }
