@@ -7,9 +7,19 @@
 [![Latest](https://img.shields.io/badge/latest-26.11-3ddc97?style=flat-square&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
 [![Channel](https://img.shields.io/badge/channels-stable%20%7C%20beta-8D99AE?style=flat-square&labelColor=1A1D2A)](README.md#stable-and-beta)
 
-[26.11.2](#26112--stable) · [26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
+[26.11.3](#26113--stable) · [26.11.2](#26112--stable) · [26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
 
 </div>
+
+<br/>
+
+## 26.11.3 · Stable
+
+> **A small update to the stable release.**
+
+### Fixed
+- **Game pictures load for new games.** Some newer games keep their pictures under a code in the address, so their covers never loaded. SteamLite now asks Steam's store for the exact picture files when the usual addresses fail, and remembers the answer.
+- **A clearer Stop and Cancel.** Stop is a solid square, and Cancel (while a game is starting) now shows a cross instead of a small hollow square that looked like a missing icon.
 
 <br/>
 
