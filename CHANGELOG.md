@@ -7,9 +7,21 @@
 [![Latest](https://img.shields.io/badge/latest-26.11-3ddc97?style=flat-square&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
 [![Channel](https://img.shields.io/badge/channels-stable%20%7C%20beta-8D99AE?style=flat-square&labelColor=1A1D2A)](README.md#stable-and-beta)
 
-[26.11.3](#26113--stable) · [26.11.2](#26112--stable) · [26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
+[26.11.4](#26114--stable) · [26.11.3](#26113--stable) · [26.11.2](#26112--stable) · [26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
 
 </div>
+
+<br/>
+
+## 26.11.4 · Stable
+
+> **An update to the stable release.**
+
+### New
+- **Themes.** Settings has a new **Themes** section: the **Default look**, the **Original purple and blue** look, and a **GTA 6** theme. Pick one to see it straight away, then press **Save**. The GTA 6 theme celebrates the upcoming release and can be picked from **Nov 15 to Dec 1**; after that it stays in the list, greyed out.
+- **What changed after an update.** The first time SteamLite opens after an update, it shows the release notes. You can turn this off in Settings.
+- **Copy diagnostics.** **Settings, Data and help** has a button that copies your SteamLite and Windows versions to paste into a bug report. Nothing personal is in it.
+- **Keyboard shortcuts.** Press **/** or **Ctrl+F** to jump to the library search from any page, and **Esc** to clear it.
 
 <br/>
 
