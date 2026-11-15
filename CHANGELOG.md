@@ -7,9 +7,18 @@
 [![Latest](https://img.shields.io/badge/latest-26.11-3ddc97?style=flat-square&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
 [![Channel](https://img.shields.io/badge/channels-stable%20%7C%20beta-8D99AE?style=flat-square&labelColor=1A1D2A)](README.md#stable-and-beta)
 
-[26.11.4.1](#261141--stable) · [26.11.4](#26114--stable) · [26.11.3](#26113--stable) · [26.11.2](#26112--stable) · [26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
+[26.11.4.2](#261142--stable) · [26.11.4.1](#261141--stable) · [26.11.4](#26114--stable) · [26.11.3](#26113--stable) · [26.11.2](#26112--stable) · [26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
 
 </div>
+
+<br/>
+
+## 26.11.4.2 · Stable
+
+> **A fix for 26.11.4.1.**
+
+### Fixed
+- Fixed minor bugs.
 
 <br/>
 
