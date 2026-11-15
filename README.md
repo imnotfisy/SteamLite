@@ -32,6 +32,7 @@ SteamLite is rebuilt from the ground up. Versions are now the **year and the mon
 | **Better play tracking** | Counts games started through a launcher, and Steam games started from Steam itself. |
 | **A modern installer** | One window that also **updates SteamLite in place**. |
 | **News you can open** | Click any post or release to open the full notes and pictures. |
+| **Themes** | Pick the Default look, the original purple and blue, or the limited-time **GTA 6** theme (Nov 15 to Dec 1). |
 | **A Save button** | Settings changes wait until you press **Save**, so nothing changes by accident. |
 | **Stable and Beta** | Stable by default. Switch to Beta to try new features first. |
 
@@ -61,7 +62,7 @@ SteamLite is rebuilt from the ground up. Versions are now the **year and the mon
 <td width="50%" valign="top">
 
 ### Your library
-Covers in a clean grid, with **Installed / Not installed**, play time and *last played* under each one. Instant search, sorting (**recently played, A to Z, installed first, most played**), filters and a cover size slider.
+Press **/** or **Ctrl+F** to search from any page. Covers in a clean grid, with **Installed / Not installed**, play time and *last played* under each one. Instant search, sorting (**recently played, A to Z, installed first, most played**), filters and a cover size slider.
 
 </td>
 <td width="50%" valign="top">
@@ -94,8 +95,8 @@ Add games that are not on Steam, and have their play time counted too.
 </td>
 <td valign="top">
 
-### News
-SteamLite news and the latest news from the games you play, in one place. Click a SteamLite post or release and it opens in full, with its notes and pictures.
+### News and updates
+SteamLite news and the latest news from the games you play, in one place. Click a SteamLite post or release and it opens in full, with its notes and pictures. After an update, SteamLite shows what changed the first time it opens.
 
 </td>
 </tr>
@@ -117,7 +118,7 @@ Show your game, its timer and a Stop button in **Island**, a separate small app 
 <td colspan="2" valign="top">
 
 ### Settings you can trust
-Changes wait until you press **Save**. A bar tells you when something is unsaved, so nothing changes by accident.
+Changes wait until you press **Save**. A bar tells you when something is unsaved, so nothing changes by accident. **Settings, Themes** lets you try a look before you save it, and **Copy diagnostics** puts the details for a bug report on your clipboard.
 
 </td>
 </tr>
