@@ -1,0 +1,335 @@
+{
+ "updated": "2026-11-18T02:20:17Z",
+ "posts": [
+  {
+   "id": "2026-11-18-steamlite-26-11-5-is-out-a-new-news-page-and-a-roadmap",
+   "file": "2026-11-18-steamlite-26-11-5-is-out-a-new-news-page-and-a-roadmap.md",
+   "title": "SteamLite 26.11.5 is out - a new News page and a Roadmap",
+   "date": "2026-11-18T02:16:03Z",
+   "tag": "Release",
+   "release": "v26.11.5",
+   "summary": "SteamLite 26.11.5 is a feature update with a completely reworked News page, and a Roadmap so you can see what we are working on.",
+   "cover": "https://raw.githubusercontent.com/imnotfisy/SteamLite/main/docs/screenshots/news.png"
+  },
+  {
+   "id": "2026-11-17-steamlite-is-getting-a-new-engine-graphine",
+   "file": "2026-11-17-steamlite-is-getting-a-new-engine-graphine.md",
+   "title": "SteamLite is getting a new engine: Graphine",
+   "date": "2026-11-17T12:00:00Z",
+   "tag": "Announcement",
+   "summary": "The team behind SteamLite are happy to announce that SteamLite will be getting a new engine. We changed from Electron to Rust back in 10.0.0, but now? 27.1 will involve our new engine we are working on: Graphine (100%…"
+  },
+  {
+   "id": "2026-11-17-the-animation-initiative-is-on-board",
+   "file": "2026-11-17-the-animation-initiative-is-on-board.md",
+   "title": "The Animation initiative is on-board",
+   "date": "2026-11-17T11:53:00Z",
+   "tag": "Announcement",
+   "summary": "The Animation initiative is on-board: we will work to fix animations and optimize current animations to run better while your PC is running games."
+  },
+  {
+   "id": "2026-11-15-the-gta-6-theme-will-return",
+   "file": "2026-11-15-the-gta-6-theme-will-return.md",
+   "title": "The 'GTA 6' theme will return",
+   "date": "2026-11-15T12:00:00Z",
+   "tag": "Announcement",
+   "summary": "The 'GTA 6' theme will return when the game releases for the PC platform, or when it's available on Steam."
+  },
+  {
+   "id": "2026-11-15-steamlite-26-11-4-is-out-themes-and-a-gta-6-theme-until-dec-",
+   "file": "2026-11-15-steamlite-26-11-4-is-out-themes-and-a-gta-6-theme-until-dec-.md",
+   "title": "SteamLite 26.11.4 is out - themes, and a GTA 6 theme until Dec 1",
+   "date": "2026-11-15T11:53:00Z",
+   "tag": "Release",
+   "release": "v26.11.4",
+   "summary": "Settings has a new Themes section with three looks: the Default look, the Original purple and blue look, and a GTA 6 theme. Pick one to see it straight away, then press Save. To celebrate the upcoming release of GTA 6,…"
+  },
+  {
+   "id": "2026-11-14-steamlite-26-11-2-is-out-open-any-post-or-release",
+   "file": "2026-11-14-steamlite-26-11-2-is-out-open-any-post-or-release.md",
+   "title": "SteamLite 26.11.2 is out - open any post or release",
+   "date": "2026-11-14T12:00:00Z",
+   "tag": "Release",
+   "release": "v26.11.2",
+   "summary": "A small update to the stable release. In News, you can now click any card. It grows into a full view with the whole post, the full notes of that release, and its pictures. Click a picture to see it full size, and press…",
+   "cover": "https://raw.githubusercontent.com/imnotfisy/SteamLite/main/docs/screenshots/news-detail.png"
+  },
+  {
+   "id": "2026-11-14-steamlite-26-11-1-is-out-a-new-icon-and-a-save-button",
+   "file": "2026-11-14-steamlite-26-11-1-is-out-a-new-icon-and-a-save-button.md",
+   "title": "SteamLite 26.11.1 is out - a new icon and a Save button",
+   "date": "2026-11-14T11:53:00Z",
+   "tag": "Release",
+   "release": "v26.11.1",
+   "summary": "A small update to the stable release. SteamLite has a new icon: the same mark, now in the app's grey gradient instead of purple and blue. Settings now has a Save button: changes wait until you press Save, and a bar at…",
+   "cover": "https://raw.githubusercontent.com/imnotfisy/SteamLite/main/docs/icon.png"
+  },
+  {
+   "id": "2026-11-14-steamlite-26-11-6-beta-is-out-new-features-go-here-first",
+   "file": "2026-11-14-steamlite-26-11-6-beta-is-out-new-features-go-here-first.md",
+   "title": "SteamLite 26.11.6.beta is out - new features go here first",
+   "date": "2026-11-14T11:46:00Z",
+   "tag": "Release",
+   "release": "v26.11.6-beta",
+   "summary": "The seventh beta is out, and it is the start of the line that gets new features before the stable release. It has the new base look, a clearer library with installed or not, play time and last played on every game,…"
+  },
+  {
+   "id": "2026-11-14-steamlite-26-11-is-out-the-stable-release",
+   "file": "2026-11-14-steamlite-26-11-is-out-the-stable-release.md",
+   "title": "SteamLite 26.11 is out - the stable release",
+   "date": "2026-11-14T11:39:00Z",
+   "tag": "Release",
+   "release": "v26.11.0",
+   "summary": "The new SteamLite is now stable. It has a calm new look, a library that shows installed or not, play time and last played for every game, one green Play button, Sign in with Steam, better play time tracking, and a…",
+   "cover": "https://raw.githubusercontent.com/imnotfisy/SteamLite/main/docs/screenshots/home.png"
+  },
+  {
+   "id": "2026-11-13-steamlite-26-11-5-beta-is-out-a-new-installer",
+   "file": "2026-11-13-steamlite-26-11-5-beta-is-out-a-new-installer.md",
+   "title": "SteamLite 26.11.5.beta is out - a new installer",
+   "date": "2026-11-13T12:00:00Z",
+   "tag": "Release",
+   "summary": "The sixth beta of the new SteamLite is out. The installer is now a modern animated window, and it is also how SteamLite updates: when an update is found, Update now downloads it, closes SteamLite and opens the…"
+  },
+  {
+   "id": "2026-11-13-steamlite-26-11-1-beta-is-out-sign-in-with-steam",
+   "file": "2026-11-13-steamlite-26-11-1-beta-is-out-sign-in-with-steam.md",
+   "title": "SteamLite 26.11.1.beta is out - Sign in with Steam",
+   "date": "2026-11-13T11:53:00Z",
+   "tag": "Release",
+   "summary": "The second beta of the new SteamLite is out. SteamLite now signs you in with Steam's own sign-in page, so typing a Steam ID and API key is gone. Everyone signs in with Steam once, even if you were already signed in,…"
+  },
+  {
+   "id": "2026-11-13-steamlite-26-11-beta-is-out-the-new-steamlite",
+   "file": "2026-11-13-steamlite-26-11-beta-is-out-the-new-steamlite.md",
+   "title": "SteamLite 26.11.beta is out - the new SteamLite",
+   "date": "2026-11-13T11:46:00Z",
+   "tag": "Release",
+   "summary": "The new SteamLite is here as a beta for you to try. It has a new look, a faster and simpler app, and versions by year and month. Your library, accounts, favorites, collections and play time carry over. Messages,…"
+  },
+  {
+   "id": "2026-11-12-a-new-steamlite-is-on-the-way",
+   "file": "2026-11-12-a-new-steamlite-is-on-the-way.md",
+   "title": "A new SteamLite is on the way",
+   "date": "2026-11-12T12:00:00Z",
+   "tag": "Announcement",
+   "summary": "We are rebuilding SteamLite from the ground up: a new modern look, a faster and simpler app, and a new version numbering by year and month (the first release will be 26.11). Your library, profiles, collections and play…"
+  },
+  {
+   "id": "2026-10-23-steamlite-10-1-5-released-the-non-steam-page",
+   "file": "2026-10-23-steamlite-10-1-5-released-the-non-steam-page.md",
+   "title": "SteamLite 10.1.5 Released - The Non-Steam page",
+   "date": "2026-10-23T12:00:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 10.1.5 is out. A new Non-Steam page spots any game running on your PC that is not from Steam and finds pictures for it, with a temporary game page you can add to your library. Games from Rockstar, Epic, GOG…"
+  },
+  {
+   "id": "2026-10-23-steamlite-10-1-4-released-a-better-about-page-and-the-verifi",
+   "file": "2026-10-23-steamlite-10-1-4-released-a-better-about-page-and-the-verifi.md",
+   "title": "SteamLite 10.1.4 Released - A better About page and the verified tick",
+   "date": "2026-10-23T11:53:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 10.1.4 is out. The About page has links to Discord, the website and Instagram and a card to add the creator as a friend, verified players get a blue tick, and switching chats now fades in. It also fixes chats…"
+  },
+  {
+   "id": "2026-10-22-steamlite-10-1-3-released-download-themes-collections-and-of",
+   "file": "2026-10-22-steamlite-10-1-3-released-download-themes-collections-and-of.md",
+   "title": "SteamLite 10.1.3 Released - Download themes, collections and offline mode",
+   "date": "2026-10-22T12:00:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 10.1.3 is out. Themes are now downloaded when you want them, with a screenshot of each, collections are back, and there is a new offline mode with a Disconnect button in Settings > Online."
+  },
+  {
+   "id": "2026-10-21-steamlite-10-1-2-released-a-fix-for-freezing-when-adding-gam",
+   "file": "2026-10-21-steamlite-10-1-2-released-a-fix-for-freezing-when-adding-gam.md",
+   "title": "SteamLite 10.1.2 Released - A fix for freezing when adding games",
+   "date": "2026-10-21T12:00:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 10.1.2 is out. It fixes SteamLite freezing when you added games from the Start menu. If you installed 10.1.0 or 10.1.1, please update."
+  },
+  {
+   "id": "2026-10-21-steamlite-10-1-1-released-a-fix-for-steamlite-stopping",
+   "file": "2026-10-21-steamlite-10-1-1-released-a-fix-for-steamlite-stopping.md",
+   "title": "SteamLite 10.1.1 Released - A fix for SteamLite stopping",
+   "date": "2026-10-21T11:53:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 10.1.1 is out. It fixes SteamLite stopping after a minute or two, when nothing loaded and the minimise and close buttons did not work. If you installed 10.1.0, please update."
+  },
+  {
+   "id": "2026-10-21-steamlite-10-1-0-released-add-any-game-an-in-game-overlay-an",
+   "file": "2026-10-21-steamlite-10-1-0-released-add-any-game-an-in-game-overlay-an.md",
+   "title": "SteamLite 10.1.0 Released - Add any game, an in-game overlay and voice messages",
+   "date": "2026-10-21T11:46:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 10.1.0 is out. Add games from other stores, see your play time in a new in-game overlay, send voice messages, make group chats and send GIFs. The streak celebration is back, updates now download inside…"
+  },
+  {
+   "id": "2026-10-21-steamlite-10-0-3-released-profiles-and-an-anti-cheat-fix",
+   "file": "2026-10-21-steamlite-10-0-3-released-profiles-and-an-anti-cheat-fix.md",
+   "title": "SteamLite 10.0.3 Released - Profiles and an anti-cheat fix",
+   "date": "2026-10-21T11:39:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 10.0.3 is out. You can now switch between Steam accounts, or add another one, from your picture in the title bar, and a new profile opens on a setup page for its messages and notifications. Games with an…"
+  },
+  {
+   "id": "2026-10-21-steamlite-10-0-2-released-more-motion-achievement-pictures",
+   "file": "2026-10-21-steamlite-10-0-2-released-more-motion-achievement-pictures.md",
+   "title": "SteamLite 10.0.2 Released - More motion, achievement pictures",
+   "date": "2026-10-21T11:32:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 10.0.2 is out. Achievement pictures load again, and game page tabs, the Library filters and other choices now have a highlight that glides between them. Buttons spring when pressed and page sections rise in…"
+  },
+  {
+   "id": "2026-10-21-steamlite-10-0-1-released-fixes-and-polish",
+   "file": "2026-10-21-steamlite-10-0-1-released-fixes-and-polish.md",
+   "title": "SteamLite 10.0.1 Released - Fixes and polish",
+   "date": "2026-10-21T11:25:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 10.0.1 is out. It makes page changes smoother, removes a clipped glow under the selected filter chips and game tabs, fixes spacing in Settings, and fixes a few small bugs."
+  },
+  {
+   "id": "2026-10-21-steamlite-10-0-0-released-a-new-engine-and-a-new-interface",
+   "file": "2026-10-21-steamlite-10-0-0-released-a-new-engine-and-a-new-interface.md",
+   "title": "SteamLite 10.0.0 Released - A new engine and a new interface",
+   "date": "2026-10-21T11:18:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 10.0.0 is out. It runs on a new, lighter engine with a completely rebuilt interface, and Messages are back with notifications, photos and GIFs, and block and unblock. Drops, the shop, the trophy room, events,…"
+  },
+  {
+   "id": "2026-10-10-steamlite-9-4-1-released-profile-changes-sync-both-ways",
+   "file": "2026-10-10-steamlite-9-4-1-released-profile-changes-sync-both-ways.md",
+   "title": "SteamLite 9.4.1 Released - Profile changes sync both ways",
+   "date": "2026-10-10T12:00:00Z",
+   "tag": "Release",
+   "summary": "Edit your profile look on your phone or on the PC: banner, frame, title, accent colour, tagline and showcase now stay the same in both. A banner picture you pick on the phone is brought over to the PC as well."
+  },
+  {
+   "id": "2026-10-10-steamlite-9-4-0-released-control-your-pc-from-your-phone",
+   "file": "2026-10-10-steamlite-9-4-0-released-control-your-pc-from-your-phone.md",
+   "title": "SteamLite 9.4.0 Released - Control your PC from your phone",
+   "date": "2026-10-10T11:53:00Z",
+   "tag": "Release",
+   "summary": "SteamLite Mobile can now show what you are playing on your PC and, if you turn on the new switch in Settings, Privacy, lock it, put it to sleep or close the game. Pairs with SteamLite Mobile 1.4.0."
+  },
+  {
+   "id": "2026-10-09-steamlite-9-3-2-released-streak-sync",
+   "file": "2026-10-09-steamlite-9-3-2-released-streak-sync.md",
+   "title": "SteamLite 9.3.2 Released - Streak sync",
+   "date": "2026-10-09T12:00:00Z",
+   "tag": "Release",
+   "summary": "Your daily play streak now stays in step between your PC and SteamLite Mobile: launching a game updates the phone straight away, and a message sent from the phone counts as a play day on the PC."
+  },
+  {
+   "id": "2026-10-09-steamlite-9-3-1-released-keep-your-streak-from-your-phone",
+   "file": "2026-10-09-steamlite-9-3-1-released-keep-your-streak-from-your-phone.md",
+   "title": "SteamLite 9.3.1 Released - Keep your streak from your phone",
+   "date": "2026-10-09T11:53:00Z",
+   "tag": "Release",
+   "summary": "Away from your PC? Sending a message in SteamLite Mobile now counts as a play day, so your streak keeps going. Pairs with SteamLite Mobile 1.2.1."
+  },
+  {
+   "id": "2026-10-09-steamlite-9-3-0-released-your-profile-look-follows-you",
+   "file": "2026-10-09-steamlite-9-3-0-released-your-profile-look-follows-you.md",
+   "title": "SteamLite 9.3.0 Released - Your profile look follows you",
+   "date": "2026-10-09T11:46:00Z",
+   "tag": "Release",
+   "summary": "The look you give your profile (banner, avatar frame, title, accent colour, tagline and showcase) is now shared with your friends and with SteamLite Mobile. Open a friend's profile on the PC to see theirs too. Pairs…"
+  },
+  {
+   "id": "2026-10-09-steamlite-9-2-5-released-start-games-from-your-phone",
+   "file": "2026-10-09-steamlite-9-2-5-released-start-games-from-your-phone.md",
+   "title": "SteamLite 9.2.5 Released - Start games from your phone",
+   "date": "2026-10-09T11:39:00Z",
+   "tag": "Release",
+   "summary": "A small update for SteamLite Mobile: turn on \"Let my phone launch games\" in Settings > More settings > Privacy and the Play on my PC button on a game page in the phone app starts that game on this computer."
+  },
+  {
+   "id": "2026-10-08-steamlite-9-2-4-released-photos-voice-messages-and-more",
+   "file": "2026-10-08-steamlite-9-2-4-released-photos-voice-messages-and-more.md",
+   "title": "SteamLite 9.2.4 Released - Photos, voice messages and more",
+   "date": "2026-10-08T12:00:00Z",
+   "tag": "Release",
+   "summary": "Messages now supports photos and GIFs (pick, paste or drop), voice messages, link previews, quick replies and pinned chats, and a What should we play? button that finds games everyone in the chat owns. It also works…"
+  },
+  {
+   "id": "2026-10-08-steamlite-9-2-3-released-account-page-verified-players-and-a",
+   "file": "2026-10-08-steamlite-9-2-3-released-account-page-verified-players-and-a.md",
+   "title": "SteamLite 9.2.3 Released - Account page, verified players and a richer Messages",
+   "date": "2026-10-08T11:53:00Z",
+   "tag": "Release",
+   "summary": "Connect your Steam library once and every PC connects by itself, and Settings > Account is rebuilt. Messages got a big upgrade: an emoji picker, reactions, replies, edits, pins and search. You can share a game with a…"
+  },
+  {
+   "id": "2026-10-07-steamlite-9-2-2-released-themes-rebuilt-and-chat-polish",
+   "file": "2026-10-07-steamlite-9-2-2-released-themes-rebuilt-and-chat-polish.md",
+   "title": "SteamLite 9.2.2 Released - Themes rebuilt and chat polish",
+   "date": "2026-10-07T12:00:00Z",
+   "tag": "Release",
+   "summary": "Themes have a brand new window with live previews of every theme, a Community tab to find and download themes other players made, and a My library tab for yours. The new Theme Maker has presets, a live preview and a…"
+  },
+  {
+   "id": "2026-10-07-steamlite-9-2-1-released-messages-group-chats-and-friend-str",
+   "file": "2026-10-07-steamlite-9-2-1-released-messages-group-chats-and-friend-str.md",
+   "title": "SteamLite 9.2.1 Released - Messages, group chats and friend streaks",
+   "date": "2026-10-07T11:53:00Z",
+   "tag": "Release",
+   "summary": "You can now message your friends inside SteamLite. Open Messages from the folder button in the header: add friends with a code or find your Steam friends who use SteamLite, chat privately or in group chats of up to 20,…"
+  },
+  {
+   "id": "2026-10-07-steamlite-9-2-0-released-sign-in-with-steam",
+   "file": "2026-10-07-steamlite-9-2-0-released-sign-in-with-steam.md",
+   "title": "SteamLite 9.2.0 Released - Sign in with Steam",
+   "date": "2026-10-07T11:46:00Z",
+   "tag": "Release",
+   "summary": "SteamLite now asks you to sign in with Steam when you open it. After one quick restart it loads your games and profile, backs up your progress to the cloud, restores it on any PC and gives verified players a tick on…"
+  },
+  {
+   "id": "2026-10-07-steamlite-9-1-0-released-drops-shop-and-more",
+   "file": "2026-10-07-steamlite-9-1-0-released-drops-shop-and-more.md",
+   "title": "SteamLite 9.1.0 Released - Drops, Shop and more",
+   "date": "2026-10-07T11:39:00Z",
+   "tag": "Release",
+   "summary": "The big one is here: Drops with streaks, rarities and a lucky wheel, a Shop and Trophy room, dashboard widgets, smart collections and tags, a weekly recap, a friend challenge, search everywhere, five new languages,…"
+  },
+  {
+   "id": "2026-10-07-steamlite-day-oct-7-to-oct-14",
+   "file": "2026-10-07-steamlite-day-oct-7-to-oct-14.md",
+   "title": "SteamLite Day - Oct 7 to Oct 14",
+   "date": "2026-10-07T11:32:00Z",
+   "tag": "Announcement",
+   "summary": "SteamLite Day is on until October 14. Complete 5 quests to earn the exclusive SteamLite profile title, the exclusive SteamLite avatar frame and the Remembering the Roots theme. Open the achievements window or the…"
+  },
+  {
+   "id": "2026-10-07-steamlite-10-0-0-comes-january-2027",
+   "file": "2026-10-07-steamlite-10-0-0-comes-january-2027.md",
+   "title": "SteamLite 10.0.0 comes January 2027",
+   "date": "2026-10-07T11:25:00Z",
+   "tag": "Announcement",
+   "summary": "SteamLite 10.0.0 comes January 2027 with brand new features and [REDACTED]"
+  },
+  {
+   "id": "2026-10-07-steamlite-9-0-2-released-settings-fix",
+   "file": "2026-10-07-steamlite-9-0-2-released-settings-fix.md",
+   "title": "SteamLite 9.0.2 Released - Settings fix",
+   "date": "2026-10-07T11:18:00Z",
+   "tag": "Release",
+   "summary": "An emergency fix for 9.0.1: clicking a tab in Settings could push the top bar half off the screen. It is fixed in 9.0.2."
+  },
+  {
+   "id": "2026-10-07-steamlite-9-0-1-released-new-achievements-and-themes",
+   "file": "2026-10-07-steamlite-9-0-1-released-new-achievements-and-themes.md",
+   "title": "SteamLite 9.0.1 Released - New achievements and themes",
+   "date": "2026-10-07T11:11:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 9.0.1 is out. A tidier header with the extras in one folder, a floating now-playing pill you can move anywhere, 15 new achievements, 3 new themes (Royal Gold, Mocha Cream, Sakura Night), icons instead of…"
+  },
+  {
+   "id": "2026-10-04-steamlite-9-0-0-released-glass-couch-mode-and-more",
+   "file": "2026-10-04-steamlite-9-0-0-released-glass-couch-mode-and-more.md",
+   "title": "SteamLite 9.0.0 Released - Glass, Couch mode and more",
+   "date": "2026-10-04T12:00:00Z",
+   "tag": "Release",
+   "summary": "SteamLite 9.0.0 is here. A new floating glass interface (Classic is one switch away), a full-page Settings, couch mode for your sofa with a page for every game, Spotify now playing in the top bar, a much better Discord…"
+  }
+ ]
+}

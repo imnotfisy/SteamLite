@@ -7,9 +7,20 @@
 [![Latest](https://img.shields.io/badge/latest-26.11-3ddc97?style=flat-square&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
 [![Channel](https://img.shields.io/badge/channels-stable%20%7C%20beta-8D99AE?style=flat-square&labelColor=1A1D2A)](README.md#stable-and-beta)
 
-[26.11.4.2](#261142--stable) · [26.11.4.1](#261141--stable) · [26.11.4](#26114--stable) · [26.11.3](#26113--stable) · [26.11.2](#26112--stable) · [26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
+[26.11.5](#26115--stable) · [26.11.4.2](#261142--stable) · [26.11.4.1](#261141--stable) · [26.11.4](#26114--stable) · [26.11.3](#26113--stable) · [26.11.2](#26112--stable) · [26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
 
 </div>
+
+<br/>
+
+## 26.11.5 · Stable
+
+> **A feature update to the stable release.**
+
+### New
+- **A new News page.** The newest post is featured, and posts are listed under the **day and time** they were published. Search the news, filter it by tag, and see which posts are new.
+- **News is now written in Markdown.** Posts can have headings, lists, quotes, tables, links and pictures. Click a picture to see it full size.
+- **A Roadmap tab in News.** See what we are working on, when it is coming, and how far along it is. It is kept up to date from GitHub without needing a release.
 
 <br/>
 

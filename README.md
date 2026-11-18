@@ -31,7 +31,8 @@ SteamLite is rebuilt from the ground up. Versions are now the **year and the mon
 | **A clearer library** | Installed or not, play time and last played, on every game. Search, sort and filter in a click. |
 | **Better play tracking** | Counts games started through a launcher, and Steam games started from Steam itself. |
 | **A modern installer** | One window that also **updates SteamLite in place**. |
-| **News you can open** | Click any post or release to open the full notes and pictures. |
+| **A reworked News page** | Posts are listed by the day and time they were published, written in Markdown, with search and filters. |
+| **A Roadmap** | See what is coming next, and how far along it is, right inside SteamLite. |
 | **Themes** | Pick the Default look, the original purple and blue, or the limited-time **GTA 6** theme (Nov 15 to Dec 1). |
 | **A Save button** | Settings changes wait until you press **Save**, so nothing changes by accident. |
 | **Stable and Beta** | Stable by default. Switch to Beta to try new features first. |
@@ -47,9 +48,10 @@ SteamLite is rebuilt from the ground up. Versions are now the **year and the mon
 
 <img src="docs/screenshots/home.png" alt="Home" width="49%"/> <img src="docs/screenshots/library.png" alt="Library" width="49%"/>
 <img src="docs/screenshots/game.png" alt="A game page" width="49%"/> <img src="docs/screenshots/settings.png" alt="Settings" width="49%"/>
+<img src="docs/screenshots/news.png" alt="The News page" width="49%"/> <img src="docs/screenshots/roadmap.png" alt="The Roadmap" width="49%"/>
 <img src="docs/screenshots/news-detail.png" alt="A news post opened in full" width="49%"/> <img src="docs/screenshots/savebar.png" alt="The unsaved changes bar in Settings" width="49%"/>
 
-<sub>Home · Library · a game page · Settings · a news post opened in full · the unsaved changes bar</sub>
+<sub>Home · Library · a game page · Settings · News · Roadmap · a news post opened in full · the unsaved changes bar</sub>
 
 </div>
 
@@ -95,8 +97,8 @@ Add games that are not on Steam, and have their play time counted too.
 </td>
 <td valign="top">
 
-### News and updates
-SteamLite news and the latest news from the games you play, in one place. Click a SteamLite post or release and it opens in full, with its notes and pictures. After an update, SteamLite shows what changed the first time it opens.
+### News, Roadmap and updates
+SteamLite news (featured, searchable and listed by when it was published) and the latest news from the games you play, in one place. Click a post and it opens in full, with its notes and pictures. The **Roadmap** tab shows what is coming next and how far along it is. After an update, SteamLite shows what changed the first time it opens.
 
 </td>
 </tr>
