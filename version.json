@@ -1,5 +1,5 @@
 {
-  "version": "26.11.5",
-  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.5/SteamLite.Setup.26.11.5.exe",
-  "notes": "A feature update to the stable release.\n\n- **A new News page.** The newest post is featured, and posts are listed under the day and time they were published. Search the news, filter it by tag, and see which posts are new.\n- **News is now written in Markdown.** Posts can have headings, lists, quotes, tables, links and pictures. Click a picture to see it full size.\n- **A Roadmap tab in News.** See what we are working on, when it is coming, and how far along it is. It is kept up to date from GitHub without needing a release."
+  "version": "26.11.6",
+  "downloadUrl": "https://github.com/imnotfisy/SteamLite/releases/download/v26.11.6/SteamLite.Setup.26.11.6.exe",
+  "notes": "Optimised animations."
 }
