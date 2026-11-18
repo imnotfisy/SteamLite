@@ -138,3 +138,14 @@ input, textarea { font: inherit; color: var(--ink); background: rgba(10, 12, 20,
 }
 @media (max-width: 600px) { section { padding-top: 90px; } .bento, .tabs, .paths, .two { grid-template-columns: 1fr; } .t1, .t6, .t7, .t2, .t3, .t4, .t5 { grid-column: span 1; } .hero { padding-top: 120px; } .nav .btn.sm { display: none; } .final { padding: 60px 22px; border-radius: 30px; } .dl { padding: 26px; } .mini { gap: 8px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } .rise, h1.big .w, .reveal { opacity: 1 !important; transform: none !important; filter: none !important; } }
+
+/* roadmap */
+.road { display: grid; gap: 14px; margin-top: 44px; max-width: 860px; }
+.ri { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 20px; padding: 24px 26px; border-radius: 22px; background: linear-gradient(170deg, #2b3050, #20243a); border: 1px solid var(--line); }
+.rd { font-family: var(--display); font-weight: 700; font-size: 22px; color: var(--steel2); } .rt { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; } .rt h3 { font-size: 22px; }
+.rs { padding: 4px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 700; background: rgba(141, 153, 174, 0.2); color: var(--steel2); }
+.ri[data-s='shipped'] .rs { background: rgba(61, 220, 151, 0.2); color: var(--green); } .ri[data-s='progress'] .rs { background: var(--steel); color: #151827; } .ri[data-s='delayed'] .rs { background: rgba(242, 193, 92, 0.2); color: var(--warn); }
+.ri p { color: var(--muted); margin-top: 8px; font-size: 16px; } .ri .rn { font-size: 14.5px; font-style: italic; color: var(--faint); }
+.rp { height: 6px; border-radius: 6px; background: rgba(141, 153, 174, 0.2); overflow: hidden; margin-top: 16px; } .rp i { display: block; height: 100%; background: var(--steel); border-radius: 6px; } .ri[data-s='shipped'] .rp i { background: var(--green); }
+.ri small { display: block; margin-top: 6px; color: var(--faint); font-variant-numeric: tabular-nums; } .rup { margin-top: 10px; font-size: 14px; }
+@media (max-width: 600px) { .ri { grid-template-columns: 1fr; gap: 6px; padding: 20px; } }

@@ -82,3 +82,15 @@ const day = (d) => new Date(d).toLocaleDateString('en', { year: 'numeric', month
     if (beta) { const a = exe(beta); $('#betaVer').textContent = 'SteamLite ' + niceVer(beta.tag_name); $('#betaDl').href = a.browser_download_url; $('#betaInfo').textContent = size(a.size) + ' · Windows 10 and 11 · ' + day(beta.published_at); }
   } catch (e) { /* the links already point to the releases page */ }
 })();
+
+// the roadmap: roadmap.json on GitHub, the same file SteamLite reads
+(async () => {
+  const el = $('#road'); if (!el) return;
+  const LABEL = { shipped: 'Released', progress: 'In progress', planned: 'Planned', delayed: 'Delayed', conditional: 'If ready' };
+  const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  try {
+    const d = await (await fetch('https://raw.githubusercontent.com/imnotfisy/SteamLite/main/roadmap.json?t=' + Math.floor(Date.now() / 60000))).json();
+    const items = (d.items || []).slice(0, 20);
+    el.innerHTML = items.map((it) => { const p = Math.max(0, Math.min(100, Number(it.progress) || 0)), day = new Date(it.date + 'T12:00:00').toLocaleDateString('en', { month: 'short', day: 'numeric' }); return '<article class="ri" data-s="' + esc(it.status) + '"><div class="rd">' + esc(day) + '</div><div class="rb"><div class="rt"><h3>' + esc(it.title) + '</h3><span class="rs">' + esc(LABEL[it.status] || it.status) + '</span></div>' + (it.text ? '<p>' + esc(it.text) + '</p>' : '') + (it.note ? '<p class="rn">' + esc(it.note) + '</p>' : '') + '<div class="rp"><i style="width:' + p + '%"></i></div><small>' + p + '%' + (it.progressLabel ? ' &middot; ' + esc(it.progressLabel) : '') + '</small></div></article>'; }).join('') + (d.updated ? '<p class="sub rup">Updated ' + esc(d.updated) + '. This list can change as we learn more.</p>' : '');
+  } catch (e) { el.innerHTML = '<p class="sub">Could not load the roadmap. <a href="https://github.com/imnotfisy/SteamLite/blob/main/roadmap.json" rel="noopener">Read it on GitHub</a>.</p>'; }
+})();
