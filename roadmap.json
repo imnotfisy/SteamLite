@@ -8,25 +8,24 @@
       "status": "shipped",
       "progress": 100,
       "text": "A mainline feature update that adds this roadmap to News, so you can see what we are working on and how far along it is.",
-      "features": ["A Roadmap tab in News, kept up to date from GitHub without needing a release"]
-    },
-    {
-      "id": "26.12-beta",
-      "date": "2026-11-25",
-      "title": "SteamLite 26.12 Beta",
-      "status": "progress",
-      "progress": 10,
-      "progressLabel": "Animation Initiative",
-      "text": "The Animation Initiative (AI): we fix animations and optimise the current ones so they run better while your PC is running games.",
-      "features": ["Fixes for animations that stutter or misbehave", "Animations pause or simplify while a game is running", "Lighter animations that use less of your GPU"]
+      "features": [
+        "A Roadmap tab in News, kept up to date from GitHub without needing a release"
+      ]
     },
     {
       "id": "26.12",
       "date": "2026-12-01",
       "title": "SteamLite 26.12",
-      "status": "planned",
-      "progress": 0,
-      "text": "The Animation Initiative moves from the beta to the stable release, and is carried on the beta channel too."
+      "status": "progress",
+      "progress": 90,
+      "text": "The Animation Initiative (AI): we fix animations and optimise the current ones so they run better while your PC is running games. This goes straight to the stable release, with no beta.",
+      "progressLabel": "Animation Initiative",
+      "features": [
+        "Tabs you can grab and drag, with the page following them",
+        "A Play, Stop and Cancel button that changes shape and has its own motion",
+        "Lighter animations while a game is running",
+        "Sparks, checkmarks and many smaller animations"
+      ]
     },
     {
       "id": "27.1-beta",
