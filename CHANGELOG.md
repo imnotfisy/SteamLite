@@ -1,200 +1,153 @@
-<div align="center">
+# SteamLite 26.11.6
 
-# SteamLite changelog
+Optimised animations.
 
-**Every version, newest first.** Versions are the year and the month: **26.11** is November 2026.
+# SteamLite 26.11.5
 
-[![Latest](https://img.shields.io/badge/latest-26.11-3ddc97?style=flat-square&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
-[![Channel](https://img.shields.io/badge/channels-stable%20%7C%20beta-8D99AE?style=flat-square&labelColor=1A1D2A)](README.md#stable-and-beta)
+A feature update to the stable release.
 
-[26.11.5](#26115--stable) · [26.11.4.2](#261142--stable) · [26.11.4.1](#261141--stable) · [26.11.4](#26114--stable) · [26.11.3](#26113--stable) · [26.11.2](#26112--stable) · [26.11.1](#26111--stable) · [26.11](#2611--stable) · [Betas](#the-betas) · [10.x](#10x)
-
-</div>
-
-<br/>
-
-## 26.11.5 · Stable
-
-> **A feature update to the stable release.**
-
-### New
-- **A new News page.** The newest post is featured, and posts are listed under the **day and time** they were published. Search the news, filter it by tag, and see which posts are new.
+- **A new News page.** The newest post is featured, and posts are listed under the day and time they were published. Search the news, filter it by tag, and see which posts are new.
 - **News is now written in Markdown.** Posts can have headings, lists, quotes, tables, links and pictures. Click a picture to see it full size.
 - **A Roadmap tab in News.** See what we are working on, when it is coming, and how far along it is. It is kept up to date from GitHub without needing a release.
 
-<br/>
+# SteamLite 26.11.4.2
 
-## 26.11.4.2 · Stable
+A fix for 26.11.4.1.
 
-> **A fix for 26.11.4.1.**
-
-### Fixed
 - Fixed minor bugs.
 
-<br/>
+# SteamLite 26.11.4.1
 
-## 26.11.4.1 · Stable
+A small fix for 26.11.4.
 
-> **A small fix for 26.11.4.**
-
-### Fixed
 - **GTA 6 theme message.** After Dec 1, the greyed-out GTA 6 theme in Settings now says it will return when the game releases for the PC platform, or when it is available on Steam.
 
-<br/>
+# SteamLite 26.11.4
 
-## 26.11.4 · Stable
+An update to the stable release.
 
-> **An update to the stable release.**
-
-### New
-- **Themes.** Settings has a new **Themes** section: the **Default look**, the **Original purple and blue** look, and a **GTA 6** theme. Pick one to see it straight away, then press **Save**. The GTA 6 theme celebrates the upcoming release and can be picked from **Nov 15 to Dec 1**; after that it stays in the list, greyed out.
+- **Themes.** Settings has a new Themes section: the Default look, the Original purple and blue look, and a GTA 6 theme. Pick one to see it straight away, then press Save. The GTA 6 theme celebrates the upcoming release and can be picked from Nov 15 to Dec 1; after that it stays in the list, greyed out.
 - **What changed after an update.** The first time SteamLite opens after an update, it shows the release notes. You can turn this off in Settings.
-- **Copy diagnostics.** **Settings, Data and help** has a button that copies your SteamLite and Windows versions to paste into a bug report. Nothing personal is in it.
-- **Keyboard shortcuts.** Press **/** or **Ctrl+F** to jump to the library search from any page, and **Esc** to clear it.
+- **Copy diagnostics.** Settings, Data and help has a button that copies your SteamLite and Windows versions to paste into a bug report. Nothing personal is in it.
+- **Keyboard shortcuts.** Press / or Ctrl+F to jump to the library search from any page, and Esc to clear it.
 
-<br/>
+# SteamLite 26.11.3
 
-## 26.11.3 · Stable
+A small update to the stable release.
 
-> **A small update to the stable release.**
-
-### Fixed
 - **Game pictures load for new games.** Some newer games keep their pictures under a code in the address, so their covers never loaded. SteamLite now asks Steam's store for the exact picture files when the usual addresses fail, and remembers the answer.
 - **A clearer Stop and Cancel.** Stop is a solid square, and Cancel (while a game is starting) now shows a cross instead of a small hollow square that looked like a missing icon.
 
-<br/>
+# SteamLite 26.11.2
 
-## 26.11.2 · Stable
+A small update to the stable release.
 
-> **A small update to the stable release.**
+- **Open any news post or release.** In News, click a card and it grows into a full view with the whole post, the full notes of that release, and its pictures. Click a picture to see it full size. Press Esc or click outside to close.
 
-### New
-- **Open any news post or release.** In **News**, click a card and it grows into a full view with the whole post, the full notes of that release, and its pictures. Click a picture to see it full size. Press **Esc** or click outside to close.
+# SteamLite 26.11.8.beta
 
-<br/>
+The ninth beta of the new SteamLite. It has everything in stable 26.11.2.
 
-## 26.11.1 · Stable
+- **Open any news post or release.** In News, click a card and it grows into a full view with the whole post, the full notes of that release, and its pictures. Click a picture to see it full size.
 
-> **A small update to the stable release.**
 
-### New
+# SteamLite 26.11.1
+
+A small update to the stable release.
+
 - **A new icon.** The same mark, now in the app's grey gradient instead of purple and blue. It is in the app, the installer and the shortcuts.
-- **A Save button in Settings.** Changes wait until you press **Save**. A bar at the bottom says "Careful, you have unsaved changes!" with the Save button next to it, and it goes away when you save or change things back.
+- **A Save button in Settings.** Changes now wait until you press Save. A bar at the bottom says "Careful, you have unsaved changes!" with the Save button next to it, and it goes away when you save or change things back.
 
-<br/>
+# SteamLite 26.11.7.beta
 
-## 26.11 · Stable
+The eighth beta of the new SteamLite. It has everything in stable 26.11.1.
 
-> **The first stable release of the new SteamLite**, rebuilt from the ground up.
+- **A new icon.** The same mark, now in the app's grey gradient instead of purple and blue.
+- **A Save button in Settings.** Changes wait until you press Save. A bar at the bottom says "Careful, you have unsaved changes!" with the Save button next to it.
 
-### New
-- **A calm new look.** A dark design with a curved side rail, plain 2:3 covers, and a single green **Play** button on every game.
-- **A clear library.** Every game shows **Installed / Not installed**, its play time and when you last played it. Sort by *recently played*, *A to Z*, *installed first* or *most played*.
-- **Sign in with Steam.** Steam's own sign-in page, so SteamLite never sees your password. Your library, favorites, collections and play time carry over from 10.x.
-- **A modern installer.** A new window with a progress dial and a finish screen. It is also how SteamLite updates: **Update now** closes SteamLite, updates it where it is and opens it again.
-- **Stable and Beta channels.** Stable is the default. Stay on Beta to try new features before the stable release gets them.
+
+# SteamLite 26.11
+
+The first stable release of the new SteamLite, rebuilt from the ground up. Versions are now the year and the month.
+
+- **A new look.** A calm dark design with a curved side rail, plain covers, and clear status on every game: installed or not, play time, and when you last played it.
+- **Sign in with Steam.** SteamLite signs you in through Steam's own sign-in page, so it never sees your password. Your library, favorites, collections and play time carry over from 10.x.
+- **Play and Stop.** One green Play button on every game. Play time is tracked for games that start through a launcher, and for Steam games started from Steam itself.
+- **A faster library.** Instant search, sorting (recently played, A to Z, installed first, most played), filters, collections and a cover size slider.
+- **A new installer.** A modern installer that is also how SteamLite updates: Update now closes SteamLite, updates it in place and opens it again.
+- **Update channels.** Stable is the default. Beta stays available if you want new features before they reach the stable release.
 - **Island support.** Show your game, its timer and a Stop button in Island, a separate small app.
+- **More settings.** Open on Home or Library, the opening screen, close confirmation, reduce motion, a default sort, and more.
 
-### Better
-- **Play time** is counted from when a game is really running, including games started through a launcher and Steam games started from Steam itself.
-- **Plain messages** for loading, an empty library, a library that did not load, and a failed sign-in, each with a clear next step.
-- **Game pictures** load more often: if one Steam image server is missing a picture, SteamLite tries three more and then the store's own pictures.
-- **Settings** for opening on Home or Library, the opening screen, close confirmation, reduce motion, the default sort and more.
+Not in 26.11: Messages and friends, themes, the in-game overlay, streaks, the rewards system, cloud backup and Discord presence.
 
-### Not in 26.11
-Messages and friends, themes, the in-game overlay, streaks, the rewards system, cloud backup and Discord presence. Stay on [10.1.5](https://github.com/imnotfisy/SteamLite/releases/tag/v10.1.5) if you rely on them.
+# SteamLite 26.11.6.beta
 
-<br/>
+The seventh beta of the new SteamLite. It has everything in the stable 26.11 release, and it is the start of the line that gets new features first.
 
-## The betas
-
-<details>
-<summary><b>26.11.8.beta</b> · open any post or release</summary>
-
-- Everything in stable 26.11.2: **open any news post or release** for the full notes and pictures.
-
-</details>
-
-<details>
-<summary><b>26.11.7.beta</b> · a new icon and a Save button</summary>
-
-- Everything in stable 26.11.1: the **new grey icon** and the **Save button** in Settings.
-
-</details>
-
-<details>
-<summary><b>26.11.6.beta</b> · the line that gets features first</summary>
-
-- **A new base look.** Deep navy surfaces with one steel colour, and green only for Play.
-- **A clearer library**, **plain messages** for empty and error states, and the **Stable channel unlocked** in Settings.
+- **A new base look.** Deep navy surfaces with one steel colour, and green only for Play. Plain 2:3 covers with no glow.
+- **A clearer library.** Every game shows Installed or Not installed, its play time and when you last played it. Sort by recently played, A to Z, installed first or most played.
+- **Plain messages.** Loading, an empty library, a library that did not load and a failed sign-in each say what happened and what to do next.
+- **Stable channel unlocked.** Settings > Updates now lets you switch between Beta and Stable. Stay on Beta to get new features before the stable release.
+- **Updates.** The stable 26.11 release is newer than the betas 26.11.1 to 26.11.5, and betas numbered 26.11.6 or higher are newer than it.
 - **Fixed:** the press animation on buttons no longer makes chips and tabs flicker.
 
-</details>
 
-<details>
-<summary><b>26.11.5.beta</b> · a new installer</summary>
+# SteamLite 26.11.5.beta
 
-- **A new installer** with a living background, a progress dial and a checklist. Everything the old one did is kept: shortcuts, the uninstaller and updating in place.
-- **Updating is the installer.** Update now closes SteamLite and opens the installer, which updates it and opens it again.
-- **The installer checks GitHub** and tells you when a newer version is out.
-- **Game pictures load more often.**
+The sixth beta of the new SteamLite.
 
-</details>
+- **A new installer.** The SteamLite installer is now a modern window with a living background, a progress dial and a checklist, and a finish screen. Everything the old installer did is kept (shortcuts, the uninstaller, updating in place).
+- **Updating is the installer.** When an update is found, Update now downloads it, closes SteamLite and opens the installer, which updates SteamLite where it is and opens it again. Your games, collections and play time are kept.
+- **The installer checks GitHub.** If you run an older installer, it tells you when a newer version is out and can get it for you.
+- **Game pictures load more often.** If a picture is missing from one Steam image server, SteamLite tries three more, and then the store's own smaller pictures.
 
-<details>
-<summary><b>26.11.4.beta</b> · more picture sources and Island</summary>
+# SteamLite 26.11.4.beta
 
-- **Game pictures** try more Steam image servers before showing the letter tile.
-- **Island support:** your game, its timer and a Stop button on the Island pill. Switch it off in Settings.
+The fifth beta of the new SteamLite.
 
-</details>
+- **Game pictures load more often.** If a game's picture is missing from one Steam image server, SteamLite now tries three more, and then the store's own smaller pictures, before showing the letter tile.
+- **Island support.** SteamLite can show your game, its timer and a Stop button on Island, a separate small app. You can turn this off in Settings.
 
-<details>
-<summary><b>26.11.3.beta</b> · more settings</summary>
+# SteamLite 26.11.3.beta
 
-- **More settings:** open on Home or Library, the opening screen, close confirmation, art colours, an animated background, reduce motion, the default sort, a stop notification, the data folder, and a link to report a bug.
-- **Close confirmation** while a game is running, because closing stops the play time.
-- **News and Settings** are centred in the window.
+The fourth beta of the new SteamLite.
 
-</details>
+- **More settings.** Open on (Home or Library), show or hide the opening screen, ask before closing while a game is running, colours from the game's art on or off, an animated background on or off, reduce motion, the default library sort, a notification when you stop playing, open the data folder, clear saved Steam data, and a link to report a bug.
+- **Close confirmation.** Closing SteamLite while a game is running now asks first, because closing stops counting your play time. You can turn this off in Settings.
+- **News and Settings are centred** in the window.
 
-<details>
-<summary><b>26.11.2.beta</b> · the update popup</summary>
+# SteamLite 26.11.2.beta
 
-- **A proper update popup** with what is new, the version you have, the version you get, and *Update now* and *Later*. It shows progress while it downloads.
+The third beta of the new SteamLite.
 
-</details>
+- **A proper update popup.** When a new version is found, SteamLite now opens a popup in the middle of the screen with what is new in that version (the release notes), the version you have and the version you are getting, and the Update now and Later buttons. While it downloads, the popup shows the progress, and if you close it the slim progress bar still shows it. Check now in Settings opens it again.
 
-<details>
-<summary><b>26.11.1.beta</b> · Sign in with Steam</summary>
+# SteamLite 26.11.1.beta
 
-- **Sign in with Steam** through the SteamLite server. Typing a Steam ID and API key to sign in is gone. Everyone signs in once, and everything is kept.
-- **An update channel picker** in Settings.
-- **Game tracking** follows games started through a launcher, and notices Steam games started from Steam.
-- **An animated Play and Stop button.**
-- **Fixed:** Collections and Options no longer stretch the game page header. The sign-in card is centred.
+The second beta of the new SteamLite.
 
-</details>
+- **Sign in with Steam.** SteamLite now signs you in with Steam's own sign-in page, through the SteamLite server. Typing a Steam ID and API key to sign in is gone. Everyone signs in with Steam once, even if they were already signed in, and your library, favorites, collections and play time are kept. Adding another account works the same way, from a dialog in the middle of the screen.
+- **Update channel.** Settings > Updates has a new channel picker. Beta is selected; Release is greyed out until the beta is finished. A beta is offered the next beta and the final release.
+- **Game tracking.** A game that starts through a launcher which then quits is followed correctly (anything running from the game's folder counts). A Steam game started from Steam itself is now noticed and its time is counted too.
+- **Play and Stop.** The button animates when it switches between Play, Stop, Cancel and Install.
+- **Fixed:** opening Collections or Options on a game page no longer makes the header grow and push the title under the banner.
+- **Fixed:** the sign-in card is now centred on the screen.
 
-<details>
-<summary><b>26.11.beta</b> · the first beta</summary>
+# SteamLite 26.11.beta
 
-- A new look, a rotating banner on Home, a library with search, sorting and filters, game pages with launch options, achievements and notes, non-Steam games, News, an account switcher and built-in updates.
-- Your existing settings, logins, favorites, collections and play time are read from the same place as before.
+A new SteamLite, rebuilt from the ground up. Versions are now the year and the month, so this is 26.11. It is a beta: it is for trying out and telling us what to fix.
 
-</details>
+- A new look: a deep dark design with a living accent colour taken from the art you are looking at, a curved side rail, and smooth motion everywhere (it respects the Windows "reduce motion" setting).
+- Home: a rotating "Jump back in" banner, your totals, and rows for recently played, most played and favorites, plus the latest news from your games.
+- Library: search, sort (A to Z, most played, recently played), filters (installed, favorites, non-Steam, your collections, hidden), a cover size slider, and "Pick for me".
+- Game pages: Play and Stop, favorites, collections, per-game launch options (including "run as administrator"), achievements, game news, notes, open folder, verify files and uninstall.
+- Add games that are not on Steam, and have their play time counted too.
+- Play time is counted from the moment a game is really running until it is last seen running (the wait that decides a game has closed is no longer added).
+- News: SteamLite news and the news from the games you play.
+- Accounts: sign in with your SteamID64 and a Steam Web API key (they stay on your PC). Your picture in the top right opens an account menu to switch accounts.
+- Updates are built in, with versions compared by number (26.11 is newer than 10.1.5), and a beta is older than the final release of the same version.
+- A 3 second opening screen. The window is a fixed size so everything fits.
+- Your existing settings, logins, favorites, collections and play time are read from the same folder as before.
 
-<br/>
-
-## 10.x
-
-<details>
-<summary><b>10.1.5</b> · the last 10.x release</summary>
-
-The last release of the old SteamLite. It is still available on the [releases page](https://github.com/imnotfisy/SteamLite/releases/tag/v10.1.5) for anyone who relies on Messages, themes, the overlay or the rewards system.
-
-</details>
-
-<br/>
-
-<div align="center"><sub>Back to the <a href="README.md">README</a></sub></div>
+What is gone: Messages and friends, themes, the in-game overlay, streaks, achievements, XP, levels and the shop, cloud backup and Discord presence. SteamLite now focuses on your library, your games and your time.
