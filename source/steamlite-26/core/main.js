@@ -16,7 +16,7 @@ const native = (op, ...a) => bridge.native(op, ...a);
 const num = (v, d) => (typeof v === 'number' && isFinite(v) ? v : d);
 
 // the small everyday settings (the window reads them with app:boot and changes them with settings:set)
-const PREFS = { island: true, startPage: 'home', splash: true, confirmClose: true, reduceMotion: false, artColour: false, animBg: true, gameLite: true, whatsNew: true, theme: 'default', defaultSort: 'recent', notifyStop: false, showAllApps: false, closeToTray: false, startMinimised: false, pauseInGame: false };
+const PREFS = { island: true, startPage: 'home', splash: true, confirmClose: true, reduceMotion: false, artColour: false, animBg: true, gameLite: true, whatsNew: true, theme: 'default', defaultSort: 'recent', notifyStop: false, showAllApps: false, closeToTray: false, startMinimised: false, pauseInGame: false, lightGfx: process.platform === 'linux' };
 const prefs = () => Object.fromEntries(Object.entries(PREFS).map(([k, d]) => [k, store.get('pref.' + k, d)]));
 const fmtTime = (sec) => (sec >= 3600 ? Math.floor(sec / 3600) + ' h ' + Math.round((sec % 3600) / 60) + ' min' : Math.max(1, Math.round(sec / 60)) + ' min');
 const island = require('./island')({

@@ -35,3 +35,8 @@ a { background-image: linear-gradient(currentColor, currentColor); background-si
 [data-magnet-axis] > .held { transition: none !important; }
 [data-magnet-axis] > .held { box-shadow: 0 14px 30px -8px color-mix(in srgb, var(--glow) 70%, transparent), 0 4px 10px -4px #000 !important; }
 nav :focus-visible { animation: none; }
+
+/* Simpler graphics: no blur and lighter shadows, for slow graphics (older PCs, virtual machines, Linux) */
+:root[data-lite='1'] { --shadow-lg: 0 6px 16px -6px rgba(0, 0, 0, 0.6); }
+:root[data-lite='1'] *, :root[data-lite='1'] *::before, :root[data-lite='1'] *::after { backdrop-filter: none !important; filter: none !important; }
+:root[data-lite='1'] body::before { display: none; }

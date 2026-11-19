@@ -91,6 +91,9 @@ pub fn browser_args() -> String {
 }
 
 fn main() {
+    // Linux: WebKit's DMA-BUF renderer shows a blank or glitchy window on some graphics set-ups and in virtual machines
+    #[cfg(target_os = "linux")]
+    if std::env::var("WEBKIT_DISABLE_DMABUF_RENDERER").is_err() { std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1"); }
 
     let core = Arc::new(Core::new());
     let app = tauri::Builder::default()
@@ -140,7 +143,7 @@ fn main() {
             let handle = app.handle().clone();
             let entry = "index.html";
             let script = native::init_script(&handle);
-            WebviewWindowBuilder::new(app, "main", WebviewUrl::App(entry.into()))
+            let wb = WebviewWindowBuilder::new(app, "main", WebviewUrl::App(entry.into()))
                 .title("SteamLite")
                 .inner_size(1180.0, 720.0)
                 .resizable(false).maximizable(false)
@@ -150,8 +153,11 @@ fn main() {
                 .center()
                 .background_color(tauri::window::Color(11, 12, 16, 255))
                 .initialization_script(&script)
-                .additional_browser_args(&browser_args())
-                .build()?;
+                .additional_browser_args(&browser_args());
+            // Linux has no icon in the program file, so the window is given one
+            #[cfg(target_os = "linux")]
+            let wb = match tauri::image::Image::from_bytes(include_bytes!("../icons/icon.png")) { Ok(i) => wb.icon(i)?, Err(_) => wb };
+            wb.build()?;
 
             let exe = std::env::current_exe().unwrap_or_default();
             let version = handle.package_info().version.to_string();

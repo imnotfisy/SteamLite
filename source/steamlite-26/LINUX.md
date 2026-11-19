@@ -14,16 +14,17 @@ bash tools/linux-build.sh
 The script installs what it needs (it asks for your password for apt), adds a swap file if the machine has little memory, builds the window and the app, and puts the
 results in `linux-out/`:
 
-- `SteamLite_<version>_amd64.AppImage`
-- `SteamLite_<version>_amd64.deb`
+- `SteamLite_<version>_amd64.deb` (install it with `sudo apt install ./linux-out/*.deb`)
+- `SteamLite_<version>_amd64.AppImage` (if it can be made on your system)
 
 The first build takes a while (about 20 to 40 minutes on 4 GB of RAM with swap, much less with 8 GB or more). Keep about 15 GB of disk free.
 
 ## Run it
 
 ```bash
-chmod +x linux-out/*.AppImage
-./linux-out/*.AppImage
+sudo apt install ./linux-out/*.deb      # then open SteamLite from the app menu
+# or the AppImage, when there is one:
+chmod +x linux-out/*.AppImage && ./linux-out/*.AppImage
 ```
 
 SteamLite finds Steam in `~/.local/share/Steam`, `~/.steam/steam` or the Flatpak install. Games start through Steam (`steam -applaunch`), and the game Steam says is

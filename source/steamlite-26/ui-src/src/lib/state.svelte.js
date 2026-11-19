@@ -90,7 +90,7 @@ export async function stop(g) { await call('game:stop', g.id); }
 // the settings that change how the whole app looks are put on the page as attributes the style sheet reads
 export function applySettings() {
   const r = document.documentElement.dataset, s = S.settings || {};
-  r.motion = s.reduceMotion ? 'reduced' : ''; r.bg = s.animBg === false ? 'still' : ''; r.accent = s.artColour === false ? 'fixed' : ''; r.theme = ['purple', 'gta6'].includes(s.theme) && themeOpen(s.theme) ? s.theme : '';
+  r.lite = s.lightGfx ? '1' : ''; r.motion = s.reduceMotion ? 'reduced' : ''; r.bg = s.animBg === false ? 'still' : ''; r.accent = s.artColour === false ? 'fixed' : ''; r.theme = ['purple', 'gta6'].includes(s.theme) && themeOpen(s.theme) ? s.theme : '';
   if (s.artColour === false) document.documentElement.style.removeProperty('--glow');      // the theme's own colour
 }
 export async function init() {

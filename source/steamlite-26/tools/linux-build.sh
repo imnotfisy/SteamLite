@@ -44,10 +44,13 @@ echo "== 6/6  the app (a few minutes the first time)"
 # lighter settings than the Windows release build, so a small machine can manage it
 export CARGO_PROFILE_RELEASE_LTO=off CARGO_PROFILE_RELEASE_CODEGEN_UNITS=8 CARGO_BUILD_JOBS=2
 export APPIMAGE_EXTRACT_AND_RUN=1 NO_STRIP=true
-npx tauri build --bundles appimage,deb
+# the .deb first (it always works); the AppImage is tried after and may fail on very new Ubuntu versions without stopping the build
+npx tauri build --bundles deb
+npx tauri build --bundles appimage || echo "(the AppImage could not be made here; the .deb is enough on Ubuntu)"
 
 mkdir -p "$ROOT/linux-out"
-cp -v src-tauri/target/release/bundle/appimage/*.AppImage src-tauri/target/release/bundle/deb/*.deb "$ROOT/linux-out/" || true
+cp -v src-tauri/target/release/bundle/deb/*.deb "$ROOT/linux-out/" || true
+cp -v src-tauri/target/release/bundle/appimage/*.AppImage "$ROOT/linux-out/" 2>/dev/null || true
 echo
 echo "Done. The files are in: $ROOT/linux-out"
-echo "Run it with:  chmod +x linux-out/*.AppImage && ./linux-out/*.AppImage"
+echo "Install it with:  sudo apt install ./linux-out/*.deb      (then open SteamLite from the app menu)"

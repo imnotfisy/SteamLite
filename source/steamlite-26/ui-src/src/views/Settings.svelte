@@ -94,6 +94,7 @@
     <div class="row opt"><div class="grow"><b>Animated background</b><div class="muted">The slowly moving glow behind the app.</div></div><Toggle checked={cfg.animBg !== false} onchange={(v) => set('animBg', v)} /></div>
     <div class="row opt"><div class="grow"><b>Lighter animations during a game</b><div class="muted">While a game is running, looping animations stop and the blur behind panels is switched off, so SteamLite uses less of your GPU.</div></div><Toggle checked={cfg.gameLite !== false} onchange={(v) => set('gameLite', v)} /></div>
     <div class="row opt"><div class="grow"><b>Pause SteamLite while you play</b><div class="muted">While a game is running and SteamLite is in the background, its window is paused completely: it draws nothing and uses almost no CPU, GPU or memory. It wakes up the moment you open it.</div></div><Toggle checked={!!cfg.pauseInGame} onchange={(v) => set('pauseInGame', v)} /></div>
+    <div class="row opt"><div class="grow"><b>Simpler graphics</b><div class="muted">Turns off blur and large soft shadows. This makes SteamLite smoother on older PCs, virtual machines and Linux. It is on by default on Linux.</div></div><Toggle checked={!!cfg.lightGfx} onchange={(v) => set('lightGfx', v)} /></div>
     <div class="row opt"><div class="grow"><b>Reduce motion</b><div class="muted">Turns off most animations. SteamLite also follows the Windows setting.</div></div><Toggle checked={!!cfg.reduceMotion} onchange={(v) => set('reduceMotion', v)} /></div>
   </div>
 
