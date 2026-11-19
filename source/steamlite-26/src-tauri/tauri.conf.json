@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "SteamLite",
+  "version": "26.12.0",
+  "identifier": "com.steamlite.app",
+  "build": {
+    "frontendDist": "../ui"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "nsis"
+    ],
+    "icon": [
+      "icons/icon.ico"
+    ],
+    "publisher": "SteamLite",
+    "shortDescription": "A lighter Steam library client",
+    "resources": {
+      "../core/": "core/",
+      "bin/node.exe": "node.exe",
+      "bin/SteamLite Updater.exe": "updater/SteamLite Updater.exe"
+    },
+    "windows": {
+      "nsis": {
+        "installMode": "both",
+        "displayLanguageSelector": false,
+        "installerIcon": "icons/icon.ico",
+        "sidebarImage": "installer/sidebar.bmp",
+        "headerImage": "installer/header.bmp",
+        "installerHooks": "installer/hooks.nsh"
+      }
+    }
+  },
+  "mainBinaryName": "SteamLite"
+}

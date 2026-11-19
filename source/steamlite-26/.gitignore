@@ -1,0 +1,10 @@
+node_modules/
+target/
+linux-out/
+src-tauri/gen/
+src-tauri/bin/node
+*.exe
+ui/assets/
+ui/index.html
+ui/icon.png
+ui/island/
