@@ -1,15 +1,18 @@
 {
-  "updated": "November 18, 2026",
+  "updated": "November 19, 2026",
   "items": [
     {
-      "id": "26.11.5",
+      "id": "26.11.6",
       "date": "2026-11-18",
-      "title": "SteamLite 26.11.5",
+      "title": "SteamLite 26.11.6",
       "status": "shipped",
       "progress": 100,
-      "text": "A mainline feature update that adds this roadmap to News, so you can see what we are working on and how far along it is.",
+      "text": "Optimised animations, and smooth scrolling for the mouse wheel.",
       "features": [
-        "A Roadmap tab in News, kept up to date from GitHub without needing a release"
+        "Tabs you can grab and drag, with the page following them",
+        "A Play, Stop and Cancel button that changes shape",
+        "Lighter animations while a game is running",
+        "Smooth scrolling"
       ]
     },
     {
@@ -18,24 +21,40 @@
       "title": "SteamLite 26.12",
       "status": "progress",
       "progress": 90,
-      "text": "The Animation Initiative (AI): we fix animations and optimise the current ones so they run better while your PC is running games. This goes straight to the stable release, with no beta.",
-      "progressLabel": "Animation Initiative",
+      "progressLabel": "Built, in testing",
+      "text": "A quality-of-life release: a faster start, and a lot of small things that get in your way less. It goes straight to stable, with no beta.",
       "features": [
-        "Tabs you can grab and drag, with the page following them",
-        "A Play, Stop and Cancel button that changes shape and has its own motion",
-        "Lighter animations while a game is running",
-        "Sparks, checkmarks and many smaller animations"
+        "Your library appears at once, then updates from Steam",
+        "Steam not running: SteamLite starts it and launches your game when it is ready",
+        "Remembers your page, sort, filter and window position",
+        "Download and update progress on your games",
+        "Disk usage, a Largest first sort, and soundtracks, demos and tools hidden by default",
+        "Select several games with Ctrl or Shift, and Undo for hide and delete",
+        "Close to the tray, start minimised, and an option to pause SteamLite while you play"
       ]
+    },
+    {
+      "id": "26.12-linux",
+      "date": "2026-12-01",
+      "title": "SteamLite for Linux (preview)",
+      "status": "progress",
+      "progress": 50,
+      "progressLabel": "Testing on Ubuntu",
+      "text": "SteamLite on Linux, built and tested on Ubuntu first. It runs today in testing, and it is planned as a preview on 1 December, alongside 26.12.",
+      "features": [
+        "Finds your Steam library and starts games through Steam",
+        "Install it from a .deb, with an AppImage where it can be made"
+      ],
+      "note": "This is a preview: Linux is tested on Ubuntu first, and updates inside the app come later. If it is not ready on the 1st, the date will move and we will say so here."
     },
     {
       "id": "27.1-beta",
       "date": "2026-12-15",
-      "title": "SteamLite 27.1 Beta, with Graphine",
-      "status": "conditional",
-      "progress": 5,
-      "progressLabel": "Graphine engine",
-      "text": "Graphine is our new engine, made only for SteamLite. We will not ship it until we know it is stable and tested on other PCs.",
-      "note": "This beta only releases on the 15th if Graphine is stable enough. If it is not ready, this date will move and we will say so here."
+      "title": "SteamLite 27.1 Beta, \"Graphine\"",
+      "status": "planned",
+      "progress": 0,
+      "text": "Graphine is the nickname for 27.1: a lighter, faster SteamLite that uses less memory and less of your PC while a game is running.",
+      "note": "If it is not ready on the 15th, the date will move and we will say so here."
     }
   ]
 }
