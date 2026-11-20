@@ -1,5 +1,5 @@
 {
-  "updated": "November 19, 2026",
+  "updated": "November 20, 2026",
   "items": [
     {
       "id": "26.11.6",
@@ -16,13 +16,26 @@
       ]
     },
     {
+      "id": "26.12-beta",
+      "date": "2026-11-20",
+      "title": "SteamLite 26.12 Beta",
+      "status": "shipped",
+      "progress": 100,
+      "text": "The first beta of 26.12: everything below, plus navigation sounds and an installer that no longer needs administrator rights. Turn on the beta channel in Settings to try it.",
+      "features": [
+        "Navigation sounds are back, with a volume setting",
+        "An installer that works without administrator rights",
+        "Everything planned for 26.12, ready to try"
+      ]
+    },
+    {
       "id": "26.12",
       "date": "2026-12-01",
       "title": "SteamLite 26.12",
       "status": "progress",
       "progress": 90,
-      "progressLabel": "Built, in testing",
-      "text": "A quality-of-life release: a faster start, and a lot of small things that get in your way less. It goes straight to stable, with no beta.",
+      "progressLabel": "Beta out, stable 1 December",
+      "text": "A quality-of-life release: a faster start, and a lot of small things that get in your way less. The beta is out now, and the stable release is planned for 1 December.",
       "features": [
         "Your library appears at once, then updates from Steam",
         "Steam not running: SteamLite starts it and launches your game when it is ready",
