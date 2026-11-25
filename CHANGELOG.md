@@ -1,3 +1,33 @@
+# SteamLite 26.11.7
+
+A Christmas theme that unlocks on December 1, a way back from the beta, and a lot of small things that get in your way less.
+
+- **A Christmas theme.** Red and white gradients, a red and white SteamLite logo, and snow drifting down the window. It appears in Settings, under Themes, on December 1 and is open until January 1. Click the three dots on the theme and untick Snow to turn the snow off.
+- **Go back to stable.** On a beta build, Settings has a Go back to stable button under Updates. It downloads the newest stable SteamLite and installs it. The Setup window knows it is replacing a beta and says Returning to stable.
+
+- **Faster start.** Your library now appears straight away from the saved copy, then updates when Steam answers, instead of waiting on Steam first.
+- **Steam not running.** If Steam is closed when you press Play, SteamLite says so, starts Steam for you, and launches the game when it is ready. The sidebar shows "Starting Steam" while it waits.
+- **Remembers where you were.** The Library keeps its sort and filter, the window opens where you left it, and "Open on" has a new "Last page" choice.
+- **Download progress.** Games Steam is downloading, installing or updating show a progress bar and a status on their cards and on the game page.
+- **Cleaner library.** Soundtracks, demos, playtests, benchmarks, servers and tools are hidden by default. "Show everything in the library" in Settings brings them back.
+- **Disk usage.** The Library shows how much space your installed games take and how much is free on each drive, with a new "Largest first" sort and each game's size on its card.
+- **Select several games.** Hold Ctrl or Shift and click games in the Library, then favorite, hide, or add them to a collection together.
+- **Undo.** Hiding games, deleting a collection, and bulk actions show an Undo button for a few seconds.
+- **Pause while you play.** A new setting, off by default: while a game is running and SteamLite is in the background, its window is paused completely, so it draws nothing and uses almost no CPU, GPU or memory. It wakes up the moment you open it.
+- **Navigation sounds are back.** Short, soft sounds when you change page, press a button, or something is saved or goes wrong, with a volume setting. They are off until you turn them on in Settings, and they stay quiet while a game is running.
+- **A fixed installer.** Setup no longer needs administrator rights: it installs for your own account, so it works on admin and standard accounts alike. An older install in Program Files is still updated in place, and Windows only asks for permission then.
+- **Discord Rich Presence is back, and much better.** Off until you turn it on in Settings, under Discord. While you play, your profile shows the game, its art and a live timer, and a second line rotates through real numbers from your library: achievements (and the one you just unlocked), total play time, this week's play time, your day streak and where the game ranks. While you browse it shows the page you are on and your library numbers. You can hide game names, stats, browsing and the buttons separately.
+- **Play stats.** A new Stats page in the sidebar shows your time in games for the week, the month or all time: play time, sessions, day streak (and your best), this week against last week, a chart by day or month, your most played games, the hours and weekdays you play most, and a calendar of the last 17 weeks. It is worked out on your PC from the sessions SteamLite counts.
+- **A new Profile page.** A banner built from your most played game, your avatar with a ring that fills as your Steam level grows, whether you are online, and how long you have been on Steam. Below it: your games and hours, this week and your day streak, your top three games, how much of your library you have played, the last 30 days at a glance, and your recent sessions with their covers.
+- **Edit your profile.** On the Profile page, Edit profile lets you change your picture, set a banner (the art of a game, two colours, or your own picture, with blur and darkening), write a tagline, pick a colour, and hide or reorder the widgets. It all shows straight away.
+- **A friends drawer.** A new button next to your picture opens your Steam friends in a panel at the side, with who is playing what, who is online and when the others were last seen. It goes away when you click off it or change page. Friends who have a SteamLite profile are marked, and opening one shows their banner, picture, tagline and top games. You can also find a SteamLite player by their friend code.
+- **Your SteamLite account.** Signing in with Steam already makes your SteamLite account and links it to your Steam account. After you sign in, SteamLite now says so once and asks whether other players may see your profile. Nothing is shared until you choose, and you can change it later in Settings, under Profile and friends.
+- **A heads-up before a theme ends.** A theme that is only available for a while (like GTA 6, until December 1) now shows a notice once, 5 days before it ends.
+- **A Filters menu in the Library.** The sort buttons and the cover-size slider moved into one Filters menu, so the toolbar fits in a narrow window.
+- **Smart library.** A new setting that keeps only games in your library. Apps from Steam that are not games, like Wallpaper Engine and other software, are left out. SteamLite asks Steam's store what each app is and remembers the answer. It is off by default.
+- **Tray.** Two new settings: "Close to the tray" keeps SteamLite (and your play time count) running when you close the window, and "Start minimised" lets it start quietly with Windows. Right-click the tray icon for your five most recent games.
+- **Fixes.** A page you switch to now always starts at the top (a scroll that was still gliding no longer carries over from the last page). The library toolbar no longer runs off the edge in a narrow window (it wraps instead), the cover-size slider matches the rest of the app, and "1 months ago" now reads "1 month ago".
+
 # SteamLite 26.11.6
 
 Optimised animations.
