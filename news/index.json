@@ -1,6 +1,15 @@
 {
- "updated": "2026-11-25T05:07:29Z",
+ "updated": "2026-11-25T06:39:58Z",
  "posts": [
+  {
+   "id": "2026-11-25-steamlite-26-11-8-is-out-connect-discord-and-a-live-preview",
+   "file": "2026-11-25-steamlite-26-11-8-is-out-connect-discord-and-a-live-preview.md",
+   "title": "SteamLite 26.11.8 is out - connect Discord and a live preview",
+   "date": "2026-11-25T06:38:15Z",
+   "tag": "Release",
+   "release": "v26.11.8",
+   "summary": "SteamLite 26.11.8 is out. It is a small update about Discord: you can connect your Discord account, see a live preview of your Rich Presence card, and join the SteamLite community server from inside the app."
+  },
   {
    "id": "2026-11-25-steamlite-26-11-7-is-out-play-stats-profiles-and-a-friends-d",
    "file": "2026-11-25-steamlite-26-11-7-is-out-play-stats-profiles-and-a-friends-d.md",
