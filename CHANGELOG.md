@@ -1,3 +1,11 @@
+# SteamLite 26.11.8
+
+Discord, connected.
+
+- **Connect Discord.** In Settings, under Discord, link the Discord account that is signed in on your PC. SteamLite only reads which account it is, and your Discord name and picture show on your Profile page. Nothing is sent anywhere.
+- **A preview of your Discord card.** Under the Discord switches in Settings, a preview shows how your profile will look, drawn like Discord draws it: the game and its art, the live timer, the rotating numbers and the buttons. It follows the switches before you save, and you can flip between Playing a game and Browsing.
+- **Join the SteamLite Discord.** A button at the bottom of the Discord section in Settings opens the SteamLite community server.
+
 # SteamLite 26.11.7
 
 A Christmas theme that unlocks on December 1, a way back from the beta, and a lot of small things that get in your way less.
