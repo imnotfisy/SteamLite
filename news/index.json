@@ -1,6 +1,16 @@
 {
- "updated": "2026-11-18T02:20:17Z",
+ "updated": "2026-11-25T05:05:39Z",
  "posts": [
+  {
+   "id": "2026-11-25-steamlite-26-11-7-is-out-play-stats-profiles-and-a-friends-d",
+   "file": "2026-11-25-steamlite-26-11-7-is-out-play-stats-profiles-and-a-friends-d.md",
+   "title": "SteamLite 26.11.7 is out - play stats, profiles and a friends drawer",
+   "date": "2026-11-25T05:10:00Z",
+   "tag": "Release",
+   "release": "v26.11.7",
+   "summary": "SteamLite 26.11.7 is out. It is a big update: a faster start, play stats, a profile you can edit, a friends drawer, Discord presence and a lot of small things that get in your way less. The Christmas theme is inside…",
+   "cover": "https://raw.githubusercontent.com/imnotfisy/SteamLite/main/docs/screenshots/stats.png"
+  },
   {
    "id": "2026-11-18-steamlite-26-11-5-is-out-a-new-news-page-and-a-roadmap",
    "file": "2026-11-18-steamlite-26-11-5-is-out-a-new-news-page-and-a-roadmap.md",
