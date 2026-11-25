@@ -1,5 +1,5 @@
 {
-  "updated": "November 20, 2026",
+  "updated": "November 25, 2026",
   "items": [
     {
       "id": "26.11.6",
@@ -16,16 +16,20 @@
       ]
     },
     {
-      "id": "26.12-beta",
-      "date": "2026-11-20",
-      "title": "SteamLite 26.12 Beta",
+      "id": "26.11.7",
+      "date": "2026-11-25",
+      "title": "SteamLite 26.11.7",
       "status": "shipped",
       "progress": 100,
-      "text": "The first beta of 26.12: everything below, plus navigation sounds and an installer that no longer needs administrator rights. Turn on the beta channel in Settings to try it.",
+      "text": "A big update: a faster start, play stats, a new profile you can edit, a friends drawer, Discord presence, a Smart library filter, and a way back from the beta. The Christmas theme is inside, and it unlocks on December 1.",
       "features": [
-        "Navigation sounds are back, with a volume setting",
-        "An installer that works without administrator rights",
-        "Everything planned for 26.12, ready to try"
+        "Your library appears at once, then updates from Steam",
+        "Play stats: time by week, month or all time, streaks and a calendar",
+        "A new Profile page you can edit, and a friends drawer",
+        "Discord Rich Presence with real numbers from your library",
+        "Smart library: only games, no other Steam apps",
+        "Close to the tray, pause while you play, and navigation sounds",
+        "A Filters menu in the Library, and a fixed installer"
       ]
     },
     {
@@ -33,32 +37,14 @@
       "date": "2026-12-01",
       "title": "SteamLite 26.12",
       "status": "progress",
-      "progress": 90,
-      "progressLabel": "Beta out, stable 1 December",
-      "text": "A quality-of-life release: a faster start, and a lot of small things that get in your way less. The beta is out now, and the stable release is planned for 1 December.",
+      "progress": 100,
+      "progressLabel": "Built, unlocks on Dec 1",
+      "text": "A theme unlock: the Christmas theme, in red and white with a red and white logo and falling snow, appears in Settings on December 1 and stays until January 1.",
       "features": [
-        "Your library appears at once, then updates from Steam",
-        "Steam not running: SteamLite starts it and launches your game when it is ready",
-        "Remembers your page, sort, filter and window position",
-        "Download and update progress on your games",
-        "Disk usage, a Largest first sort, and soundtracks, demos and tools hidden by default",
-        "Select several games with Ctrl or Shift, and Undo for hide and delete",
-        "Close to the tray, start minimised, and an option to pause SteamLite while you play"
-      ]
-    },
-    {
-      "id": "26.12-linux",
-      "date": "2026-12-01",
-      "title": "SteamLite for Linux (preview)",
-      "status": "progress",
-      "progress": 50,
-      "progressLabel": "Testing on Ubuntu",
-      "text": "SteamLite on Linux, built and tested on Ubuntu first. It runs today in testing, and it is planned as a preview on 1 December, alongside 26.12.",
-      "features": [
-        "Finds your Steam library and starts games through Steam",
-        "Install it from a .deb, with an AppImage where it can be made"
+        "The Christmas theme, from December 1 to January 1",
+        "Snow you can turn off from the theme's three-dot menu"
       ],
-      "note": "This is a preview: Linux is tested on Ubuntu first, and updates inside the app come later. If it is not ready on the 1st, the date will move and we will say so here."
+      "note": "Nothing else changes in 26.12."
     },
     {
       "id": "27.1-beta",
