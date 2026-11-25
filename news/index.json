@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25T05:05:39Z",
+ "updated": "2026-11-25T05:07:29Z",
  "posts": [
   {
    "id": "2026-11-25-steamlite-26-11-7-is-out-play-stats-profiles-and-a-friends-d",
@@ -10,6 +10,15 @@
    "release": "v26.11.7",
    "summary": "SteamLite 26.11.7 is out. It is a big update: a faster start, play stats, a profile you can edit, a friends drawer, Discord presence and a lot of small things that get in your way less. The Christmas theme is inside…",
    "cover": "https://raw.githubusercontent.com/imnotfisy/SteamLite/main/docs/screenshots/stats.png"
+  },
+  {
+   "id": "2026-11-18-steamlite-26-11-6-is-out-optimised-animations-and-smooth-scr",
+   "file": "2026-11-18-steamlite-26-11-6-is-out-optimised-animations-and-smooth-scr.md",
+   "title": "SteamLite 26.11.6 is out - optimised animations and smooth scrolling",
+   "date": "2026-11-18T03:53:46Z",
+   "tag": "Release",
+   "release": "v26.11.6",
+   "summary": "SteamLite 26.11.6 is out. It is a small update about how SteamLite moves: the animations are lighter and smoother, and the mouse wheel now scrolls smoothly."
   },
   {
    "id": "2026-11-18-steamlite-26-11-5-is-out-a-new-news-page-and-a-roadmap",
