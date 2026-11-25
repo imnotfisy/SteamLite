@@ -1,44 +1,46 @@
 <div align="center">
 
-<img src="docs/banner.svg" alt="SteamLite 26.11" width="100%"/>
+<img src="docs/banner.svg" alt="SteamLite 26.11.7" width="100%"/>
 
 <br/>
 
-[![Download](https://img.shields.io/badge/Download-SteamLite%2026.11-3ddc97?style=for-the-badge&logo=windows&logoColor=062a1b&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
+[![Download](https://img.shields.io/badge/Download-SteamLite%2026.11.7-3ddc97?style=for-the-badge&logo=windows&logoColor=062a1b&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
 [![Website](https://img.shields.io/badge/Website-imnotfisy.github.io-8D99AE?style=for-the-badge&labelColor=1A1D2A)](https://imnotfisy.github.io/SteamLite/)
 
-![Version](https://img.shields.io/badge/version-26.11-8D99AE?style=flat-square&labelColor=1A1D2A)
+![Version](https://img.shields.io/badge/version-26.11.7-8D99AE?style=flat-square&labelColor=1A1D2A)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-8D99AE?style=flat-square&labelColor=1A1D2A)
 ![License](https://img.shields.io/badge/license-MIT-8D99AE?style=flat-square&labelColor=1A1D2A)
 ![Channel](https://img.shields.io/badge/channel-stable-3ddc97?style=flat-square&labelColor=1A1D2A)
 
 **A lighter way to see your Steam library, launch your games and keep count of your time.**
 
-[Download](#download) · [What's new](#whats-new-in-2611) · [Features](#features) · [Screenshots](#screenshots) · [FAQ](#faq) · [Changelog](CHANGELOG.md)
+[Download](#download) · [What's new](#whats-new-in-26117) · [Features](#features) · [Screenshots](#screenshots) · [FAQ](#faq) · [Changelog](CHANGELOG.md)
 
 </div>
 
 <br/>
 
-## What's new in 26.11
+## What's new in 26.11.7
 
-SteamLite is rebuilt from the ground up. Versions are now the **year and the month**, so this is **26.11**.
+Versions are the **year and the month**, so this is the **26.11** line, and 26.11.7 is its biggest update so far.
 
 |  |  |
 |---|---|
-| **A new look** | A calm dark design, plain 2:3 covers and one green **Play** button on every game. |
-| **Sign in with Steam** | Steam's own sign-in page. SteamLite never sees your password. |
-| **A clearer library** | Installed or not, play time and last played, on every game. Search, sort and filter in a click. |
-| **Better play tracking** | Counts games started through a launcher, and Steam games started from Steam itself. |
-| **A modern installer** | One window that also **updates SteamLite in place**. |
-| **A reworked News page** | Posts are listed by the day and time they were published, written in Markdown, with search and filters. |
-| **A Roadmap** | See what is coming next, and how far along it is, right inside SteamLite. |
-| **Themes** | Pick the Default look, the original purple and blue, or the limited-time **GTA 6** theme (Nov 15 to Dec 1). |
-| **A Save button** | Settings changes wait until you press **Save**, so nothing changes by accident. |
-| **Stable and Beta** | Stable by default. Switch to Beta to try new features first. |
+| **Play stats** | Your time in games by week, month or all time: streaks, most played games, the hours and weekdays you play most, and a 17-week calendar. |
+| **A profile you can edit** | A new Profile page with a banner, picture, tagline and colour of your own. Hide or reorder the widgets. |
+| **A friends drawer** | Your Steam friends in a side panel: who is playing what, who is online. Friends with a SteamLite profile are marked. |
+| **Discord Rich Presence** | The game you play, with its art and a live timer, and real numbers like achievements and your streak. Off until you turn it on. |
+| **Smart library** | A setting that keeps only games in your library, without other Steam apps like Wallpaper Engine. |
+| **A faster start** | The library appears at once from the saved copy, then updates from Steam. |
+| **Steam not running** | Press Play with Steam closed and SteamLite starts it, then launches the game. |
+| **Filters menu** | Sort options and the cover-size slider in one menu in the Library. |
+| **Close to the tray, pause while you play, navigation sounds** | Optional settings, all off by default. |
+| **Go back to stable** | On a beta build, a button in Settings returns you to the stable version. |
+| **A fixed installer** | Setup no longer needs administrator rights. |
+| **A Christmas theme** | Unlocks in Settings on December 1 and stays until January 1, with snow you can turn off. |
 
 > [!NOTE]
-> **Coming from 10.x?** Install 26.11 over it. Your settings, favorites, collections and play time are read from the same place as before, and you sign in with Steam once.
+> **Coming from 10.x?** Install the latest version over it. Your settings, favorites, collections and play time are read from the same place as before, and you sign in with Steam once.
 
 <br/>
 
@@ -50,8 +52,9 @@ SteamLite is rebuilt from the ground up. Versions are now the **year and the mon
 <img src="docs/screenshots/game.png" alt="A game page" width="49%"/> <img src="docs/screenshots/settings.png" alt="Settings" width="49%"/>
 <img src="docs/screenshots/news.png" alt="The News page" width="49%"/> <img src="docs/screenshots/roadmap.png" alt="The Roadmap" width="49%"/>
 <img src="docs/screenshots/news-detail.png" alt="A news post opened in full" width="49%"/> <img src="docs/screenshots/savebar.png" alt="The unsaved changes bar in Settings" width="49%"/>
+<img src="docs/screenshots/stats.png" alt="Play stats" width="49%"/> <img src="docs/screenshots/profile.png" alt="A profile" width="49%"/>
 
-<sub>Home · Library · a game page · Settings · News · Roadmap · a news post opened in full · the unsaved changes bar</sub>
+<sub>Home · Library · a game page · Settings · News · Roadmap · a news post opened in full · the unsaved changes bar · Play stats · a profile (test account, made-up data)</sub>
 
 </div>
 
@@ -117,6 +120,34 @@ Show your game, its timer and a Stop button in **Island**, a separate small app 
 </td>
 </tr>
 <tr>
+<td valign="top">
+
+### Play stats
+Hours per day, your most played games as cards, streaks, the times and days you play most, and a calendar of the last 17 weeks. Worked out on your PC.
+
+</td>
+<td valign="top">
+
+### Profile and friends
+Make your profile yours: picture, banner, tagline, colour and widgets. A friends drawer shows who is playing what, and friends with a SteamLite profile can be opened to see theirs. Sharing your own is your choice.
+
+</td>
+</tr>
+<tr>
+<td valign="top">
+
+### Discord presence
+Show the game you are playing, with its art and a live timer, and rotating numbers from your library. Each part can be switched off, and game names can be hidden.
+
+</td>
+<td valign="top">
+
+### A library that stays clean
+Soundtracks, demos and tools are hidden by default. **Smart library** goes further and keeps only games.
+
+</td>
+</tr>
+<tr>
 <td colspan="2" valign="top">
 
 ### Settings you can trust
@@ -152,7 +183,7 @@ Changes wait until you press **Save**. A bar tells you when something is unsaved
 | **Stable** *(default)* | Finished, tested releases only. |
 | **Beta** | New features first, before the stable release gets them. May have rough edges. |
 
-Switch any time in **Settings → Updates**. If you are on the Beta channel you can stay there.
+Switch any time in **Settings → Updates**. If you are on the Beta channel you can stay there, and a beta build has a **Go back to stable** button that installs the newest stable version.
 
 <br/>
 
@@ -180,9 +211,9 @@ Set **Game details** to **Public** in your Steam privacy settings, then press re
 </details>
 
 <details>
-<summary><b>What happened to Messages, themes and the overlay?</b></summary>
+<summary><b>What happened to Messages and the overlay?</b></summary>
 
-To keep SteamLite focused, these are not in 26.11: Messages and friends, themes, the in-game overlay, streaks, the rewards system, cloud backup and Discord presence. If you rely on them, 10.1.5 is still available on the [releases page](https://github.com/imnotfisy/SteamLite/releases/tag/v10.1.5).
+To keep SteamLite focused, Messages, the in-game overlay, streaks, the rewards system and cloud backup are not in 26.11. Profiles, a friends drawer, themes and Discord presence have come back. If you rely on the rest, 10.1.5 is still available on the [releases page](https://github.com/imnotfisy/SteamLite/releases/tag/v10.1.5).
 
 </details>
 
