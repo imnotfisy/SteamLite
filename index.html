@@ -6,13 +6,13 @@
 <title>SteamLite - Your Steam library, clear and quick</title>
 <meta name="description" content="SteamLite shows your Steam library, launches your games and keeps count of your play time. Free for Windows.">
 <meta name="theme-color" content="#1A1D2A">
-<meta property="og:title" content="SteamLite 26.11">
+<meta property="og:title" content="SteamLite">
 <meta property="og:description" content="Your Steam library, clear and quick. Free for Windows.">
 <meta property="og:image" content="https://imnotfisy.github.io/SteamLite/assets/shots/home.png">
 <link rel="icon" href="assets/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=26">
+<link rel="stylesheet" href="style.css?v=27">
 </head>
 <body>
 <div class="sky" aria-hidden="true"></div><i class="orb a" aria-hidden="true"></i><i class="orb b" aria-hidden="true"></i>
@@ -104,6 +104,22 @@
           <p>Update now closes SteamLite, updates it in place and opens it again. Choose Stable or Beta in Settings.</p>
           <div class="island"><img src="assets/icon.png" alt=""><i></i>Works with Island, a small pill at the top of your screen</div>
         </article>
+        <article class="tile t8 reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></div>
+          <h3>Play stats</h3>
+          <p>Hours per day, your most played games, streaks, and a calendar of the last 17 weeks. Worked out on your PC.</p>
+          <div class="pillrow"><span>Week</span><span>Month</span><span>All time</span></div>
+        </article>
+        <article class="tile t9 reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 11a3.5 3.5 0 100-7 3.5 3.5 0 000 7zM2.5 20c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5M16 4.3a3.5 3.5 0 010 6.4M18.5 14.8c1.9.7 3 2.4 3 5.2"/></svg></div>
+          <h3>Profile and friends</h3>
+          <p>Make your profile yours: picture, banner, tagline and widgets. A friends drawer shows who is playing what.</p>
+        </article>
+        <article class="tile t10 reveal">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></div>
+          <h3>Discord presence</h3>
+          <p>Show the game you are playing, with its art and a live timer, and numbers like achievements and your streak. Off until you switch it on.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -118,11 +134,13 @@
           <button class="on" data-i="0"><b>Home</b><span>Continue the game you were playing, with your totals and recent games below.</span><div class="bar2"><i></i></div></button>
           <button data-i="1"><b>Library</b><span>Search, sort and filter. Installed, play time and last played on every game.</span><div class="bar2"><i></i></div></button>
           <button data-i="2"><b>Game page</b><span>A big Play button. Collections, launch options and notes stay out of the way.</span><div class="bar2"><i></i></div></button>
+          <button data-i="5"><b>Play stats</b><span>Your time in games by week, month or all time, with streaks and a calendar.</span><div class="bar2"><i></i></div></button>
+          <button data-i="6"><b>Profile</b><span>Your banner, picture and top games. Edit it, and share it with other SteamLite players if you like.</span><div class="bar2"><i></i></div></button>
           <button data-i="4"><b>News and Roadmap</b><span>Posts listed by when they came out, plus a roadmap of what is coming next.</span><div class="bar2"><i></i></div></button>
           <button data-i="3"><b>Settings</b><span>Open on Home or Library, update channels, and a few small things you can switch off.</span><div class="bar2"><i></i></div></button>
         </div>
         <div class="shot" id="shot">
-          <img class="on" src="assets/shots/home.png" alt="Home" loading="lazy"><img src="assets/shots/library.png" alt="Library" loading="lazy"><img src="assets/shots/game.png" alt="A game page" loading="lazy"><img src="assets/shots/news.png" alt="News and Roadmap" loading="lazy"><img src="assets/shots/settings.png" alt="Settings" loading="lazy">
+          <img class="on" src="assets/shots/home.png" alt="Home" loading="lazy"><img src="assets/shots/library.png" alt="Library" loading="lazy"><img src="assets/shots/game.png" alt="A game page" loading="lazy"><img src="assets/shots/stats.png" alt="Play stats" loading="lazy"><img src="assets/shots/profile.png" alt="A profile" loading="lazy"><img src="assets/shots/news.png" alt="News and Roadmap" loading="lazy"><img src="assets/shots/settings.png" alt="Settings" loading="lazy">
         </div>
       </div>
     </div>
@@ -188,7 +206,7 @@
         <div class="q reveal"><button aria-expanded="false">Why does it ask for a Steam Web API key?<i></i></button><div class="a"><div><p>Steam needs a free Web API key to hand over your game list. SteamLite asks once and saves it to your account. You can get one from <a href="https://steamcommunity.com/dev/apikey" rel="noopener">Steam's website</a>.</p></div></div></div>
         <div class="q reveal"><button aria-expanded="false">My library is empty.<i></i></button><div class="a"><div><p>Set <b>Game details</b> to <b>Public</b> in your Steam privacy settings, then press refresh in the library.</p></div></div></div>
         <div class="q reveal"><button aria-expanded="false">Do I keep my data from 10.x?<i></i></button><div class="a"><div><p>Yes. Install 26.11 over 10.x. Your settings, favorites, collections and play time are read from the same place, and you sign in with Steam once.</p></div></div></div>
-        <div class="q reveal"><button aria-expanded="false">What happened to Messages, themes and the overlay?<i></i></button><div class="a"><div><p>To keep SteamLite focused, these are not in 26.11: Messages and friends, themes, the in-game overlay, streaks, the rewards system, cloud backup and Discord presence. If you rely on them, <a href="https://github.com/imnotfisy/SteamLite/releases/tag/v10.1.5">10.1.5</a> is still available.</p></div></div></div>
+        <div class="q reveal"><button aria-expanded="false">What happened to Messages and the overlay?<i></i></button><div class="a"><div><p>To keep SteamLite focused, Messages, the in-game overlay, streaks, the rewards system and cloud backup are not in 26.11. Profiles, a friends drawer, themes and Discord presence have come back. If you rely on the rest, <a href="https://github.com/imnotfisy/SteamLite/releases/tag/v10.1.5">10.1.5</a> is still available.</p></div></div></div>
         <div class="q reveal"><button aria-expanded="false">Which version should I choose?<i></i></button><div class="a"><div><p>Stable if you want finished updates only. Beta if you want new features before the stable release gets them. The release notes for every version are on the <a href="changelog.html">changelog</a>.</p></div></div></div>
       </div>
     </div>
@@ -209,6 +227,7 @@
     <p>SteamLite is free and open source (MIT). Not affiliated with Valve Corporation. Steam and the Steam logo are trademarks of Valve.</p>
   </div>
 </footer>
-<script src="main.js?v=26"></script>
+<script src="main.js?v=27"></script>
+<script src="account.js?v=27"></script>
 </body>
 </html>
