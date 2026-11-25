@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your profile - SteamLite</title>
+<meta name="description" content="Sign in with Steam to see your SteamLite profile.">
+<meta name="theme-color" content="#1A1D2A">
+<link rel="icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=27">
+</head>
+<body><div class="sky" aria-hidden="true"></div><i class="orb a" aria-hidden="true"></i><i class="orb b" aria-hidden="true"></i>
+<div class="progress" id="progress"></div>
+<header class="nav" id="nav">
+  <a class="brand" href="index.html"><img src="assets/icon.png" alt="" width="30" height="30"><span>SteamLite</span></a>
+  <nav class="links" id="navLinks" aria-label="Main">
+    <a href="index.html#features">Features</a><a href="index.html#screens">Screenshots</a><a href="index.html#download">Download</a><a href="index.html#faq">FAQ</a><a href="changelog.html">Changelog</a><a href="support.html">Support</a>
+  </nav>
+  <a class="btn go sm" href="index.html#download">Download</a>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><i></i><i></i><i></i></button>
+</header>
+<main class="inner">
+  <div class="wrap">
+    <span class="chip rise" style="--d:0"><b>Account</b>Sign in with Steam</span>
+    <h1 class="rise" style="--d:1">Your SteamLite profile</h1>
+    <p class="lead rise" style="--d:2">This is what other SteamLite players see. Edit it in the SteamLite app, from the Profile page.</p>
+    <div id="acctView" class="rise" style="--d:3"><p class="sub">Loading...</p></div>
+  </div>
+</main>
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="index.html"><img src="assets/icon.png" alt="" width="26" height="26"><span>SteamLite</span></a>
+    <div class="links"><a href="index.html">Home</a><a href="changelog.html">Changelog</a><a href="https://github.com/imnotfisy/SteamLite">GitHub</a><a href="https://github.com/imnotfisy/SteamLite/releases">Releases</a></div>
+    <p>SteamLite is free and open source (MIT). Not affiliated with Valve Corporation. Steam and the Steam logo are trademarks of Valve.</p>
+  </div>
+</footer>
+<script src="main.js?v=27"></script>
+<script src="account.js?v=27"></script>
+<script src="account-page.js?v=27"></script>
+</body>
+</html>
