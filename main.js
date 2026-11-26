@@ -6,7 +6,7 @@ const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersec
 $$('.reveal').forEach((el) => { const sibs = $$(':scope > .reveal', el.parentElement), i = sibs.indexOf(el); el.style.setProperty('--rd', Math.min(i, 6) * 80 + 'ms'); io.observe(el); });
 
 // marquee words
-const words = ['Your library', 'Play time', 'Play stats', 'Profiles and friends', 'Discord presence', 'Collections', 'Sign in with Steam', 'One Play button', 'Updates in place', 'Stable and Beta', 'Island support', 'Free and open source'];
+const words = ['Your library', 'Play time', 'Play stats', 'Profiles and friends', 'Discord presence', 'Themes', 'Collections', 'Sign in with Steam', 'One Play button', 'Updates in place', 'Stable and Beta', 'Island support', 'Free and open source'];
 const marq = $('#marq'); if (marq) marq.innerHTML = [...words, ...words].map((w) => `<span>${w}</span>`).join('');
 
 // progress bar, floating nav, hero 3D frame
