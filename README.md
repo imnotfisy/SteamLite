@@ -14,15 +14,15 @@
 
 **A lighter way to see your Steam library, launch your games and keep count of your time.**
 
-[Download](#download) · [What's new](#whats-new-in-26117) · [Features](#features) · [Screenshots](#screenshots) · [FAQ](#faq) · [Changelog](CHANGELOG.md)
+[Download](#download) · [What's new](#whats-new-in-26119) · [Features](#features) · [Screenshots](#screenshots) · [FAQ](#faq) · [Changelog](CHANGELOG.md)
 
 </div>
 
 <br/>
 
-## What's new in 26.11.7
+## What's new in 26.11.9
 
-Versions are the **year and the month**, so this is the **26.11** line, and 26.11.7 is its biggest update so far.
+Versions are the **year and the month**, so this is the **26.11** line, and 26.11.9 is the latest.
 
 |  |  |
 |---|---|
@@ -37,7 +37,11 @@ Versions are the **year and the month**, so this is the **26.11** line, and 26.1
 | **Close to the tray, pause while you play, navigation sounds** | Optional settings, all off by default. |
 | **Go back to stable** | On a beta build, a button in Settings returns you to the stable version. |
 | **A fixed installer** | Setup no longer needs administrator rights. |
+| **Connect Discord** | Link the Discord account signed in on your PC. It shows on your Profile page. A live preview in Settings shows how your Rich Presence card will look. |
+| **A reworked Themes section and a Discord theme** | Every theme is a small picture of the app in its own colours. The new Discord theme is charcoal and blurple, with Discord green for Play. |
+| **A smoother switch** | Switches in Settings slide straight away, with a small spring. |
 | **A Christmas theme** | Unlocks in Settings on December 1 and stays until January 1, with snow you can turn off. |
+| **The GTA 6 theme ends early** | It is available until 27 November 2026, and SteamLite says so every time it opens until then. |
 
 > [!NOTE]
 > **Coming from 10.x?** Install the latest version over it. Your settings, favorites, collections and play time are read from the same place as before, and you sign in with Steam once.
@@ -136,8 +140,8 @@ Make your profile yours: picture, banner, tagline, colour and widgets. A friends
 <tr>
 <td valign="top">
 
-### Discord presence
-Show the game you are playing, with its art and a live timer, and rotating numbers from your library. Each part can be switched off, and game names can be hidden.
+### Discord
+Show the game you are playing on Discord, with its art and a live timer, and rotating numbers from your library, with a live preview of the card. Connect your Discord account to show it on your profile. Each part can be switched off, and game names can be hidden.
 
 </td>
 <td valign="top">
@@ -229,6 +233,7 @@ In `%APPDATA%\SteamLite` on your PC. **Settings → Data and help → Open the d
 ## Help and feedback
 
 - Found a bug or want something added? [Open an issue](https://github.com/imnotfisy/SteamLite/issues).
+- Want to chat or get quick help? [Join the SteamLite Discord](https://discord.gg/kBzXWQevw5).
 - See what changed in every version in the [changelog](CHANGELOG.md).
 - Website: <https://imnotfisy.github.io/SteamLite/>
 
