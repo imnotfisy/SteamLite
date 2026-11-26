@@ -7,7 +7,7 @@
 [![Download](https://img.shields.io/badge/Download-SteamLite%2026.11.7-3ddc97?style=for-the-badge&logo=windows&logoColor=062a1b&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
 [![Website](https://img.shields.io/badge/Website-imnotfisy.github.io-8D99AE?style=for-the-badge&labelColor=1A1D2A)](https://imnotfisy.github.io/SteamLite/)
 
-![Version](https://img.shields.io/badge/version-26.11.7-8D99AE?style=flat-square&labelColor=1A1D2A)
+![Version](https://img.shields.io/badge/version-26.11.9-8D99AE?style=flat-square&labelColor=1A1D2A)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-8D99AE?style=flat-square&labelColor=1A1D2A)
 ![License](https://img.shields.io/badge/license-MIT-8D99AE?style=flat-square&labelColor=1A1D2A)
 ![Channel](https://img.shields.io/badge/channel-stable-3ddc97?style=flat-square&labelColor=1A1D2A)
