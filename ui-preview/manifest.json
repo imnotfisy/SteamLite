@@ -1,0 +1,16 @@
+{
+  "version": "27.1-preview.1",
+  "size": 604493,
+  "files": [
+    {
+      "name": "preview.js",
+      "sha256": "9f9b06fdad641715a00ad5f99320f56632f06e7631cc296d70df51bd4e25455e",
+      "size": 474119
+    },
+    {
+      "name": "preview.css",
+      "sha256": "a619f86f45e6d54f8cc1ea85b66af6d52d3f32212aa7000fb3fc9b7ff6c949f7",
+      "size": 130374
+    }
+  ]
+}
