@@ -1,0 +1,75 @@
+{
+ "updated": "2026-11-26T20:16:03Z",
+ "modules": [
+  {
+   "id": "forest",
+   "name": "Forest",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "Calm greens with soft, rounded corners.",
+   "tags": [
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#101a15",
+    "--bg-raise": "#18261f",
+    "--page": "linear-gradient(180deg, #101a15 0%, #17261e 70%, #1e3327 100%)",
+    "--rail": "#13211a",
+    "--slab": "linear-gradient(180deg, #1f3328, #18261f)",
+    "--accent": "#4ade80",
+    "--play": "#4ade80"
+   }
+  },
+  {
+   "id": "minimal-home",
+   "name": "Minimal Home",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "A quieter app: no stats tiles or news on Home, no News or Stats in the sidebar, and bigger covers in the Library.",
+   "tags": [
+    "layout",
+    "theme"
+   ],
+   "tokens": {}
+  },
+  {
+   "id": "neon-night",
+   "name": "Neon Night",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "Deep midnight with hot pink and cyan neon.",
+   "tags": [
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#0a0a14",
+    "--bg-raise": "#12121f",
+    "--page": "radial-gradient(120% 80% at 80% 0%, #2a0f3a 0%, #0a0a14 60%)",
+    "--rail": "#0e0a1c",
+    "--slab": "linear-gradient(180deg, #1a1030, #120c22)",
+    "--accent": "#ff2bd6",
+    "--play": "#00e5ff"
+   }
+  },
+  {
+   "id": "paper-light",
+   "name": "Paper Light",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "A light theme: warm paper with ink text.",
+   "tags": [
+    "css",
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#f3efe6",
+    "--bg-raise": "#ebe5d8",
+    "--page": "none",
+    "--rail": "#e7e0d0",
+    "--slab": "linear-gradient(180deg, #fbf8f1, #f1ebdd)",
+    "--accent": "#c2410c",
+    "--play": "#15803d"
+   }
+  }
+ ]
+}
