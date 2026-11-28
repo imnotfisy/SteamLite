@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "id": "lavender",
+  "name": "Lavender",
+  "version": "1.0.0",
+  "author": "SteamLite",
+  "description": "Dusky violet with lilac highlights and extra-round corners.",
+  "tokens": {
+    "--bg": "#141020",
+    "--bg-raise": "#1d1730",
+    "--page": "linear-gradient(180deg, #141020 0%, #1d1730 100%)",
+    "--text": "#f1ecff",
+    "--muted": "#c3b8e0",
+    "--faint": "#8d82ad",
+    "--glow": "#c4a1ff",
+    "--accent": "#c4a1ff",
+    "--accent2": "#f0abfc",
+    "--accent-ink": "#0b0b0b",
+    "--slab": "linear-gradient(180deg, #2a2145, #1d1730)",
+    "--face": "linear-gradient(180deg, #2a2145, #1d1730)",
+    "--face-hi": "linear-gradient(180deg, #372c5a, #2a2145)",
+    "--rail": "#100c1a",
+    "--play": "#a78bfa",
+    "--play-ink": "#06100a",
+    "--line": "rgba(196,161,255,0.16)",
+    "--line2": "rgba(196,161,255,0.4)",
+    "--r-xl": "24px",
+    "--r-lg": "20px",
+    "--r": "16px",
+    "--r-sm": "10px"
+  }
+}
