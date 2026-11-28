@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "id": "sunset",
+  "name": "Sunset",
+  "version": "1.0.0",
+  "author": "SteamLite",
+  "description": "Warm dusk: orange and magenta over deep plum.",
+  "tokens": {
+    "--bg": "#1a0f1f",
+    "--bg-raise": "#2a1530",
+    "--page": "linear-gradient(180deg, #1a0f1f 0%, #34162e 60%, #4a1e2c 100%)",
+    "--text": "#fff1e8",
+    "--muted": "#d9b8c4",
+    "--faint": "#a3818f",
+    "--glow": "#fb923c",
+    "--accent": "#fb923c",
+    "--accent2": "#f472b6",
+    "--accent-ink": "#0b0b0b",
+    "--slab": "linear-gradient(180deg, #3a1b3a, #2a1530)",
+    "--face": "linear-gradient(180deg, #3a1b3a, #2a1530)",
+    "--face-hi": "linear-gradient(180deg, #4b2447, #3a1b3a)",
+    "--rail": "#150b19",
+    "--play": "#fbbf24",
+    "--play-ink": "#201000",
+    "--line": "rgba(251,146,60,0.18)",
+    "--line2": "rgba(251,146,60,0.42)"
+  }
+}
