@@ -1,0 +1,12 @@
+{
+  "schema": 1, "id": "neon-night", "name": "Neon Night", "version": "1.0.0", "author": "SteamLite",
+  "description": "Deep midnight with hot pink and cyan neon.",
+  "tokens": {
+    "--bg": "#0a0a14", "--bg-raise": "#12121f", "--page": "radial-gradient(120% 80% at 80% 0%, #2a0f3a 0%, #0a0a14 60%)",
+    "--text": "#f4f0ff", "--muted": "#b9b1d6", "--faint": "#867fa8",
+    "--glow": "#ff2bd6", "--accent": "#ff2bd6", "--accent2": "#00e5ff", "--accent-ink": "#12001a",
+    "--slab": "linear-gradient(180deg, #1a1030, #120c22)", "--face": "linear-gradient(180deg, #25163f, #1a1030)", "--face-hi": "linear-gradient(180deg, #31204f, #25163f)", "--rail": "#0e0a1c",
+    "--play": "#00e5ff", "--play-ink": "#001820", "--line": "rgba(255,43,214,0.18)", "--line2": "rgba(255,43,214,0.4)",
+    "--r-xl": "10px", "--r-lg": "8px", "--r": "6px", "--r-sm": "4px"
+  }
+}
