@@ -1,0 +1,13 @@
+{
+  "schema": 1, "id": "paper-light", "name": "Paper Light", "version": "1.0.0", "author": "SteamLite",
+  "description": "A light theme: warm paper with ink text.",
+  "tokens": {
+    "--bg": "#f3efe6", "--bg-raise": "#ebe5d8", "--page": "none",
+    "--text": "#26231e", "--muted": "#5d564a", "--faint": "#867d6d",
+    "--s1": "rgba(0,0,0,0.04)", "--s2": "rgba(0,0,0,0.07)", "--s3": "rgba(0,0,0,0.11)", "--line": "rgba(0,0,0,0.1)", "--line2": "rgba(0,0,0,0.22)",
+    "--glow": "#c2410c", "--accent": "#c2410c", "--accent2": "#ea580c", "--accent-ink": "#ffffff",
+    "--slab": "linear-gradient(180deg, #fbf8f1, #f1ebdd)", "--face": "linear-gradient(180deg, #fffdf8, #f3eee2)", "--face-hi": "linear-gradient(180deg, #ffffff, #f7f2e8)", "--rail": "#e7e0d0",
+    "--play": "#15803d", "--play-ink": "#ffffff", "--good": "#15803d", "--bad": "#b91c1c", "--warn": "#b45309"
+  },
+  "css": ":root[data-module] body { color-scheme: light; } :root[data-module] .glass { background: rgba(255,255,255,0.7) !important; } :root[data-module] img { filter: none; }"
+}
