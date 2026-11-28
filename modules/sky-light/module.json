@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "id": "sky-light",
+  "name": "Sky Light",
+  "version": "1.0.0",
+  "author": "SteamLite",
+  "description": "A bright, airy light theme with a clear blue accent.",
+  "tokens": {
+    "--bg": "#eef4fb",
+    "--bg-raise": "#e2ecf7",
+    "--page": "none",
+    "--text": "#12202f",
+    "--muted": "#4a5d73",
+    "--faint": "#7388a0",
+    "--glow": "#2563eb",
+    "--accent": "#2563eb",
+    "--accent2": "#0ea5e9",
+    "--accent-ink": "#ffffff",
+    "--slab": "linear-gradient(180deg, #ffffff, #e9f0f9)",
+    "--face": "linear-gradient(180deg, #ffffff, #e9f0f9)",
+    "--face-hi": "linear-gradient(180deg, #ffffff, #f4f8fd)",
+    "--rail": "#dde8f4",
+    "--play": "#16a34a",
+    "--play-ink": "#ffffff",
+    "--line": "rgba(18,32,47,0.12)",
+    "--line2": "rgba(18,32,47,0.28)"
+  }
+}
