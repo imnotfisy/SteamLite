@@ -1,28 +1,46 @@
 <div align="center">
 
-<img src="docs/banner.svg" alt="SteamLite 26.11.7" width="100%"/>
+<img src="docs/banner.svg" alt="SteamLite 26.12" width="100%"/>
 
 <br/>
 
-[![Download](https://img.shields.io/badge/Download-SteamLite%2026.11.7-3ddc97?style=for-the-badge&logo=windows&logoColor=062a1b&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
+[![Download](https://img.shields.io/badge/Download-SteamLite%2026.12-3ddc97?style=for-the-badge&logo=windows&logoColor=062a1b&labelColor=1A1D2A)](https://github.com/imnotfisy/SteamLite/releases/latest)
 [![Website](https://img.shields.io/badge/Website-imnotfisy.github.io-8D99AE?style=for-the-badge&labelColor=1A1D2A)](https://imnotfisy.github.io/SteamLite/)
 
-![Version](https://img.shields.io/badge/version-26.11.9-8D99AE?style=flat-square&labelColor=1A1D2A)
+![Version](https://img.shields.io/badge/version-26.12-8D99AE?style=flat-square&labelColor=1A1D2A)
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-8D99AE?style=flat-square&labelColor=1A1D2A)
 ![License](https://img.shields.io/badge/license-MIT-8D99AE?style=flat-square&labelColor=1A1D2A)
 ![Channel](https://img.shields.io/badge/channel-stable-3ddc97?style=flat-square&labelColor=1A1D2A)
 
 **A lighter way to see your Steam library, launch your games and keep count of your time.**
 
-[Download](#download) · [What's new](#whats-new-in-26119) · [Features](#features) · [Screenshots](#screenshots) · [FAQ](#faq) · [Changelog](CHANGELOG.md)
+[Download](#download) · [What's new](#whats-new-in-2612) · [Features](#features) · [Screenshots](#screenshots) · [FAQ](#faq) · [Changelog](CHANGELOG.md)
 
 </div>
 
 <br/>
 
-## What's new in 26.11.9
+> [!IMPORTANT]
+> **SteamLite 26.12 releases early: Saturday 28 November 2026, 10:00 GMT.** Development is finished, so it is coming before December 1. SteamLite offers the update by itself when it is out.
 
-Versions are the **year and the month**, so this is the **26.11** line, and 26.11.9 is the latest.
+## What's new in 26.12
+
+Versions are the **year and the month**, so this is the **26.12** release.
+
+|  |  |
+|---|---|
+| **Customise** | A new page for your look: Themes, your own modules, and a Gallery. A short tutorial plays the first time. |
+| **Modules** | Change colours, corners, a font, a logo, a background, what shows and even your own CSS. Make one in the editor, install one from the Gallery, a GitHub link or a file, and publish yours to GitHub in one click. A module is only settings and CSS, never code. |
+| **Themes in modules** | A module replaces your theme, or includes one of the ready-made themes and then uses its colours. |
+| **An Account page** | Your Steam accounts, friend code, who can see your profile, Discord and GitHub, and your data folder, all in one place. |
+| **Sign in with Discord** | Connect Discord with Discord's own sign-in page. SteamLite only learns your name and picture, and the link shows as confirmed by Discord. You can show your Discord name on your profile if you want. |
+| **Any size of library** | The library draws only what you can see and adds games as you scroll, so it stays quick with hundreds of thousands of games. |
+| **A first look at 27.1** | In Settings, Appearance: a floating dock, springs in every animation and stretchy scrolling. Optional, and one shortcut takes you back. |
+| **A page header that stays** | The title and controls stay on screen while only the content scrolls. The library scrolls row by row. |
+| **A loading screen for changes of look** | Applying a theme or a module covers the window for a moment, so it is never half done. |
+| **Christmas** | The Christmas theme unlocks on December 1. |
+
+Earlier in the 26.11 line:
 
 |  |  |
 |---|---|
@@ -154,8 +172,16 @@ Soundtracks, demos and tools are hidden by default. **Smart library** goes furth
 <tr>
 <td colspan="2" valign="top">
 
+### Customise
+Pick a theme, or make your own look with a **module**: colours, corners, a font, a logo, a background, what shows, even your own CSS. Install modules from the Gallery, GitHub or a file, and publish yours as a Gist in one click. Modules are plain settings, never code, and **Ctrl+Alt+Shift+M** switches them all off if one ever gets in your way. See [MODULES.md](MODULES.md).
+
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top">
+
 ### Settings you can trust
-Changes wait until you press **Save**. A bar tells you when something is unsaved, so nothing changes by accident. **Settings, Themes** lets you try a look before you save it, and **Copy diagnostics** puts the details for a bug report on your clipboard.
+Changes wait until you press **Save**. A bar tells you when something is unsaved, so nothing changes by accident. **Customise** has the themes and modules, and **Copy diagnostics** puts the details for a bug report on your clipboard.
 
 </td>
 </tr>
@@ -217,7 +243,7 @@ Set **Game details** to **Public** in your Steam privacy settings, then press re
 <details>
 <summary><b>What happened to Messages and the overlay?</b></summary>
 
-To keep SteamLite focused, Messages, the in-game overlay, streaks, the rewards system and cloud backup are not in 26.11. Profiles, a friends drawer, themes and Discord presence have come back. If you rely on the rest, 10.1.5 is still available on the [releases page](https://github.com/imnotfisy/SteamLite/releases/tag/v10.1.5).
+To keep SteamLite focused, Messages, the in-game overlay, streaks, the rewards system and cloud backup are not in 26.12. Profiles, a friends drawer, themes and Discord presence have come back. If you rely on the rest, 10.1.5 is still available on the [releases page](https://github.com/imnotfisy/SteamLite/releases/tag/v10.1.5).
 
 </details>
 
