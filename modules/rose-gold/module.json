@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "id": "rose-gold",
+  "name": "Rose Gold",
+  "version": "1.0.0",
+  "author": "SteamLite",
+  "description": "Soft rose and gold on dark charcoal.",
+  "tokens": {
+    "--bg": "#161216",
+    "--bg-raise": "#221b21",
+    "--page": "linear-gradient(180deg, #161216 0%, #221b21 100%)",
+    "--text": "#fbeef0",
+    "--muted": "#d4bcc2",
+    "--faint": "#9c858b",
+    "--glow": "#f4a6b7",
+    "--accent": "#f4a6b7",
+    "--accent2": "#e5b96b",
+    "--accent-ink": "#0b0b0b",
+    "--slab": "linear-gradient(180deg, #2e242c, #221b21)",
+    "--face": "linear-gradient(180deg, #2e242c, #221b21)",
+    "--face-hi": "linear-gradient(180deg, #3b2e38, #2e242c)",
+    "--rail": "#120e12",
+    "--play": "#e5b96b",
+    "--play-ink": "#1c1404",
+    "--line": "rgba(244,166,183,0.16)",
+    "--line2": "rgba(244,166,183,0.4)",
+    "--r-xl": "16px",
+    "--r-lg": "12px",
+    "--r": "10px",
+    "--r-sm": "6px"
+  }
+}
