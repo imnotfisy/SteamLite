@@ -1,0 +1,6 @@
+{
+  "schema": 1, "id": "minimal-home", "name": "Minimal Home", "version": "1.0.0", "author": "SteamLite",
+  "description": "A quieter app: no stats tiles or news on Home, no News or Stats in the sidebar, and bigger covers in the Library.",
+  "tokens": { "--glow": "#8D99AE" },
+  "layout": { "sidebar": { "hide": ["news", "stats"] }, "home": { "hide": ["stats", "news"] }, "library": { "coverSize": 214 } }
+}
