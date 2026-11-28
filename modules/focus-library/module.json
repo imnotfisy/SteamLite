@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "id": "focus-library",
+  "name": "Focus Library",
+  "version": "1.0.0",
+  "author": "SteamLite",
+  "description": "Only your games: hides News and Stats in the sidebar, trims Home, and makes the Library covers larger.",
+  "tokens": {
+    "--glow": "#7dd3fc"
+  },
+  "layout": {
+    "sidebar": {
+      "hide": [
+        "news",
+        "stats"
+      ]
+    },
+    "home": {
+      "hide": [
+        "stats",
+        "news",
+        "most"
+      ]
+    },
+    "library": {
+      "coverSize": 236
+    }
+  }
+}
