@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "id": "ocean-deep",
+  "name": "Ocean Deep",
+  "version": "1.0.0",
+  "author": "SteamLite",
+  "description": "Deep sea blues with a cool teal accent.",
+  "tokens": {
+    "--bg": "#07131f",
+    "--bg-raise": "#0d2236",
+    "--page": "linear-gradient(180deg, #07131f 0%, #0d2236 100%)",
+    "--text": "#e6f4ff",
+    "--muted": "#a4c3dc",
+    "--faint": "#6f90ab",
+    "--glow": "#22d3ee",
+    "--accent": "#22d3ee",
+    "--accent2": "#60a5fa",
+    "--accent-ink": "#0b0b0b",
+    "--slab": "linear-gradient(180deg, #12304a, #0d2236)",
+    "--face": "linear-gradient(180deg, #12304a, #0d2236)",
+    "--face-hi": "linear-gradient(180deg, #1a4366, #12304a)",
+    "--rail": "#081a2a",
+    "--play": "#2dd4bf",
+    "--play-ink": "#06100a",
+    "--line": "rgba(34,211,238,0.16)",
+    "--line2": "rgba(34,211,238,0.4)"
+  }
+}
