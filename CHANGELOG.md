@@ -1,3 +1,24 @@
+# SteamLite 26.12
+
+Customise, modules and an Account page. 26.12 releases early, on 28 November 2026, because development is finished.
+
+- **Customise.** A new page in the sidebar. Themes, your modules and a Gallery are in three tabs, and a short tutorial plays the first time you open it (and again from the Tutorial button).
+- **Modules.** A module changes how SteamLite looks: colours, corner shapes, a font, your own logo and background picture, which parts of the app show, and your own CSS. The editor works out a whole theme from five colours, and every change shows on the real app while you work.
+- **A module replaces your theme.** While a module is in use your theme is switched off, so the two never fight. A module can include one of the ready-made themes instead, and then the colours are that theme's own: the editor locks its colours and any colour set in the module's CSS is removed.
+- **Install from the Gallery, GitHub or a file.** Pick a module from the Gallery, paste a GitHub repository or a Gist link, or choose a file a friend sent you. SteamLite keeps exactly the version it downloaded and shows an Update button when it changes.
+- **Publish from the app.** Sign in to GitHub once with a short code and publish a module as a public Gist in one click. Anyone can install it by pasting the link. SteamLite can only create and change Gists.
+- **Share and submit.** Save a module as a .slmod file, or submit it to the Gallery from the app.
+- **Safe by design.** A module is plain data and CSS, never code. It cannot read your files or your Steam account or load anything from the internet, and unsafe CSS is removed. If one ever makes SteamLite hard to use, press Ctrl+Alt+Shift+M to turn every module off.
+- **An Account page.** Click your picture at the top right, then Account. Your Steam accounts (switch, add, remove, sign out), your friend code, who can see your profile, Discord and GitHub, and your data folder are all in one place. The Accounts, Share my profile and Connect Discord parts of Settings moved there.
+- **Sign in with Discord.** Connect Discord now uses Discord's own sign-in page (OAuth). SteamLite only learns your Discord name and picture, never your password or messages, and the link shows as confirmed by Discord. Rich Presence is unchanged.
+- **Your Discord on your profile.** If you turn it on, friends see your Discord name on your profile, and a small Discord mark next to you in their friends list. It is off until you choose it.
+- **The library stays quick with any number of games.** It draws only the rows you can see and adds the next 500 games as you scroll, so a library of hundreds of thousands of games still opens at once.
+- **The top of a page stays put.** On Library, News, Stats, Customise, Settings and Home the title and controls stay on screen while only the content scrolls, with a frosted strip behind the top buttons. The library scrolls one row at a time.
+- **Themes moved to Customise.** The Themes section of Settings is now the Themes tab, and a theme is kept as soon as you pick it.
+- **A loading screen for changes of look.** Applying a theme or a module shows the loading screen for a moment, so you never see it half done.
+- **A first look at 27.1.** In Settings, Appearance, you can download a preview of the next interface from GitHub: a floating dock, springs in every animation and stretchy scrolling, with a short tour the first time. Your normal interface is untouched, and Ctrl+Alt+Shift+U takes you back at any time.
+- **The Christmas theme** unlocks on December 1 as planned, and stays until January 1.
+
 # SteamLite 26.11.9
 
 Discord, with its own look.
