@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "id": "hacker-green",
+  "name": "Hacker Green",
+  "version": "1.0.0",
+  "author": "SteamLite",
+  "description": "Black terminal with phosphor green and square corners.",
+  "tokens": {
+    "--bg": "#050805",
+    "--bg-raise": "#0a120a",
+    "--page": "#050805",
+    "--text": "#c8ffd0",
+    "--muted": "#7fcf8c",
+    "--faint": "#4f8a58",
+    "--glow": "#39ff6a",
+    "--accent": "#39ff6a",
+    "--accent2": "#b6ff3d",
+    "--accent-ink": "#0b0b0b",
+    "--slab": "linear-gradient(180deg, #0f1c10, #0a120a)",
+    "--face": "linear-gradient(180deg, #0f1c10, #0a120a)",
+    "--face-hi": "linear-gradient(180deg, #16301a, #0f1c10)",
+    "--rail": "#040704",
+    "--play": "#39ff6a",
+    "--play-ink": "#021006",
+    "--line": "rgba(57,255,106,0.18)",
+    "--line2": "rgba(57,255,106,0.45)",
+    "--r-xl": "2px",
+    "--r-lg": "2px",
+    "--r": "2px",
+    "--r-sm": "1px",
+    "--font": "Consolas, \"Courier New\", monospace"
+  }
+}
