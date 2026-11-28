@@ -1,0 +1,64 @@
+{
+  "updated": "November 25, 2026",
+  "items": [
+    {
+      "id": "26.11.6",
+      "date": "2026-11-18",
+      "title": "SteamLite 26.11.6",
+      "status": "shipped",
+      "progress": 100,
+      "text": "Optimised animations, and smooth scrolling for the mouse wheel.",
+      "features": [
+        "Tabs you can grab and drag, with the page following them",
+        "A Play, Stop and Cancel button that changes shape",
+        "Lighter animations while a game is running",
+        "Smooth scrolling"
+      ]
+    },
+    {
+      "id": "26.11.7",
+      "date": "2026-11-25",
+      "title": "SteamLite 26.11.7",
+      "status": "shipped",
+      "progress": 100,
+      "text": "A big update: a faster start, play stats, a new profile you can edit, a friends drawer, Discord presence, a Smart library filter, and a way back from the beta. The Christmas theme is inside, and it unlocks on December 1.",
+      "features": [
+        "Your library appears at once, then updates from Steam",
+        "Play stats: time by week, month or all time, streaks and a calendar",
+        "A new Profile page you can edit, and a friends drawer",
+        "Discord Rich Presence with real numbers from your library",
+        "Smart library: only games, no other Steam apps",
+        "Close to the tray, pause while you play, and navigation sounds",
+        "A Filters menu in the Library, and a fixed installer"
+      ]
+    },
+    {
+      "id": "26.12",
+      "date": "2026-11-28",
+      "title": "SteamLite 26.12",
+      "status": "progress",
+      "progress": 100,
+      "progressLabel": "Done. Releases 28 Nov, 10:00 GMT",
+      "text": "Releasing early: development is finished. Customise and modules, an Account page with Sign in with Discord, a library that stays quick with any number of games, and a first look at the next interface. The Christmas theme still unlocks on December 1.",
+      "features": [
+        "Customise: themes, your modules and a Gallery",
+        "Modules: colours, shapes, a logo, a background, what shows and your own CSS",
+        "Publish a module to GitHub from the app",
+        "An Account page, and Sign in with Discord",
+        "A library that stays quick with any number of games",
+        "A first look at the 27.1 interface, in Settings",
+        "The Christmas theme, from December 1 to January 1"
+      ],
+      "note": "A module is only settings and CSS, never code."
+    },
+    {
+      "id": "27.1-beta",
+      "date": "2026-12-15",
+      "title": "SteamLite 27.1 Beta, \"Graphine\"",
+      "status": "planned",
+      "progress": 0,
+      "text": "Graphine is the nickname for 27.1: a lighter, faster SteamLite that uses less memory and less of your PC while a game is running.",
+      "note": "If it is not ready on the 15th, the date will move and we will say so here."
+    }
+  ]
+}
