@@ -1,0 +1,12 @@
+{
+  "schema": 1, "id": "forest", "name": "Forest", "version": "1.0.0", "author": "SteamLite",
+  "description": "Calm greens with soft, rounded corners.",
+  "tokens": {
+    "--bg": "#101a15", "--bg-raise": "#18261f", "--page": "linear-gradient(180deg, #101a15 0%, #17261e 70%, #1e3327 100%)",
+    "--text": "#e8f3ec", "--muted": "#a9c2b3", "--faint": "#7f9a8a",
+    "--glow": "#4ade80", "--accent": "#4ade80", "--accent2": "#a7f3c6", "--accent-ink": "#06210f",
+    "--slab": "linear-gradient(180deg, #1f3328, #18261f)", "--face": "linear-gradient(180deg, #264034, #1c2f25)", "--face-hi": "linear-gradient(180deg, #2e4c3d, #234034)", "--rail": "#13211a",
+    "--play": "#4ade80", "--play-ink": "#06210f",
+    "--r-xl": "26px", "--r-lg": "20px", "--r": "16px", "--r-sm": "12px"
+  }
+}
