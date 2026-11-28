@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "id": "midnight-blue",
+  "name": "Midnight Blue",
+  "version": "1.0.0",
+  "author": "SteamLite",
+  "description": "Quiet navy with a soft blue accent.",
+  "tokens": {
+    "--bg": "#0b1020",
+    "--bg-raise": "#121a33",
+    "--page": "linear-gradient(180deg, #0b1020 0%, #121a33 100%)",
+    "--text": "#e8edff",
+    "--muted": "#a9b4d6",
+    "--faint": "#7480a3",
+    "--glow": "#6ea8ff",
+    "--accent": "#6ea8ff",
+    "--accent2": "#a78bfa",
+    "--accent-ink": "#0b0b0b",
+    "--slab": "linear-gradient(180deg, #1a2547, #121a33)",
+    "--face": "linear-gradient(180deg, #1a2547, #121a33)",
+    "--face-hi": "linear-gradient(180deg, #24315c, #1a2547)",
+    "--rail": "#0a0f1d",
+    "--play": "#4ade80",
+    "--play-ink": "#06100a",
+    "--line": "rgba(110,168,255,0.16)",
+    "--line2": "rgba(110,168,255,0.4)"
+  }
+}
