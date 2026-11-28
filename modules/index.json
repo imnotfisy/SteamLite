@@ -1,6 +1,37 @@
 {
- "updated": "2026-11-26T20:16:03Z",
+ "updated": "2026-11-28T10:09:16Z",
  "modules": [
+  {
+   "id": "crimson",
+   "name": "Crimson",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "Near-black with deep red.",
+   "tags": [
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#0f0809",
+    "--bg-raise": "#1b0d10",
+    "--page": "linear-gradient(180deg, #0f0809 0%, #1b0d10 100%)",
+    "--rail": "#0b0607",
+    "--slab": "linear-gradient(180deg, #2a1216, #1b0d10)",
+    "--accent": "#ef4444",
+    "--play": "#ef4444"
+   }
+  },
+  {
+   "id": "focus-library",
+   "name": "Focus Library",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "Only your games: hides News and Stats in the sidebar, trims Home, and makes the Library covers larger.",
+   "tags": [
+    "layout",
+    "theme"
+   ],
+   "tokens": {}
+  },
   {
    "id": "forest",
    "name": "Forest",
@@ -21,6 +52,63 @@
    }
   },
   {
+   "id": "hacker-green",
+   "name": "Hacker Green",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "Black terminal with phosphor green and square corners.",
+   "tags": [
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#050805",
+    "--bg-raise": "#0a120a",
+    "--page": "#050805",
+    "--rail": "#040704",
+    "--slab": "linear-gradient(180deg, #0f1c10, #0a120a)",
+    "--accent": "#39ff6a",
+    "--play": "#39ff6a"
+   }
+  },
+  {
+   "id": "lavender",
+   "name": "Lavender",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "Dusky violet with lilac highlights and extra-round corners.",
+   "tags": [
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#141020",
+    "--bg-raise": "#1d1730",
+    "--page": "linear-gradient(180deg, #141020 0%, #1d1730 100%)",
+    "--rail": "#100c1a",
+    "--slab": "linear-gradient(180deg, #2a2145, #1d1730)",
+    "--accent": "#c4a1ff",
+    "--play": "#a78bfa"
+   }
+  },
+  {
+   "id": "midnight-blue",
+   "name": "Midnight Blue",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "Quiet navy with a soft blue accent.",
+   "tags": [
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#0b1020",
+    "--bg-raise": "#121a33",
+    "--page": "linear-gradient(180deg, #0b1020 0%, #121a33 100%)",
+    "--rail": "#0a0f1d",
+    "--slab": "linear-gradient(180deg, #1a2547, #121a33)",
+    "--accent": "#6ea8ff",
+    "--play": "#4ade80"
+   }
+  },
+  {
    "id": "minimal-home",
    "name": "Minimal Home",
    "author": "SteamLite",
@@ -31,6 +119,25 @@
     "theme"
    ],
    "tokens": {}
+  },
+  {
+   "id": "monochrome",
+   "name": "Monochrome",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "Pure greys with a white accent and sharp, calm shapes.",
+   "tags": [
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#0d0d0d",
+    "--bg-raise": "#171717",
+    "--page": "linear-gradient(180deg, #0d0d0d 0%, #171717 100%)",
+    "--rail": "#0a0a0a",
+    "--slab": "linear-gradient(180deg, #222222, #171717)",
+    "--accent": "#ffffff",
+    "--play": "#f2f2f2"
+   }
   },
   {
    "id": "neon-night",
@@ -52,6 +159,25 @@
    }
   },
   {
+   "id": "ocean-deep",
+   "name": "Ocean Deep",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "Deep sea blues with a cool teal accent.",
+   "tags": [
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#07131f",
+    "--bg-raise": "#0d2236",
+    "--page": "linear-gradient(180deg, #07131f 0%, #0d2236 100%)",
+    "--rail": "#081a2a",
+    "--slab": "linear-gradient(180deg, #12304a, #0d2236)",
+    "--accent": "#22d3ee",
+    "--play": "#2dd4bf"
+   }
+  },
+  {
    "id": "paper-light",
    "name": "Paper Light",
    "author": "SteamLite",
@@ -69,6 +195,63 @@
     "--slab": "linear-gradient(180deg, #fbf8f1, #f1ebdd)",
     "--accent": "#c2410c",
     "--play": "#15803d"
+   }
+  },
+  {
+   "id": "rose-gold",
+   "name": "Rose Gold",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "Soft rose and gold on dark charcoal.",
+   "tags": [
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#161216",
+    "--bg-raise": "#221b21",
+    "--page": "linear-gradient(180deg, #161216 0%, #221b21 100%)",
+    "--rail": "#120e12",
+    "--slab": "linear-gradient(180deg, #2e242c, #221b21)",
+    "--accent": "#f4a6b7",
+    "--play": "#e5b96b"
+   }
+  },
+  {
+   "id": "sky-light",
+   "name": "Sky Light",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "A bright, airy light theme with a clear blue accent.",
+   "tags": [
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#eef4fb",
+    "--bg-raise": "#e2ecf7",
+    "--page": "none",
+    "--rail": "#dde8f4",
+    "--slab": "linear-gradient(180deg, #ffffff, #e9f0f9)",
+    "--accent": "#2563eb",
+    "--play": "#16a34a"
+   }
+  },
+  {
+   "id": "sunset",
+   "name": "Sunset",
+   "author": "SteamLite",
+   "version": "1.0.0",
+   "description": "Warm dusk: orange and magenta over deep plum.",
+   "tags": [
+    "theme"
+   ],
+   "tokens": {
+    "--bg": "#1a0f1f",
+    "--bg-raise": "#2a1530",
+    "--page": "linear-gradient(180deg, #1a0f1f 0%, #34162e 60%, #4a1e2c 100%)",
+    "--rail": "#150b19",
+    "--slab": "linear-gradient(180deg, #3a1b3a, #2a1530)",
+    "--accent": "#fb923c",
+    "--play": "#fbbf24"
    }
   }
  ]
