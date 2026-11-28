@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "id": "monochrome",
+  "name": "Monochrome",
+  "version": "1.0.0",
+  "author": "SteamLite",
+  "description": "Pure greys with a white accent and sharp, calm shapes.",
+  "tokens": {
+    "--bg": "#0d0d0d",
+    "--bg-raise": "#171717",
+    "--page": "linear-gradient(180deg, #0d0d0d 0%, #171717 100%)",
+    "--text": "#f2f2f2",
+    "--muted": "#b0b0b0",
+    "--faint": "#7a7a7a",
+    "--glow": "#ffffff",
+    "--accent": "#ffffff",
+    "--accent2": "#bdbdbd",
+    "--accent-ink": "#0b0b0b",
+    "--slab": "linear-gradient(180deg, #222222, #171717)",
+    "--face": "linear-gradient(180deg, #222222, #171717)",
+    "--face-hi": "linear-gradient(180deg, #2e2e2e, #222222)",
+    "--rail": "#0a0a0a",
+    "--play": "#f2f2f2",
+    "--play-ink": "#0d0d0d",
+    "--line": "rgba(255,255,255,0.12)",
+    "--line2": "rgba(255,255,255,0.3)",
+    "--r-xl": "8px",
+    "--r-lg": "6px",
+    "--r": "5px",
+    "--r-sm": "3px"
+  }
+}
